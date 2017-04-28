@@ -1,0 +1,6 @@
+build
+bin/Game
+*.project
+*.pro
+
+
