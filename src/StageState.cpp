@@ -8,7 +8,7 @@ std::vector<std::unique_ptr<GameObject>> StageState::objectArray;
 
 StageState::StageState() {
 	srand(time(NULL));
-	tileSet = new TileSet(64, 64, "resources/img/tileset3d2.png", 9, 9);
+    tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	objectArray = std::vector<std::unique_ptr<GameObject>>();
 	AddObject(new Godofredo(66, 1280));
@@ -56,7 +56,23 @@ void StageState::Resume() {
 }
 
 void StageState::LoadAssets() {
-	music.Open("resources/audio/stageState.ogg");
+    music.Open("stageState.ogg");
+    bg.Open("LancelotIdleLeft.png");
+    bg.Open("LancelotIdleRight.png");
+    bg.Open("LancelotRunningLeft.png");
+    bg.Open("LancelotRunningRight.png");
+    bg.Open("LancelotHiddenLeft.png");
+    bg.Open("LancelotHiddenRight.png");
+    bg.Open("LancelotRunningLeftInv.png");
+    bg.Open("LancelotRunningRightInv.png");
+    bg.Open("notattack.png");
+    bg.Open("healthBar.png");
+    bg.Open("stealthBar.png");
+    bg.Open("NotfredoIdleLeft.png");
+    bg.Open("NotfredoIdleRight.png");
+    bg.Open("NotfredoRunningLeft.png");
+    bg.Open("NotfredoRunningRight.png");
+    bg.Open("tileset3d2.png");
 	music.Play(-1);
 }
 
@@ -64,7 +80,7 @@ void StageState::Update() {
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE))
 		quitRequested = true;
 		Game::GetInstance().RemoveState();
-		Game::GetInstance().AddState(new TitleState());
+		Game::GetInstance().AddState(new MainMenuState());
 	if(InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
 		if(paused)
 			Resume();

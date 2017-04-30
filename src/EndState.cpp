@@ -4,9 +4,9 @@
 
 EndState::EndState(StateData results) {
 	if(results.playerVitory)
-		bg = Sprite("resources/img/win.jpg");
+        bg = Sprite("win.jpg");
 	else
-		bg = Sprite("resources/img/lose.jpg");
+        bg = Sprite("lose.jpg");
 }
 
 EndState::~EndState() {

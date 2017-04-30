@@ -4,7 +4,7 @@
 #include "StageState.h"
 
 Notfredo::Notfredo(int x, int y) {
-	sp = Sprite("resources/img/NotfredoIdleRIght.png", 8, 120);
+    sp = Sprite("NotfredoIdleRIght.png", 8, 120);
 	box = Rect(x+1, y+1, sp.GetWidth()-2, sp.GetHeight()-2);
 	speed = Vec2(0.2, 0.6);
 	hitpoints = 5;
@@ -67,7 +67,7 @@ void Notfredo::UpdatePosition(float dt) {
 				speed.x = 0.3;
 				if(player.x < box.x) {
 					if(attackCD.GetTime() < 0) {
-						StageState::AddObject(new Notattack("resources/img/notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+                        StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
 						attackCD.Start();
 					}
 					if(box.x - speed.x*dt < player.x)
@@ -75,13 +75,13 @@ void Notfredo::UpdatePosition(float dt) {
 					else
 						box.x -= speed.x*dt;
 					facing = LEFT;
-					if(sp.GetFile() != "resources/img/NotfredoRunningLeft.png") {
-						sp.SetFile("resources/img/NotfredoRunningLeft.png", 8, 120);
+                    if(sp.GetFile() != "NotfredoRunningLeft.png") {
+                        sp.SetFile("NotfredoRunningLeft.png", 8, 120);
 						UpdateBoundingBox();
 					}
 				}else{
 					if(attackCD.GetTime() < 0) {
-						StageState::AddObject(new Notattack("resources/img/notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+                        StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
 						attackCD.Start();
 					}
 					if(box.x + speed.x*dt > player.x)
@@ -89,8 +89,8 @@ void Notfredo::UpdatePosition(float dt) {
 					else
 						box.x += speed.x*dt;
 					facing = RIGHT;
-					if(sp.GetFile() != "resources/img/NotfredoRunningRight.png") {
-						sp.SetFile("resources/img/NotfredoRunningRight.png", 8, 120);
+                    if(sp.GetFile() != "NotfredoRunningRight.png") {
+                        sp.SetFile("NotfredoRunningRight.png", 8, 120);
 						UpdateBoundingBox();
 					}
 				}
@@ -100,14 +100,14 @@ void Notfredo::UpdatePosition(float dt) {
 				if(looking.GetTime() < looking.GetLimit()) {
 					if(facing == LEFT) {
 						box.x -= speed.x*dt;
-						if(sp.GetFile() != "resources/img/NotfredoRunningLeft.png") {
-							sp.SetFile("resources/img/NotfredoRunningLeft.png", 8, 120);
+                        if(sp.GetFile() != "NotfredoRunningLeft.png") {
+                            sp.SetFile("NotfredoRunningLeft.png", 8, 120);
 							UpdateBoundingBox();
 						}
 					}else{
 						box.x += speed.x*dt;
-						if(sp.GetFile() != "resources/img/NotfredoRunningRight.png") {
-							sp.SetFile("resources/img/NotfredoRunningRight.png", 8, 120);
+                        if(sp.GetFile() != "NotfredoRunningRight.png") {
+                            sp.SetFile("NotfredoRunningRight.png", 8, 120);
 							UpdateBoundingBox();
 						}
 					}
@@ -117,11 +117,11 @@ void Notfredo::UpdatePosition(float dt) {
 					looking.Reset();
 					if(facing == LEFT) {
 						facing = RIGHT;
-						sp.SetFile("resources/img/NotfredoIdleRight.png", 8, 120);
+                        sp.SetFile("NotfredoIdleRight.png", 8, 120);
 						UpdateBoundingBox();
 					}else{
 						facing = LEFT;
-						sp.SetFile("resources/img/NotfredoIdleLeft.png", 8, 120);
+                        sp.SetFile("NotfredoIdleLeft.png", 8, 120);
 						UpdateBoundingBox();
 					}
 					idle.Start();

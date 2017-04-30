@@ -6,12 +6,18 @@ std::unordered_map<std::string, Mix_Music*> Resources::musicTable = std::unorder
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable = std::unordered_map<std::string, Mix_Chunk*>();
 std::unordered_map<std::string, TTF_Font*> Resources::fontTable = std::unordered_map<std::string, TTF_Font*>();
 
+std::string Resources::BASENAME = "resources/";
+std::string Resources::BASENAME_IMAGE = "resources/img/";
+std::string Resources::BASENAME_MUSIC = "resources/audio/";
+std::string Resources::BASENAME_SOUND = "resources/audio/";
+std::string Resources::BASENAME_FONT = "resources/font/";
+
 SDL_Texture* Resources::GetImage(std::string file) {
 	if(!imageTable.count(file))
-		imageTable.emplace(file, IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str()));
+        imageTable.emplace(file, IMG_LoadTexture(Game::GetInstance().GetRenderer(), (Resources::BASENAME_IMAGE+file).c_str()));
 	if(imageTable.at(file) == nullptr) {
 		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
 	}
 	return imageTable.at(file);
 }
@@ -24,7 +30,7 @@ void Resources::ClearImages() {
 
 Mix_Music* Resources::GetMusic(std::string file) {
 	if(!musicTable.count(file))
-		musicTable.emplace(file, Mix_LoadMUS(file.c_str()));
+        musicTable.emplace(file, Mix_LoadMUS((Resources::BASENAME_MUSIC+file).c_str()));
 	if(musicTable.at(file) == nullptr) {
 		printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -40,7 +46,7 @@ void Resources::ClearMusics() {
 
 Mix_Chunk* Resources::GetSound(std::string file) {
 	if(!soundTable.count(file))
-		soundTable.emplace(file, Mix_LoadWAV(file.c_str()));
+        soundTable.emplace(file, Mix_LoadWAV((Resources::BASENAME_SOUND+file).c_str()));
 	if(soundTable.at(file) == nullptr) {
 		printf("Mix_LoadWAV failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -56,7 +62,7 @@ void Resources::ClearSounds() {
 
 TTF_Font* Resources::GetFont(std::string file, int fontSize) {
 	if(!fontTable.count(file))
-		fontTable.emplace(file, TTF_OpenFont(file.c_str(), fontSize));
+        fontTable.emplace(file, TTF_OpenFont((Resources::BASENAME_FONT+file).c_str(), fontSize));
 	if(fontTable.at(file) == nullptr) {
 		printf("TTF_OpenFont failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);

@@ -13,7 +13,7 @@ Godofredo::Godofredo(int x, int y) {
 		player = this;
 	}
 
-	sp = Sprite("resources/img/LancelotIdleRight.png", 8, 120);
+    sp = Sprite("LancelotIdleRight.png", 8, 120);
 	box = Rect(x+1, y+1, sp.GetWidth()-2, sp.GetHeight()-2);
 
 	hitpoints = 10;
@@ -23,9 +23,9 @@ Godofredo::Godofredo(int x, int y) {
 
 	facing = RIGHT;
 
-	healthBar = Sprite("resources/img/healthBar.png", 11);
+    healthBar = Sprite("healthBar.png", 11);
 	healthBar.SetFrame(11);
-	stealthBar = Sprite("resources/img/stealthBar.png", 11);
+    stealthBar = Sprite("stealthBar.png", 11);
 	stealthBar.SetFrame(1);
 
 	invincibilityT = Timer(500);
@@ -83,13 +83,13 @@ void Godofredo::UpdateCommands(float dt) {
 			speed.x = -0.4;
 		facing = LEFT;
 		if(hidden){
-			if(sp.GetFile() != "resources/img/LancelotRunningLeftInv.png") {
-				sp.SetFile("resources/img/LancelotRunningLeftInv.png", 8, 120);
+            if(sp.GetFile() != "LancelotRunningLeftInv.png") {
+                sp.SetFile("LancelotRunningLeftInv.png", 8, 120);
 				UpdateBoundingBox();
 			}
 		}else{
-			if(sp.GetFile() != "resources/img/LancelotRunningLeft.png") {
-				sp.SetFile("resources/img/LancelotRunningLeft.png", 8, 120);
+            if(sp.GetFile() != "LancelotRunningLeft.png") {
+                sp.SetFile("LancelotRunningLeft.png", 8, 120);
 				UpdateBoundingBox();
 			}
 		}
@@ -100,13 +100,13 @@ void Godofredo::UpdateCommands(float dt) {
 			speed.x = 0.4;
 		facing = RIGHT;
 		if(hidden) {
-			if(sp.GetFile() != "resources/img/LancelotRunningRightInv.png") {
-				sp.SetFile("resources/img/LancelotRunningRightInv.png", 8, 120);
+            if(sp.GetFile() != "LancelotRunningRightInv.png") {
+                sp.SetFile("LancelotRunningRightInv.png", 8, 120);
 				UpdateBoundingBox();
 			}
 		}else{
-			if(sp.GetFile() != "resources/img/LancelotRunningRight.png") {
-				sp.SetFile("resources/img/LancelotRunningRight.png", 8, 120);
+            if(sp.GetFile() != "LancelotRunningRight.png") {
+                sp.SetFile("LancelotRunningRight.png", 8, 120);
 				UpdateBoundingBox();
 			}
 		}
@@ -114,25 +114,25 @@ void Godofredo::UpdateCommands(float dt) {
 		speed.x = 0;
 		if(facing == LEFT) {
 			if(hidden) {
-				if(sp.GetFile() != "resources/img/LancelotHiddenLeft.png") {
-					sp.SetFile("resources/img/LancelotHiddenLeft.png", 8, 120);
+                if(sp.GetFile() != "LancelotHiddenLeft.png") {
+                    sp.SetFile("LancelotHiddenLeft.png", 8, 120);
 					UpdateBoundingBox();
 				}
 			}else{
-				if(sp.GetFile() != "resources/img/LancelotIdleLeft.png") {
-					sp.SetFile("resources/img/LancelotIdleLeft.png", 8, 120);
+                if(sp.GetFile() != "LancelotIdleLeft.png") {
+                    sp.SetFile("LancelotIdleLeft.png", 8, 120);
 					UpdateBoundingBox();
 				}
 			}
 		}else if(facing == RIGHT){
 			if(hidden) {
-				if(sp.GetFile() != "resources/img/LancelotHiddenRight.png") {
-					sp.SetFile("resources/img/LancelotHiddenRight.png", 8, 120);
+                if(sp.GetFile() != "LancelotHiddenRight.png") {
+                    sp.SetFile("LancelotHiddenRight.png", 8, 120);
 					UpdateBoundingBox();
 				}
 			}else{
-				if(sp.GetFile() != "resources/img/LancelotIdleRight.png") {
-					sp.SetFile("resources/img/LancelotIdleRight.png", 8, 120);
+                if(sp.GetFile() != "LancelotIdleRight.png") {
+                    sp.SetFile("LancelotIdleRight.png", 8, 120);
 					UpdateBoundingBox();
 				}
 			}
@@ -141,7 +141,7 @@ void Godofredo::UpdateCommands(float dt) {
 
 	if(InputManager::GetInstance().IsKeyDown(SDLK_e)) {
 		if(attackT.GetTime() < 0) {
-			StageState::AddObject(new Attack("resources/img/notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+            StageState::AddObject(new Attack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
 			attackT.Start();
 		}
 	}

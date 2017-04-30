@@ -7,7 +7,7 @@ Sprite::Sprite() {
 }
 
 Sprite::Sprite(std::string file, int frameCount, float frameTime){
-	Sprite::file = file;
+    Sprite::file = file;
 	texture = nullptr;
 	Sprite::frameCount = frameCount;
 	Sprite::frameTime = frameTime;
@@ -19,7 +19,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Open(std::string file) {
-	texture = Resources::GetImage(file);
+    texture = Resources::GetImage(file);
 	if(!IsOpen()) {
 		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);

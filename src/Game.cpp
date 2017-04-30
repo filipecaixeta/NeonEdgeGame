@@ -4,7 +4,7 @@
 
 Game* Game::instance = nullptr;
 
-Game::Game(std::string title, int width, int height) {
+Game::Game(std::string title) {
 	if(instance) {
 		printf("Multiple Instances\n");
 		exit(EXIT_FAILURE);
@@ -37,7 +37,10 @@ Game::Game(std::string title, int width, int height) {
 		exit(EXIT_FAILURE);
 	}
 
-	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+    SDL_Point screenSize = GetFullScreenSize();
+
+    int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenSize.x, screenSize.y, flags);
 	if(!window) {
 		printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -49,8 +52,16 @@ Game::Game(std::string title, int width, int height) {
 		exit(EXIT_FAILURE);
 	}
 
+    // Antialiasing
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+
+    SetScreenSize(screenSize);
+    setFullScreen(false);
+
 	storedState = nullptr;
-	AddState(new TitleState());
+    AddState(new MainMenuState());
 }
 
 Game::~Game() {
@@ -96,7 +107,51 @@ void Game::RemoveState() {
 
 void Game::CalculateDeltaTime() {
 	dt = SDL_GetTicks() - frameStart;
-	frameStart = frameStart + dt;
+    frameStart = frameStart + dt;
+}
+
+SDL_Point Game::GetFullScreenSize()
+{
+    const SDL_Point res16x9 = {1360,768}; // 16/9 = 1.78
+    const SDL_Point res4x3 = {1024,768}; // 4/3 = 1.33
+
+    SDL_Rect r;
+    if (SDL_GetDisplayBounds(0, &r) != 0)
+    {
+        return res4x3;
+    }
+    if (((float)r.w/(float)r.h)>=1.6)
+    {
+        // 16x9 16x10
+        return res16x9;
+    }
+    else
+    {
+        // 4x3 5x4 3x2
+        return res4x3;
+    }
+}
+
+SDL_Point Game::GetScreenSize()
+{
+    return screenSize;
+}
+
+void Game::setFullScreen(bool b)
+{
+    fullScreen = b;
+    SDL_SetWindowFullscreen(window,(fullScreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
+}
+
+bool Game::isFullScreen()
+{
+    return fullScreen;
+}
+
+void Game::SetScreenSize(SDL_Point size)
+{
+    screenSize = size;
+    SDL_RenderSetLogicalSize(renderer, size.x, size.y);
 }
 
 int Game::GetDeltaTime() {

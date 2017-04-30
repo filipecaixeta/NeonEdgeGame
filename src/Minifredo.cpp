@@ -4,7 +4,7 @@
 #include "StageState.h"
 
 Minifredo::Minifredo() {
-	sp = Sprite("resources/img/minifredo.png", 3);
+    sp = Sprite("minifredo.png", 3);
 	box = Rect(Godofredo::player->box.x+13, Godofredo::player->box.y+6,
 			   sp.GetWidth(), sp.GetHeight());
 	speed = Vec2(0.4, 0.4);

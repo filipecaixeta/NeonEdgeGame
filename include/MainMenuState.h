@@ -1,24 +1,25 @@
-#ifndef TITLESTATE_H_
-#define TITLESTATE_H_
+#ifndef MAINMENUSTATE_H_
+#define MAINMENUSTATE_H_
 
 #include "State.h"
 #include "Timer.h"
 
-class TitleState : public State {
+class MainMenuState : public State {
 private:
 	Sprite bg2 = Sprite();
 	Timer bgTimer;
 	bool bgBool;
 
 public:
-	TitleState();
-	~TitleState();
+    MainMenuState();
+    ~MainMenuState();
 	void LoadAssets();
 	void Update();
 	void Render();
 	bool QuitRequested();
 	bool Is(std::string type);
-	TitleState* get();
+    MainMenuState* get();
+    void LoadFase1();
 };
 
-#endif /* TITLESTATE_H_ */
+#endif /* MAINMENUSTATE_H_ */
