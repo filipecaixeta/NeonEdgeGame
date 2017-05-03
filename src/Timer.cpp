@@ -1,4 +1,5 @@
 #include "Timer.h"
+#include <algorithm>
 
 Timer::Timer() {
 
@@ -15,10 +16,21 @@ Timer::~Timer() {
 
 void Timer::Start() {
 	time = 0;
+    running = true;
+}
+
+void Timer::Stop()
+{
+    running = false;
 }
 
 void Timer::Update(float dt) {
-	time += dt;
+    if (running)
+    {
+        time += dt;
+        if (time >= limit)
+            running = false;
+    }
 }
 
 void Timer::Reset() {
@@ -30,5 +42,21 @@ float Timer::GetTime() {
 }
 
 float Timer::GetLimit() {
-	return limit;
+    return limit;
+}
+
+void Timer::SetLimit(float l)
+{
+    limit = l;
+}
+
+bool Timer::isRunning()
+{
+    return running;
+}
+
+float Timer::getElapsed()
+{
+
+    return std::min(1.0f,time/limit);
 }

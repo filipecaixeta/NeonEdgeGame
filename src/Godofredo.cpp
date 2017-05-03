@@ -2,6 +2,9 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "StageState.h"
+#include <iostream>
+#include <math.h>
+#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 
 Godofredo* Godofredo::player = nullptr;
 
@@ -13,8 +16,12 @@ Godofredo::Godofredo(int x, int y) {
 		player = this;
 	}
 
-    sp = Sprite("LancelotIdleRight.png", 8, 120);
-	box = Rect(x+1, y+1, sp.GetWidth()-2, sp.GetHeight()-2);
+    sprites.emplace("Idle", new Sprite("LancelotIdleRight.png", 8, 120,true));
+    sprites.emplace("Running", new Sprite("LancelotRunningRight.png", 8, 120,true));
+
+    currentSprite = sprites["Idle"];
+
+    box = Rect(x+1, y+1, currentSprite->GetWidth()-2, currentSprite->GetHeight()-2);
 
 	hitpoints = 10;
 	power = 1;
@@ -24,185 +31,182 @@ Godofredo::Godofredo(int x, int y) {
 	facing = RIGHT;
 
     healthBar = Sprite("healthBar.png", 11);
-	healthBar.SetFrame(11);
+    healthBar.SetFrameNormalized(1.0f);
     stealthBar = Sprite("stealthBar.png", 11);
-	stealthBar.SetFrame(1);
+    stealthBar.SetFrameNormalized(0.0f);
 
 	invincibilityT = Timer(500);
 	attackT = Timer(500);
-	hiddenT = Timer(1000);
+    hiddenT = Timer(1000);
 }
 
 Godofredo::~Godofredo() {
 	player = nullptr;
-}
-
-void Godofredo::Update(float dt) {
-	UpdateTimers(dt);
-	UpdateCommands(dt);
-	UpdatePosition(dt);
-	if(speed.y < 1.8)
-		speed.y += 0.002*dt;
-	else
-		speed.y = 1.8;
-	sp.Update(dt);
+    for ( auto it = sprites.begin(); it != sprites.end(); ++it )
+    {
+        delete it->second;
+    }
+    sprites.clear();
 }
 
 void Godofredo::UpdateTimers(float dt) {
-	if(invincibilityT.GetTime() > -1) {
-		if(invincibilityT.GetTime() < invincibilityT.GetLimit())
-			invincibilityT.Update(dt);
-		else
-			invincibilityT.Reset();
-	}
-	if(attackT.GetTime() > -1) {
-		if(attackT.GetTime() < attackT.GetLimit()) {
-			attackT.Update(dt);
-		}else{
-			attacking = false;
-			attackT.Reset();
-		}
-	}
-	if(hiddenT.GetTime() > -1) {
-		if(hiddenT.GetTime() < hiddenT.GetLimit()) {
-			hiddenT.Update(dt);
-			stealthBar.SetFrame(round((hiddenT.GetLimit()-hiddenT.GetTime())/100)+1);
-		}else{
-			hiddenT.Reset();
-			stealthBar.SetFrame(1);
-			hidden = false;
-		}
-	}
+    invincibilityT.Update(dt);
+    attackT.Update(dt);
+    hiddenT.Update(dt);
+
+    attacking = attackT.isRunning();
+    if (hiddenT.isRunning())
+    {
+        stealthBar.SetFrameNormalized(hiddenT.getElapsed());
+    }
+    else
+    {
+        stealthBar.SetFrameNormalized(0);
+    }
 }
 
-void Godofredo::UpdateCommands(float dt) {
-	if(InputManager::GetInstance().IsKeyDown(SDLK_a)) {
-		if(speed.x > -0.4)
-			speed.x -= 0.002*dt;
-		else
-			speed.x = -0.4;
-		facing = LEFT;
-		if(hidden){
-            if(sp.GetFile() != "LancelotRunningLeftInv.png") {
-                sp.SetFile("LancelotRunningLeftInv.png", 8, 120);
-				UpdateBoundingBox();
-			}
-		}else{
-            if(sp.GetFile() != "LancelotRunningLeft.png") {
-                sp.SetFile("LancelotRunningLeft.png", 8, 120);
-				UpdateBoundingBox();
-			}
-		}
-	}else if(InputManager::GetInstance().IsKeyDown(SDLK_d)) {
-		if(speed.x < 0.4)
-			speed.x += 0.002*dt;
-		else
-			speed.x = 0.4;
-		facing = RIGHT;
-		if(hidden) {
-            if(sp.GetFile() != "LancelotRunningRightInv.png") {
-                sp.SetFile("LancelotRunningRightInv.png", 8, 120);
-				UpdateBoundingBox();
-			}
-		}else{
-            if(sp.GetFile() != "LancelotRunningRight.png") {
-                sp.SetFile("LancelotRunningRight.png", 8, 120);
-				UpdateBoundingBox();
-			}
-		}
-	}else{
-		speed.x = 0;
-		if(facing == LEFT) {
-			if(hidden) {
-                if(sp.GetFile() != "LancelotHiddenLeft.png") {
-                    sp.SetFile("LancelotHiddenLeft.png", 8, 120);
-					UpdateBoundingBox();
-				}
-			}else{
-                if(sp.GetFile() != "LancelotIdleLeft.png") {
-                    sp.SetFile("LancelotIdleLeft.png", 8, 120);
-					UpdateBoundingBox();
-				}
-			}
-		}else if(facing == RIGHT){
-			if(hidden) {
-                if(sp.GetFile() != "LancelotHiddenRight.png") {
-                    sp.SetFile("LancelotHiddenRight.png", 8, 120);
-					UpdateBoundingBox();
-				}
-			}else{
-                if(sp.GetFile() != "LancelotIdleRight.png") {
-                    sp.SetFile("LancelotIdleRight.png", 8, 120);
-					UpdateBoundingBox();
-				}
-			}
-		}
-	}
+void Godofredo::Update(float dt)
+{
+    invincibilityT.Update(dt);
+    attackT.Update(dt);
+    hiddenT.Update(dt);
 
-	if(InputManager::GetInstance().IsKeyDown(SDLK_e)) {
-		if(attackT.GetTime() < 0) {
-            StageState::AddObject(new Attack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
-			attackT.Start();
-		}
-	}
+    if(InputManager::GetInstance().IsKeyDown(SDLK_a))
+        RunState(MOVE_LEFT,dt);
+    else if(InputManager::GetInstance().IsKeyDown(SDLK_d))
+        RunState(MOVE_RIGHT,dt);
+    else
+        RunState(NONE,dt);
 
-	if(InputManager::GetInstance().IsKeyDown(SDLK_SPACE)) {
-		if(InputManager::GetInstance().KeyPress(SDLK_SPACE)) {
-			if(!jumping) {
-				jumping = true;
-				speed.y = -0.6;
-				if(wallJumping == 1)
-					speed.x = 0.4;
-				if(wallJumping == 2)
-					speed.x = -0.4;
-				lastWallJumping = wallJumping;
-				wallJumping = 0;
-				jumpingPower = 1;
-			}
-		}else if(InputManager::GetInstance().KeyRelease(SDLK_SPACE)) {
-			jumpingPower = 0;
-		}else{
-			if(jumpingPower > 0 && jumpingPower < 11) {
-				speed.y -= 0.03;
-				jumpingPower++;
-			}
-		}
-	}
+    if(InputManager::GetInstance().IsKeyDown(SDLK_e))
+        AttackState(dt);
 
-	if(InputManager::GetInstance().IsKeyDown(SDLK_s)) {
-		NotifyTileCollision(SPECIAL);
-	}
+    if(InputManager::GetInstance().IsKeyDown(SDLK_SPACE))
+        JumpState(dt);
+
+    if (InputManager::GetInstance().IsKeyDown(SDLK_s))
+        InvisibleState(dt);
+
+    if (hiddenT.isRunning())
+    {
+        stealthBar.SetFrameNormalized(hiddenT.getElapsed());
+        alpha = 0.3;
+    }
+    else
+    {
+        stealthBar.SetFrameNormalized(0);
+        alpha = 1.0;
+    }
+
+    UpdatePosition(dt);
+
+    currentSprite->SetAlpha(alpha);
+    currentSprite->Mirror(mirror);
+    currentSprite->Update(dt);
+}
+
+void Godofredo::RunState(StateT s,float dt)
+{
+    if(s == StateT::MOVE_LEFT)
+    {
+        speed.x -= 0.002*dt;
+        mirror = true;
+        currentSprite = sprites["Running"];
+        facing = LEFT;
+        //Update bounding box
+    }
+    else if(s == StateT::MOVE_RIGHT)
+    {
+        speed.x += 0.002*dt;
+        mirror = false;
+        currentSprite = sprites["Running"];
+        facing = RIGHT;
+        //Update bounding box
+    }
+    else if (s == StateT::NONE)
+    {
+        speed.x = 0;
+        currentSprite = sprites["Idle"];
+    }
+    clamp(speed.x,-0.4,0.4);
+    speed.y += 0.002*dt;
+    clamp(speed.y,-1.8,1.8);
+}
+
+void Godofredo::AttackState(float dt)
+{
+    if (attackT.isRunning())
+        return;
+    StageState::AddObject(new Attack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+    attackT.Start();
+}
+
+void Godofredo::JumpState(float dt)
+{
+    if(InputManager::GetInstance().KeyPress(SDLK_SPACE))
+    {
+        if(!jumping)
+        {
+            jumping = true;
+            speed.y = -0.6;
+            if(wallJumping == 1)
+                speed.x = 0.4;
+            if(wallJumping == 2)
+                speed.x = -0.4;
+            lastWallJumping = wallJumping;
+            wallJumping = 0;
+            jumpingPower = 1;
+        }
+    }
+    else if(InputManager::GetInstance().KeyRelease(SDLK_SPACE))
+    {
+        jumpingPower = 0;
+    }
+    else
+    {
+        if(jumpingPower > 0 && jumpingPower < 11)
+        {
+            speed.y -= 0.03;
+            jumpingPower++;
+        }
+    }
+}
+
+void Godofredo::InvisibleState(float dt)
+{
+    NotifyTileCollision(SPECIAL);
 }
 
 void Godofredo::UpdatePosition(float dt) {
 	box.x += speed.x*dt;
-	if(speed.x > 0)
-		NotifyTileCollision(RIGHT);
-	else
-		NotifyTileCollision(LEFT);
 
-	box.y += speed.y*dt;
-	if(speed.y > 0)
-		NotifyTileCollision(BOTTOM);
-	else
-		NotifyTileCollision(UPPER);
+    if(speed.x > 0)
+        NotifyTileCollision(RIGHT);
+    else
+        NotifyTileCollision(LEFT);
+
+    box.y += speed.y*dt;
+    if(speed.y > 0)
+        NotifyTileCollision(BOTTOM);
+    else
+        NotifyTileCollision(UPPER);
 }
 
 void Godofredo::UpdateBoundingBox() {
-		box.x += (sp.GetLastWidth()-sp.GetWidth())/2;
-		box.y += sp.GetLastHeight()-sp.GetHeight();
-		box.w = sp.GetWidth()-2;
-		box.h = sp.GetHeight()-2;
+        box.x += (sp.GetLastWidth()-sp.GetWidth())/2;
+        box.y += sp.GetLastHeight()-sp.GetHeight();
+        box.w = sp.GetWidth()-2;
+        box.h = sp.GetHeight()-2;
 }
 
 void Godofredo::Render() {
-	sp.Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
+    currentSprite->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
 	healthBar.Render(5, 5);
 	stealthBar.Render(5, 10+stealthBar.GetHeight());
 }
 
 void Godofredo::Damage(int damage) {
-	if(invincibilityT.GetTime() < 0) {
+    if(!invincibilityT.isRunning()) {
 		hitpoints -= (damage-defense);
 		healthBar.SetFrame(hitpoints+1);
 		invincibilityT.Start();
@@ -270,38 +274,38 @@ bool Godofredo::NotifyTileCollision(Face face) {
 			}
 		}
 	}
-	if(face == BOTTOM) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,0) > 5) {
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if(box.y+box.h > tile.y && box.y < tile.y) {
-						box.y = tile.y-box.h-1;
-						speed.y = 0.6;
-						wallJumping = 0;
-						jumping = false;
-						if(map->At(x,y,0) > 11)
-							Damage(1);
-						return true;
-					}
-				}
-			}
-		}
-	}
+    if(face == BOTTOM) {
+            for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
+                for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
+                    if(map->At(x,y,0) > 5) {
+                        Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
+                        if(box.y+box.h > tile.y && box.y < tile.y) {
+                            box.y = tile.y-box.h-1;
+                            speed.y = 0.6;
+                            wallJumping = 0;
+                            jumping = false;
+                            if(map->At(x,y,0) > 11)
+                                Damage(1);
+                            return true;
+                        }
+                    }
+                }
+            }
+    }
 	if(face == SPECIAL) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,1) == 0) {
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if((((box.x+box.w >= tile.x) && (box.x <= tile.x+tile.w))
-					   && ((box.y+box.h >= tile.y) && (box.y <= tile.y+tile.h)))) {
+        for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
+            for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
+                if(map->At(x,y,1) == 0) {
+                    Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
+                    if((((box.x+box.w >= tile.x) && (box.x <= tile.x+tile.w))
+                       && ((box.y+box.h >= tile.y) && (box.y <= tile.y+tile.h)))) {
 							hiddenT.Start();
 							hidden = true;
 							return true;
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 	}
 	return false;
 }

@@ -80,7 +80,7 @@ void StageState::Update() {
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE))
 		quitRequested = true;
 		Game::GetInstance().RemoveState();
-		Game::GetInstance().AddState(new MainMenuState());
+        Game::GetInstance().AddState(new MainMenuState());
 	if(InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
 		if(paused)
 			Resume();

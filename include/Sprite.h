@@ -19,18 +19,20 @@ private:
 	int height = 0;
 	int lastWidth = 0;
 	int lastHeight = 0;
+    SDL_RendererFlip flipHorizontal = SDL_FLIP_NONE;
 
 public:
 	Sprite();
-	Sprite(std::string file, int frameCount = 1, float frameTime = 0);
+    Sprite(std::string file, int frameCount = 1, float frameTime = 0, bool enableAlpha = false);
 	~Sprite();
-	void Open(std::string file);
+    void Open(std::string file, bool enableAlpha=false);
 	void Update(float dt);
 	void Render(int x, int y, float angle = 0);
 	void SetClip(int x, int y, int w, int h);
 	void SetScaleX(float scale);
 	void SetScaleY(float scale);
 	void SetFrame(int frame);
+    void SetFrameNormalized(float f);
 	void SetFrameCount(int frameCount);
 	void SetFrameTime(float frameTime);
 	void SetFile(std::string file, int frameCount = 1, float frameTime = 0);
@@ -39,6 +41,9 @@ public:
 	int GetHeight();
 	int GetLastWidth();
 	int GetLastHeight();
+    int GetFrameCount();
+    void SetAlpha(float a);
+    void Mirror(bool m);
 	bool IsOpen();
 };
 

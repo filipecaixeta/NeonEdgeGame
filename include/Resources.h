@@ -28,7 +28,7 @@ private:
     static std::string BASENAME_FONT;
 
 public:
-	static SDL_Texture* GetImage(std::string file);
+    static SDL_Texture* GetImage(std::string file,bool forceDuplicate);
 	static void ClearImages();
 	static Mix_Music* GetMusic(std::string file);
 	static void ClearMusics();
