@@ -2,9 +2,11 @@
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "DialogWindow.h"
 
 TileMap* StageState::tileMap;
 std::vector<std::unique_ptr<GameObject>> StageState::objectArray;
+std::vector<std::unique_ptr<Window>> StageState::windowArray;
 
 StageState::StageState() {
 	srand(time(NULL));
@@ -19,6 +21,7 @@ StageState::StageState() {
 StageState::~StageState() {
 	music.Stop();
 	objectArray.clear();
+	windowArray.clear();
 	delete tileMap;
 }
 
@@ -37,6 +40,10 @@ void StageState::RemoveObject(GameObject* ptr) {
 			break;
 		}
 	}
+}
+
+void StageState::AddWindow(Window* ptr){
+	windowArray.emplace_back(ptr);
 }
 
 bool StageState::IsColliding(Rect a, Rect b) {
@@ -87,6 +94,12 @@ void StageState::Update() {
 		else
 			Pause();
 	}
+
+	//Teste do sistema de janelas
+	if(InputManager::GetInstance().KeyPress(SDLK_j)){
+		AddWindow(new DialogWindow(896, 896, 1024, 1024));
+	}
+
 	if(!paused){
 		for(unsigned i = 0; i < objectArray.size(); i++) {
 			objectArray.at(i)->Update(Game::GetInstance().GetDeltaTime());
@@ -119,6 +132,8 @@ void StageState::Render() {
 	for(unsigned int i = 0; i < objectArray.size(); i++)
 		objectArray.at(i)->get()->Render();
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	for(unsigned int i = 0; i < windowArray.size(); i++)
+		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 }
 
 bool StageState::QuitRequested() {
