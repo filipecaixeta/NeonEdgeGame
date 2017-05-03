@@ -15,6 +15,7 @@ Notfredo::Notfredo(int x, int y) {
 	looking = Timer(1500);
 	looking.Start();
 	idle = Timer(1500);
+    facing = RIGHT;
 }
 
 Notfredo::~Notfredo() {

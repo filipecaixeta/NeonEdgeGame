@@ -12,14 +12,18 @@ std::string Resources::BASENAME_MUSIC = "resources/audio/";
 std::string Resources::BASENAME_SOUND = "resources/audio/";
 std::string Resources::BASENAME_FONT = "resources/font/";
 
-SDL_Texture* Resources::GetImage(std::string file) {
-	if(!imageTable.count(file))
-        imageTable.emplace(file, IMG_LoadTexture(Game::GetInstance().GetRenderer(), (Resources::BASENAME_IMAGE+file).c_str()));
-	if(imageTable.at(file) == nullptr) {
+SDL_Texture* Resources::GetImage(std::string file,bool forceDuplicate=false) {
+    std::string fileKey = file;
+    if (forceDuplicate)
+        while(imageTable.count(fileKey))
+            fileKey += "*";
+    if(!imageTable.count(fileKey))
+        imageTable.emplace(fileKey, IMG_LoadTexture(Game::GetInstance().GetRenderer(), (Resources::BASENAME_IMAGE+file).c_str()));
+    if(imageTable.at(fileKey) == nullptr) {
 		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
 	}
-	return imageTable.at(file);
+    return imageTable.at(fileKey);
 }
 
 void Resources::ClearImages() {

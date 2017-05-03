@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include <iostream>
 
 Game* Game::instance = nullptr;
 
@@ -173,9 +174,11 @@ void Game::Run() {
 			SDL_Delay(33);
 		}
 		if(storedState->QuitRequested()) {
-			delete storedState;
+            if (stateStack.size()==0)
+                break;
+            delete storedState;
 			storedState = stateStack.top();
-			storedState->LoadAssets();
+            storedState->LoadAssets();
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #ifndef TILEMAP_H_
 #define TILEMAP_H_
-
+#include <cstdio>
 #include "TileSet.h"
 #include <cstdio>
 

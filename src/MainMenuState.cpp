@@ -42,7 +42,6 @@ void MainMenuState::Update() {
 		bgTimer.Start();
 		bgBool = !bgBool;
 	}
-
 }
 
 void MainMenuState::Render() {
