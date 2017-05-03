@@ -21,7 +21,7 @@ ifeq ($(OS),Windows_NT)
 RMDIR = rd /s /q
 RM = del
 
-SDL_PATH = C:\SDL2-2.0.5
+SDL_PATH = C:\SDL-2.0.5
 
 DIRECTIVES += -I $(SDL_PATH)\include\SDL2
 

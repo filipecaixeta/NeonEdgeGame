@@ -4,6 +4,7 @@
 #include "State.h"
 #include "Godofredo.h"
 #include "Notfredo.h"
+#include "Window.h"
 
 class StageState : public State {
 private:
@@ -12,6 +13,7 @@ private:
 
 	static TileMap* tileMap;
 	static std::vector<std::unique_ptr<GameObject>> objectArray;
+	static std::vector<std::unique_ptr<Window>> windowArray;
 
 public:
 	StageState();
@@ -22,6 +24,7 @@ public:
 	static void RemoveObject(GameObject* ptr);
 	static bool IsColliding(Rect a, Rect b);
 	static TileMap* GetTileMap();
+	static void AddWindow(Window* ptr);
 
 	void Pause();
 	void Resume();
