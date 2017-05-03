@@ -8,7 +8,7 @@ Sprite::Sprite() {
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file, int frameCount, float frameTime,bool enableAlpha){
+Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha){
     Sprite::file = file;
 	texture = nullptr;
 	Sprite::frameCount = frameCount;
