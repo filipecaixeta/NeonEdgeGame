@@ -1,6 +1,8 @@
 #include "DialogWindow.h"
 
-DialogWindow::DialogWindow(int posX, int posY, int w, int h): sp("window.png"){
+DialogWindow::DialogWindow(int posX, int posY, int w, int h){
+	sp = Sprite("window.png");
+
 	box.x = posX;
 	box.y = posY;
 	box.w = w;

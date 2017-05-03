@@ -16,7 +16,6 @@ public:
 private:
 	void RenderPiece(int posx, int posy, int x, int y, int w, int h);
 	std::string dialog;
-	Sprite sp;
 };
 
 #endif
