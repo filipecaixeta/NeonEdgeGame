@@ -10,6 +10,8 @@ StageState::StageState() {
 	srand(time(NULL));
     tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
+    Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
+                                        tileMap->GetHeight()*tileMap->GetTileHeight());
 	objectArray = std::vector<std::unique_ptr<GameObject>>();
 	AddObject(new Godofredo(66, 1280));
 	AddObject(new Notfredo(800, 1280));

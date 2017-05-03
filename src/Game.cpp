@@ -113,6 +113,7 @@ void Game::CalculateDeltaTime() {
 
 SDL_Point Game::GetFullScreenSize()
 {
+    const SDL_Point res21x9 = {1792,768}; // 21/9 = 2.33
     const SDL_Point res16x9 = {1360,768}; // 16/9 = 1.78
     const SDL_Point res4x3 = {1024,768}; // 4/3 = 1.33
 
@@ -121,7 +122,12 @@ SDL_Point Game::GetFullScreenSize()
     {
         return res4x3;
     }
-    if (((float)r.w/(float)r.h)>=1.6)
+    if (((float)r.w/(float)r.h)>=2.3)
+    {
+        // 21x9
+        return res21x9;
+    }
+    else if (((float)r.w/(float)r.h)>=1.6)
     {
         // 16x9 16x10
         return res16x9;

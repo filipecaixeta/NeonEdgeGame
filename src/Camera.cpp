@@ -1,10 +1,15 @@
 #include "Camera.h"
 #include "Game.h"
 #include "InputManager.h"
+#include <iostream>
+#include <math.h>
+#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 
 Camera* Camera::instance = nullptr;
 
-Camera::Camera() {
+Camera::Camera():
+    maxPos(999999.0f,999999.0f)
+{
 	focus = nullptr;
 	pos = Vec2();
 	speed = Vec2(1, 1);
@@ -32,37 +37,42 @@ void Camera::Update(float dt) {
 			pos.x -= speed.x*dt;
 		if(InputManager::GetInstance().IsKeyDown(RIGHT_ARROW_KEY))
 			pos.x += speed.x*dt;
-	}else{
-		/*speed.x = focus->speed.x;
-		speed.y = focus->speed.y;
-		if(speed.x < 0)
-			speed.x *= -1;
-		if(speed.y < 0)
-			speed.y *= -1;*/
-		int w, h;
-		SDL_GetRendererOutputSize(Game::GetInstance().GetRenderer(), &w, &h);
-		if(pos.x > focus->box.GetCenter().x-w/2) {
-			if(pos.x-speed.x*dt < focus->box.GetCenter().x-w/2)
+    }
+    else{
+        int w, h;
+        SDL_Point s = Game::GetInstance().GetScreenSize();
+        w=s.x;
+        h=s.y;
+        if(pos.x > focus->box.GetCenter().x-w/2)
+        {
+            if(pos.x-speed.x*dt < focus->box.GetCenter().x-w/2)
 				pos.x = focus->box.GetCenter().x-w/2;
 			else
 				pos.x -= speed.x*dt;
-		}else{
+        }
+        else
+        {
 			if(pos.x+speed.x*dt > focus->box.GetCenter().x-w/2)
 				pos.x = focus->box.GetCenter().x-w/2;
 			else
 				pos.x += speed.x*dt;
 		}
-		if(pos.y > focus->box.GetCenter().y-h/2) {
+        if(pos.y > focus->box.GetCenter().y-h/2)
+        {
 			if(pos.y-speed.y*dt < focus->box.GetCenter().y-h/2)
 				pos.y = focus->box.GetCenter().y-h/2;
 			else
 				pos.y -= speed.y*dt;
-		}else{
+        }
+        else
+        {
 			if(pos.y+speed.y*dt > focus->box.GetCenter().y-h/2)
 				pos.y = focus->box.GetCenter().y-h/2;
 			else
 				pos.y += speed.y*dt;
 		}
+        clamp(pos.x,0,maxPos.x-w);
+        clamp(pos.y,0,maxPos.y-h);
 	}
 }
 

@@ -35,6 +35,58 @@ float Vec2::GetDS(Vec2 pos) {
  }
 
  Vec2 Vec2::operator*(const float rhs) const {
-    return Vec2(x * rhs, y * rhs);
+     return Vec2(x * rhs, y * rhs);
+ }
+
+ float Vec2::dot(const Vec2 &v1)
+ {
+     return (x*v1.x+y*v1.y);
+ }
+
+ float Vec2::abs()
+ {
+     return sqrt(x*x+y*y);
+ }
+
+ float Vec2::norm()
+ {
+     return this->abs();
+ }
+
+ Vec2 Vec2::normalized()
+ {
+     float norm = abs();
+     return Vec2(x/norm,y=y/norm);
+ }
+
+ float Vec2::distance(const Vec2 &v1)
+ {
+     return (*this-v1).abs();
+ }
+
+ float Vec2::angle()
+ {
+     return atan2(y,x);
+ }
+
+ Vec2 Vec2::rotated(float ang)
+ {
+     return Vec2(x*cos(ang)-y*sin(ang),y*cos(ang)+x*sin(ang));
+ }
+
+ bool operator==(const Vec2 &v1, const Vec2 &v2)
+ {
+     return (v1.x==v2.x)&&(v1.y==v2.y);
+ }
+
+ bool operator!=(const Vec2 &v1, const Vec2 &v2)
+ {
+     return !(v1==v2);
+ }
+
+ std::ostream &operator<<(std::ostream &os, const Vec2 &v)
+ {
+     os <<'('<< v.x <<','<< v.y <<')';
+             return os;
  }
 

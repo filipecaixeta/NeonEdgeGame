@@ -13,6 +13,7 @@ private:
 public:
 	Vec2 pos;
 	Vec2 speed;
+    Vec2 maxPos;
 
 	~Camera();
 	void Follow(GameObject* newFocus);

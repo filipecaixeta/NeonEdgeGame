@@ -100,6 +100,8 @@ void Godofredo::Update(float dt)
 
     UpdatePosition(dt);
 
+
+
     currentSprite->SetAlpha(alpha);
     currentSprite->Mirror(mirror);
     currentSprite->Update(dt);
@@ -193,10 +195,10 @@ void Godofredo::UpdatePosition(float dt) {
 }
 
 void Godofredo::UpdateBoundingBox() {
-        box.x += (sp.GetLastWidth()-sp.GetWidth())/2;
-        box.y += sp.GetLastHeight()-sp.GetHeight();
-        box.w = sp.GetWidth()-2;
-        box.h = sp.GetHeight()-2;
+        box.x += (currentSprite->GetLastWidth()-currentSprite->GetWidth())/2;
+        box.y += currentSprite->GetLastHeight()-currentSprite->GetHeight();
+        box.w = currentSprite->GetWidth()-2;
+        box.h = currentSprite->GetHeight()-2;
 }
 
 void Godofredo::Render() {
