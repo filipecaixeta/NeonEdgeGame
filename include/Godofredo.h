@@ -38,6 +38,7 @@ public:
 	void UpdateCommands(float dt);
 	void UpdatePosition(float dt);
 	void UpdateBoundingBox();
+    void UpdateSprite(std::string sprite);
 	void Render();
 	void Damage(int damage);
 	bool NotifyTileCollision(Face face);

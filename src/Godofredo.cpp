@@ -113,7 +113,7 @@ void Godofredo::RunState(StateT s,float dt)
     {
         speed.x -= 0.002*dt;
         mirror = true;
-        currentSprite = sprites["Running"];
+        UpdateSprite("Running");
         facing = LEFT;
         //Update bounding box
     }
@@ -121,14 +121,14 @@ void Godofredo::RunState(StateT s,float dt)
     {
         speed.x += 0.002*dt;
         mirror = false;
-        currentSprite = sprites["Running"];
+        UpdateSprite("Running");
         facing = RIGHT;
         //Update bounding box
     }
     else if (s == StateT::NONE)
     {
         speed.x = 0;
-        currentSprite = sprites["Idle"];
+        UpdateSprite("Idle");
     }
     clamp(speed.x,-0.4,0.4);
     speed.y += 0.002*dt;
@@ -194,11 +194,20 @@ void Godofredo::UpdatePosition(float dt) {
         NotifyTileCollision(UPPER);
 }
 
-void Godofredo::UpdateBoundingBox() {
-        box.x += (currentSprite->GetLastWidth()-currentSprite->GetWidth())/2;
-        box.y += currentSprite->GetLastHeight()-currentSprite->GetHeight();
-        box.w = currentSprite->GetWidth()-2;
-        box.h = currentSprite->GetHeight()-2;
+void Godofredo::UpdateBoundingBox()
+{
+
+}
+
+void Godofredo::UpdateSprite(std::string sprite)
+{
+    int w = currentSprite->GetWidth();
+    int h = currentSprite->GetHeight();
+    currentSprite = sprites[sprite];
+    box.x += (w-currentSprite->GetWidth())/2;
+    box.y += h-currentSprite->GetHeight();
+    box.w = currentSprite->GetWidth();
+    box.h = currentSprite->GetHeight();
 }
 
 void Godofredo::Render() {
