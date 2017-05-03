@@ -2,6 +2,7 @@
 #define TILEMAP_H_
 
 #include "TileSet.h"
+#include <cstdio>
 
 class TileMap {
 private:
