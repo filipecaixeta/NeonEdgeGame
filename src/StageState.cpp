@@ -66,21 +66,13 @@ void StageState::Resume() {
 
 void StageState::LoadAssets() {
     music.Open("stageState.ogg");
-    bg.Open("LancelotIdleLeft.png");
-    bg.Open("LancelotIdleRight.png");
-    bg.Open("LancelotRunningLeft.png");
-    bg.Open("LancelotRunningRight.png");
-    bg.Open("LancelotHiddenLeft.png");
-    bg.Open("LancelotHiddenRight.png");
-    bg.Open("LancelotRunningLeftInv.png");
-    bg.Open("LancelotRunningRightInv.png");
+    bg.Open("LancelotIdle.png");
+    bg.Open("LancelotRunning.png");
     bg.Open("notattack.png");
     bg.Open("healthBar.png");
     bg.Open("stealthBar.png");
-    bg.Open("NotfredoIdleLeft.png");
-    bg.Open("NotfredoIdleRight.png");
-    bg.Open("NotfredoRunningLeft.png");
-    bg.Open("NotfredoRunningRight.png");
+    bg.Open("NotfredoRunning.png");
+    bg.Open("NotfredoIdle.png");
     bg.Open("tileset3d2.png");
 	music.Play(-1);
 }

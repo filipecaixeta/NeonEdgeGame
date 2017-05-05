@@ -2,8 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "StageState.h"
-#include <iostream>
-#include <math.h>
+
 #define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 
 Godofredo* Godofredo::player = nullptr;
@@ -20,12 +19,11 @@ Godofredo::Godofredo(int x, int y)
 		player = this;
 	}
 
-	sprites.emplace("Idle", new Sprite("LancelotIdleRight.png", 8, 120,true));
-	sprites.emplace("Running", new Sprite("LancelotRunningRight.png", 8, 120,true));
+	sprites.emplace("Idle", new Sprite("LancelotIdle.png", 8, 120, true));
+	sprites.emplace("Running", new Sprite("LancelotRunning.png", 8, 120, true));
+	sp = sprites["Idle"];
 
-	currentSprite = sprites["Idle"];
-
-	box = Rect(x+1, y+1, currentSprite->GetWidth()-2, currentSprite->GetHeight()-2);
+	box = Rect(x+1, y+1, sp->GetWidth()-2, sp->GetHeight()-2);
 
 	hitpoints = 10;
 	power = 1;
@@ -47,11 +45,19 @@ Godofredo::Godofredo(int x, int y)
 Godofredo::~Godofredo()
 {
 	player = nullptr;
-	for(auto it = sprites.begin(); it != sprites.end(); ++it)
-	{
-		delete it->second;
-	}
+	sp = nullptr;
+	for(auto& i: sprites)
+		delete i.second;
 	sprites.clear();
+}
+
+void Godofredo::Update(float dt)
+{
+	UpdateTimers(dt);
+	UpdateCommands(dt);
+	UpdatePosition(dt);
+
+	sp->Update(dt);
 }
 
 void Godofredo::UpdateTimers(float dt)
@@ -59,24 +65,10 @@ void Godofredo::UpdateTimers(float dt)
 	invincibilityT.Update(dt);
 	attackT.Update(dt);
 	hiddenT.Update(dt);
-
-	attacking = attackT.isRunning();
-	if (hiddenT.isRunning())
-	{
-		stealthBar.SetFrameNormalized(hiddenT.getElapsed());
-	}
-	else
-	{
-		stealthBar.SetFrameNormalized(0);
-	}
 }
 
-void Godofredo::Update(float dt)
+void Godofredo::UpdateCommands(float dt)
 {
-	invincibilityT.Update(dt);
-	attackT.Update(dt);
-	hiddenT.Update(dt);
-
 	if(InputManager::GetInstance().IsKeyDown(SDLK_a))
 		RunState(MOVE_LEFT,dt);
 	else if(InputManager::GetInstance().IsKeyDown(SDLK_d))
@@ -95,22 +87,44 @@ void Godofredo::Update(float dt)
 
 	if(hiddenT.isRunning())
 	{
-		stealthBar.SetFrameNormalized(hiddenT.getElapsed());
-		alpha = 0.3;
+		stealthBar.SetFrameNormalized(1-hiddenT.getElapsed());
+		sp->SetAlpha(0.3);
 	}
 	else
 	{
 		stealthBar.SetFrameNormalized(0);
-		alpha = 1.0;
+		sp->SetAlpha(1.0);
 	}
+}
 
-	UpdatePosition(dt);
+void Godofredo::UpdatePosition(float dt)
+{
+	box.x += speed.x*dt;
 
+	if(speed.x > 0)
+		NotifyTileCollision(RIGHT);
+	else
+		NotifyTileCollision(LEFT);
 
+	box.y += speed.y*dt;
+	if(speed.y > 0)
+		NotifyTileCollision(BOTTOM);
+	else
+		NotifyTileCollision(UPPER);
+}
 
-	currentSprite->SetAlpha(alpha);
-	currentSprite->Mirror(mirror);
-	currentSprite->Update(dt);
+void Godofredo::UpdateSprite(std::string sprite)
+{
+	if(sp != sprites[sprite])
+	{
+		int w = sp->GetWidth();
+		int h = sp->GetHeight();
+		sp = sprites[sprite];
+		box.x += (w-sp->GetWidth())/2;
+		box.y += h-sp->GetHeight();
+		box.w = sp->GetWidth();
+		box.h = sp->GetHeight();
+	}
 }
 
 void Godofredo::RunState(StateT s,float dt)
@@ -118,18 +132,16 @@ void Godofredo::RunState(StateT s,float dt)
 	if(s == StateT::MOVE_LEFT)
 	{
 		speed.x -= 0.002*dt;
-		mirror = true;
+		sp->Mirror(true);
 		UpdateSprite("Running");
 		facing = LEFT;
-		//Update bounding box
 	}
 	else if(s == StateT::MOVE_RIGHT)
 	{
 		speed.x += 0.002*dt;
-		mirror = false;
+		sp->Mirror(false);
 		UpdateSprite("Running");
 		facing = RIGHT;
-		//Update bounding box
 	}
 	else if (s == StateT::NONE)
 	{
@@ -143,10 +155,11 @@ void Godofredo::RunState(StateT s,float dt)
 
 void Godofredo::AttackState(float dt)
 {
-	if (attackT.isRunning())
-		return;
-	StageState::AddObject(new Attack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
-	attackT.Start();
+	if(!attackT.isRunning())
+	{
+		StageState::AddObject(new Attack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+		attackT.Start();
+	}
 }
 
 void Godofredo::JumpState(float dt)
@@ -185,41 +198,9 @@ void Godofredo::InvisibleState(float dt)
 	NotifyTileCollision(SPECIAL);
 }
 
-void Godofredo::UpdatePosition(float dt)
-{
-	box.x += speed.x*dt;
-
-	if(speed.x > 0)
-		NotifyTileCollision(RIGHT);
-	else
-		NotifyTileCollision(LEFT);
-
-	box.y += speed.y*dt;
-	if(speed.y > 0)
-		NotifyTileCollision(BOTTOM);
-	else
-		NotifyTileCollision(UPPER);
-}
-
-void Godofredo::UpdateBoundingBox()
-{
-
-}
-
-void Godofredo::UpdateSprite(std::string sprite)
-{
-	int w = currentSprite->GetWidth();
-	int h = currentSprite->GetHeight();
-	currentSprite = sprites[sprite];
-	box.x += (w-currentSprite->GetWidth())/2;
-	box.y += h-currentSprite->GetHeight();
-	box.w = currentSprite->GetWidth();
-	box.h = currentSprite->GetHeight();
-}
-
 void Godofredo::Render()
 {
-	currentSprite->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
+	sp->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
 	healthBar.Render(5, 5);
 	stealthBar.Render(5, 10+stealthBar.GetHeight());
 }

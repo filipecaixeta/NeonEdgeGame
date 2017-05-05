@@ -1,19 +1,12 @@
 #ifndef GODOFREDO_H_
 #define GODOFREDO_H_
 
-#include "Minifredo.h"
 #include "Attack.h"
-#include <unordered_map>
 
 class Godofredo : public GameObject{
 private:
 	Sprite healthBar;
 	Sprite stealthBar;
-    std::unordered_map<std::string, Sprite*> sprites;
-    Sprite* currentSprite;
-    enum StateT:short int{NONE,MOVE_LEFT,MOVE_RIGHT};
-    float alpha = 1.0f;
-    bool mirror = false;
 
 	bool jumping = false;
 	int jumpingPower = 0;
@@ -23,10 +16,11 @@ private:
 
 	bool hidden = false;
 	Timer hiddenT;
-    void RunState(StateT s, float dt);
-    void AttackState(float dt);
-    void JumpState(float dt);
-    void InvisibleState(float dt);
+
+	void RunState(StateT s, float dt);
+	void AttackState(float dt);
+	void JumpState(float dt);
+	void InvisibleState(float dt);
 
 public:
 	static Godofredo* player;
@@ -37,8 +31,7 @@ public:
 	void UpdateTimers(float dt);
 	void UpdateCommands(float dt);
 	void UpdatePosition(float dt);
-	void UpdateBoundingBox();
-    void UpdateSprite(std::string sprite);
+	void UpdateSprite(std::string sprite);
 	void Render();
 	void Damage(int damage);
 	bool NotifyTileCollision(Face face);

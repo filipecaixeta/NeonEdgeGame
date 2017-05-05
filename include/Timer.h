@@ -12,7 +12,7 @@ class Timer {
 private:
 	float time = 0;
 	float limit = 0;
-    bool running = false;
+	bool running = false;
 
 public:
 	Timer();
@@ -21,12 +21,9 @@ public:
 	void Start();
     void Stop();
 	void Update(float dt);
-	void Reset();
-	float GetTime();
-	float GetLimit();
-    void SetLimit(float l);
-    bool isRunning();
-    float getElapsed();
+	void SetLimit(float l);
+	bool isRunning();
+	float getElapsed();
 };
 
 #endif /* TIMER_H_ */
