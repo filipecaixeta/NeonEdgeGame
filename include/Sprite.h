@@ -5,7 +5,6 @@
 
 class Sprite {
 private:
-	std::string file;
 	SDL_Texture* texture;
 	SDL_Rect clipRect;
 	SDL_Rect dstRect;
@@ -17,8 +16,6 @@ private:
 	float timeElapsed = 0;
 	int width = 0;
 	int height = 0;
-	int lastWidth = 0;
-	int lastHeight = 0;
     SDL_RendererFlip flipHorizontal = SDL_FLIP_NONE;
 
 public:
@@ -31,19 +28,15 @@ public:
 	void SetClip(int x, int y, int w, int h);
 	void SetScaleX(float scale);
 	void SetScaleY(float scale);
+	void SetAlpha(float a);
 	void SetFrame(int frame);
     void SetFrameNormalized(float f);
 	void SetFrameCount(int frameCount);
 	void SetFrameTime(float frameTime);
-	void SetFile(std::string file, int frameCount = 1, float frameTime = 0);
-	std::string GetFile();
+	void Mirror(bool m);
 	int GetWidth();
 	int GetHeight();
-	int GetLastWidth();
-	int GetLastHeight();
     int GetFrameCount();
-    void SetAlpha(float a);
-    void Mirror(bool m);
 	bool IsOpen();
 };
 

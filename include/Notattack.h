@@ -13,7 +13,7 @@ public:
 	void Update(float dt);
 	void UpdateTimers(float dt);
 	void UpdatePosition(float dt);
-	void UpdateBoundingBox();
+	void UpdateSprite(std::string sprite);
 	void Render();
 	bool NotifyTileCollision(Face face);
 	void NotifyCollision(GameObject* other);

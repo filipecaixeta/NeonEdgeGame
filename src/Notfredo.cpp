@@ -3,130 +3,132 @@
 #include "Camera.h"
 #include "StageState.h"
 
-Notfredo::Notfredo(int x, int y) {
-    sp = Sprite("NotfredoIdleRIght.png", 8, 120);
-	box = Rect(x+1, y+1, sp.GetWidth()-2, sp.GetHeight()-2);
+Notfredo::Notfredo(int x, int y)
+{
+    sprites.emplace("Idle", new Sprite("NotfredoIdle.png", 8, 120, true));
+	sprites.emplace("Running", new Sprite("NotfredoRunning.png", 8, 120, true));
+    sp = sprites["Idle"];
+	box = Rect(x+1, y+1, sp->GetWidth()-2, sp->GetHeight()-2);
 	speed = Vec2(0.2, 0.6);
 	hitpoints = 5;
 	power = 1;
 	defense = 0;
-	iFrames = Timer(500);
-	attackCD = Timer(1000);
-	looking = Timer(1500);
-	looking.Start();
+	invincibilityT = Timer(500);
+	attackT = Timer(1000);
 	idle = Timer(1500);
+	idle.Start();
+	looking = Timer(1500);
     facing = RIGHT;
 }
 
-Notfredo::~Notfredo() {
-
+Notfredo::~Notfredo()
+{
+	sp = nullptr;
+	for(auto& i: sprites)
+		delete i.second;
+	sprites.clear();
 }
 
-void Notfredo::Update(float dt) {
+void Notfredo::Update(float dt)
+{
 	UpdateTimers(dt);
 	UpdatePosition(dt);
 	speed.y += 0.06;
-	sp.Update(dt);
+	sp->Update(dt);
 }
 
-void Notfredo::UpdateTimers(float dt) {
-	if(iFrames.GetTime() > -1) {
-		if(iFrames.GetTime() < iFrames.GetLimit())
-			iFrames.Update(dt);
-		else
-			iFrames.Reset();
-	}
-	if(attackCD.GetTime() > -1) {
-		if(attackCD.GetTime() < attackCD.GetLimit())
-			attackCD.Update(dt);
-		else
-			attackCD.Reset();
-	}
-	if(idle.GetTime() > -1) {
-		if(idle.GetTime() < idle.GetLimit()) {
-			idle.Update(dt);
-		}else{
-			idle.Reset();
-			looking.Start();
-		}
-	}
-	if(statusTimer.GetTime() > -1) {
-		statusTimer.Update(dt);
-		if(statusTimer.GetTime() > statusTimer.GetLimit()) {
-			status = NONE;
-			statusTimer.Reset();
-		}
-	}
+void Notfredo::UpdateTimers(float dt)
+{
+	invincibilityT.Update(dt);
+	attackT.Update(dt);
+	statusTimer.Update(dt);
+	if(!statusTimer.isRunning())
+		status = NORMAL;
 }
 
-void Notfredo::UpdatePosition(float dt) {
+void Notfredo::UpdatePosition(float dt)
+{
 	radius = Rect(box.x-200, box.y-200, box.w+400, box.h+400);
-	if(Godofredo::player) {
-		if(status != STUNNED) {
+	if(Godofredo::player)
+	{
+		if(status != STUNNED)
+		{
 			Rect player = Godofredo::player->box;
-			if(StageState::IsColliding(radius, player) && !Godofredo::player->IsHidden()) {
+			if(StageState::IsColliding(radius, player) && !Godofredo::player->IsHidden())
+			{
 				speed.x = 0.3;
-				if(player.x < box.x) {
-					if(attackCD.GetTime() < 0) {
-                        StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
-						attackCD.Start();
+				if(player.x < box.x)
+				{
+					if(!attackT.isRunning())
+					{
+						StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+						attackT.Start();
 					}
 					if(box.x - speed.x*dt < player.x)
 						box.x = player.x;
 					else
 						box.x -= speed.x*dt;
+					sp->Mirror(true);
+					UpdateSprite("Running");
 					facing = LEFT;
-                    if(sp.GetFile() != "NotfredoRunningLeft.png") {
-                        sp.SetFile("NotfredoRunningLeft.png", 8, 120);
-						UpdateBoundingBox();
-					}
-				}else{
-					if(attackCD.GetTime() < 0) {
-                        StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
-						attackCD.Start();
+				}
+				else
+				{
+					if(!attackT.isRunning())
+					{
+						StageState::AddObject(new Notattack("notattack.png", 2, box.x+(box.w/2), box.y, power, 200, facing));
+						attackT.Start();
 					}
 					if(box.x + speed.x*dt > player.x)
 						box.x = player.x;
 					else
 						box.x += speed.x*dt;
+					sp->Mirror(false);
+					UpdateSprite("Running");
 					facing = RIGHT;
-                    if(sp.GetFile() != "NotfredoRunningRight.png") {
-                        sp.SetFile("NotfredoRunningRight.png", 8, 120);
-						UpdateBoundingBox();
-					}
 				}
 				NotifyTileCollision(facing);
-			}else if(looking.GetTime() > -1){
+			}
+			else if(looking.isRunning())
+			{
 				speed.x = 0.2;
-				if(looking.GetTime() < looking.GetLimit()) {
-					if(facing == LEFT) {
-						box.x -= speed.x*dt;
-                        if(sp.GetFile() != "NotfredoRunningLeft.png") {
-                            sp.SetFile("NotfredoRunningLeft.png", 8, 120);
-							UpdateBoundingBox();
-						}
-					}else{
-						box.x += speed.x*dt;
-                        if(sp.GetFile() != "NotfredoRunningRight.png") {
-                            sp.SetFile("NotfredoRunningRight.png", 8, 120);
-							UpdateBoundingBox();
-						}
-					}
-					NotifyTileCollision(facing);
-					looking.Update(dt);
-				}else{
-					looking.Reset();
-					if(facing == LEFT) {
-						facing = RIGHT;
-                        sp.SetFile("NotfredoIdleRight.png", 8, 120);
-						UpdateBoundingBox();
-					}else{
-						facing = LEFT;
-                        sp.SetFile("NotfredoIdleLeft.png", 8, 120);
-						UpdateBoundingBox();
-					}
-					idle.Start();
+				if(facing == LEFT)
+				{
+					box.x -= speed.x*dt;
+					sp->Mirror(true);
+					UpdateSprite("Running");
 				}
+				else
+				{
+					box.x += speed.x*dt;
+					sp->Mirror(false);
+					UpdateSprite("Running");
+				}
+				NotifyTileCollision(facing);
+				looking.Update(dt);
+				if(!looking.isRunning())
+					idle.Start();
+			}
+			else
+			{
+				if(idle.getElapsed() == 0)
+				{
+					if(facing == LEFT)
+					{
+						facing = RIGHT;
+						sp->Mirror(true);
+						UpdateSprite("Idle");
+					}
+					else
+					{
+						facing = LEFT;
+						sp->Mirror(false);
+						UpdateSprite("Idle");
+					}
+				}
+				idle.Update(dt);
+				if(!idle.isRunning())
+					looking.Start();
 			}
 		}
 	}
@@ -137,77 +139,104 @@ void Notfredo::UpdatePosition(float dt) {
 		NotifyTileCollision(BOTTOM);
 }
 
-void Notfredo::UpdateBoundingBox() {
-	box.x += (sp.GetLastWidth()-sp.GetWidth())/2;
-	box.y += sp.GetLastHeight()-sp.GetHeight();
-	box.w = sp.GetWidth()-2;
-	box.h = sp.GetHeight()-2;
-}
-
-void Notfredo::Render() {
-	sp.Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
-}
-
-void Notfredo::Damage(int damage) {
-	if(iFrames.GetTime() < 0) {
-		hitpoints -= (damage-defense);
-		iFrames.Start();
+void Notfredo::UpdateSprite(std::string sprite)
+{
+	if(sp != sprites[sprite])
+	{
+		int w = sp->GetWidth();
+		int h = sp->GetHeight();
+		sp = sprites[sprite];
+		box.x += (w-sp->GetWidth())/2;
+		box.y += h-sp->GetHeight();
+		box.w = sp->GetWidth();
+		box.h = sp->GetHeight();
 	}
 }
 
-bool Notfredo::NotifyTileCollision(Face face) {
+void Notfredo::Render()
+{
+	sp->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
+}
+
+void Notfredo::Damage(int damage)
+{
+	if(!invincibilityT.isRunning())
+	{
+		hitpoints -= (damage-defense);
+		invincibilityT.Start();
+	}
+}
+
+bool Notfredo::NotifyTileCollision(Face face)
+{
 	TileMap* map = StageState::GetTileMap();
 	unsigned limitX = ((box.x+box.w)/map->GetTileWidth() < map->GetWidth()) ? ((box.x+box.w)/map->GetTileWidth()) : (map->GetWidth());
 	unsigned limitY = ((box.y+box.h)/map->GetTileHeight() < map->GetHeight()) ? ((box.y+box.h)/map->GetTileHeight()) : (map->GetHeight());
-	if(face == LEFT) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,0) > 5) {
+
+	for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++)
+	{
+		for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++)
+		{
+			if(face == LEFT)
+			{
+				if(map->At(x,y,0) > 5)
+				{
 					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w) {
+					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
+					{
 						if(map->At(x,y-1,0) < 6 && map->At(x+1,y+1,0) > 5)
 							speed.y = -0.46;
 						box.x = tile.x+tile.w+1;
+						speed.x = 0;
+						if(map->At(x,y,0) > 11)
+							Damage(1);
+						return true;
 					}
 				}
 			}
-		}
-	}
-	if(face == RIGHT) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,0) > 5) {
+			if(face == RIGHT)
+			{
+				if(map->At(x,y,0) > 5)
+				{
 					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if(box.x+box.w > tile.x && box.x < tile.x) {
+					if(box.x+box.w > tile.x && box.x < tile.x)
+					{
 						if(map->At(x,y-1,0) < 6 && map->At(x-1,y+1,0) > 5)
 							speed.y = -0.46;
 						box.x = tile.x-box.w-1;
+						speed.x = 0;
+						if(map->At(x,y,0) > 11)
+							Damage(1);
+						return true;
 					}
 				}
 			}
-		}
-	}
-	if(face == UPPER) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,0) > 5) {
+			if(face == UPPER)
+			{
+				if(map->At(x,y,0) > 5)
+				{
 					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h) {
+					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h)
+					{
 						box.y = tile.y+tile.h+1;
-						speed.y = 0.6;
+						if(map->At(x,y,0) > 11)
+							Damage(1);
+						return true;
 					}
 				}
 			}
-		}
-	}
-	if(face == BOTTOM) {
-		for(unsigned x = box.x/map->GetTileWidth(); x <= limitX; x++) {
-			for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++) {
-				if(map->At(x,y,0) > 5) {
+			if(face == BOTTOM)
+			{
+				if(map->At(x,y,0) > 5)
+				{
 					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
-					if(box.y+box.h > tile.y && box.y < tile.y) {
+					if(box.y+box.h > tile.y && box.y < tile.y)
+					{
 						box.y = tile.y-box.h-1;
 						speed.y = 0.6;
+						if(map->At(x,y,0) > 11)
+							Damage(1);
+						return true;
 					}
 				}
 			}
@@ -216,8 +245,10 @@ bool Notfredo::NotifyTileCollision(Face face) {
 	return false;
 }
 
-void Notfredo::NotifyCollision(GameObject* other) {
-	if(other->Is("Attack")) {
+void Notfredo::NotifyCollision(GameObject* other)
+{
+	if(other->Is("Attack"))
+	{
 		if(other->facing == facing)
 			Damage(other->power*2);
 		else
@@ -225,15 +256,18 @@ void Notfredo::NotifyCollision(GameObject* other) {
 	}
 }
 
-bool Notfredo::Is(std::string type) {
+bool Notfredo::Is(std::string type)
+{
 	return (type == "Notfredo");
 }
 
-bool Notfredo::IsDead() {
+bool Notfredo::IsDead()
+{
 	return (hitpoints < 1);
 }
 
-Notfredo* Notfredo::get() {
+Notfredo* Notfredo::get()
+{
 	return this;
 }
 
