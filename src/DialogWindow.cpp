@@ -13,7 +13,7 @@ void DialogWindow::Update(float dt){
 
 }
 
-void DialogWindow::RenderPiece(int posx, int posy, int x, int y, int w, int h){
+/*void DialogWindow::RenderPiece(int posx, int posy, int x, int y, int w, int h){
 	sp.SetClip(x, y, w, h);
 	sp.Render(posx, posy);
 }
@@ -44,4 +44,4 @@ void DialogWindow::Render(int cameraX, int cameraY){
 				RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 16, 16, 48, 48);
 		}
 	}
-}
+}*/

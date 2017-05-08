@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "Sprite.h"
+#include "Button.h"
 #include <string>
 
 class DialogWindow: public Window{
@@ -13,7 +14,7 @@ public:
 
 private:
 	void RenderPiece(int posx, int posy, int x, int y, int w, int h);
-	std::string dialog;
+	Button okay;
 };
 
 #endif
