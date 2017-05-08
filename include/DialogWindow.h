@@ -5,8 +5,6 @@
 #include "Sprite.h"
 #include <string>
 
-#define WINDOWPIECE 32
-
 class DialogWindow: public Window{
 public:
 	DialogWindow(int posX, int posY, int w, int h);
