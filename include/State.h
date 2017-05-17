@@ -8,15 +8,15 @@ class State {
 public:
 	Sprite bg = Sprite();
 	Music music = Music();
-	bool quitRequested = false;
-
-	virtual ~State() = 0;
+	bool quitRequested;
+	State();
+	virtual ~State();
 	virtual void LoadAssets() = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
-	virtual bool QuitRequested() = 0;
 	virtual bool Is(std::string type) = 0;
-	virtual State* get() = 0;
+	virtual State* get();
+	virtual bool QuitRequested();
 };
 
 #endif /* STATE_H_ */

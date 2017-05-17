@@ -1,6 +1,7 @@
 project(Game)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(src SRC_LIST)
+aux_source_directory(src/menu SRC_LIST)
 
 #QTCreator precisa da lista de headers para adicionar ao projeto.
 FILE(GLOB_RECURSE HEADER_LIST "include/*.h")

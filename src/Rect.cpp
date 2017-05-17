@@ -53,3 +53,51 @@ float Rect::GetDY(float y) {
 float Rect::GetDS(Vec2 pos) {
 	return pow(pow(GetDX(pos.x), 2)+pow(GetDY(pos.y), 2), 0.5);
 }
+
+Rect Rect::operator+(const Vec2& v1)
+{
+	return Rect(x+v1.x,y+v1.y,w+v1.x,h+v1.y);
+}
+Rect Rect::operator-(const Vec2& v1)
+{
+	return Rect(x-v1.x,y-v1.y,w-v1.x,h-v1.y);
+}
+
+bool Rect::OverlapsWith(const Rect &r)
+{
+	float distX = x-r.x;
+	float distY = y-r.y;
+	if ( distX>=r.w || -distX>=w )
+		return false;
+	if ( distY>=r.h || -distY>=h )
+		return false;
+	return true;
+}
+
+void Rect::SetXY(Vec2 v)
+{
+	x=v.x;
+	y=v.y;
+}
+Vec2 Rect::GetXY()
+{
+	return Vec2(x,y);
+}
+void Rect::SetWH(Vec2 v)
+{
+	w=v.x;
+	h=v.y;
+}
+Vec2 Rect::GetWH()
+{
+	return Vec2(w,h);
+}
+
+Vec2 Rect::GetOpverlap(const Rect &r)
+{
+	float minX = std::max(x,r.x);
+	float maxX = std::min(x+w,r.x+r.w);
+	float minY = std::max(y,r.y);
+	float maxY = std::min(y+h,r.y+r.h);
+	return Vec2(maxX-minX,maxY-minY);
+}

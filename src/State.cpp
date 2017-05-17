@@ -1,29 +1,33 @@
 #include "State.h"
 
-State::~State() {
+
+State::State():
+	bg(),
+	music(),
+	quitRequested(false)
+{
 
 }
 
-void State::LoadAssets() {
+State::~State()
+{
 
 }
 
-void State::Update() {
+void State::Render()
+{
 
 }
 
-void State::Render() {
+void State::Update()
+{
 
-}
-
-bool State::QuitRequested() {
-	return quitRequested;
-}
-
-bool State::Is(std::string type) {
-	return (type == "State");
 }
 
 State* State::get() {
 	return this;
+}
+
+bool State::QuitRequested() {
+	return quitRequested;
 }

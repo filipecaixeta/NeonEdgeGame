@@ -2,10 +2,12 @@
 #define GODOFREDO_H_
 
 #include "Attack.h"
+#include <LoadingBar.h>
 
 class Godofredo : public GameObject{
 private:
-	Sprite healthBar;
+//	Sprite healthBar;
+	LoadingBar healthBar;
 	Sprite stealthBar;
 
 	bool jumping = false;

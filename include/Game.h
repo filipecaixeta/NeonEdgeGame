@@ -34,7 +34,8 @@ public:
     void SetScreenSize(SDL_Point size);
     SDL_Point GetScreenSize();
     void setFullScreen(bool b);
-    bool isFullScreen();
+	bool isFullScreen();
+	void UpdateState();
 };
 
 #endif /* GAME_H_ */

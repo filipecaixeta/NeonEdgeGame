@@ -7,7 +7,8 @@
 
 Godofredo* Godofredo::player = nullptr;
 
-Godofredo::Godofredo(int x, int y)
+Godofredo::Godofredo(int x, int y):
+	healthBar("healthBar2.png",5,15,10)
 {
 	if(player) 
 	{
@@ -32,8 +33,7 @@ Godofredo::Godofredo(int x, int y)
 
 	facing = RIGHT;
 
-	healthBar = Sprite("healthBar.png", 11);
-	healthBar.SetFrameNormalized(1.0f);
+	healthBar.SetPercentage(1.0f);
 	stealthBar = Sprite("stealthBar.png", 11);
 	stealthBar.SetFrameNormalized(0.0f);
 
@@ -88,12 +88,12 @@ void Godofredo::UpdateCommands(float dt)
 	if(hiddenT.isRunning())
 	{
 		stealthBar.SetFrameNormalized(1-hiddenT.getElapsed());
-		sp->SetAlpha(0.3);
+		sp->SetTransparency(0.3);
 	}
 	else
 	{
 		stealthBar.SetFrameNormalized(0);
-		sp->SetAlpha(1.0);
+		sp->SetTransparency(1.0);
 	}
 }
 
@@ -210,7 +210,7 @@ void Godofredo::Damage(int damage)
 	if(!invincibilityT.isRunning()) 
 	{
 		hitpoints -= (damage-defense);
-		healthBar.SetFrame(hitpoints+1);
+		healthBar.SetPercentage(hitpoints/10.0f);
 		invincibilityT.Start();
 	}
 }
@@ -225,11 +225,11 @@ bool Godofredo::NotifyTileCollision(Face face)
 	{
 		for(unsigned y = box.y/map->GetTileHeight(); y <= limitY; y++)
 		{
-			if(face == LEFT)
+			Rect tile = map->GetAABB(x,y);
+			if(map->At(x,y,0) > 5)
 			{
-				if(map->At(x,y,0) > 5)
+				if(face == LEFT)
 				{
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
 					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+1;
@@ -245,12 +245,8 @@ bool Godofredo::NotifyTileCollision(Face face)
 						return true;
 					}
 				}
-			}
-			if(face == RIGHT)
-			{
-				if(map->At(x,y,0) > 5)
+				if(face == RIGHT)
 				{
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
 					if(box.x+box.w > tile.x && box.x < tile.x)
 					{
 						box.x = tile.x-box.w-1;
@@ -266,12 +262,8 @@ bool Godofredo::NotifyTileCollision(Face face)
 						return true;
 					}
 				}
-			}
-			if(face == UPPER)
-			{
-				if(map->At(x,y,0) > 5)
+				if(face == UPPER)
 				{
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
 					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h)
 					{
 						box.y = tile.y+tile.h+1;
@@ -280,12 +272,8 @@ bool Godofredo::NotifyTileCollision(Face face)
 						return true;
 					}
 				}
-			}
-			if(face == BOTTOM)
-			{
-				if(map->At(x,y,0) > 5)
+				if(face == BOTTOM)
 				{
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
 					if(box.y+box.h > tile.y && box.y < tile.y)
 					{
 						box.y = tile.y-box.h-1;
@@ -302,7 +290,6 @@ bool Godofredo::NotifyTileCollision(Face face)
 			{
 				if(map->At(x,y,1) == 0)
 				{
-					Rect tile = Rect(x*map->GetTileWidth(), y*map->GetTileHeight(), map->GetTileWidth(), map->GetTileHeight());
 					if(((box.x+box.w >= tile.x) && (box.x <= tile.x+tile.w))
 					   && ((box.y+box.h >= tile.y) && (box.y <= tile.y+tile.h)))
 					{
@@ -311,7 +298,7 @@ bool Godofredo::NotifyTileCollision(Face face)
 						return true;
 					}
 				}
-			}	
+			}
 		}
 	}
 

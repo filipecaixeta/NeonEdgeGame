@@ -71,8 +71,8 @@ void Camera::Update(float dt) {
 			else
 				pos.y += speed.y*dt;
 		}
-        clamp(pos.x,0,maxPos.x-w);
-        clamp(pos.y,0,maxPos.y-h);
+		clamp(pos.x,0.0f,maxPos.x-w);
+		clamp(pos.y,0.0f,maxPos.y-h);
 	}
 }
 

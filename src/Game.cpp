@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include <iostream>
+#include <menu/MainMenu.h>
 
 Game* Game::instance = nullptr;
 
@@ -62,7 +63,7 @@ Game::Game(std::string title) {
     setFullScreen(false);
 
 	storedState = nullptr;
-    AddState(new MainMenuState());
+	AddState(new MainMenu());
 }
 
 Game::~Game() {
@@ -98,12 +99,19 @@ State* Game::GetCurrentState() {
 	return storedState;
 }
 
+void Game::UpdateState()
+{
+	storedState = stateStack.top();
+	storedState->LoadAssets();
+}
+
 void Game::AddState(State* state) {
 	stateStack.emplace(state);
 }
 
 void Game::RemoveState() {
 	stateStack.pop();
+	delete storedState;
 }
 
 void Game::CalculateDeltaTime() {
@@ -169,7 +177,10 @@ void Game::Run() {
 	storedState = stateStack.top();
 	storedState->LoadAssets();
 	while(!InputManager::GetInstance().QuitRequested()) {
-		while(!storedState->QuitRequested() && !InputManager::GetInstance().QuitRequested()) {
+		while(storedState->QuitRequested() == false &&
+			  InputManager::GetInstance().QuitRequested() == false &&
+			  storedState == stateStack.top())
+		{
 			CalculateDeltaTime();
 			if(SDL_RenderClear(renderer))
 				printf("SDL_RenderClear failed: %s\n", SDL_GetError());
@@ -179,12 +190,16 @@ void Game::Run() {
 			SDL_RenderPresent(renderer);
 			SDL_Delay(33);
 		}
-		if(storedState->QuitRequested()) {
-            if (stateStack.size()==0)
-                break;
-            delete storedState;
+		if (storedState != stateStack.top())
+		{
+			UpdateState();
+		}
+		else if(storedState->QuitRequested())
+		{
+			RemoveState();
+			if (stateStack.size()==0)
+				break;
 			storedState = stateStack.top();
-            storedState->LoadAssets();
 		}
 	}
 }

@@ -2,9 +2,11 @@
 #include "Game.h"
 
 std::unordered_map<std::string, SDL_Texture*> Resources::imageTable = std::unordered_map<std::string, SDL_Texture*>();
+std::unordered_map<std::string, SDL_Surface*> Resources::surfaceTable = std::unordered_map<std::string, SDL_Surface*>();
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable = std::unordered_map<std::string, Mix_Music*>();
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable = std::unordered_map<std::string, Mix_Chunk*>();
 std::unordered_map<std::string, TTF_Font*> Resources::fontTable = std::unordered_map<std::string, TTF_Font*>();
+std::unordered_map<std::string, SDL_Texture*> Resources::textTable = std::unordered_map<std::string, SDL_Texture*>();
 
 std::string Resources::BASENAME = "resources/";
 std::string Resources::BASENAME_IMAGE = "resources/img/";
@@ -12,29 +14,55 @@ std::string Resources::BASENAME_MUSIC = "resources/audio/";
 std::string Resources::BASENAME_SOUND = "resources/audio/";
 std::string Resources::BASENAME_FONT = "resources/font/";
 
-SDL_Texture* Resources::GetImage(std::string file,bool forceDuplicate=false) {
-    std::string fileKey = file;
-    if (forceDuplicate)
-        while(imageTable.count(fileKey))
-            fileKey += "*";
-    if(!imageTable.count(fileKey))
-        imageTable.emplace(fileKey, IMG_LoadTexture(Game::GetInstance().GetRenderer(), (Resources::BASENAME_IMAGE+file).c_str()));
-    if(imageTable.at(fileKey) == nullptr) {
-		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
-        exit(EXIT_FAILURE);
+SDL_Texture* Resources::GetImage(std::string file,bool forceDuplicate=false)
+{
+	std::string fileKey = file;
+	if (forceDuplicate)
+		while(imageTable.count(fileKey))
+			fileKey += "*";
+	if(!imageTable.count(fileKey))
+	{
+		if(surfaceTable.count(file))
+			imageTable.emplace(fileKey, SDL_CreateTextureFromSurface(Game::GetInstance().GetRenderer(), surfaceTable[file]));
+		else
+			imageTable.emplace(fileKey, IMG_LoadTexture(Game::GetInstance().GetRenderer(), (Resources::BASENAME_IMAGE+file).c_str()));
 	}
-    return imageTable.at(fileKey);
+	if(imageTable.at(fileKey) == nullptr) {
+		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	return imageTable.at(fileKey);
 }
 
-void Resources::ClearImages() {
+void Resources::ClearImages()
+{
 	for(auto& i: imageTable)
 		SDL_DestroyTexture(i.second);
 	imageTable.clear();
 }
 
-Mix_Music* Resources::GetMusic(std::string file) {
+SDL_Surface *Resources::GetSurface(std::string file)
+{
+	if(!surfaceTable.count(file))
+		surfaceTable.emplace(file, IMG_Load((Resources::BASENAME_IMAGE+file).c_str()));
+	if(surfaceTable.at(file) == nullptr) {
+		printf("IMG_Load failed: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	return surfaceTable.at(file);
+}
+
+void Resources::ClearSurface()
+{
+	for(auto& i: surfaceTable)
+		SDL_FreeSurface(i.second);
+	surfaceTable.clear();
+}
+
+Mix_Music* Resources::GetMusic(std::string file)
+{
 	if(!musicTable.count(file))
-        musicTable.emplace(file, Mix_LoadMUS((Resources::BASENAME_MUSIC+file).c_str()));
+		musicTable.emplace(file, Mix_LoadMUS((Resources::BASENAME_MUSIC+file).c_str()));
 	if(musicTable.at(file) == nullptr) {
 		printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -42,15 +70,17 @@ Mix_Music* Resources::GetMusic(std::string file) {
 	return musicTable.at(file);
 }
 
-void Resources::ClearMusics() {
+void Resources::ClearMusics()
+{
 	for(auto& i: musicTable)
 		Mix_FreeMusic(i.second);
 	musicTable.clear();
 }
 
-Mix_Chunk* Resources::GetSound(std::string file) {
+Mix_Chunk* Resources::GetSound(std::string file)
+{
 	if(!soundTable.count(file))
-        soundTable.emplace(file, Mix_LoadWAV((Resources::BASENAME_SOUND+file).c_str()));
+		soundTable.emplace(file, Mix_LoadWAV((Resources::BASENAME_SOUND+file).c_str()));
 	if(soundTable.at(file) == nullptr) {
 		printf("Mix_LoadWAV failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
@@ -58,24 +88,65 @@ Mix_Chunk* Resources::GetSound(std::string file) {
 	return soundTable.at(file);
 }
 
-void Resources::ClearSounds() {
+void Resources::ClearSounds()
+{
 	for(auto& i: soundTable)
 		Mix_FreeChunk(i.second);
 	soundTable.clear();
 }
 
-TTF_Font* Resources::GetFont(std::string file, int fontSize) {
-	if(!fontTable.count(file))
-        fontTable.emplace(file, TTF_OpenFont((Resources::BASENAME_FONT+file).c_str(), fontSize));
-	if(fontTable.at(file) == nullptr) {
+
+TTF_Font* Resources::GetFont(std::string file, int fontSize)
+{
+	std::string key = file+std::to_string(fontSize);
+	if(!fontTable.count(key))
+		fontTable.emplace(key, TTF_OpenFont((Resources::BASENAME_FONT+file).c_str(), fontSize));
+	if(fontTable.at(key) == nullptr) {
 		printf("TTF_OpenFont failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	return fontTable.at(file);
+	return fontTable.at(key);
 }
 
-void Resources::ClearFonts() {
+void Resources::ClearFonts()
+{
 	for(auto& i: fontTable)
 		TTF_CloseFont(i.second);
 	fontTable.clear();
+}
+
+SDL_Texture *Resources::GetText(SDL_Renderer *renderer, std::string text, std::string font, int fontSize, SDL_Color textColor)
+{
+	std::string key = text+std::to_string(fontSize);
+	if(!textTable.count(key))
+	{
+		SDL_Surface* surf = TTF_RenderText_Blended( GetFont(font,fontSize), text.c_str(), textColor );
+		SDL_Texture *text = SDL_CreateTextureFromSurface( renderer, surf );
+		SDL_FreeSurface(surf);
+		textTable.emplace(key,text);
+	}
+	if(textTable.at(key) == nullptr)
+	{
+		printf("CreateText failed: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	return textTable.at(key);
+}
+
+SDL_Texture *Resources::GetText(std::string text,int fontSize)
+{
+	std::string key = text+std::to_string(fontSize);
+	if(!textTable.count(key) || textTable.at(key) == nullptr)
+	{
+		printf("Use CreateText to create %s\n",text.c_str());
+		exit(EXIT_FAILURE);
+	}
+	return textTable.at(key);
+}
+
+void Resources::ClearText()
+{
+	for(auto& i: textTable)
+		SDL_DestroyTexture(i.second);
+	textTable.clear();
 }

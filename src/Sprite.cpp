@@ -16,6 +16,17 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
 	Open(file,enableAlpha);
 }
 
+Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha)
+{
+	texture = tex;
+	Sprite::frameCount = frameCount;
+	Sprite::frameTime = frameTime;
+	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+	if(enableAlpha)
+		SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
+}
+
 Sprite::~Sprite() {
 	texture = nullptr;
 }
@@ -57,12 +68,22 @@ void Sprite::Render(int x, int y, float angle)
 	SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect, angle, nullptr, flipHorizontal);
 }
 
+void Sprite::Render(Vec2 pos, float angle)
+{
+	Render(pos.x,pos.y,angle);
+}
+
 void Sprite::SetClip(int x, int y, int w, int h)
 {
 	clipRect.x = x;
 	clipRect.y = y;
 	clipRect.w = w;
 	clipRect.h = h;
+}
+
+SDL_Rect Sprite::getClip()
+{
+	return clipRect;
 }
 
 void Sprite::SetScaleX(float scale)
@@ -75,7 +96,7 @@ void Sprite::SetScaleY(float scale)
 	scaleY = scale;
 }
 
-void Sprite::SetAlpha(float a)
+void Sprite::SetTransparency(float a)
 {
 	//a = (0.0,1.0)
 	clamp(a,0.0f,1.0f);
@@ -104,6 +125,16 @@ void Sprite::SetFrameTime(float frameTime)
 	Sprite::frameTime = frameTime;
 }
 
+void Sprite::SetBlending(bool b)
+{
+	SDL_SetTextureBlendMode(texture,b?SDL_BLENDMODE_BLEND:SDL_BLENDMODE_NONE);
+}
+
+void Sprite::SetTextureDebug(SDL_Texture *tex)
+{
+	texture = tex;
+}
+
 void Sprite::Mirror(bool m)
 {
 	flipHorizontal = m ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
@@ -119,9 +150,19 @@ int Sprite::GetHeight()
 	return height*scaleY;
 }
 
+Vec2 Sprite::GetSize()
+{
+	return Vec2(GetWidth(),GetHeight());
+}
+
 int Sprite::GetFrameCount()
 {
 	return frameCount;
+}
+
+bool Sprite::GetMirror()
+{
+	return flipHorizontal==SDL_FLIP_HORIZONTAL;
 }
 
 bool Sprite::IsOpen()

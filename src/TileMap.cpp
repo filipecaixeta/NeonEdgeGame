@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include <cstdio>
 
 TileMap::TileMap(std::string file, TileSet* tileSet) {
 	Load(file);
@@ -80,4 +81,18 @@ int TileMap::GetTileWidth() {
 
 int TileMap::GetTileHeight() {
 	return tileSet->GetTileHeight();
+}
+
+Rect TileMap::GetAABB(int x, int y)
+{
+	Rect box;
+	int tw = GetTileWidth();
+	int th = GetTileHeight();
+
+	box.x = x*tw;
+	box.w = tw;
+	box.y = y*th;
+	box.h = th;
+
+	return box;
 }

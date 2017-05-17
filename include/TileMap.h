@@ -1,8 +1,7 @@
 #ifndef TILEMAP_H_
 #define TILEMAP_H_
-#include <cstdio>
 #include "TileSet.h"
-#include <cstdio>
+#include <Rect.h>
 
 class TileMap {
 private:
@@ -25,6 +24,7 @@ public:
 	int GetDepth();
 	int GetTileWidth();
 	int GetTileHeight();
+	Rect GetAABB(int x,int y);
 };
 
 #endif /* TILEMAP_H_ */

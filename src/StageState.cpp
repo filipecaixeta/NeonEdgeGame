@@ -70,7 +70,7 @@ void StageState::LoadAssets() {
     bg.Open("LancelotRunning.png");
     bg.Open("notattack.png");
     bg.Open("healthBar.png");
-    bg.Open("stealthBar.png");
+	bg.Open("stealthBar.png");
     bg.Open("NotfredoRunning.png");
     bg.Open("NotfredoIdle.png");
     bg.Open("tileset3d2.png");
@@ -79,9 +79,9 @@ void StageState::LoadAssets() {
 
 void StageState::Update() {
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE))
+	{
 		quitRequested = true;
-		Game::GetInstance().RemoveState();
-        Game::GetInstance().AddState(new MainMenuState());
+	}
 	if(InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
 		if(paused)
 			Resume();
