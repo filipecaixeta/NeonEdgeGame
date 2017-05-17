@@ -8,8 +8,8 @@
 
 class GameObject {
 public:
-	enum Face : short int {UPPER, BOTTOM, LEFT, RIGHT, SPECIAL};
-	enum StateT : short int {NONE, MOVE_LEFT, MOVE_RIGHT};
+	enum Face : short int {UPPER, BOTTOM, LEFT, RIGHT, SPECIAL}
+;	enum StateT : short int {NONE, MOVE_LEFT, MOVE_RIGHT};
 	enum Status : short int {NORMAL, STUNNED};
 
 	std::unordered_map<std::string, Sprite*> sprites;

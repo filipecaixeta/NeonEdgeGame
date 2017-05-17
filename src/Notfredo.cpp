@@ -188,8 +188,6 @@ bool Notfredo::NotifyTileCollision(Face face)
 							speed.y = -0.46;
 						box.x = tile.x+tile.w+1;
 						speed.x = 0;
-						if(map->At(x,y,0) > 11)
-							Damage(1);
 						return true;
 					}
 				}
@@ -205,8 +203,6 @@ bool Notfredo::NotifyTileCollision(Face face)
 							speed.y = -0.46;
 						box.x = tile.x-box.w-1;
 						speed.x = 0;
-						if(map->At(x,y,0) > 11)
-							Damage(1);
 						return true;
 					}
 				}
@@ -219,8 +215,6 @@ bool Notfredo::NotifyTileCollision(Face face)
 					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h)
 					{
 						box.y = tile.y+tile.h+1;
-						if(map->At(x,y,0) > 11)
-							Damage(1);
 						return true;
 					}
 				}
@@ -234,8 +228,6 @@ bool Notfredo::NotifyTileCollision(Face face)
 					{
 						box.y = tile.y-box.h-1;
 						speed.y = 0.6;
-						if(map->At(x,y,0) > 11)
-							Damage(1);
 						return true;
 					}
 				}

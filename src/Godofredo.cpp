@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "SaveSystem.h"
 
 #define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 
@@ -80,7 +81,11 @@ void Godofredo::UpdateCommands(float dt)
 		AttackState(dt);
 
 	if(InputManager::GetInstance().IsKeyDown(SDLK_SPACE))
+	{
 		JumpState(dt);
+		Save("suamae.txt");
+		Load("suamae.txt");
+	}
 
 	if(InputManager::GetInstance().IsKeyDown(SDLK_s))
 		InvisibleState(dt);
@@ -125,6 +130,7 @@ void Godofredo::UpdateSprite(std::string sprite)
 		box.w = sp->GetWidth();
 		box.h = sp->GetHeight();
 	}
+	healthBar.SetPercentage(hitpoints/10.0f);
 }
 
 void Godofredo::RunState(StateT s,float dt)
@@ -210,7 +216,6 @@ void Godofredo::Damage(int damage)
 	if(!invincibilityT.isRunning()) 
 	{
 		hitpoints -= (damage-defense);
-		healthBar.SetPercentage(hitpoints/10.0f);
 		invincibilityT.Start();
 	}
 }
