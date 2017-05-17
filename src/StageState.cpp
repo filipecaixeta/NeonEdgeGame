@@ -91,7 +91,7 @@ void StageState::Update() {
 
 	//Teste do sistema de janelas
 	if(InputManager::GetInstance().KeyPress(SDLK_j)){
-		AddWindow(new DialogWindow(896, 896, 1024, 1024));
+		AddWindow(new DialogWindow(896, 896, 1024, 1024, "Teste de dialogo."));
 	}
 
 	if(!paused){
