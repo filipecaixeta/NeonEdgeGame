@@ -3,7 +3,7 @@
   
 void Save(std::string fileName)
 {
-  Update();
+//  Update();
   std::fstream fs;
   fs.open(fileName, std::fstream::out | std::fstream::trunc);
   fs.write((char*)&data, sizeof(data));

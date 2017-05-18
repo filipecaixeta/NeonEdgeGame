@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "DialogWindow.h"
+#include <SaveComponent.h>
 
 TileMap* StageState::tileMap;
 std::vector<std::unique_ptr<GameObject>> StageState::objectArray;
@@ -11,6 +12,9 @@ std::vector<std::unique_ptr<Window>> StageState::windowArray;
 StageState::StageState() 
 {
 	srand(time(NULL));
+
+	SaveComponent _("teste.txt");
+
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),

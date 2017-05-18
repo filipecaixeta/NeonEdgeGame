@@ -3,25 +3,20 @@
 
 #include "Attack.h"
 #include <LoadingBar.h>
+#include <InputComponent.h>
+#include <GraphicsComponent.h>
+#include <PhysicsComponent.h>
+#include <SaveComponent.h>
 
 class Godofredo : public GameObject{
-private:
-//	Sprite healthBar;
+public:
 	LoadingBar healthBar;
 	Sprite stealthBar;
-
-	bool jumping = false;
-	int jumpingPower = 0;
-
-	int wallJumping = 0;
-	int lastWallJumping = 0;
 
 	bool hidden = false;
 	Timer hiddenT;
 
-	void RunState(StateT s, float dt);
 	void AttackState(float dt);
-	void JumpState(float dt);
 	void InvisibleState(float dt);
 
 public:
@@ -32,16 +27,18 @@ public:
 	void Update(float dt);
 	void UpdateTimers(float dt);
 	void UpdateCommands(float dt);
-	void UpdatePosition(float dt);
-	void UpdateSprite(std::string sprite);
 	void Render();
 	void Damage(int damage);
-	bool NotifyTileCollision(Face face);
 	void NotifyCollision(GameObject* other);
 	bool Is(std::string type);
 	bool IsHidden();
 	bool IsDead();
 	Godofredo* get();
+
+	InputComponent inputComponent;
+	GraphicsComponent graphicsComponent;
+	PhysicsComponent physicsComponent;
+	SaveComponent &saveComponent;
 };
 
 #endif /* GODOFREDO_H_ */

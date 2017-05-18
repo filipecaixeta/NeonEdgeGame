@@ -37,7 +37,7 @@ void TileMap::Load(std::string file) {
 			fgets(n, 3, fileReader);
 		}
 	}else{
-		printf("Unable to read %s", file.c_str());
+		std::cerr << "Unable to read " << file.c_str() << std::endl;
 	}
 	fclose(fileReader);
 }
@@ -47,6 +47,8 @@ void TileMap::SetTileSet(TileSet* tileSet) {
 }
 
 int& TileMap::At(int x, int y, int z) {
+	if (x<0 || y<0 || x>=mapWidth || y>=mapHeight)
+		std::cerr << "Tile.at("<<x<<","<<y<<","<<z<<") fora das dimensoes do mapa" <<std::endl;
 	return tileMatrix[z][y][x];
 }
 
@@ -71,6 +73,10 @@ int TileMap::GetHeight() {
 	return mapHeight;
 }
 
+Vec2 TileMap::GetSize() {
+	return Vec2(GetWidth(),GetHeight());
+}
+
 int TileMap::GetDepth() {
 	return mapDepth;
 }
@@ -81,6 +87,10 @@ int TileMap::GetTileWidth() {
 
 int TileMap::GetTileHeight() {
 	return tileSet->GetTileHeight();
+}
+
+Vec2 TileMap::GetTileSize() {
+	return Vec2(GetTileWidth(),GetTileHeight());
 }
 
 Rect TileMap::GetAABB(int x, int y)
