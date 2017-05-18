@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "Sprite.h"
+#include "Resources.h"
 #include "Button.h"
 #include "Text.h"
 #include <string>
@@ -15,7 +16,11 @@ public:
 
 private:
 	void RenderPiece(int posx, int posy, int x, int y, int w, int h);
-	Text dialog;
+	SDL_Texture *text;
+	Sprite *dialog;
+	SDL_Color fontColor = {255,255,255,255};
+	int fontSize = 12;
+	std::string fontName;
 	Button okay;
 };
 

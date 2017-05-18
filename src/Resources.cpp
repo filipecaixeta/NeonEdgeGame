@@ -98,7 +98,9 @@ void Resources::ClearSounds()
 
 TTF_Font* Resources::GetFont(std::string file, int fontSize)
 {
-	std::string key = file+std::to_string(fontSize);
+	char vetor[5];
+	sprintf(vetor, "%d", fontSize);
+	std::string key = file+vetor;
 	if(!fontTable.count(key))
 		fontTable.emplace(key, TTF_OpenFont((Resources::BASENAME_FONT+file).c_str(), fontSize));
 	if(fontTable.at(key) == nullptr) {
@@ -117,7 +119,9 @@ void Resources::ClearFonts()
 
 SDL_Texture *Resources::GetText(SDL_Renderer *renderer, std::string text, std::string font, int fontSize, SDL_Color textColor)
 {
-	std::string key = text+std::to_string(fontSize);
+	char vetor[5];
+	sprintf(vetor, "%d", fontSize);
+	std::string key = text+vetor;
 	if(!textTable.count(key))
 	{
 		SDL_Surface* surf = TTF_RenderText_Blended( GetFont(font,fontSize), text.c_str(), textColor );
@@ -135,7 +139,9 @@ SDL_Texture *Resources::GetText(SDL_Renderer *renderer, std::string text, std::s
 
 SDL_Texture *Resources::GetText(std::string text,int fontSize)
 {
-	std::string key = text+std::to_string(fontSize);
+	char vetor[5];
+	sprintf(vetor, "%d", fontSize);
+	std::string key = text+vetor;
 	if(!textTable.count(key) || textTable.at(key) == nullptr)
 	{
 		printf("Use CreateText to create %s\n",text.c_str());
