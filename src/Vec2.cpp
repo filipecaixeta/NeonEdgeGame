@@ -35,7 +35,12 @@ float Vec2::GetDS(Vec2 pos) {
  }
 
  Vec2 Vec2::operator*(const float rhs) const {
-     return Vec2(x * rhs, y * rhs);
+	 return Vec2(x * rhs, y * rhs);
+ }
+
+ Vec2 Vec2::operator/(const float v) const
+ {
+	 return Vec2(x/v,y/v);
  }
 
  float Vec2::dot(const Vec2 &v1)
