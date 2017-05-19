@@ -2,7 +2,6 @@
 #define GODOFREDO_H_
 
 #include "Attack.h"
-#include <LoadingBar.h>
 #include <InputComponent.h>
 #include <GraphicsComponent.h>
 #include <PhysicsComponent.h>
@@ -10,7 +9,6 @@
 
 class Godofredo : public GameObject{
 public:
-	LoadingBar healthBar;
 	Sprite stealthBar;
 
 	bool hidden = false;

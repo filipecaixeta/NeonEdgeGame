@@ -9,7 +9,6 @@
 Godofredo* Godofredo::player = nullptr;
 
 Godofredo::Godofredo(int x, int y):
-	healthBar("healthBar2.png",5,15,10),
 	inputComponent(),
 	graphicsComponent("Lancelot"),
 	physicsComponent(),
@@ -34,7 +33,6 @@ Godofredo::Godofredo(int x, int y):
 
 	facing = RIGHT;
 
-	healthBar.SetPercentage(1.0f);
 	stealthBar = Sprite("stealthBar.png", 11);
 	stealthBar.SetFrameNormalized(0.0f);
 
@@ -108,7 +106,6 @@ void Godofredo::InvisibleState(float dt)
 void Godofredo::Render()
 {
 	graphicsComponent.Render(GetPosition()-Camera::GetInstance().pos);
-	healthBar.Render(5, 5);
 	stealthBar.Render(5, 10+stealthBar.GetHeight());
 }
 

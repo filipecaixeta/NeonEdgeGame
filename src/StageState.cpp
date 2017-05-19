@@ -5,22 +5,23 @@
 #include "DialogWindow.h"
 #include <SaveComponent.h>
 
+
 TileMap* StageState::tileMap;
-std::vector<std::unique_ptr<GameObject>> StageState::objectArray;
+std::vector<GameObject*> StageState::objectArray;
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
 
-StageState::StageState() 
+StageState::StageState():
+	healthBar("healthBar2.png",5,15,10)
 {
 	srand(time(NULL));
-
 	SaveComponent _("teste.txt");
 
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 										tileMap->GetHeight()*tileMap->GetTileHeight());
-	objectArray = std::vector<std::unique_ptr<GameObject>>();
-	AddObject(new Godofredo(200, 1000));
+	player = new Godofredo(200, 1000);
+	AddObject(player);
 	AddObject(new Notfredo(800, 1280));
 	Camera::GetInstance().Follow(Godofredo::player);
 }
@@ -46,7 +47,8 @@ void StageState::AddObjectAsFirst(GameObject* ptr)
 void StageState::RemoveObject(GameObject* ptr)
 {
 	for(unsigned i = 0; i < objectArray.size(); i++) {
-		if(ptr == objectArray.at(i)->get()) {
+		if(ptr == objectArray[i]) {
+			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}
@@ -122,28 +124,31 @@ void StageState::Update()
 		{
 			for(unsigned j = i+1; j < objectArray.size(); j++)
 			{
-				if(objectArray.at(j)->get()->Is("Animation"))
+				if(objectArray.at(j)->Is("Animation"))
 				{
 
 				}
-				else if(IsColliding(objectArray.at(i)->get()->box, objectArray.at(j)->get()->box))
+				else if(IsColliding(objectArray.at(i)->box, objectArray.at(j)->box))
 				{
-					objectArray.at(i)->get()->NotifyCollision(objectArray.at(j)->get());
-					objectArray.at(j)->get()->NotifyCollision(objectArray.at(i)->get());
+					objectArray.at(i)->NotifyCollision(objectArray.at(j));
+					objectArray.at(j)->NotifyCollision(objectArray.at(i));
 				}
 			}
 		}
 		for(unsigned i = 0; i < objectArray.size(); i++)
 		{
-			if(objectArray.at(i)->get()->IsDead())
+			if(objectArray.at(i)->IsDead())
 			{
-				if(objectArray.at(i)->get() == Camera::GetInstance().GetFocus())
+				if(objectArray.at(i) == Camera::GetInstance().GetFocus())
 				{
 					Camera::GetInstance().Unfollow();
 				}
 				objectArray.erase(objectArray.begin()+i);
 			}
 		}
+
+		healthBar.SetPercentage(player->hitpoints/10.0);
+
 		Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
 	}
 }
@@ -155,6 +160,7 @@ void StageState::Render() {
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	healthBar.Render(10,10);
 }
 
 bool StageState::QuitRequested()

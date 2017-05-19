@@ -5,6 +5,7 @@
 #include "Godofredo.h"
 #include "Notfredo.h"
 #include "Window.h"
+#include <LoadingBar.h>
 
 class StageState : public State {
 private:
@@ -12,8 +13,10 @@ private:
 	bool paused = false;
 
 	static TileMap* tileMap;
-	static std::vector<std::unique_ptr<GameObject>> objectArray;
+	static std::vector<GameObject*> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
+	GameObject *player;
+	LoadingBar healthBar;
 
 public:
 	StageState();
