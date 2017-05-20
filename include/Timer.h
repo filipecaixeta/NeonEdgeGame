@@ -22,8 +22,8 @@ public:
     void Stop();
 	void Update(float dt);
 	void SetLimit(float l);
-	bool isRunning();
-	float getElapsed();
+	bool IsRunning();
+	float GetElapsed();
 };
 
 #endif /* TIMER_H_ */

@@ -36,7 +36,7 @@ void MainMenuState::Update() {
         bool fs = Game::GetInstance().isFullScreen();
         Game::GetInstance().setFullScreen(!fs);
     }
-	if(bgTimer.isRunning()) {
+	if(bgTimer.IsRunning()) {
 		bgTimer.Update(Game::GetInstance().GetDeltaTime());
 	}else{
 		bgTimer.Start();

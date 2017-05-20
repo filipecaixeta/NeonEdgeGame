@@ -1,46 +1,52 @@
 #include "GameObject.h"
 
-GameObject::~GameObject() {
-
-}
-
-void GameObject::UpdateTimers(float dt)
+GameObject::~GameObject()
 {
 
 }
 
-void GameObject::UpdatePosition(float dt)
+GameObject* GameObject::Get()
 {
-
-}
-
-bool GameObject::NotifyTileCollision(GameObject::Face face)
-{
-
-}
-
-void GameObject::NotifyCollision(GameObject* other) {
-
-}
-
-bool GameObject::Is(std::string type) {
-	return true;
-}
-
-bool GameObject::IsDead() {
-	return true;
-}
-
-GameObject* GameObject::get() {
 	return this;
+}
+
+bool GameObject::Is(std::string type)
+{
+	return (type == name);
+}
+
+bool GameObject::IsDead()
+{
+	return false;
 }
 
 Vec2 GameObject::GetPosition()
 {
-	return box.GetXY();
+	return Vec2(box.x, box.y);
 }
 
-void GameObject::SetPosition(Vec2 position)
+void GameObject::SetPosition(Vec2 pos)
 {
-	box.SetXY(position);
+	box.x = pos.x;
+	box.y = pos.y;
+}
+
+void GameObject::NotifyTileCollision(int tile, Face face)
+{
+
+}
+
+void GameObject::NotifyObjectCollision(GameObject* other)
+{
+
+}
+
+void GameObject::Update(float dt)
+{
+
+}
+
+void GameObject::Render()
+{
+
 }

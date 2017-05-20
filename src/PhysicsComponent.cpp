@@ -1,163 +1,113 @@
-#include <PhysicsComponent.h>
-#include <TileMap.h>
-#include <Rect.h>
-#include <Vec2.h>
-#include <StageState.h>
+#include "PhysicsComponent.h"
+#include "Vec2.h"
+#include "Rect.h"
+#include "TileMap.h"
+#include "StageState.h"
 
 PhysicsComponent::PhysicsComponent()
 {
 
 }
 
-void PhysicsComponent::Update(GameObject *obj, float dt)
+void PhysicsComponent::Update(GameObject* obj, float dt)
 {
-	Vec2 position;
-	Vec2 speed;
-
 	//Gravidade
 	obj->speed.y += 0.002*dt;
 	clamp(obj->speed.y,-1.8f,1.8f);
 
-	position = obj->GetPosition();
-	speed = obj->speed;
-	position.x += speed.x*dt;
-	obj->SetPosition(position);
-	MapColisionX(obj);
+	obj->box.x += obj->speed.x*dt;
+	if(obj->speed.x < 0)
+		obj->NotifyTileCollision(TileCollision(obj, GameObject::LEFT), GameObject::LEFT);
+	else
+		obj->NotifyTileCollision(TileCollision(obj, GameObject::RIGHT), GameObject::RIGHT);
 
-	position = obj->GetPosition();
-	speed = obj->speed;
-	position.y += speed.y*dt;
-	obj->SetPosition(position);
-	MapColisionY(obj);
-}
-
-bool PhysicsComponent::MapColisionX(GameObject *obj)
-{
-	Vec2 speed = obj->speed;
-	TileMap* map = StageState::GetTileMap();
-	Rect colisionBox = obj->box;
-	colisionBox.SetXY(colisionBox.GetXY()+Vec2(1.0f,1.0f));
-	colisionBox.SetWH(colisionBox.GetWH()-Vec2(2.0f,2.0f));
-
-	int minX = colisionBox.x/map->GetTileWidth();
-	int minY = colisionBox.y/map->GetTileHeight();
-	int maxX = (colisionBox.x+colisionBox.w)/map->GetTileWidth();
-	int maxY = (colisionBox.y+colisionBox.h)/map->GetTileHeight();
-	clamp(minX,0,map->GetWidth());
-	clamp(minY,0,map->GetHeight());
-	clamp(maxX,0,map->GetWidth());
-	clamp(maxY,0,map->GetHeight());
-
-	for(int x = minX; x <= maxX; x++)
+	if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
 	{
-		for(int y = minY; y <= maxY; y++)
-		{
-			Rect tile = map->GetAABB(x,y);
-			if(map->At(x,y,0) > 5)
-			{
-				if(speed.x<=0)
-				{
-					if(colisionBox.x < tile.x+tile.w && colisionBox.x+colisionBox.w > tile.x+tile.w)
-					{
-						colisionBox.x = tile.x+tile.w+1;
-						Vec2 box = obj->GetPosition();
-						box.x = colisionBox.x-1;
-						obj->SetPosition(box);
-						obj->speed.x = 0;
-	//					if(map->At(x,y,0) > 11)
-	//						Damage(1);
-	//					if(jumping)
-	//					{
-	//						if(lastWallJumping != 1)
-	//							jumping = false;
-	//						wallJumping = 1;
-	//					}
-						return true;
-					}
-				}
-				else
-				{
-					if(colisionBox.x+colisionBox.w > tile.x && colisionBox.x < tile.x)
-					{
-						colisionBox.x = tile.x-colisionBox.w-1;
-						Vec2 box = obj->GetPosition();
-						box.x = colisionBox.x-1;
-						obj->SetPosition(box);
-						obj->speed.x = 0;
-	//					if(map->At(x,y,0) > 11)
-	//						Damage(1);
-	//					if(jumping)
-	//					{
-	//						if(lastWallJumping != 2)
-	//							jumping = false;
-	//						wallJumping = 2;
-	//					}
-						return true;
-					}
-				}
-
-			}
-		}
+		obj->speed.y -= 0.001*dt;
 	}
+	obj->box.y += obj->speed.y*dt;
+	if(obj->speed.y < 0)
+		obj->NotifyTileCollision(TileCollision(obj, GameObject::UPPER), GameObject::UPPER);
+	else
+		obj->NotifyTileCollision(TileCollision(obj, GameObject::BOTTOM), GameObject::BOTTOM);
 }
 
-bool PhysicsComponent::MapColisionY(GameObject *obj)
+int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 {
-	Vec2 speed = obj->speed;
-	TileMap* map = StageState::GetTileMap();
-	Rect colisionBox = obj->box;
-	colisionBox.SetXY(colisionBox.GetXY()+Vec2(1.0f,1.0f));
-	colisionBox.SetWH(colisionBox.GetWH()-Vec2(2.0f,2.0f));
+	if((face == GameObject::LEFT || face == GameObject::RIGHT) || 
+	   (obj->footing != GameObject::LEFT_WALLED && obj->footing != GameObject::RIGHT_WALLED))
+	{
+		obj->footing = GameObject::AIRBORNE;
+	}
 
-	int minX = colisionBox.x/map->GetTileWidth();
-	int minY = colisionBox.y/map->GetTileHeight();
-	int maxX = (colisionBox.x+colisionBox.w)/map->GetTileWidth();
-	int maxY = (colisionBox.y+colisionBox.h)/map->GetTileHeight();
-	clamp(minX,0,map->GetWidth());
-	clamp(minY,0,map->GetHeight());
-	clamp(maxX,0,map->GetWidth());
-	clamp(maxY,0,map->GetHeight());
+	TileMap* map = StageState::GetTileMap();
+	Rect box = obj->box;
+	box.SetXY(box.GetXY()+Vec2(1.0f,1.0f));
+	box.SetWH(box.GetWH()-Vec2(2.0f,2.0f));
+
+	int minX = box.x/map->GetTileWidth();
+	int minY = box.y/map->GetTileHeight();
+	int maxX = (box.x+box.w)/map->GetTileWidth();
+	int maxY = (box.y+box.h)/map->GetTileHeight();
+	clamp(minX,0,map->GetWidth()-1);
+	clamp(minY,0,map->GetHeight()-1);
+	clamp(maxX,0,map->GetWidth()-1);
+	clamp(maxY,0,map->GetHeight()-1);
 
 	for(int x = minX; x <= maxX; x++)
 	{
 		for(int y = minY; y <= maxY; y++)
 		{
-			Rect tile = map->GetAABB(x,y);
-			if(map->At(x,y,0) > 5)
+			if(map->At(x,y,0) >= SOLID_TILE)
 			{
-				//Cima
-				if(speed.y<=0)
+				Rect tile = map->GetTileBox(x,y);
+				if(face == GameObject::LEFT)
 				{
-					if(colisionBox.y < tile.y+tile.h && colisionBox.y+colisionBox.h > tile.y+tile.h)
+					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
 					{
-						colisionBox.y = tile.y+tile.h+1;
-						Vec2 box = obj->GetPosition();
-						box.y = colisionBox.y-1;
-						obj->SetPosition(box);
+						box.x = tile.x+tile.w+2;
+						obj->box.x = box.x;
+						obj->footing = GameObject::LEFT_WALLED;
+						return map->At(x,y,0);
+					}
+				}
+				else if(face == GameObject::RIGHT)
+				{
+					if(box.x+box.w > tile.x && box.x < tile.x)
+					{
+						box.x = tile.x-box.w-2;
+						obj->box.x = box.x;
+						obj->footing = GameObject::RIGHT_WALLED;
+						return map->At(x,y,0);
+					}
+				}
+				else if(face == GameObject::UPPER)
+				{
+					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h)
+					{
+						box.y = tile.y+tile.h+2;
+						obj->box.y = box.y;
 						obj->speed.y = 0;
-//						if(map->At(x,y,0) > 11)
-//							Damage(1);
-						return true;
+						return map->At(x,y,0);
 					}
 				}
-				//Baixo
-				else
+				else if(face == GameObject::BOTTOM)
 				{
-					if(colisionBox.y+colisionBox.h > tile.y && colisionBox.y < tile.y)
+					if(box.y+box.h > tile.y && box.y < tile.y)
 					{
-						colisionBox.y = tile.y-colisionBox.h-1;
-						Vec2 box = obj->GetPosition();
-						box.y = colisionBox.y-1;
-						obj->SetPosition(box);
+						box.y = tile.y-box.h-2;
+						obj->box.y = box.y;
 						obj->speed.y = 0.6;
-						obj->wallJumping = 0;
+						if(obj->lastFooting != GameObject::GROUNDED)
+							obj->lastFooting = obj->footing;
+						obj->footing = GameObject::GROUNDED;
 						obj->jumping = false;
-//						if(map->At(x,y,0) > 11)
-//							Damage(1);
-						return true;
+						return map->At(x,y,0);
 					}
 				}
 			}
 		}
 	}
+
+	return 0;
 }

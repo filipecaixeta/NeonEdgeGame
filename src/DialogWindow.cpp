@@ -22,13 +22,14 @@ void DialogWindow::Update(float dt){
 }
 
 void DialogWindow::Render(int cameraX, int cameraY){
-<<<<<<< HEAD
 	std::cout << "renderizou a DialogWindow\n";
 	int sizex = (box.w - box.x)/WINDOWPIECE;
 	int sizey = (box.h - box.y)/WINDOWPIECE;
 
-	for(int i = 0; i < sizex; i++){
-		for(int j = 0; j < sizey; j++){
+	for(int i = 0; i < sizex; i++)
+	{
+		for(int j = 0; j < sizey; j++)
+		{
 			if(i == 0 && j == 0)
 				Window::RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 0, 0, 32, 32);
 			else if(i == 0 && j == sizey - 1)
@@ -49,10 +50,6 @@ void DialogWindow::Render(int cameraX, int cameraY){
 				Window::RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 16, 16, 48, 48);
 		}
 	}
+
 	dialog->Render(box.x - cameraX, box.y - cameraY);
 }
-=======
-	Window::Render();
-	dialog.Render(cameraX, cameraY);
-}
->>>>>>> 599868f7d9288672d8ada7b5fca498b3316426da

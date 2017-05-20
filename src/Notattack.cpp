@@ -52,16 +52,6 @@ void Notattack::Render()
 	sp->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
 }
 
-bool Notattack::NotifyTileCollision(Face face)
-{
-	return false;
-}
-
-void Notattack::NotifyCollision(GameObject* other)
-{
-
-}
-
 bool Notattack::Is(std::string type)
 {
 	return (type == "Notattack");
@@ -69,10 +59,10 @@ bool Notattack::Is(std::string type)
 
 bool Notattack::IsDead()
 {
-	return (!lifetime.isRunning());
+	return (!lifetime.IsRunning());
 }
 
-Notattack* Notattack::get()
+Notattack* Notattack::Get()
 {
 	return this;
 }

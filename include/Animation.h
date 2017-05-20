@@ -2,9 +2,13 @@
 #define ANIMATION_H_
 
 #include "GameObject.h"
+#include "Sprite.h"
+#include "Timer.h"
 
-class Animation : public GameObject {
+class Animation : public GameObject
+{
 private:
+	Sprite* sp;
 	Timer endTimer;
 	float timeLimit;
 	bool oneTimeOnly;
@@ -14,10 +18,9 @@ public:
 	~Animation();
 	void Update(float dt);
 	void Render();
-	void NotifyCollision(GameObject* other);
 	bool Is(std::string type);
 	bool IsDead();
-	Animation* get();
+	Animation* Get();
 };
 
 #endif /* ANIMATION_H_ */

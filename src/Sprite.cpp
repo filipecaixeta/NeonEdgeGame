@@ -127,7 +127,7 @@ void Sprite::SetFrameTime(float frameTime)
 
 void Sprite::SetBlending(bool b)
 {
-	SDL_SetTextureBlendMode(texture,b?SDL_BLENDMODE_BLEND:SDL_BLENDMODE_NONE);
+	SDL_SetTextureBlendMode(texture, b ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 }
 
 void Sprite::SetTextureDebug(SDL_Texture *tex)
@@ -152,7 +152,7 @@ int Sprite::GetHeight()
 
 Vec2 Sprite::GetSize()
 {
-	return Vec2(GetWidth(),GetHeight());
+	return Vec2(GetWidth(), GetHeight());
 }
 
 int Sprite::GetFrameCount()
