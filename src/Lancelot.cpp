@@ -29,6 +29,11 @@ bool Lancelot::IsDead()
 	return (hitpoints < 1);
 }
 
+int Lancelot::GetHealth()
+{
+	return hitpoints;
+}
+
 void Lancelot::Damage(int damage)
 {
 	if(!invincibilityTimer.IsRunning()) 

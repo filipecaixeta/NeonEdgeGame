@@ -29,6 +29,11 @@ bool Gallahad::IsDead()
 	return (hitpoints < 1);
 }
 
+int Gallahad::GetHealth()
+{
+	return hitpoints;
+}
+
 void Gallahad::Damage(int damage)
 {
 	if(!invincibilityTimer.IsRunning()) 

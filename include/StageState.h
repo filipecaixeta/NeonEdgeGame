@@ -6,6 +6,7 @@
 #include "Gallahad.h"
 #include "Notfredo.h"
 #include "Window.h"
+#include <LoadingBar.h>
 
 class StageState : public State {
 private:
@@ -16,6 +17,7 @@ private:
 	static GameObject* player;
 	static std::vector<std::unique_ptr<GameObject>> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
+	LoadingBar healthBar;
 
 public:
 	

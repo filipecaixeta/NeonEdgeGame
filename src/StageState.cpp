@@ -5,15 +5,16 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 
+
 TileMap* StageState::tileMap;
 GameObject* StageState::player = nullptr;
 std::vector<std::unique_ptr<GameObject>> StageState::objectArray = std::vector<std::unique_ptr<GameObject>>();
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
 
-StageState::StageState() 
+StageState::StageState():
+	healthBar("healthBar2.png",5,15,10)
 {
 	srand(time(NULL));
-
 	SaveComponent _("teste.txt");
 
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
@@ -57,8 +58,10 @@ void StageState::AddObjectAsFirst(GameObject* ptr)
 
 void StageState::RemoveObject(GameObject* ptr)
 {
-	for(unsigned i = 0; i < objectArray.size(); i++) {
-		if(ptr == objectArray.at(i)->Get()) {
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		if(ptr == objectArray.at(i)->Get())
+		{
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}
@@ -151,6 +154,13 @@ void StageState::Update()
 				objectArray.erase(objectArray.begin()+i);
 			}
 		}
+
+		Gallahad* p = (Gallahad*) player;
+		if(player)
+			healthBar.SetPercentage(p->GetHealth()/10.0);
+		else
+			healthBar.SetPercentage(0);
+
 		Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
 	}
 }
@@ -162,6 +172,7 @@ void StageState::Render() {
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	healthBar.Render(10,10);
 }
 
 bool StageState::QuitRequested()

@@ -23,6 +23,7 @@ public:
 	~Lancelot();
 	Lancelot* Get();
 	bool IsDead();
+	int GetHealth();
 	void Damage(int damage);
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
