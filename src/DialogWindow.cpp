@@ -25,8 +25,10 @@ void DialogWindow::Render(int cameraX, int cameraY){
 	int sizex = (box.w - box.x)/WINDOWPIECE;
 	int sizey = (box.h - box.y)/WINDOWPIECE;
 
-	for(int i = 0; i < sizex; i++){
-		for(int j = 0; j < sizey; j++){
+	for(int i = 0; i < sizex; i++)
+	{
+		for(int j = 0; j < sizey; j++)
+		{
 			if(i == 0 && j == 0)
 				Window::RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 0, 0, 32, 32);
 			else if(i == 0 && j == sizey - 1)

@@ -1,18 +1,22 @@
 #include "TileMap.h"
 #include <cstdio>
 
-TileMap::TileMap(std::string file, TileSet* tileSet) {
+TileMap::TileMap(std::string file, TileSet* tileSet)
+{
 	Load(file);
 	SetTileSet(tileSet);
 }
 
-TileMap::~TileMap() {
+TileMap::~TileMap()
+{
 	delete tileSet;
 }
 
-void TileMap::Load(std::string file) {
+void TileMap::Load(std::string file)
+{
 	std::FILE* fileReader = fopen(file.c_str(), "r");
-	if(fileReader != NULL) {
+	if(fileReader != NULL)
+	{
 		char n [2];
 		fgets(n, 3, fileReader);
 		mapWidth = atoi(n);
@@ -23,11 +27,14 @@ void TileMap::Load(std::string file) {
 		fgets(n, 3, fileReader);
 		mapDepth = atoi(n);
 		fgets(n, 2, fileReader);
-		for(int k = 0; k < mapDepth; k++) {
+		for(int k = 0; k < mapDepth; k++)
+		{
 			tileMatrix.emplace_back(std::vector<std::vector<int>>());
-			for(int j = 0; j < mapHeight; j++) {
+			for(int j = 0; j < mapHeight; j++)
+			{
 				tileMatrix[k].emplace_back(std::vector<int>());
-				for(int i = 0; i < mapWidth; i++) {
+				for(int i = 0; i < mapWidth; i++)
+				{
 					fgets(n, 2, fileReader);
 					fgets(n, 3, fileReader);
 					tileMatrix[k][j].emplace_back(atoi(n)-1);
@@ -36,19 +43,23 @@ void TileMap::Load(std::string file) {
 			}
 			fgets(n, 3, fileReader);
 		}
-	}else{
-		std::cerr << "Unable to read " << file.c_str() << std::endl;
+	}
+	else
+	{
+		std::cerr << "Unable to read" << file.c_str() << std::endl;
 	}
 	fclose(fileReader);
 }
 
-void TileMap::SetTileSet(TileSet* tileSet) {
+void TileMap::SetTileSet(TileSet* tileSet)
+{
 	TileMap::tileSet = tileSet;
 }
 
-int& TileMap::At(int x, int y, int z) {
-	if (x<0 || y<0 || x>=mapWidth || y>=mapHeight)
-		std::cerr << "Tile.at("<<x<<","<<y<<","<<z<<") fora das dimensoes do mapa" <<std::endl;
+int& TileMap::At(int x, int y, int z)
+{
+	//if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
+		//std::cerr << "Tile at (" << x << "," << y << "," << z << ") out of map boundaries" << std::endl;
 	return tileMatrix[z][y][x];
 }
 
@@ -60,49 +71,38 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	}
 }
 
-void TileMap::Render(int cameraX, int cameraY) {
+void TileMap::Render(int cameraX, int cameraY)
+{
 	for(int k = 0; k < mapDepth; k++)
 		RenderLayer(k, cameraX, cameraY);
 }
 
-int TileMap::GetWidth() {
+int TileMap::GetWidth()
+{
 	return mapWidth;
 }
 
-int TileMap::GetHeight() {
+int TileMap::GetHeight()
+{
 	return mapHeight;
 }
 
-Vec2 TileMap::GetSize() {
-	return Vec2(GetWidth(),GetHeight());
-}
-
-int TileMap::GetDepth() {
+int TileMap::GetDepth()
+{
 	return mapDepth;
 }
 
-int TileMap::GetTileWidth() {
+int TileMap::GetTileWidth()
+{
 	return tileSet->GetTileWidth();
 }
 
-int TileMap::GetTileHeight() {
+int TileMap::GetTileHeight()
+{
 	return tileSet->GetTileHeight();
 }
 
-Vec2 TileMap::GetTileSize() {
-	return Vec2(GetTileWidth(),GetTileHeight());
-}
-
-Rect TileMap::GetAABB(int x, int y)
+Rect TileMap::GetTileBox(int x, int y)
 {
-	Rect box;
-	int tw = GetTileWidth();
-	int th = GetTileHeight();
-
-	box.x = x*tw;
-	box.w = tw;
-	box.y = y*th;
-	box.h = th;
-
-	return box;
+	return Rect(x*GetTileWidth(), y*GetTileHeight(), GetTileWidth(), GetTileHeight());
 }

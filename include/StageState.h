@@ -2,7 +2,8 @@
 #define STAGESTATE_H_
 
 #include "State.h"
-#include "Godofredo.h"
+#include "Lancelot.h"
+#include "Gallahad.h"
 #include "Notfredo.h"
 #include "Window.h"
 #include <LoadingBar.h>
@@ -13,21 +14,24 @@ private:
 	bool paused = false;
 
 	static TileMap* tileMap;
-	static std::vector<GameObject*> objectArray;
+	static GameObject* player;
+	static std::vector<std::unique_ptr<GameObject>> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
-	GameObject *player;
 	LoadingBar healthBar;
 
 public:
+	
+
 	StageState();
 	~StageState();
 
+	static TileMap* GetTileMap();
+	static GameObject* GetPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
-	static bool IsColliding(Rect a, Rect b);
-	static TileMap* GetTileMap();
 	static void AddWindow(Window* ptr);
+	static bool IsColliding(Rect a, Rect b);
 
 	void Pause();
 	void Resume();

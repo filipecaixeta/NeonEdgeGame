@@ -1,36 +1,35 @@
-#ifndef NOTFREDO_H_
-#define NOTFREDO_H_
+#ifndef LANCELOT_H_
+#define LANCELOT_H_
 
 #include "Timer.h"
+#include "LancelotInputComponent.h"
 #include "PhysicsComponent.h"
 #include "LancelotGraphicsComponent.h"
+#include "SaveComponent.h"
 
-class Notfredo : public GameObject
+class Lancelot : public GameObject
 {
 private:
-	int hitpoints = 5;
+	int hitpoints = 10;
 	Timer invincibilityTimer = Timer(500);
-
-	Rect radius = Rect();
-	Timer looking = Timer(1500);
-	Timer idle = Timer(1500);
 	
+	LancelotInputComponent inputComponent;
 	PhysicsComponent physicsComponent;
 	LancelotGraphicsComponent graphicsComponent;
+	SaveComponent &saveComponent;
 
 public:
-	Notfredo(int x, int y);
-	~Notfredo();
-	Notfredo* Get();
+	Lancelot(int x, int y);
+	~Lancelot();
+	Lancelot* Get();
 	bool IsDead();
+	int GetHealth();
 	void Damage(int damage);
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
-	void UpdateAI(float dt);
 	void Update(float dt);
 	void Render();
-	
 };
 
-#endif /* NOTFREDO_H_ */
+#endif /* LANCELOT_H_ */

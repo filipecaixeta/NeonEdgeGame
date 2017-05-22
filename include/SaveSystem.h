@@ -6,11 +6,10 @@
 
 struct Data 
 {
-	int hp = 0;
 	float x = 0;
 	float y = 0;
 };
-  
+
 static Data data;
 
 void Save(std::string fileName);

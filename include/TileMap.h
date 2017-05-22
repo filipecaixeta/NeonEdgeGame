@@ -1,8 +1,9 @@
 #ifndef TILEMAP_H_
 #define TILEMAP_H_
+
+#include "Vec2.h"
+#include "Rect.h"
 #include "TileSet.h"
-#include <Rect.h>
-#include <Vec2.h>
 
 class TileMap {
 private:
@@ -25,7 +26,7 @@ public:
 	int GetDepth();
 	int GetTileWidth();
 	int GetTileHeight();
-	Rect GetAABB(int x,int y);
+	Rect GetTileBox(int x,int y);
 	Vec2 GetTileSize();
 	Vec2 GetSize();
 };

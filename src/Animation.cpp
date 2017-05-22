@@ -28,11 +28,6 @@ void Animation::Render()
 	sp->Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
 }
 
-void Animation::NotifyCollision(GameObject* other)
-{
-
-}
-
 bool Animation::Is(std::string type)
 {
 	return (type == "Animation");
@@ -40,10 +35,10 @@ bool Animation::Is(std::string type)
 
 bool Animation::IsDead()
 {
-	return (oneTimeOnly) ? !endTimer.isRunning() : false;
+	return (oneTimeOnly && !endTimer.IsRunning());
 }
 
-Animation* Animation::get()
+Animation* Animation::Get()
 {
 	return this;
 }

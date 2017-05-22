@@ -42,12 +42,12 @@ void Timer::SetLimit(float l)
     limit = l;
 }
 
-bool Timer::isRunning()
+bool Timer::IsRunning()
 {
     return running;
 }
 
-float Timer::getElapsed()
+float Timer::GetElapsed()
 {
     return std::min(1.0f,time/limit);
 }
