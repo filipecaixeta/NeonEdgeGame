@@ -6,6 +6,7 @@
 #include "Gallahad.h"
 #include "Notfredo.h"
 #include "Window.h"
+#include "Graph.h"
 #include <LoadingBar.h>
 
 class StageState : public State {
@@ -13,7 +14,7 @@ private:
 	TileSet* tileSet;
 	bool paused = false;
 
-	static TileMap* tileMap;
+	static Graph<TileMap*, int> tileMap;
 	static GameObject* player;
 	static std::vector<std::unique_ptr<GameObject>> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;

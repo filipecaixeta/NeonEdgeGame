@@ -6,7 +6,7 @@
 #include "SaveComponent.h"
 
 
-TileMap* StageState::tileMap;
+Graph<TileMap*, int> StageState::tileMap(1);
 GameObject* StageState::player = nullptr;
 std::vector<std::unique_ptr<GameObject>> StageState::objectArray = std::vector<std::unique_ptr<GameObject>>();
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
@@ -17,10 +17,12 @@ StageState::StageState():
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
+	//tileMap = Graph(1);
+
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
-	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
-	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
-										tileMap->GetHeight()*tileMap->GetTileHeight());
+	tileMap.AddNode(new TileMap("resources/map/tileMap.txt", tileSet), 0);
+	Camera::GetInstance().maxPos = Vec2(tileMap.m_nodes[0]->m_data->GetWidth()*tileMap.m_nodes[0]->m_data->GetTileWidth(),
+										tileMap.m_nodes[0]->m_data->GetHeight()*tileMap.m_nodes[0]->m_data->GetTileHeight());
 	player = new Gallahad(200, 1000);
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
@@ -33,12 +35,11 @@ StageState::~StageState()
 	player = nullptr;
 	objectArray.clear();
 	windowArray.clear();
-	delete tileMap;
 }
 
 TileMap* StageState::GetTileMap()
 {
-	return tileMap;
+	return tileMap.m_nodes[0]->m_data;
 }
 
 GameObject* StageState::GetPlayer()
@@ -166,10 +167,10 @@ void StageState::Update()
 }
 
 void StageState::Render() {
-	tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	tileMap.m_nodes[0]->m_data->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < objectArray.size(); i++)
 		objectArray.at(i)->Render();
-	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	tileMap.m_nodes[0]->m_data->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	healthBar.Render(10,10);
