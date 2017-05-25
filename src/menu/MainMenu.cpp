@@ -18,9 +18,6 @@ void MainMenu::LoadAssets()
 	int fontSize = 72;
 	SDL_Color fontColor = {0,0,0,255};
 
-	text = Text::GetText(fontName,18,fontColor,"Lorem ipsum dolor sit amet, consectetur adipiscing elit.Donec pharetra massa ac libero malesuada malesuada.Nulla feugiat justo ut nunc egestas eleifend. Nam vel metus dui. Morbi maximus dolor sed lacus hendrerit lobortis. Praesent libero lacus, maximus at eros eu, imperdiet mollis nisl. Etiam ex eros, euismod ac sagittis non, dapibus vitae nulla. Nullam vitae rhoncus nisi. Nulla vulputate efficitur mattis. Duis eu elementum urna. Fusce interdum mi ac lorem aliquam viverra. ",600);
-	menuOptions.push_back(std::make_pair("teste",new Sprite(text,1,0,true)));
-
 	text = Text::GetText(fontName,fontSize,fontColor,"Play");
 	menuOptions.push_back(std::make_pair("Play",new Sprite(text,1,0,true)));
 
