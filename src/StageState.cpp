@@ -22,9 +22,8 @@ StageState::StageState(int sizeX, int sizeY):
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
-	roomArray = new int[sizeX][sizeY];
+	/*roomArray = new int[sizeX][sizeY];
 
-	//Inicializa a array de salas
 	for(int i = 0; i < sizeX; i++){
 		for(int j = 0; j < sizeY; j++){
 			roomArray[i][j] = -1;
@@ -37,7 +36,7 @@ StageState::StageState(int sizeX, int sizeY):
 		for(int j = 0; j < sizeY; j++){
 
 		}
-	}
+	}*/
 
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
