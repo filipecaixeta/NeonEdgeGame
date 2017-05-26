@@ -3,12 +3,14 @@
 #include <math.h>
 #define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 
-Sprite::Sprite()
+Sprite::Sprite():
+	destroyTexture(false)
 {
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha)
+Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha):
+	destroyTexture(false)
 {
 	texture = nullptr;
 	Sprite::frameCount = frameCount;
@@ -16,7 +18,8 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
 	Open(file,enableAlpha);
 }
 
-Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha)
+Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha):
+	destroyTexture(true)
 {
 	texture = tex;
 	Sprite::frameCount = frameCount;
@@ -28,6 +31,8 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
 }
 
 Sprite::~Sprite() {
+	if (destroyTexture)
+		SDL_DestroyTexture(texture);
 	texture = nullptr;
 }
 
@@ -130,8 +135,11 @@ void Sprite::SetBlending(bool b)
 	SDL_SetTextureBlendMode(texture, b ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 }
 
-void Sprite::SetTextureDebug(SDL_Texture *tex)
+void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_)
 {
+	if (destroyTexture)
+		SDL_DestroyTexture(texture);
+	destroyTexture = destroyTexture_;
 	texture = tex;
 }
 
