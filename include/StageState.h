@@ -6,7 +6,6 @@
 #include "Gallahad.h"
 #include "Notfredo.h"
 #include "Window.h"
-#include "Graph.h"
 #include <LoadingBar.h>
 
 class StageState : public State {
@@ -14,10 +13,11 @@ private:
 	TileSet* tileSet;
 	bool paused = false;
 
-	static Graph<TileMap*, int> tileMap;
+	static TileMap* tileMap;
 	static GameObject* player;
 	static std::vector<std::unique_ptr<GameObject>> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
+	static std::unordered_map<int, TileMap*> roomTable;
 	LoadingBar healthBar;
 
 public:
@@ -32,6 +32,7 @@ public:
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
 	static void AddWindow(Window* ptr);
+	static void RemoveWindow(Window* ptr);
 	static bool IsColliding(Rect a, Rect b);
 
 	void Pause();

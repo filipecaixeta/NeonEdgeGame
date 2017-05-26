@@ -4,12 +4,14 @@
 #include "Camera.h"
 #include "DialogWindow.h"
 #include "SaveComponent.h"
+#include <iostream>
 
 
-Graph<TileMap*, int> StageState::tileMap(1);
+TileMap* StageState::tileMap;
 GameObject* StageState::player = nullptr;
 std::vector<std::unique_ptr<GameObject>> StageState::objectArray = std::vector<std::unique_ptr<GameObject>>();
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
+std::unordered_map<int, TileMap*> StageState::roomTable;
 
 StageState::StageState():
 	healthBar("healthBar2.png",5,15,10)
@@ -17,12 +19,10 @@ StageState::StageState():
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
-	//tileMap = Graph(1);
-
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
-	tileMap.AddNode(new TileMap("resources/map/tileMap.txt", tileSet), 0);
-	Camera::GetInstance().maxPos = Vec2(tileMap.m_nodes[0]->m_data->GetWidth()*tileMap.m_nodes[0]->m_data->GetTileWidth(),
-										tileMap.m_nodes[0]->m_data->GetHeight()*tileMap.m_nodes[0]->m_data->GetTileHeight());
+	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
+	//Camera::GetInstance().maxPos = Vec2(tileMap.m_nodes[0]->m_data.tileMap->GetWidth()*tileMap.m_nodes[0]->m_data.tileMap->GetTileWidth(),
+	//									tileMap.m_nodes[0]->m_data.tileMap->GetHeight()*tileMap.m_nodes[0]->m_data.tileMap->GetTileHeight());
 	player = new Gallahad(200, 1000);
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
@@ -39,7 +39,7 @@ StageState::~StageState()
 
 TileMap* StageState::GetTileMap()
 {
-	return tileMap.m_nodes[0]->m_data;
+	return tileMap;
 }
 
 GameObject* StageState::GetPlayer()
@@ -120,7 +120,7 @@ void StageState::Update()
 	//Teste do sistema de janelas
 	if(InputManager::GetInstance().KeyPress(SDLK_j))
 	{
-		AddWindow(new DialogWindow(896, 896, 1024, 1024, "Teste de dialogo."));
+		AddWindow(new DialogWindow(0, 512, 512, 640, "Teste de dialogo."));
 	}
 
 	if(!paused)
@@ -167,12 +167,12 @@ void StageState::Update()
 }
 
 void StageState::Render() {
-	tileMap.m_nodes[0]->m_data->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < objectArray.size(); i++)
 		objectArray.at(i)->Render();
-	tileMap.m_nodes[0]->m_data->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
-		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+		windowArray.at(i)->Render();
 	healthBar.Render(10,10);
 }
 
