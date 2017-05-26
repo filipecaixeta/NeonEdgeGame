@@ -20,7 +20,7 @@ private:
 	std::vector<SDL_Texture*> textArray;
 	std::vector<Sprite*> dialog;
 	SDL_Color fontColor = {255,255,255,255};
-	int fontSize = 12;
+	int fontSize = 24;
 	std::string fontName;
 	Button okay;
 };

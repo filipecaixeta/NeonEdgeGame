@@ -18,12 +18,13 @@ private:
 	static std::vector<std::unique_ptr<GameObject>> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
 	static std::unordered_map<int, TileMap*> roomTable;
+	static int** roomArray;
 	LoadingBar healthBar;
 
 public:
 	
 
-	StageState();
+	StageState(int sizeX = 10, int sizeY = 10);
 	~StageState();
 
 	static TileMap* GetTileMap();

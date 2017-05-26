@@ -6,7 +6,7 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 {
 	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));
 	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
-	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 120, true));
+	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 60, true));
 	sp = sprites["Idle"];
 }
 
