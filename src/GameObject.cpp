@@ -5,11 +5,6 @@ GameObject::~GameObject()
 
 }
 
-GameObject* GameObject::Get()
-{
-	return this;
-}
-
 bool GameObject::Is(std::string type)
 {
 	return (type == name);

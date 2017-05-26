@@ -17,6 +17,11 @@ Animation::~Animation()
 	delete sp;
 }
 
+bool Animation::IsDead()
+{
+	return (oneTimeOnly && !endTimer.IsRunning());
+}
+
 void Animation::Update(float dt)
 {
 	sp->Update(dt);
@@ -27,19 +32,3 @@ void Animation::Render()
 {
 	sp->Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
 }
-
-bool Animation::Is(std::string type)
-{
-	return (type == "Animation");
-}
-
-bool Animation::IsDead()
-{
-	return (oneTimeOnly && !endTimer.IsRunning());
-}
-
-Animation* Animation::Get()
-{
-	return this;
-}
-

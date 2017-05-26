@@ -5,7 +5,8 @@
 #include "Sprite.h"
 #include "Timer.h"
 
-class Attack : public GameObject {
+class Attack : public GameObject
+{
 private:
 	Sprite* sp;
 	Timer lifetime;
@@ -14,12 +15,10 @@ private:
 public:
 	Attack(std::string file, int frames, int x, int y, int power, int duration, Face facing);
 	~Attack();
-	void Update(float dt);
-	void UpdateTimers(float dt);
-	void Render();
-	bool Is(std::string type);
 	bool IsDead();
-	Attack* Get();
+	void UpdateTimers(float dt);
+	void Update(float dt);
+	void Render();
 };
 
 #endif /* ATTACK_H_ */

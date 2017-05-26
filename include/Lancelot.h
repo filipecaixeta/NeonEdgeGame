@@ -21,7 +21,6 @@ private:
 public:
 	Lancelot(int x, int y);
 	~Lancelot();
-	Lancelot* Get();
 	bool IsDead();
 	int GetHealth();
 	void Damage(int damage);

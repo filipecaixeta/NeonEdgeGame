@@ -19,11 +19,6 @@ Lancelot::~Lancelot()
 
 }
 
-Lancelot* Lancelot::Get()
-{
-	return this;
-}
-
 bool Lancelot::IsDead()
 {
 	return (hitpoints < 1);

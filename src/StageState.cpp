@@ -8,12 +8,13 @@
 
 TileMap* StageState::tileMap;
 GameObject* StageState::player = nullptr;
-std::vector<std::unique_ptr<GameObject>> StageState::objectArray = std::vector<std::unique_ptr<GameObject>>();
+std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
 
-StageState::StageState():
-	healthBar("healthBar2.png",5,15,10)
+StageState::StageState(std::string mode):
+	healthBar("healthBar2.png",5,15,11)
 {
+	StageState::mode = mode;
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
@@ -21,7 +22,10 @@ StageState::StageState():
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 										tileMap->GetHeight()*tileMap->GetTileHeight());
-	player = new Gallahad(200, 1000);
+	if(mode == "Lancelot")
+		player = new Lancelot(200, 1000);
+	else if(mode == "Gallahad")
+		player = new Gallahad(200, 1000);
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
 	AddObject(new Notfredo(800, 1280));
@@ -31,6 +35,10 @@ StageState::~StageState()
 {
 	music.Stop();
 	player = nullptr;
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		delete objectArray[i];
+	}
 	objectArray.clear();
 	windowArray.clear();
 	delete tileMap;
@@ -60,8 +68,9 @@ void StageState::RemoveObject(GameObject* ptr)
 {
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
-		if(ptr == objectArray.at(i)->Get())
+		if(ptr == objectArray[i])
 		{
+			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}
@@ -108,6 +117,7 @@ void StageState::Update()
 	{
 		quitRequested = true;
 	}
+
 	if(InputManager::GetInstance().KeyPress(SDLK_RETURN))
 	{
 		if(paused)
@@ -126,40 +136,54 @@ void StageState::Update()
 	{
 		for(unsigned i = 0; i < objectArray.size(); i++)
 		{
-			objectArray.at(i)->Update(Game::GetInstance().GetDeltaTime());
+			objectArray[i]->Update(Game::GetInstance().GetDeltaTime());
 		}
 		for(unsigned i = 0; i < objectArray.size(); i++)
 		{
 			for(unsigned j = i+1; j < objectArray.size(); j++)
 			{
-				if(objectArray.at(j)->Is("Animation"))
+				if(objectArray[i]->Is("Animation") || objectArray[j]->Is("Animation"))
 				{
 
 				}
-				else if(IsColliding(objectArray.at(i)->box, objectArray.at(j)->box))
+				else if(IsColliding(objectArray[i]->box, objectArray[j]->box))
 				{
-					objectArray.at(i)->NotifyObjectCollision(objectArray.at(j)->Get());
-					objectArray.at(j)->NotifyObjectCollision(objectArray.at(i)->Get());
+					objectArray[i]->NotifyObjectCollision(objectArray[j]);
+					objectArray[j]->NotifyObjectCollision(objectArray[i]);
 				}
 			}
 		}
 		for(unsigned i = 0; i < objectArray.size(); i++)
 		{
-			if(objectArray.at(i)->IsDead())
+			if(objectArray[i]->IsDead())
 			{
-				if(objectArray.at(i)->Get() == Camera::GetInstance().GetFocus())
+				if(objectArray[i] == Camera::GetInstance().GetFocus())
 					Camera::GetInstance().Unfollow();
-				if(objectArray.at(i)->Get() == player)
+				if(objectArray[i] == player)
 					player = nullptr;
+				delete objectArray[i];
 				objectArray.erase(objectArray.begin()+i);
 			}
 		}
 
-		Gallahad* p = (Gallahad*) player;
 		if(player)
-			healthBar.SetPercentage(p->GetHealth()/10.0);
+		{
+			if(mode == "Lancelot")
+			{
+				Lancelot* p = (Lancelot*) player;
+				healthBar.SetPercentage(p->GetHealth()/10.0);
+				
+			}
+			else if(mode == "Gallahad")
+			{
+				Gallahad* p = (Gallahad*) player;
+				healthBar.SetPercentage(p->GetHealth()/10.0);
+			}
+		}
 		else
+		{
 			healthBar.SetPercentage(0);
+		}	
 
 		Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
 	}
@@ -168,7 +192,7 @@ void StageState::Update()
 void StageState::Render() {
 	tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < objectArray.size(); i++)
-		objectArray.at(i)->Render();
+		objectArray[i]->Render();
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render(Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);

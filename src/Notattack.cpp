@@ -26,10 +26,9 @@ Notattack::~Notattack()
 	delete sp;
 }
 
-void Notattack::Update(float dt)
+bool Notattack::IsDead()
 {
-	UpdateTimers(dt);
-	UpdatePosition(dt);
+	return (!lifetime.IsRunning());
 }
 
 void Notattack::UpdateTimers(float dt)
@@ -47,22 +46,13 @@ void Notattack::UpdateSprite(std::string sprite)
 
 }
 
+void Notattack::Update(float dt)
+{
+	UpdateTimers(dt);
+	UpdatePosition(dt);
+}
+
 void Notattack::Render()
 {
 	sp->Render(box.x - Camera::GetInstance().pos.x -1, box.y - Camera::GetInstance().pos.y -1);
-}
-
-bool Notattack::Is(std::string type)
-{
-	return (type == "Notattack");
-}
-
-bool Notattack::IsDead()
-{
-	return (!lifetime.IsRunning());
-}
-
-Notattack* Notattack::Get()
-{
-	return this;
 }

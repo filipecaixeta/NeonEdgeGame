@@ -33,7 +33,7 @@ void GallahadGraphicsComponent::Update(GameObject *obj, float dt)
 	{
 		UpdateSprite(obj, "Idle");
 	}
-	if(obj->jumping)
+	if(obj->footing == GameObject::AIRBORNE || obj->jumping)
 	{
 		UpdateSprite(obj, "Jumping");
 		mirror = (obj->facing == GameObject::LEFT);

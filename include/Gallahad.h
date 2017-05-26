@@ -11,7 +11,7 @@ class Gallahad : public GameObject
 {
 private:
 	int hitpoints = 10;
-	Timer invincibilityTimer = Timer(500);
+	Timer invincibilityTimer = Timer(800);
 	
 	GallahadInputComponent inputComponent;
 	PhysicsComponent physicsComponent;
@@ -21,7 +21,6 @@ private:
 public:
 	Gallahad(int x, int y);
 	~Gallahad();
-	Gallahad* Get();
 	bool IsDead();
 	int GetHealth();
 	void Damage(int damage);

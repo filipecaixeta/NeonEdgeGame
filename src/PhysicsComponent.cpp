@@ -11,8 +11,19 @@ PhysicsComponent::PhysicsComponent()
 
 void PhysicsComponent::Update(GameObject* obj, float dt)
 {
-	//Gravidade
-	obj->speed.y += 0.002*dt;
+	//Gravity
+	if(obj->speed.y >= 0.1 && (obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED))
+	{
+		obj->speed.y = 0.1;//-= 0.001*dt;
+	}
+	else if(obj->speed.y == 0.1 && obj->footing == GameObject::AIRBORNE)
+	{
+		obj->speed.y = 0.6;
+	}
+	else
+	{
+		obj->speed.y += 0.002*dt;
+	}
 	clamp(obj->speed.y,-1.8f,1.8f);
 
 	obj->box.x += obj->speed.x*dt;
@@ -21,10 +32,6 @@ void PhysicsComponent::Update(GameObject* obj, float dt)
 	else
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::RIGHT), GameObject::RIGHT);
 
-	if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
-	{
-		obj->speed.y -= 0.001*dt;
-	}
 	obj->box.y += obj->speed.y*dt;
 	if(obj->speed.y < 0)
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::UPPER), GameObject::UPPER);
@@ -63,21 +70,27 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 				Rect tile = map->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
+					if(box.x+2 < tile.x+tile.w && box.x+box.w+2 > tile.x+tile.w)
+					{
+						obj->footing = GameObject::LEFT_WALLED;
+					}
 					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
-						obj->footing = GameObject::LEFT_WALLED;
 						return map->At(x,y,0);
 					}
 				}
 				else if(face == GameObject::RIGHT)
 				{
+					if(box.x+box.w-2 > tile.x && box.x-2 < tile.x)
+					{
+						obj->footing = GameObject::RIGHT_WALLED;
+					}
 					if(box.x+box.w > tile.x && box.x < tile.x)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
-						obj->footing = GameObject::RIGHT_WALLED;
 						return map->At(x,y,0);
 					}
 				}

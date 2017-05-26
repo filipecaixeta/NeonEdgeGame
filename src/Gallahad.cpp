@@ -19,11 +19,6 @@ Gallahad::~Gallahad()
 
 }
 
-Gallahad* Gallahad::Get()
-{
-	return this;
-}
-
 bool Gallahad::IsDead()
 {
 	return (hitpoints < 1);

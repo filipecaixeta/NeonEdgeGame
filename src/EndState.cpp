@@ -2,41 +2,50 @@
 #include "Game.h"
 #include "InputManager.h"
 
-EndState::EndState(StateData results) {
+EndState::EndState(StateData results)
+{
 	if(results.playerVitory)
         bg = Sprite("win.jpg");
 	else
         bg = Sprite("lose.jpg");
 }
 
-EndState::~EndState() {
+EndState::~EndState()
+{
 
 }
 
-void EndState::LoadAssets() {
+void EndState::LoadAssets()
+{
 
 }
 
-void EndState::Update() {
-	if(InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
+void EndState::Update()
+{
+	if(InputManager::GetInstance().KeyPress(SDLK_RETURN))
+	{
 		quitRequested = true;
 		Game::GetInstance().RemoveState();
-		Game::GetInstance().AddState(new StageState());
+		Game::GetInstance().AddState(new StageState("Lancelot"));
 	}
 }
 
-void EndState::Render() {
+void EndState::Render()
+{
 	bg.Render(0, 0);
 }
 
-bool EndState::QuitRequested() {
+bool EndState::QuitRequested()
+{
 	return quitRequested;
 }
 
-bool EndState::Is(std::string type) {
+bool EndState::Is(std::string type)
+{
 	return (type == "End");
 }
 
-EndState* EndState::get() {
-		return this;
+EndState* EndState::get()
+{
+	return this;
 }

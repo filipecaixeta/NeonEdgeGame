@@ -20,11 +20,6 @@ Notfredo::~Notfredo()
 
 }
 
-Notfredo* Notfredo::Get()
-{
-	return this;
-}
-
 bool Notfredo::IsDead()
 {
 	return (hitpoints < 1);

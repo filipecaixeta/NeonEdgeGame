@@ -19,7 +19,6 @@ public:
 	bool jumping = false;
 
 	virtual ~GameObject() = 0;
-	virtual GameObject* Get() = 0;
 	virtual bool Is(std::string type);
 	virtual bool IsDead();
 	virtual Vec2 GetPosition();

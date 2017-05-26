@@ -16,11 +16,10 @@ private:
 public:
 	Animation(float x, float y, std::string sprite, float frameCount, float frameTime, bool ends);
 	~Animation();
+	bool IsDead();
 	void Update(float dt);
 	void Render();
-	bool Is(std::string type);
-	bool IsDead();
-	Animation* Get();
+	
 };
 
 #endif /* ANIMATION_H_ */

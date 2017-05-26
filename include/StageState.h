@@ -8,21 +8,21 @@
 #include "Window.h"
 #include <LoadingBar.h>
 
-class StageState : public State {
+class StageState : public State
+{
 private:
+	std::string mode;
 	TileSet* tileSet;
 	bool paused = false;
 
 	static TileMap* tileMap;
 	static GameObject* player;
-	static std::vector<std::unique_ptr<GameObject>> objectArray;
+	static std::vector<GameObject*> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
 	LoadingBar healthBar;
 
 public:
-	
-
-	StageState();
+	StageState(std::string mode);
 	~StageState();
 
 	static TileMap* GetTileMap();

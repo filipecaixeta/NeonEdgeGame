@@ -57,7 +57,7 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 		{
 			obj->speed.y = -0.6;
 			obj->speed.x = -0.6;
-			obj->facing = GameObject::RIGHT;
+			obj->facing = GameObject::LEFT;
 			obj->lastFooting = GameObject::RIGHT_WALLED;
 		}
 		obj->jumping = true;

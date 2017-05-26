@@ -21,7 +21,6 @@ private:
 public:
 	Notfredo(int x, int y);
 	~Notfredo();
-	Notfredo* Get();
 	bool IsDead();
 	void Damage(int damage);
 	void NotifyTileCollision(int tile, Face face);

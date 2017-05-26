@@ -7,6 +7,7 @@ LoadingBar::LoadingBar(std::string image, int leftBorder_, int rightBorder_):
 	rightBorder(rightBorder_),
 	sp(image,2)
 {
+
 }
 
 LoadingBar::LoadingBar(std::string image, int leftBorder_, int blockSize_,int stateCount_):
@@ -17,6 +18,7 @@ LoadingBar::LoadingBar(std::string image, int leftBorder_, int blockSize_,int st
 	leftBorder(leftBorder_),
 	sp(image,2)
 {
+	
 }
 
 void LoadingBar::SetPercentage(float p)
