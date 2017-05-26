@@ -11,10 +11,8 @@ DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto){
 	box.w = w;
 	box.h = h;
 
-	//dialog = Text("Raleway-Light.ttf", 12, Text::BLENDED, SDL_Color {255, 255, 255}, texto, box.x, box.y);
-
-	text = Resources::GetText(Game::GetInstance().GetRenderer(), texto, fontName, fontSize, fontColor);
-	dialog = new Sprite(text, 1, 0, true);
+	textArray.emplace_back(Resources::GetText(Game::GetInstance().GetRenderer(), texto, fontName, fontSize, fontColor));
+	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
 }
 
 void DialogWindow::Update(float dt){
@@ -49,5 +47,6 @@ void DialogWindow::Render(int cameraX, int cameraY){
 				Window::RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 16, 16, 48, 48);
 		}
 	}
-	dialog->Render(box.x + 4 - cameraX, box.y + 4 - cameraY);
+	for(unsigned int i = 0; i < dialog.size(); i++)
+		dialog.at(i)->Render(box.x + 4 - cameraX, box.y + 4 - cameraY);
 }
