@@ -2,11 +2,16 @@
 
 InputManager* InputManager::instance = nullptr;
 
-InputManager::InputManager() {
-	mouseX = 0;
-	mouseY = 0;
-	updateCounter = 0;
-	quitRequested = false;
+InputManager::InputManager():
+	mouseX(0),
+	mouseY(0),
+	updateCounter(0),
+	quitRequested(false),
+	mouseState{false},
+	mouseUpdate{0},
+	translationTable{SDLK_SPACE,SDLK_e,SDLK_LEFT,SDLK_RIGHT,SDLK_DOWN}
+{
+
 }
 
 InputManager::~InputManager() {
@@ -36,6 +41,7 @@ void InputManager::Update() {
 			if(event.type == SDL_KEYDOWN) {
 				keyState[event.key.keysym.sym] = true;
 				keyUpdate[event.key.keysym.sym] = updateCounter;
+				lastKey = event.key.keysym.sym;
 			}
 			if(event.type == SDL_KEYUP) {
 				keyState[event.key.keysym.sym] = false;
@@ -45,15 +51,26 @@ void InputManager::Update() {
 	}
 }
 
-bool InputManager::KeyPress(int key) {
+int InputManager::TranslateKey(int key)
+{
+	return translationTable[key];
+}
+
+bool InputManager::KeyPress(int key,bool translate) {
+	if (translate)
+		key = TranslateKey(key);
 	return (keyUpdate[key] == updateCounter) ? (keyState[key]) : false;
 }
 
-bool InputManager::KeyRelease(int key) {
+bool InputManager::KeyRelease(int key,bool translate) {
+	if (translate)
+		key = TranslateKey(key);
 	return (keyUpdate[key] == updateCounter) ? (!keyState[key]) : false;
 }
 
-bool InputManager::IsKeyDown(int key) {
+bool InputManager::IsKeyDown(int key,bool translate) {
+	if (translate)
+		key = TranslateKey(key);
 	return keyState[key];
 }
 
@@ -69,12 +86,29 @@ bool InputManager::IsMouseDown(int button) {
 	return mouseState[button];
 }
 
+void InputManager::SetTranslationKey(int src, int dest)
+{
+	translationTable[src]=dest;
+}
+
 int InputManager::GetMouseX() {
 	return mouseX;
 }
 
 int InputManager::GetMouseY() {
 	return mouseY;
+}
+
+int InputManager::GetTranslationKey(int key)
+{
+	return translationTable[key];
+}
+
+int InputManager::GetLastKey()
+{
+	int temp = lastKey;
+	lastKey = -1;
+	return temp;
 }
 
 bool InputManager::QuitRequested() {

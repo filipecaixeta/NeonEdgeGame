@@ -14,15 +14,26 @@ class MenuState: public State
 		virtual void Render();
 		virtual bool QuitRequested();
 		virtual bool Is(std::string type);
-		virtual void SetOption(unsigned int i);
+		virtual void SetOption(int i);
 		virtual State* get();
 
 		Vec2 CenterVertical(Sprite *sp);
 		Vec2 CenterVertical(int size);
 
+		struct Option
+		{
+			std::string key;
+			Sprite *sprite;
+			bool selectable;
+			int current;
+		};
+
 	protected:
-		std::vector<std::pair<std::string,Sprite*> > menuOptions;
+		std::vector<Option> menuOptions;
 		int currentOption;
+		std::string fontName;
+		int fontSize;
+		SDL_Color fontColor;
 };
 
 #endif // MENUSTATE_H

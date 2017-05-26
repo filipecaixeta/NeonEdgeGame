@@ -1,35 +1,45 @@
 #include "menu/SettingsMenu.h"
+#include "menu/GraphicsMenu.h"
+#include "menu/ControlsMenu.h"
+#include "Text.h"
+#include "InputManager.h"
 
-SettingsMenu::SettingsMenu()
+SettingsMenu::SettingsMenu():
+	MenuState()
 {
-	SDL_Texture *text;
-	std::string fontName = "Call me maybe.ttf";
-	int fontSize = 72;
-	SDL_Color fontColor = {255,255,255,255};
-
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Graphics",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Graphics",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Sound",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Sound",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Controls",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Controls",new Sprite(text,1,0,true)));
-
-	bg.Open("mainMenuBg.png");
-
-	SetOption(0);
 }
 
 void SettingsMenu::LoadAssets()
 {
+	SDL_Texture *text;
 
+	text = Text::GetText(fontName,fontSize,fontColor,"Graphics");
+	menuOptions.push_back({"Graphics",new Sprite(text,1,0,true),true,0});
+	text = Text::GetText(fontName,fontSize,fontColor,"Sound");
+	menuOptions.push_back({"Sound",new Sprite(text,1,0,true),true,0});
+	text = Text::GetText(fontName,fontSize,fontColor,"Controls");
+	menuOptions.push_back({"Controls",new Sprite(text,1,0,true),true,0});
+
+	bg.Open("mainMenuBg.png");
+
+	SetOption(1);
 }
 
 void SettingsMenu::Update()
 {
 	MenuState::Update();
+	if(	InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
+		InputManager::GetInstance().KeyPress(SDLK_RETURN) )
+	{
+		if (menuOptions[currentOption].key=="Graphics")
+		{
+			Game::GetInstance().AddState(new GraphicsMenu());
+		}
+		if (menuOptions[currentOption].key=="Controls")
+		{
+			Game::GetInstance().AddState(new ControlsMenu());
+		}
+	}
 }
 
 void SettingsMenu::Render()

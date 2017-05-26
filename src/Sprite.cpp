@@ -1,7 +1,9 @@
 #include "Sprite.h"
 #include "Game.h"
 #include <math.h>
-#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#ifndef clamp
+	#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#endif
 
 Sprite::Sprite():
 	destroyTexture(false)
@@ -141,6 +143,8 @@ void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_)
 		SDL_DestroyTexture(texture);
 	destroyTexture = destroyTexture_;
 	texture = tex;
+	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
 void Sprite::Mirror(bool m)
@@ -150,7 +154,7 @@ void Sprite::Mirror(bool m)
 
 int Sprite::GetWidth()
 {
-	return width/frameCount*scaleX;
+	return width/frameCount*((scaleX-1)*0.5+1);
 }
 
 int Sprite::GetHeight()

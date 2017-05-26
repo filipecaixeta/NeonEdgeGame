@@ -39,6 +39,8 @@ Game::Game(std::string title) {
 		exit(EXIT_FAILURE);
 	}
 
+	fps = 30;
+
     SDL_Point screenSize = GetFullScreenSize();
 
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
@@ -121,10 +123,6 @@ void Game::CalculateDeltaTime() {
 
 SDL_Point Game::GetFullScreenSize()
 {
-    const SDL_Point res21x9 = {1792,768}; // 21/9 = 2.33
-    const SDL_Point res16x9 = {1360,768}; // 16/9 = 1.78
-    const SDL_Point res4x3 = {1024,768}; // 4/3 = 1.33
-
     SDL_Rect r;
     if (SDL_GetDisplayBounds(0, &r) != 0)
     {
@@ -166,6 +164,7 @@ bool Game::isFullScreen()
 void Game::SetScreenSize(SDL_Point size)
 {
     screenSize = size;
+	SDL_SetWindowSize(window,size.x,size.y);
     SDL_RenderSetLogicalSize(renderer, size.x, size.y);
 }
 
@@ -188,7 +187,7 @@ void Game::Run() {
 			storedState->Update();
 			storedState->Render();
 			SDL_RenderPresent(renderer);
-			SDL_Delay(33);
+			SDL_Delay(1000/fps);
 		}
 		if (storedState != stateStack.top())
 		{

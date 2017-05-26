@@ -22,6 +22,11 @@ private:
     SDL_Point GetFullScreenSize();
 
 public:
+	const SDL_Point res21x9 = {1792,768}; // 21/9 = 2.33
+	const SDL_Point res16x9 = {1360,768}; // 16/9 = 1.78
+	const SDL_Point res4x3 = {1024,768}; // 4/3 = 1.33
+	int fps;
+
     Game(std::string title);
 	~Game();
 	static Game& GetInstance();

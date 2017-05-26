@@ -3,7 +3,9 @@
 #include "InputManager.h"
 #include <iostream>
 #include <math.h>
-#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#ifndef clamp
+	#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#endif
 
 Camera* Camera::instance = nullptr;
 
