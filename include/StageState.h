@@ -20,10 +20,11 @@ private:
 	static std::vector<GameObject*> objectArray;
 	static std::vector<std::unique_ptr<Window>> windowArray;
 	static std::unordered_map<int, TileMap*> roomTable;
+	static int** roomArray;
 	LoadingBar healthBar;
 
 public:
-	StageState(std::string mode);
+	StageState(std::string mode, int sizeX = 10, int sizeY = 10);
 	~StageState();
 
 	static TileMap* GetTileMap();

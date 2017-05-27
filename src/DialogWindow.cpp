@@ -11,7 +11,7 @@ DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto){
 	box.w = w;
 	box.h = h;
 
-	textArray.emplace_back(Resources::GetText(Game::GetInstance().GetRenderer(), texto, fontName, fontSize, fontColor));
+	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, w - posX));
 	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
 }
 

@@ -12,13 +12,32 @@ GameObject* StageState::player = nullptr;
 std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
 std::vector<std::unique_ptr<Window>> StageState::windowArray;
 std::unordered_map<int, TileMap*> StageState::roomTable;
+int** StageState::roomArray;
 
-StageState::StageState(std::string mode):
+StageState::StageState(std::string mode, int sizeX, int sizeY):
 	healthBar("healthBar2.png",5,15,11)
 {
 	StageState::mode = mode;
+	int random;
+	bool endRandom;
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
+
+	/*roomArray = new int[sizeX][sizeY];
+
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			roomArray[i][j] = -1;
+		}
+	}
+
+	roomArray[0][0] = 0;
+
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+
+		}
+	}*/
 
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
@@ -37,6 +56,7 @@ StageState::StageState(std::string mode):
 
 StageState::~StageState()
 {
+	delete roomArray;
 	music.Stop();
 	player = nullptr;
 	for(unsigned i = 0; i < objectArray.size(); i++)
@@ -132,7 +152,7 @@ void StageState::Update()
 	//Teste do sistema de janelas
 	if(InputManager::GetInstance().KeyPress(SDLK_j))
 	{
-		AddWindow(new DialogWindow(0, 512, 512, 640, "Teste de dialogo."));
+		AddWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
 	}
 
 	if(!paused)
