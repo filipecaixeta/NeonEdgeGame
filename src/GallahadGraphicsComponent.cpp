@@ -1,4 +1,5 @@
 #include "GallahadGraphicsComponent.h"
+#include "Gallahad.h"
 
 GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 	sp(new Sprite()),
@@ -17,26 +18,23 @@ GallahadGraphicsComponent::~GallahadGraphicsComponent()
 	sprites.clear();
 }
 
-void GallahadGraphicsComponent::Update(GameObject *obj, float dt)
+void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
 {
-	if (obj->speed.x < 0)
-	{
-		UpdateSprite(obj, "Running");
-		mirror = true;
-	}
-	else if (obj->speed.x > 0)
-	{
-		UpdateSprite(obj, "Running");
-		mirror = false;
-	}
-	else
+	Gallahad* g = (Gallahad*) obj;
+	
+	mirror = (g->facing == GameObject::LEFT);
+	if(g->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}
-	if(obj->footing == GameObject::AIRBORNE || obj->jumping)
+	else
+	{
+		UpdateSprite(obj, "Running");
+	}
+	if(g->footing == GameObject::AIRBORNE || g->jumping)
 	{
 		UpdateSprite(obj, "Jumping");
-		mirror = (obj->facing == GameObject::LEFT);
+		mirror = (g->facing == GameObject::LEFT);
 	}
 
 	sp->Mirror(mirror);
@@ -55,13 +53,14 @@ Vec2 GallahadGraphicsComponent::GetSize()
 
 void GallahadGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 {
+	Gallahad* g = (Gallahad*) obj;
 	if(sp != sprites[sprite])
 	{
 		int w = sp->GetWidth();
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
-		obj->box.x += (w-sp->GetWidth())/2;
-		obj->box.y += h-sp->GetHeight();
-		obj->box.SetWH(GetSize());
+		g->box.x += (w-sp->GetWidth())/2;
+		g->box.y += h-sp->GetHeight();
+		g->box.SetWH(GetSize());
 	}
 }

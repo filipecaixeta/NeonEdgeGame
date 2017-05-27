@@ -12,11 +12,6 @@ class Gallahad : public GameObject
 private:
 	int hitpoints = 10;
 	Timer invincibilityTimer = Timer(800);
-	
-	GallahadInputComponent inputComponent;
-	PhysicsComponent physicsComponent;
-	GallahadGraphicsComponent graphicsComponent;
-	SaveComponent &saveComponent;
 
 public:
 	Gallahad(int x, int y);
@@ -29,6 +24,11 @@ public:
 	void UpdateTimers(float dt);
 	void Update(float dt);
 	void Render();
+
+	GallahadInputComponent inputComponent;
+	PhysicsComponent physicsComponent;
+	GallahadGraphicsComponent graphicsComponent;
+	SaveComponent &saveComponent;
 };
 
 #endif /* GALLAHAD_H_ */

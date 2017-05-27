@@ -12,12 +12,10 @@ Notattack::Notattack(std::string file, int frames, int x, int y, int power, int 
 	if(facing == LEFT)
 	{
 		sp->SetFrame(1);
-		speed = Vec2(-0.4, 0);
 	}
 	else
 	{
 		sp->SetFrame(2);
-		speed = Vec2(0.4, 0);
 	}
 }
 
@@ -38,7 +36,7 @@ void Notattack::UpdateTimers(float dt)
 
 void Notattack::UpdatePosition(float dt)
 {
-	box.x += speed.x*dt;
+
 }
 
 void Notattack::UpdateSprite(std::string sprite)

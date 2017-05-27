@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "Text.h"
 #include <string>
+#include <vector>
 
 class DialogWindow: public Window{
 public:
@@ -16,8 +17,8 @@ public:
 
 private:
 	void RenderPiece(int posx, int posy, int x, int y, int w, int h);
-	SDL_Texture *text;
-	Sprite *dialog;
+	std::vector<SDL_Texture*> textArray;
+	std::vector<Sprite*> dialog;
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 12;
 	std::string fontName;

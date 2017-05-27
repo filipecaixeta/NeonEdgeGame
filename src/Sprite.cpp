@@ -1,14 +1,18 @@
 #include "Sprite.h"
 #include "Game.h"
 #include <math.h>
-#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#ifndef clamp
+	#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
+#endif
 
-Sprite::Sprite()
+Sprite::Sprite():
+	destroyTexture(false)
 {
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha)
+Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha):
+	destroyTexture(false)
 {
 	texture = nullptr;
 	Sprite::frameCount = frameCount;
@@ -16,7 +20,8 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
 	Open(file,enableAlpha);
 }
 
-Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha)
+Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha):
+	destroyTexture(true)
 {
 	texture = tex;
 	Sprite::frameCount = frameCount;
@@ -28,6 +33,8 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
 }
 
 Sprite::~Sprite() {
+	if (destroyTexture)
+		SDL_DestroyTexture(texture);
 	texture = nullptr;
 }
 
@@ -130,9 +137,14 @@ void Sprite::SetBlending(bool b)
 	SDL_SetTextureBlendMode(texture, b ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 }
 
-void Sprite::SetTextureDebug(SDL_Texture *tex)
+void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_)
 {
+	if (destroyTexture)
+		SDL_DestroyTexture(texture);
+	destroyTexture = destroyTexture_;
 	texture = tex;
+	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
 void Sprite::Mirror(bool m)
@@ -142,7 +154,7 @@ void Sprite::Mirror(bool m)
 
 int Sprite::GetWidth()
 {
-	return width/frameCount*scaleX;
+	return width/frameCount*((scaleX-1)*0.5+1);
 }
 
 int Sprite::GetHeight()

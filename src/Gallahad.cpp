@@ -11,7 +11,6 @@ Gallahad::Gallahad(int x, int y):
 	Vec2 size = graphicsComponent.GetSize();
 	box = Rect(x, y, size.x, size.y);
 	facing = RIGHT;
-	speed = Vec2(0, 0.6);
 }
 
 Gallahad::~Gallahad()

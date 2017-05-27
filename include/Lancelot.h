@@ -12,11 +12,7 @@ class Lancelot : public GameObject
 private:
 	int hitpoints = 10;
 	Timer invincibilityTimer = Timer(500);
-	
-	LancelotInputComponent inputComponent;
-	PhysicsComponent physicsComponent;
-	LancelotGraphicsComponent graphicsComponent;
-	SaveComponent &saveComponent;
+	Timer attacking = Timer(500);
 
 public:
 	Lancelot(int x, int y);
@@ -24,11 +20,18 @@ public:
 	bool IsDead();
 	int GetHealth();
 	void Damage(int damage);
+	void Attack();
+	bool Attacking();
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void Update(float dt);
 	void Render();
+
+	LancelotInputComponent inputComponent;
+	PhysicsComponent physicsComponent;
+	LancelotGraphicsComponent graphicsComponent;
+	SaveComponent &saveComponent;
 };
 
 #endif /* LANCELOT_H_ */

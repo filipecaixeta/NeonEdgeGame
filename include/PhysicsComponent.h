@@ -8,7 +8,10 @@
 class PhysicsComponent
 {
 public:
-	PhysicsComponent();
+	Vec2 velocity = Vec2(0, 0.6);
+	bool kinetic;
+
+	PhysicsComponent(bool kinetic = false);
 	void Update(GameObject* obj, float dt);
 	int TileCollision(GameObject* obj, GameObject::Face face);
 };

@@ -1,5 +1,6 @@
 #include "GallahadInputComponent.h"
 #include "InputManager.h"
+#include "Gallahad.h"
 
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -10,25 +11,26 @@ GallahadInputComponent::GallahadInputComponent()
 
 void GallahadInputComponent::Update(GameObject* obj, float dt)
 {
+	Gallahad* g = (Gallahad*) obj;
 	InputManager &input = InputManager::GetInstance();
 	// Move Left
 	if(input.IsKeyDown(SDLK_a))
 	{
-		obj->speed.x -= 0.002*dt;
-		obj->facing = GameObject::LEFT;
+		g->physicsComponent.velocity.x -= 0.002*dt;
+		g->facing = GameObject::LEFT;
 	}
 	// Move Right
 	else if(input.IsKeyDown(SDLK_d))
 	{
-		obj->speed.x += 0.002*dt;
-		obj->facing = GameObject::RIGHT;
+		g->physicsComponent.velocity.x += 0.002*dt;
+		g->facing = GameObject::RIGHT;
 	}
 	// Stay Still
 	else
 	{
-		obj->speed.x = 0;
+		g->physicsComponent.velocity.x = 0;
 	}
-	clamp(obj->speed.x,-0.4f,0.4f);
+	clamp(g->physicsComponent.velocity.x,-0.4f,0.4f);
 	
 	// Attack
 	if(input.IsKeyDown(SDLK_e))
@@ -40,49 +42,26 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 	if(input.KeyPress(SDLK_SPACE))
 	{
 		// Ground Jump
-		if(obj->footing == GameObject::GROUNDED)
+		if(g->footing == GameObject::GROUNDED)
 		{
-			obj->speed.y = -0.6;
+			g->physicsComponent.velocity.y = -0.6;
 		}
 		// Wall-Jump from a wall to the left
-		else if(obj->footing == GameObject::LEFT_WALLED && obj->lastFooting != GameObject::LEFT_WALLED)
+		else if(g->footing == GameObject::LEFT_WALLED && g->lastFooting != GameObject::LEFT_WALLED)
 		{
-			obj->speed.y = -0.6;
-			obj->speed.x = 0.6;
-			obj->facing = GameObject::RIGHT;
-			obj->lastFooting = GameObject::LEFT_WALLED;
+			g->physicsComponent.velocity.y = -0.6;
+			g->physicsComponent.velocity.x = 0.6;
+			g->facing = GameObject::RIGHT;
+			g->lastFooting = GameObject::LEFT_WALLED;
 		}
 		// Wall-Jump from a wall to the right
-		else if(obj->footing == GameObject::RIGHT_WALLED && obj->lastFooting != GameObject::RIGHT_WALLED)
+		else if(g->footing == GameObject::RIGHT_WALLED && g->lastFooting != GameObject::RIGHT_WALLED)
 		{
-			obj->speed.y = -0.6;
-			obj->speed.x = -0.6;
-			obj->facing = GameObject::LEFT;
-			obj->lastFooting = GameObject::RIGHT_WALLED;
+			g->physicsComponent.velocity.y = -0.6;
+			g->physicsComponent.velocity.x = -0.6;
+			g->facing = GameObject::LEFT;
+			g->lastFooting = GameObject::RIGHT_WALLED;
 		}
-		obj->jumping = true;
-		/*if(obj->wallJumping == 1)
-			obj->speed.x = 0.4;
-		if(obj->wallJumping == 2)
-			obj->speed.x = -0.4;
-		obj->lastWallJumping = obj->wallJumping;
-		obj->wallJumping = 0;
-		obj->jumpingPower = 1;*/
+		g->jumping = true;
 	}
-	/*else if(input.KeyRelease(SDLK_SPACE))
-	{
-		obj->jumpingPower = 0;
-	}
-	else
-	{
-		if(obj->jumpingPower > 0 && obj->jumpingPower < 11)
-		{
-			obj->speed.y -= 0.03;
-			obj->jumpingPower++;
-		}
-	}*/
-
-	// Fica invisivel
-	//	if(input.IsKeyDown(SDLK_s))
-	//		InvisibleState(dt);
 }

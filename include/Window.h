@@ -4,6 +4,13 @@
 #include "Rect.h"
 #include "Sprite.h"
 
+/*
+*	A constante WINDOWPIECE define o tamanho de cada pedaço
+*	a ser renderizado da janela. Nota-se que por enquanto, o
+*	codigo de render das janelas requer que seja 32x32, mas é
+*	possível mudar.
+*/
+
 #define WINDOWPIECE 32
 
 /*

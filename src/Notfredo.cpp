@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "Attack.h"
 
 Notfredo::Notfredo(int x, int y):
 	physicsComponent(),
@@ -11,7 +12,6 @@ Notfredo::Notfredo(int x, int y):
 	Vec2 size = graphicsComponent.GetSize();
 	box = Rect(x, y, size.x, size.y);
 	facing = RIGHT;
-	speed = Vec2(0.2, 0.6);
 	idle.Start();
 }
 
@@ -43,9 +43,8 @@ void Notfredo::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Attack"))
 	{
-		if(other->facing == facing)
-			Damage(1);
-		else
+		Attack* a = (Attack*) other;
+		if(a->owner->Is("Lancelot"))
 			Damage(1);
 	}
 }
@@ -77,38 +76,38 @@ void Notfredo::UpdateAI(float dt)
 		{
 			if(player.x < box.x)
 			{
-				speed.x -= 0.003*dt;
-				if(box.x - speed.x*dt < player.x)
+				physicsComponent.velocity.x -= 0.003*dt;
+				if(box.x - physicsComponent.velocity.x*dt < player.x)
 				{
 					box.x = player.x;
-					speed.x = 0;
+					physicsComponent.velocity.x = 0;
 				}
 				facing = LEFT;
 			}
 			else
 			{
-				speed.x += 0.003*dt;
-				if(box.x + speed.x*dt > player.x)
+				physicsComponent.velocity.x += 0.003*dt;
+				if(box.x + physicsComponent.velocity.x*dt > player.x)
 				{
 					box.x = player.x;
-					speed.x = 0;
+					physicsComponent.velocity.x = 0;
 				}
 				facing = RIGHT;
 			}
-			clamp(speed.x,-0.4f,0.4f);
+			clamp(physicsComponent.velocity.x,-0.4f,0.4f);
 		}
 		else if(looking.IsRunning() && looking.GetElapsed() == 0)
 		{
 			if(facing == LEFT)
-				speed.x = -0.2;
+				physicsComponent.velocity.x = -0.2;
 			else
-				speed.x = 0.2;
+				physicsComponent.velocity.x = 0.2;
 		}
 		else
 		{
 			if(idle.IsRunning() && idle.GetElapsed() == 0)
 			{
-				speed.x = 0;
+				physicsComponent.velocity.x = 0;
 				if(facing == LEFT)
 				{
 					facing = RIGHT;

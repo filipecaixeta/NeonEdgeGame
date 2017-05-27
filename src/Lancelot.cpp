@@ -1,5 +1,7 @@
 #include "Lancelot.h"
 #include "Camera.h"
+#include "Attack.h"
+
 
 Lancelot::Lancelot(int x, int y):
 	inputComponent(),
@@ -11,7 +13,6 @@ Lancelot::Lancelot(int x, int y):
 	Vec2 size = graphicsComponent.GetSize();
 	box = Rect(x, y, size.x, size.y);
 	facing = RIGHT;
-	speed = Vec2(0, 0.6);
 }
 
 Lancelot::~Lancelot()
@@ -38,6 +39,16 @@ void Lancelot::Damage(int damage)
 	}
 }
 
+void Lancelot::Attack()
+{
+	attacking.Start();
+}
+
+bool Lancelot::Attacking()
+{
+	return attacking.IsRunning();
+}
+
 void Lancelot::NotifyTileCollision(int tile, Face face)
 {
 	if(tile > 11)
@@ -48,13 +59,18 @@ void Lancelot::NotifyTileCollision(int tile, Face face)
 
 void Lancelot::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Notattack"))
-		Damage(1);
+	if(other->Is("Attack"))
+	{
+		//Attack* a = (Attack*) other;
+		//if(a->owner->Is("Lancelot"))
+			Damage(1);
+	}
 }
 
 void Lancelot::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);
+	attacking.Update(dt);
 }
 
 void Lancelot::Update(float dt)

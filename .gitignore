@@ -9,3 +9,5 @@ callgrind.*
 CMakeFiles/
 CMakeCache.txt
 *.cbp
+bin/Game.exe
+Makefile

@@ -14,7 +14,6 @@ public:
 	Face facing = RIGHT;
 	Footing footing = GROUNDED; 
 	Footing lastFooting = AIRBORNE;
-	Vec2 speed = Vec2();
 
 	bool jumping = false;
 

@@ -7,18 +7,17 @@
 
 class Attack : public GameObject
 {
-private:
-	Sprite* sp;
-	Timer lifetime;
-	int power;
-
 public:
-	Attack(std::string file, int frames, int x, int y, int power, int duration, Face facing);
+	Sprite sp = Sprite();
+	Timer lifetime = Timer();
+	int power = 0;
+	GameObject* owner = nullptr;
+
 	~Attack();
 	bool IsDead();
 	void UpdateTimers(float dt);
-	void Update(float dt);
-	void Render();
+	void Update(float dt) = 0;
+	void Render() = 0;
 };
 
 #endif /* ATTACK_H_ */

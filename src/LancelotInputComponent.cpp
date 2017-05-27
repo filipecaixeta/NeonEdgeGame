@@ -1,5 +1,7 @@
 #include "LancelotInputComponent.h"
 #include "InputManager.h"
+#include "StageState.h"
+#include "Lancelot.h"
 
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -10,76 +12,64 @@ LancelotInputComponent::LancelotInputComponent()
 
 void LancelotInputComponent::Update(GameObject* obj, float dt)
 {
+	Lancelot* l = (Lancelot*) obj;
 	InputManager &input = InputManager::GetInstance();
 	// Move Left
 	if(input.IsKeyDown(SDLK_a))
 	{
-		obj->speed.x -= 0.002*dt;
-		obj->facing = GameObject::LEFT;
+		l->physicsComponent.velocity.x -= 0.002*dt;
+		l->facing = GameObject::LEFT;
 	}
 	// Move Right
 	else if(input.IsKeyDown(SDLK_d))
 	{
-		obj->speed.x += 0.002*dt;
-		obj->facing = GameObject::RIGHT;
+		l->physicsComponent.velocity.x += 0.002*dt;
+		l->facing = GameObject::RIGHT;
 	}
 	// Stay Still
 	else
 	{
-		obj->speed.x = 0;
+		l->physicsComponent.velocity.x = 0;
 	}
-	clamp(obj->speed.x,-0.4f,0.4f);
+	clamp(l->physicsComponent.velocity.x,-0.4f,0.4f);
 	
 	// Attack
 	if(input.IsKeyDown(SDLK_e))
 	{
-		//obj->attacking = true;
+		if(!l->Attacking())
+		{
+			//Starts attack timer
+			l->Attack();
+			//Generates attack object
+			StageState::AddObject(new Melee("notattack.png", 2, 0, l->facing, 500, 1, l));
+		}
 	}
 	
 	// Jump
 	if(input.KeyPress(SDLK_SPACE))
 	{
 		// Ground Jump
-		if(obj->footing == GameObject::GROUNDED)
+		if(l->footing == GameObject::GROUNDED)
 		{
-			obj->speed.y = -0.6;
+			l->physicsComponent.velocity.y = -0.6;
 		}
 		// Wall-Jump from a wall to the left
-		else if(obj->footing == GameObject::LEFT_WALLED && obj->lastFooting != GameObject::LEFT_WALLED)
+		else if(l->footing == GameObject::LEFT_WALLED && l->lastFooting != GameObject::LEFT_WALLED)
 		{
-			obj->speed.y = -0.6;
-			obj->speed.x = 0.6;
-			obj->facing = GameObject::RIGHT;
-			obj->lastFooting = GameObject::LEFT_WALLED;
+			l->physicsComponent.velocity.y = -0.6;
+			l->physicsComponent.velocity.x = 0.6;
+			l->facing = GameObject::RIGHT;
+			l->lastFooting = GameObject::LEFT_WALLED;
 		}
 		// Wall-Jump from a wall to the right
-		else if(obj->footing == GameObject::RIGHT_WALLED && obj->lastFooting != GameObject::RIGHT_WALLED)
+		else if(l->footing == GameObject::RIGHT_WALLED && l->lastFooting != GameObject::RIGHT_WALLED)
 		{
-			obj->speed.y = -0.6;
-			obj->speed.x = -0.6;
-			obj->facing = GameObject::RIGHT;
-			obj->lastFooting = GameObject::RIGHT_WALLED;
+			l->physicsComponent.velocity.y = -0.6;
+			l->physicsComponent.velocity.x = -0.6;
+			l->facing = GameObject::RIGHT;
+			l->lastFooting = GameObject::RIGHT_WALLED;
 		}
-		/*if(obj->wallJumping == 1)
-			obj->speed.x = 0.4;
-		if(obj->wallJumping == 2)
-			obj->speed.x = -0.4;
-		obj->lastWallJumping = obj->wallJumping;
-		obj->wallJumping = 0;
-		obj->jumpingPower = 1;*/
 	}
-	/*else if(input.KeyRelease(SDLK_SPACE))
-	{
-		obj->jumpingPower = 0;
-	}
-	else
-	{
-		if(obj->jumpingPower > 0 && obj->jumpingPower < 11)
-		{
-			obj->speed.y -= 0.03;
-			obj->jumpingPower++;
-		}
-	}*/
 
 	// Fica invisivel
 	//	if(input.IsKeyDown(SDLK_s))

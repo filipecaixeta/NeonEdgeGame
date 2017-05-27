@@ -1,41 +1,38 @@
-#include <menu/MainMenu.h>
-#include <InputManager.h>
-#include <Resources.h>
-#include <StageState.h>
+#include "menu/MainMenu.h"
+#include "menu/SettingsMenu.h"
+#include "InputManager.h"
+#include "Resources.h"
+#include "StageState.h"
+#include "Text.h"
 #include <iostream>
 
-MainMenu::MainMenu()
+MainMenu::MainMenu():
+	MenuState()
 {
-
 }
 
 void MainMenu::LoadAssets()
 {
 	SDL_Texture *text;
-	std::string fontName = "Call me maybe.ttf";
-	int fontSize = 72;
-	SDL_Color fontColor = {255,255,255,255};
 
+	text = Text::GetText(fontName,fontSize,fontColor,"Play");
+	menuOptions.push_back({"Play",new Sprite(text,1,0,true),true,0});
 
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Play",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Play",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Load",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Load",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Settings",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Settings",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Credits",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Credits",new Sprite(text,1,0,true)));
-	text = Resources::GetText(Game::GetInstance().GetRenderer(),"Exit",
-							  fontName,fontSize,fontColor);
-	menuOptions.push_back(std::make_pair("Exit",new Sprite(text,1,0,true)));
+	text = Text::GetText(fontName,fontSize,fontColor,"Load");
+	menuOptions.push_back({"Load",new Sprite(text,1,0,true),true,0});
+
+	text = Text::GetText(fontName,fontSize,fontColor,"Settings");
+	menuOptions.push_back({"Settings",new Sprite(text,1,0,true),true,0});
+
+	text = Text::GetText(fontName,fontSize,fontColor,"Credits");
+	menuOptions.push_back({"Credits",new Sprite(text,1,0,true),true,0});
+
+	text = Text::GetText(fontName,fontSize,fontColor,"Exit");
+	menuOptions.push_back({"Exit",new Sprite(text,1,0,true),true,0});
 
 	bg.Open("mainMenuBg.png");
 
-	SetOption(0);
+	SetOption(1);
 }
 
 void MainMenu::Update()
@@ -44,9 +41,25 @@ void MainMenu::Update()
 	if(	InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
 		InputManager::GetInstance().KeyPress(SDLK_RETURN) )
 	{
-		if (menuOptions[currentOption].first=="Play")
+		if (menuOptions[currentOption].key=="Play")
 		{
-			Game::GetInstance().AddState(new StageState());
+			Game::GetInstance().AddState(new StageState("Lancelot"));
+		}
+		else if (menuOptions[currentOption].key=="Load")
+		{
+
+		}
+		else if (menuOptions[currentOption].key=="Settings")
+		{
+			Game::GetInstance().AddState(new SettingsMenu());
+		}
+		else if (menuOptions[currentOption].key=="Credits")
+		{
+
+		}
+		else if (menuOptions[currentOption].key=="Exit")
+		{
+			quitRequested = true;
 		}
 	}
 }

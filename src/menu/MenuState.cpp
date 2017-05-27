@@ -1,7 +1,12 @@
 #include <menu/MenuState.h>
 #include <InputManager.h>
 
-MenuState::MenuState()
+MenuState::MenuState():
+	menuOptions(),
+	currentOption(-1),
+	fontName("8bitOperatorPlus8-Regular.ttf"),
+	fontSize(72),
+	fontColor({255,255,255,255})
 {
 
 }
@@ -10,7 +15,7 @@ MenuState::~MenuState()
 {
 	for (auto &i: menuOptions)
 	{
-		delete i.second;
+		delete i.sprite;
 	}
 	menuOptions.clear();
 }
@@ -28,22 +33,23 @@ void MenuState::Update()
 	}
 	if(InputManager::GetInstance().KeyPress(SDLK_UP))
 	{
-		SetOption(currentOption-1);
+		SetOption(-1);
 	}
 	if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
 	{
-		SetOption(currentOption+1);
+		SetOption(1);
 	}
 }
 
 void MenuState::Render()
 {
+	int offset = 70;
 	bg.Render(CenterVertical(&bg));
-	int pos=0;
+	int pos=offset;
 	for(auto option: menuOptions)
 	{
-		option.second->Render(CenterVertical(option.second)+Vec2(0,pos));
-		pos += option.second->GetHeight();
+		option.sprite->Render(CenterVertical(option.sprite)+Vec2(0,pos));
+		pos += offset;
 	}
 }
 
@@ -57,16 +63,27 @@ bool MenuState::Is(std::string type)
 	return (type == "Menu");
 }
 
-void MenuState::SetOption(unsigned int i)
+void MenuState::SetOption(int i)
 {
-	currentOption = i%menuOptions.size();
-	for (i=0; i<menuOptions.size(); i++)
+	currentOption = currentOption+i;
+	if (currentOption<0)
 	{
-		menuOptions[i].second->SetScaleX(1.0);
-		menuOptions[i].second->SetScaleY(1.0);
+		currentOption = menuOptions.size()-1;
 	}
-	menuOptions[currentOption].second->SetScaleX(1.3);
-	menuOptions[currentOption].second->SetScaleY(1.3);
+	currentOption = currentOption%menuOptions.size();
+
+	if (menuOptions[currentOption].selectable==false)
+	{
+		SetOption(i);
+		return;
+	}
+	for (unsigned int j=0; j<menuOptions.size(); j++)
+	{
+		menuOptions[j].sprite->SetScaleX(1.0);
+		menuOptions[j].sprite->SetScaleY(1.0);
+	}
+	menuOptions[currentOption].sprite->SetScaleX(1.1);
+	menuOptions[currentOption].sprite->SetScaleY(1.1);
 }
 
 State *MenuState::get()

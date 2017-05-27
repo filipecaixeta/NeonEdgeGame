@@ -4,36 +4,41 @@
 #include "TileMap.h"
 #include "StageState.h"
 
-PhysicsComponent::PhysicsComponent()
+PhysicsComponent::PhysicsComponent(bool kinetic)
 {
-
+	PhysicsComponent::kinetic = kinetic;
 }
 
 void PhysicsComponent::Update(GameObject* obj, float dt)
 {
 	//Gravity
-	if(obj->speed.y >= 0.1 && (obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED))
+	if(!kinetic)
 	{
-		obj->speed.y = 0.1;//-= 0.001*dt;
+		if(velocity.y >= 0.1 && (obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED))
+		{
+			velocity.y = 0.1;//-= 0.001*dt;
+		}
+		else if(velocity.y == 0.1 && obj->footing == GameObject::AIRBORNE)
+		{
+			velocity.y = 0.6;
+		}
+		else
+		{
+			velocity.y += 0.002*dt;
+		}
+		clamp(velocity.y,-1.8f,1.8f);
 	}
-	else if(obj->speed.y == 0.1 && obj->footing == GameObject::AIRBORNE)
-	{
-		obj->speed.y = 0.6;
-	}
-	else
-	{
-		obj->speed.y += 0.002*dt;
-	}
-	clamp(obj->speed.y,-1.8f,1.8f);
 
-	obj->box.x += obj->speed.x*dt;
-	if(obj->speed.x < 0)
+	//Apply vellocity in x
+	obj->box.x += velocity.x*dt;
+	if(velocity.x < 0)
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::LEFT), GameObject::LEFT);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::RIGHT), GameObject::RIGHT);
 
-	obj->box.y += obj->speed.y*dt;
-	if(obj->speed.y < 0)
+	//Apply vellocity in y
+	obj->box.y += velocity.y*dt;
+	if(velocity.y < 0)
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::UPPER), GameObject::UPPER);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::BOTTOM), GameObject::BOTTOM);
@@ -100,7 +105,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 					{
 						box.y = tile.y+tile.h+2;
 						obj->box.y = box.y;
-						obj->speed.y = 0;
+						velocity.y = 0;
 						return map->At(x,y,0);
 					}
 				}
@@ -110,7 +115,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 					{
 						box.y = tile.y-box.h-2;
 						obj->box.y = box.y;
-						obj->speed.y = 0.6;
+						velocity.y = 0.6;
 						if(obj->lastFooting != GameObject::GROUNDED)
 							obj->lastFooting = obj->footing;
 						obj->footing = GameObject::GROUNDED;

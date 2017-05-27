@@ -17,6 +17,7 @@ private:
 	float timeElapsed = 0;
 	int width = 0;
 	int height = 0;
+	int destroyTexture;
 	SDL_RendererFlip flipHorizontal = SDL_FLIP_NONE;
 
 public:
@@ -38,7 +39,7 @@ public:
 	void SetFrameCount(int frameCount);
 	void SetFrameTime(float frameTime);
 	void SetBlending(bool b);
-	void SetTextureDebug(SDL_Texture *tex);
+	void SetTexture(SDL_Texture *tex, bool destroyTexture_=true);
 	void Mirror(bool m);
 	int GetWidth();
 	int GetHeight();

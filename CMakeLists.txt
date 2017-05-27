@@ -6,7 +6,7 @@ aux_source_directory(src/menu SRC_LIST)
 #QTCreator precisa da lista de headers para adicionar ao projeto.
 FILE(GLOB_RECURSE HEADER_LIST "include/*.h")
 
-list(APPEND CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra -ggdb -O0 ${CMAKE_CXX_FLAGS}")
+list(APPEND CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra -Wno-unused-parameter -ggdb -O0 ${CMAKE_CXX_FLAGS}")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 if (UNIX)

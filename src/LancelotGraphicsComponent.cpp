@@ -1,4 +1,5 @@
 #include "LancelotGraphicsComponent.h"
+#include "Lancelot.h"
 
 LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	sp(new Sprite()),
@@ -16,21 +17,18 @@ LancelotGraphicsComponent::~LancelotGraphicsComponent()
 	sprites.clear();
 }
 
-void LancelotGraphicsComponent::Update(GameObject *obj, float dt)
+void LancelotGraphicsComponent::Update(GameObject* obj, float dt)
 {
-	if (obj->speed.x < 0)
+	Lancelot* l = (Lancelot*) obj;
+	
+	mirror = (l->facing == GameObject::LEFT);
+	if(l->physicsComponent.velocity.x == 0)
 	{
-		UpdateSprite(obj, "Running");
-		mirror = true;
-	}
-	else if (obj->speed.x > 0)
-	{
-		UpdateSprite(obj, "Running");
-		mirror = false;
+		UpdateSprite(obj, "Idle");
 	}
 	else
 	{
-		UpdateSprite(obj, "Idle");
+		UpdateSprite(obj, "Running");
 	}
 
 	sp->Mirror(mirror);
@@ -49,13 +47,14 @@ Vec2 LancelotGraphicsComponent::GetSize()
 
 void LancelotGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 {
+	Lancelot* l = (Lancelot*) obj;
 	if(sp != sprites[sprite])
 	{
 		int w = sp->GetWidth();
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
-		obj->box.x += (w-sp->GetWidth())/2;
-		obj->box.y += h-sp->GetHeight();
-		obj->box.SetWH(GetSize());
+		l->box.x += (w-sp->GetWidth())/2;
+		l->box.y += h-sp->GetHeight();
+		l->box.SetWH(GetSize());
 	}
 }
