@@ -107,6 +107,22 @@ void Game::UpdateState()
 	storedState->LoadAssets();
 }
 
+void Game::LoadConfigurations()
+{
+	//Load Game::screenSize
+	//Load Game::fps
+	//Load Game::fullScreenMode
+	//Load inputmanager::translationTable
+}
+
+void Game::SaveConfigurations()
+{
+	//Save Game::screenSize
+	//Save Game::fps
+	//Save Game::fullScreenMode
+	//Save inputmanager::translationTable
+}
+
 void Game::AddState(State* state) {
 	stateStack.emplace(state);
 }

@@ -15,13 +15,13 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 	Lancelot* l = (Lancelot*) obj;
 	InputManager &input = InputManager::GetInstance();
 	// Move Left
-	if(input.IsKeyDown(SDLK_a))
+	if(input.IsKeyDown(MOVE_LEFT_KEY,true))
 	{
 		l->physicsComponent.velocity.x -= 0.002*dt;
 		l->facing = GameObject::LEFT;
 	}
 	// Move Right
-	else if(input.IsKeyDown(SDLK_d))
+	else if(input.IsKeyDown(MOVE_RIGHT_KEY,true))
 	{
 		l->physicsComponent.velocity.x += 0.002*dt;
 		l->facing = GameObject::RIGHT;
@@ -34,7 +34,7 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 	clamp(l->physicsComponent.velocity.x,-0.4f,0.4f);
 	
 	// Attack
-	if(input.IsKeyDown(SDLK_e))
+	if(input.IsKeyDown(ATACK_KEY,true))
 	{
 		if(!l->Attacking())
 		{
@@ -46,7 +46,7 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 	}
 	
 	// Jump
-	if(input.KeyPress(SDLK_SPACE))
+	if(input.KeyPress(JUMP_KEY,true))
 	{
 		// Ground Jump
 		if(l->footing == GameObject::GROUNDED)

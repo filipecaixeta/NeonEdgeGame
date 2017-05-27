@@ -41,6 +41,9 @@ public:
     void setFullScreen(bool b);
 	bool isFullScreen();
 	void UpdateState();
+
+	void LoadConfigurations();
+	void SaveConfigurations();
 };
 
 #endif /* GAME_H_ */
