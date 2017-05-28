@@ -1,40 +1,43 @@
 #ifndef STAGESTATE_H_
 #define STAGESTATE_H_
 
+#include <memory>
+#include <string>
+
 #include "State.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Notfredo.h"
 #include "Window.h"
-#include <LoadingBar.h>
+#include "LoadingBar.h"
+#include "menu/MenuState.h"
 
 class StageState : public State
 {
 private:
 	std::string mode;
 	TileSet* tileSet;
-	bool paused = false;
+	bool paused;
 
-	static TileMap* tileMap;
+	TileMap* tileMap;
 	static GameObject* player;
 	static std::vector<GameObject*> objectArray;
-	static std::vector<std::unique_ptr<Window>> windowArray;
-	static std::unordered_map<int, TileMap*> roomTable;
-	static int** roomArray;
+	std::vector<std::unique_ptr<Window>> windowArray;
+	std::unordered_map<int, TileMap*> roomTable;
+	int** roomArray;
 	LoadingBar healthBar;
+	State* inGameMenu;
 
 public:
-	StageState(std::string mode, int sizeX = 10, int sizeY = 10);
+	StageState(std::string mode_, int sizeX = 10, int sizeY = 10);
 	~StageState();
 
-	static TileMap* GetTileMap();
 	static GameObject* GetPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
-	static void AddWindow(Window* ptr);
-	static void RemoveWindow(Window* ptr);
-	static bool IsColliding(Rect a, Rect b);
+	void AddWindow(Window* ptr);
+	void RemoveWindow(Window* ptr);
 
 	void Pause();
 	void Resume();
@@ -44,6 +47,8 @@ public:
 	bool QuitRequested();
 	bool Is(std::string type);
 	StageState* get();
+	void HandleInput();
+	void UpdateGame();
 };
 
 #endif /* STAGESTATE_H_ */

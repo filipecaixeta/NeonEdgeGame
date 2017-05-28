@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "SaveSystem.h"
 #include "StageState.h"
   

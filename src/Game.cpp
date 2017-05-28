@@ -1,8 +1,10 @@
+#include <iostream>
+
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
-#include <iostream>
-#include <menu/MainMenu.h>
+#include "menu/MainMenu.h"
+#include "Resources.h"
 
 Game* Game::instance = nullptr;
 

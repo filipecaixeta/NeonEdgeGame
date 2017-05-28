@@ -1,6 +1,8 @@
 #ifndef TILEMAP_H_
 #define TILEMAP_H_
 
+#include <vector>
+
 #include "Vec2.h"
 #include "Rect.h"
 #include "TileSet.h"

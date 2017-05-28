@@ -1,7 +1,9 @@
 #ifndef SAVECOMPONENT_H
 #define SAVECOMPONENT_H
-#include <GameObject.h>
+
 #include <string>
+
+#include "GameObject.h"
 
 class SaveComponent
 {

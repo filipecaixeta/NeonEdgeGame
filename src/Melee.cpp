@@ -1,5 +1,7 @@
 #include "Melee.h"
 #include "Camera.h"
+#include "Sprite.h"
+#include "Timer.h"
 
 Melee::Melee(std::string file, int frames, int frameTime, Face facing, int lifetime, int power, GameObject* owner)
 {
@@ -30,7 +32,7 @@ Melee::~Melee()
 
 }
 
-void Melee::Update(float dt)
+void Melee::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	if(facing == LEFT)

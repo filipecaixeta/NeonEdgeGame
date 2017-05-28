@@ -1,5 +1,6 @@
 #include "Text.h"
 #include "Game.h"
+#include "Resources.h"
 
 SDL_Texture* Text::GetText(std::string fontFile, int fontSize,
 						   SDL_Color textColor, std::string text, int lineWidth)

@@ -1,6 +1,7 @@
+#include <math.h>
+
 #include "Sprite.h"
 #include "Game.h"
-#include <math.h>
 #ifndef clamp
 	#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 #endif
@@ -159,7 +160,7 @@ int Sprite::GetWidth()
 
 int Sprite::GetHeight()
 {
-	return height*scaleY;
+	return height*((scaleY-1)*0.5+1);
 }
 
 Vec2 Sprite::GetSize()

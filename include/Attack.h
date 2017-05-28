@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Timer.h"
+#include "TileMap.h"
 
 class Attack : public GameObject
 {
@@ -16,7 +17,7 @@ public:
 	~Attack();
 	bool IsDead();
 	void UpdateTimers(float dt);
-	void Update(float dt) = 0;
+	void Update(TileMap* world, float dt)=0;
 	void Render() = 0;
 };
 

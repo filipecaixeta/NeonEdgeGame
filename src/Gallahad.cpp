@@ -56,11 +56,11 @@ void Gallahad::UpdateTimers(float dt)
 	invincibilityTimer.Update(dt);
 }
 
-void Gallahad::Update(float dt)
+void Gallahad::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	inputComponent.Update(this,dt);
-	physicsComponent.Update(this,dt);
+	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
 	saveComponent.Update(this,dt);
 }

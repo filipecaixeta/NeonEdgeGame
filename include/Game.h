@@ -1,10 +1,8 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "MainMenuState.h"
-#include "StageState.h"
-#include "EndState.h"
 #include <stack>
+#include "StageState.h"
 
 class Game {
 private:

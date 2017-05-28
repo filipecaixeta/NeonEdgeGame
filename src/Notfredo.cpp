@@ -72,7 +72,7 @@ void Notfredo::UpdateAI(float dt)
 	if(StageState::GetPlayer())
 	{
 		Rect player = StageState::GetPlayer()->box;
-		if(StageState::IsColliding(radius, player) /*&& !Godofredo::player->IsHidden()*/)
+		if(player.OverlapsWith(radius)/*&& !Godofredo::player->IsHidden()*/)
 		{
 			if(player.x < box.x)
 			{
@@ -121,11 +121,11 @@ void Notfredo::UpdateAI(float dt)
 	}
 }
 
-void Notfredo::Update(float dt)
+void Notfredo::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	UpdateAI(dt);
-	physicsComponent.Update(this,dt);
+	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
 }
 

@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "StageState.h"
 #include "Lancelot.h"
+#include "Melee.h"
 
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -40,8 +41,6 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 		{
 			//Starts attack timer
 			l->Attack();
-			//Generates attack object
-			StageState::AddObject(new Melee("notattack.png", 2, 0, l->facing, 500, 1, l));
 		}
 	}
 	

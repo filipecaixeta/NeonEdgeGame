@@ -1,8 +1,10 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
+#include <string>
+
 #include "Resources.h"
-#include <Vec2.h>
+#include "Vec2.h"
 
 class Sprite {
 private:

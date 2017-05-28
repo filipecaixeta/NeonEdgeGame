@@ -1,5 +1,6 @@
 #include "GallahadGraphicsComponent.h"
 #include "Gallahad.h"
+#include "Rect.h"
 
 GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 	sp(new Sprite()),

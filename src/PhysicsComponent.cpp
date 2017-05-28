@@ -1,7 +1,6 @@
 #include "PhysicsComponent.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "TileMap.h"
 #include "StageState.h"
 
 PhysicsComponent::PhysicsComponent(bool kinetic)
@@ -9,7 +8,7 @@ PhysicsComponent::PhysicsComponent(bool kinetic)
 	PhysicsComponent::kinetic = kinetic;
 }
 
-void PhysicsComponent::Update(GameObject* obj, float dt)
+void PhysicsComponent::Update(GameObject* obj, TileMap *world,float dt)
 {
 	//Gravity
 	if(!kinetic)
@@ -32,19 +31,19 @@ void PhysicsComponent::Update(GameObject* obj, float dt)
 	//Apply vellocity in x
 	obj->box.x += velocity.x*dt;
 	if(velocity.x < 0)
-		obj->NotifyTileCollision(TileCollision(obj, GameObject::LEFT), GameObject::LEFT);
+		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::LEFT), GameObject::LEFT);
 	else
-		obj->NotifyTileCollision(TileCollision(obj, GameObject::RIGHT), GameObject::RIGHT);
+		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::RIGHT), GameObject::RIGHT);
 
 	//Apply vellocity in y
 	obj->box.y += velocity.y*dt;
 	if(velocity.y < 0)
-		obj->NotifyTileCollision(TileCollision(obj, GameObject::UPPER), GameObject::UPPER);
+		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::UPPER), GameObject::UPPER);
 	else
-		obj->NotifyTileCollision(TileCollision(obj, GameObject::BOTTOM), GameObject::BOTTOM);
+		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::BOTTOM), GameObject::BOTTOM);
 }
 
-int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
+int PhysicsComponent::TileCollision(GameObject* obj,TileMap *world, GameObject::Face face)
 {
 	if((face == GameObject::LEFT || face == GameObject::RIGHT) || 
 	   (obj->footing != GameObject::LEFT_WALLED && obj->footing != GameObject::RIGHT_WALLED))
@@ -52,27 +51,26 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 		obj->footing = GameObject::AIRBORNE;
 	}
 
-	TileMap* map = StageState::GetTileMap();
 	Rect box = obj->box;
 	box.SetXY(box.GetXY()+Vec2(1.0f,1.0f));
 	box.SetWH(box.GetWH()-Vec2(2.0f,2.0f));
 
-	int minX = box.x/map->GetTileWidth();
-	int minY = box.y/map->GetTileHeight();
-	int maxX = (box.x+box.w)/map->GetTileWidth();
-	int maxY = (box.y+box.h)/map->GetTileHeight();
-	clamp(minX,0,map->GetWidth()-1);
-	clamp(minY,0,map->GetHeight()-1);
-	clamp(maxX,0,map->GetWidth()-1);
-	clamp(maxY,0,map->GetHeight()-1);
+	int minX = box.x/world->GetTileWidth();
+	int minY = box.y/world->GetTileHeight();
+	int maxX = (box.x+box.w)/world->GetTileWidth();
+	int maxY = (box.y+box.h)/world->GetTileHeight();
+	clamp(minX,0,world->GetWidth()-1);
+	clamp(minY,0,world->GetHeight()-1);
+	clamp(maxX,0,world->GetWidth()-1);
+	clamp(maxY,0,world->GetHeight()-1);
 
 	for(int x = minX; x <= maxX; x++)
 	{
 		for(int y = minY; y <= maxY; y++)
 		{
-			if(map->At(x,y,0) >= SOLID_TILE)
+			if(world->At(x,y,0) >= SOLID_TILE)
 			{
-				Rect tile = map->GetTileBox(x,y);
+				Rect tile = world->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
 					if(box.x+2 < tile.x+tile.w && box.x+box.w+2 > tile.x+tile.w)
@@ -83,7 +81,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
-						return map->At(x,y,0);
+						return world->At(x,y,0);
 					}
 				}
 				else if(face == GameObject::RIGHT)
@@ -96,7 +94,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
-						return map->At(x,y,0);
+						return world->At(x,y,0);
 					}
 				}
 				else if(face == GameObject::UPPER)
@@ -106,7 +104,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 						box.y = tile.y+tile.h+2;
 						obj->box.y = box.y;
 						velocity.y = 0;
-						return map->At(x,y,0);
+						return world->At(x,y,0);
 					}
 				}
 				else if(face == GameObject::BOTTOM)
@@ -120,7 +118,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 							obj->lastFooting = obj->footing;
 						obj->footing = GameObject::GROUNDED;
 						obj->jumping = false;
-						return map->At(x,y,0);
+						return world->At(x,y,0);
 					}
 				}
 			}

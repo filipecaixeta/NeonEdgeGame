@@ -1,9 +1,8 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
-#include "Resources.h"
-#include "Game.h"
 #include <SDL.h>
+#include <string>
 
 namespace Text
 {

@@ -2,7 +2,6 @@
 #define LANCELOTINPUTCOMPONENT_H
 
 #include "GameObject.h"
-#include "Melee.h"
 
 class LancelotInputComponent
 {

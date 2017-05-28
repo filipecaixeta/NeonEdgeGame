@@ -1,8 +1,9 @@
 #ifndef LOADINGBAR_H
 #define LOADINGBAR_H
 #include <string>
-#include <Sprite.h>
-#include <Vec2.h>
+
+#include "Sprite.h"
+#include "Vec2.h"
 
 class LoadingBar
 {

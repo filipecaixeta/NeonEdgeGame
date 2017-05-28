@@ -7,15 +7,6 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
-#include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <memory>
-#include <string>
-#include <vector>
-#include <queue>
 #include <unordered_map>
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -46,9 +37,6 @@ public:
 	static void ClearSounds();
 	static TTF_Font* GetFont(std::string file, int fontSize);
 	static void ClearFonts();
-	static SDL_Texture* GetText(SDL_Renderer *renderer, std::string text, std::string font, int fontSize, SDL_Color textColor);
-	static SDL_Texture* GetText(std::string text,int fontSize);
-	static void ClearText();
 };
 
 #endif /* RESOURCES_H_ */
