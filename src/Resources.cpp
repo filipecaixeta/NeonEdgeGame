@@ -96,7 +96,6 @@ void Resources::ClearSounds()
 	soundTable.clear();
 }
 
-
 TTF_Font* Resources::GetFont(std::string file, int fontSize)
 {
 	char vetor[5];

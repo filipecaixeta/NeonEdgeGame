@@ -1,9 +1,15 @@
+#include <vector>
+#include <iostream>
+#include <fstream>
+
 #include "menu/InGameQuests.h"
 #include "Text.h"
 #include "InputManager.h"
-#include <vector>
+#include "IOFunctions.h"
+#include "QuestManager.h"
 
 InGameQuests::InGameQuests():
+	questTitle(new Sprite()),
 	questText(new Sprite())
 {
 
@@ -11,28 +17,19 @@ InGameQuests::InGameQuests():
 
 void InGameQuests::LoadAssets()
 {
-	SDL_Texture *text;
+
+	QuestManager qm;
+	qm.ReadQuestsFile();
+	questType& questsV = qm.GetQuests();
 
 	fontSize = 28;
 
-	std::string key;
-
-	key = "Quest 1";
-	quests[key]="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tristique eros in blandit sodales. Aliquam erat volutpat. Praesent bibendum hendrerit neque in sagittis. Suspendisse nec nisl lobortis, eleifend quam at, interdum mauris. Mauris eu accumsan neque. Etiam pulvinar pulvinar ex, ut mattis enim consectetur tincidunt";
-	text = Text::GetText(fontName,fontSize,fontColor,key);
-	menuOptions.push_back({key,new Sprite(text,1,0,true),true,0});
-
-	SetQuestText(key);
-
-	key = "Quest 2";
-	quests[key]="Vestibulum tristique, enim vel tristique commodo, diam erat dignissim arcu, vel lacinia nunc urna ut mauris. In viverra, tellus quis posuere maximus, purus orci posuere purus, sed iaculis velit ante at odio. Vivamus non odio lorem. Sed vitae condimentum lectus.";
-	text = Text::GetText(fontName,fontSize,fontColor,key);
-	menuOptions.push_back({key,new Sprite(text,1,0,true),true,0});
-
-	key = "Quest 3";
-	quests[key]="Nam sagittis, libero vel tincidunt fermentum, ligula nisl ullamcorper ante, a iaculis ante arcu sit amet lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi ante massa, vulputate non enim ac, dignissim elementum leo.";
-	text = Text::GetText(fontName,fontSize,fontColor,key);
-	menuOptions.push_back({key,new Sprite(text,1,0,true),true,0});
+	for (auto &q: questsV)
+	{
+		quests[q.first]=q.second;
+		SDL_Texture* text = Text::GetText(fontName,fontSize,fontColor,q.first);
+		menuOptions.push_back({q.first,new Sprite(text,1,0,true),true,0});
+	}
 
 	bg.Open("inGameMenu.png");
 	bg.SetBlending(true);
@@ -47,8 +44,11 @@ void InGameQuests::Update()
 
 void InGameQuests::SetQuestText(std::string questName)
 {
+	SDL_Texture *text;
+	text = Text::GetText(fontName,fontSize*1.2,fontColor,questName,420);
+	questTitle->SetTexture(text,true);
 	std::string& textStr = quests[questName];
-	SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,textStr,420);
+	text = Text::GetText(fontName,fontSize,fontColor,textStr,420);
 	questText->SetTexture(text,true);
 }
 
@@ -63,11 +63,13 @@ void InGameQuests::Render()
 		option.sprite->Render(bgXY+pos);
 		pos.y += offset;
 	}
-	questText->Render(bgXY+Vec2(400,100));
+	questTitle->Render(bgXY+Vec2(400,100));
+	questText->Render(bgXY+Vec2(400,150));
 }
 
 void InGameQuests::SetOption(int i)
 {
 	MenuState::SetOption(i);
-	SetQuestText(menuOptions[currentOption].key);
+	if (menuOptions.size()>0)
+		SetQuestText(menuOptions[currentOption].key);
 }

@@ -65,6 +65,9 @@ bool MenuState::Is(std::string type)
 
 void MenuState::SetOption(int i)
 {
+	if (!menuOptions.size())
+		return;
+
 	currentOption = currentOption+i;
 	if (currentOption<0)
 	{
