@@ -53,7 +53,9 @@ void LancelotGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite
 		int w = sp->GetWidth();
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
-		l->box.x += (w-sp->GetWidth())/2;
+		if(l->facing == GameObject::RIGHT)
+			l->box.x += (w-sp->GetWidth());
+		//l->box.x += (w-sp->GetWidth())/2;
 		l->box.y += h-sp->GetHeight();
 		l->box.SetWH(GetSize());
 	}

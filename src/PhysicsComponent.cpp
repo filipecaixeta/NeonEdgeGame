@@ -29,14 +29,14 @@ void PhysicsComponent::Update(GameObject* obj, float dt)
 		clamp(velocity.y,-1.8f,1.8f);
 	}
 
-	//Apply vellocity in x
+	//Apply velocity in x
 	obj->box.x += velocity.x*dt;
 	if(velocity.x < 0)
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::LEFT), GameObject::LEFT);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::RIGHT), GameObject::RIGHT);
 
-	//Apply vellocity in y
+	//Apply velocity in y
 	obj->box.y += velocity.y*dt;
 	if(velocity.y < 0)
 		obj->NotifyTileCollision(TileCollision(obj, GameObject::UPPER), GameObject::UPPER);
@@ -75,11 +75,11 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 				Rect tile = map->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
-					if(box.x+2 < tile.x+tile.w && box.x+box.w+2 > tile.x+tile.w)
+					if(box.x+4 < tile.x+tile.w && box.x+box.w+4 > tile.x+tile.w)
 					{
 						obj->footing = GameObject::LEFT_WALLED;
 					}
-					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
+					if(box.x <= tile.x+tile.w && box.x+box.w >= tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
@@ -88,11 +88,11 @@ int PhysicsComponent::TileCollision(GameObject* obj, GameObject::Face face)
 				}
 				else if(face == GameObject::RIGHT)
 				{
-					if(box.x+box.w-2 > tile.x && box.x-2 < tile.x)
+					if(box.x+box.w-4 > tile.x && box.x-4 < tile.x)
 					{
 						obj->footing = GameObject::RIGHT_WALLED;
 					}
-					if(box.x+box.w > tile.x && box.x < tile.x)
+					if(box.x+box.w >= tile.x && box.x <= tile.x)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
