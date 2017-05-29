@@ -4,7 +4,7 @@
 
 #include "IOFunctions.h"
 
-std::stringstream IOFunctions::Open(std::string fileName, bool crpt)
+std::stringstream& IOFunctions::Open(std::string fileName, bool crpt)
 {
 
 	std::ifstream file(fileName);
