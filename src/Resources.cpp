@@ -1,5 +1,7 @@
 #include "Resources.h"
 #include "Game.h"
+#include <cstdio>
+#include <cstdlib>
 
 std::unordered_map<std::string, SDL_Texture*> Resources::imageTable = std::unordered_map<std::string, SDL_Texture*>();
 std::unordered_map<std::string, SDL_Surface*> Resources::surfaceTable = std::unordered_map<std::string, SDL_Surface*>();

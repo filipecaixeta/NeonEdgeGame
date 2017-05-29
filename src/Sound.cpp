@@ -1,4 +1,6 @@
 #include "Sound.h"
+#include <cstdio>
+#include <cstdlib>
 
 Sound::Sound() {
 	chunk = nullptr;

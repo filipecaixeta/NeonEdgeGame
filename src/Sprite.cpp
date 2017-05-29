@@ -1,4 +1,6 @@
 #include <math.h>
+#include <cstdio>
+#include <cstdlib>
 
 #include "Sprite.h"
 #include "Game.h"

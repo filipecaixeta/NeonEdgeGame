@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "menu/MainMenu.h"
 #include "Resources.h"
+#include <cstdio>
 
 Game* Game::instance = nullptr;
 

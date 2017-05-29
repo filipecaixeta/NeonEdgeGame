@@ -3,6 +3,8 @@
 #include <Game.h>
 #include <Sprite.h>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
 
 class MenuState: public State
 {

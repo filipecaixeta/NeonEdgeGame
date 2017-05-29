@@ -1,4 +1,6 @@
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 #include "StageState.h"
 #include "Game.h"
@@ -27,21 +29,16 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
-	/*roomArray = new int[sizeX][sizeY];
+	roomArray = new int*[sizeX];
+	for(int i = 0; i < sizeX; i++){
+		roomArray[i] = new int[sizeY];
+	}
 
 	for(int i = 0; i < sizeX; i++){
 		for(int j = 0; j < sizeY; j++){
 			roomArray[i][j] = -1;
 		}
 	}
-
-	roomArray[0][0] = 0;
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-
-		}
-	}*/
 
 	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
