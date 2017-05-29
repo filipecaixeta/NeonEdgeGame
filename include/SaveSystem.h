@@ -2,7 +2,6 @@
 #define SAVESYSTEM_H_
 
 #include "Resources.h"
-#include <fstream>
 
 struct Data 
 {

@@ -201,7 +201,6 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite)
 	}
 }
 
-
 void GraphicsMenu::Render()
 {
 	MenuState::Render();

@@ -1,8 +1,10 @@
 #include "Notfredo.h"
-#include "InputManager.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "Vec2.h"
+#include "Rect.h"
 #include "Attack.h"
+#include "Melee.h"
 
 Notfredo::Notfredo(int x, int y):
 	physicsComponent(),
@@ -34,16 +36,35 @@ void Notfredo::Damage(int damage)
 	}
 }
 
+void Notfredo::Attack()
+{
+	//Starts attack timer
+	attacking.Start();
+	//Generates attack object
+	StageState::AddObject(new Melee("Melee.png", 2, 0, facing, 500, 1, this));
+}
+
+bool Notfredo::Attacking()
+{
+	return attacking.IsRunning();
+}
+
 void Notfredo::NotifyTileCollision(int tile, Face face)
 {
-
+	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
+	{
+		if(physicsComponent.velocity.y >= 0.6)
+		{
+			physicsComponent.velocity.y = -0.5;
+		}
+	}
 }
 
 void Notfredo::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Attack"))
 	{
-		Attack* a = (Attack*) other;
+		Melee* a = (Melee*) other;
 		if(a->owner->Is("Lancelot"))
 			Damage(1);
 	}
@@ -52,6 +73,7 @@ void Notfredo::NotifyObjectCollision(GameObject* other)
 void Notfredo::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);
+	attacking.Update(dt);
 	if(looking.IsRunning())
 	{	
 		looking.Update(dt);
@@ -72,7 +94,7 @@ void Notfredo::UpdateAI(float dt)
 	if(StageState::GetPlayer())
 	{
 		Rect player = StageState::GetPlayer()->box;
-		if(StageState::IsColliding(radius, player) /*&& !Godofredo::player->IsHidden()*/)
+		if(player.OverlapsWith(radius)/*&& !Godofredo::player->IsHidden()*/)
 		{
 			if(player.x < box.x)
 			{
@@ -95,6 +117,11 @@ void Notfredo::UpdateAI(float dt)
 				facing = RIGHT;
 			}
 			clamp(physicsComponent.velocity.x,-0.4f,0.4f);
+
+			if(!Attacking())
+			{
+				Attack();
+			}
 		}
 		else if(looking.IsRunning() && looking.GetElapsed() == 0)
 		{
@@ -121,11 +148,11 @@ void Notfredo::UpdateAI(float dt)
 	}
 }
 
-void Notfredo::Update(float dt)
+void Notfredo::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	UpdateAI(dt);
-	physicsComponent.Update(this,dt);
+	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
 }
 

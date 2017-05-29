@@ -9,7 +9,7 @@ InputManager::InputManager():
 	quitRequested(false),
 	mouseState{false},
 	mouseUpdate{0},
-	translationTable{SDLK_SPACE,SDLK_e,SDLK_LEFT,SDLK_RIGHT,SDLK_DOWN}
+	translationTable{SDLK_SPACE,SDLK_e,SDLK_a,SDLK_d,SDLK_s}
 {
 
 }

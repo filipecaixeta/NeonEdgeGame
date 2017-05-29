@@ -1,13 +1,13 @@
 #ifndef DIALOGWINDOW_H_
 #define DIALOGWINDOW_H_
 
-#include "Window.h"
-#include "Sprite.h"
-#include "Resources.h"
-#include "Button.h"
-#include "Text.h"
 #include <string>
 #include <vector>
+
+#include "Window.h"
+#include "Sprite.h"
+#include "Button.h"
+#include "Text.h"
 
 class DialogWindow: public Window{
 public:

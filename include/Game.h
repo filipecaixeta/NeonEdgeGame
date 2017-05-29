@@ -1,10 +1,8 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include "MainMenuState.h"
-#include "StageState.h"
-#include "EndState.h"
 #include <stack>
+#include "StageState.h"
 
 class Game {
 private:
@@ -41,6 +39,9 @@ public:
     void setFullScreen(bool b);
 	bool isFullScreen();
 	void UpdateState();
+
+	void LoadConfigurations();
+	void SaveConfigurations();
 };
 
 #endif /* GAME_H_ */

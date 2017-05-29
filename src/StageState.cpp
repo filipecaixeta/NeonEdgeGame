@@ -1,29 +1,38 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
 #include "StageState.h"
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "DialogWindow.h"
 #include "SaveComponent.h"
-#include <iostream>
+#include "menu/InGameQuests.h"
 
-
-TileMap* StageState::tileMap;
 GameObject* StageState::player = nullptr;
 std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
-std::vector<std::unique_ptr<Window>> StageState::windowArray;
-std::unordered_map<int, TileMap*> StageState::roomTable;
-int** StageState::roomArray;
 
-StageState::StageState(std::string mode, int sizeX, int sizeY):
-	healthBar("healthBar2.png",5,15,11)
+StageState::StageState(std::string mode_, int sizeX, int sizeY):
+	State(),
+	mode(mode_),
+	tileSet(nullptr),
+	paused(false),
+	tileMap(nullptr),
+	windowArray(),
+	roomArray(nullptr),
+	healthBar("HealthBar.png",5,15,11),
+	inGameMenu(nullptr)
 {
-	StageState::mode = mode;
 	int random;
 	bool endRandom;
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
 
-	/*roomArray = new int[sizeX][sizeY];
+	roomArray = new int*[sizeX];
+	for(int i = 0; i < sizeX; i++){
+		roomArray[i] = new int[sizeY];
+	}
 
 	for(int i = 0; i < sizeX; i++){
 		for(int j = 0; j < sizeY; j++){
@@ -31,15 +40,7 @@ StageState::StageState(std::string mode, int sizeX, int sizeY):
 		}
 	}
 
-	roomArray[0][0] = 0;
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-
-		}
-	}*/
-
-	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
+	tileSet = new TileSet(64, 64, "Tileset3D.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 	//									tileMap->GetHeight()*tileMap->GetTileHeight());
@@ -56,20 +57,16 @@ StageState::StageState(std::string mode, int sizeX, int sizeY):
 
 StageState::~StageState()
 {
-	delete roomArray;
+	delete[] roomArray;
 	music.Stop();
 	player = nullptr;
+	delete tileMap;
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		delete objectArray[i];
 	}
 	objectArray.clear();
 	windowArray.clear();
-}
-
-TileMap* StageState::GetTileMap()
-{
-	return tileMap;
 }
 
 GameObject* StageState::GetPlayer()
@@ -100,24 +97,26 @@ void StageState::RemoveObject(GameObject* ptr)
 	}
 }
 
-void StageState::AddWindow(Window* ptr)
+void StageState::RemoveWindow(Window* ptr)
 {
 	windowArray.emplace_back(ptr);
-}
-
-bool StageState::IsColliding(Rect a, Rect b)
-{
-	return (((a.x+a.w >= b.x) && (a.x <= b.x+b.w)) && ((a.y+a.h >= b.y) && (a.y <= b.y+b.h)));
 }
 
 void StageState::Pause()
 {
 	paused = true;
+	inGameMenu = new InGameQuests();
+	inGameMenu->LoadAssets();
 }
 
 void StageState::Resume()
 {
 	paused = false;
+	if (inGameMenu!=nullptr)
+	{
+		delete inGameMenu;
+		inGameMenu = nullptr;
+	}
 }
 
 void StageState::LoadAssets()
@@ -125,16 +124,92 @@ void StageState::LoadAssets()
 	music.Open("stageState.ogg");
 	bg.Open("LancelotIdle.png");
 	bg.Open("LancelotRunning.png");
-	bg.Open("notattack.png");
-	bg.Open("healthBar.png");
-	bg.Open("stealthBar.png");
+	bg.Open("Melee.png");
+	bg.Open("HealthBar.png");
+	bg.Open("StealthBar.png");
 	bg.Open("NotfredoRunning.png");
 	bg.Open("NotfredoIdle.png");
-	bg.Open("tileset3d2.png");
+	bg.Open("Tileset3D.png");
 	music.Play(-1);
 }
 
 void StageState::Update()
+{
+	if(!paused)
+	{
+		HandleInput();
+		UpdateGame();
+	}
+	else
+	{
+		if (inGameMenu!=nullptr)
+		{
+			inGameMenu->Update();
+			if (inGameMenu->QuitRequested()==true)
+				Resume();
+		}
+		else
+			std::cerr << "ERRO: Menu in-game nao existe" <<std::endl;
+	}
+}
+
+void StageState::UpdateGame()
+{
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		objectArray[i]->Update(tileMap, Game::GetInstance().GetDeltaTime());
+	}
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		for(unsigned j = i+1; j < objectArray.size(); j++)
+		{
+			if(objectArray[i]->Is("Animation") || objectArray[j]->Is("Animation"))
+			{
+
+			}
+			else if(objectArray[i]->box.OverlapsWith(objectArray[j]->box))
+			{
+				objectArray[i]->NotifyObjectCollision(objectArray[j]);
+				objectArray[j]->NotifyObjectCollision(objectArray[i]);
+			}
+		}
+	}
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		if(objectArray[i]->IsDead())
+		{
+			if(objectArray[i] == Camera::GetInstance().GetFocus())
+				Camera::GetInstance().Unfollow();
+			if(objectArray[i] == player)
+				player = nullptr;
+			delete objectArray[i];
+			objectArray.erase(objectArray.begin()+i);
+		}
+	}
+
+	if(player)
+	{
+		if(mode == "Lancelot")
+		{
+			Lancelot* p = (Lancelot*) player;
+			healthBar.SetPercentage(p->GetHealth()/10.0);
+
+		}
+		else if(mode == "Gallahad")
+		{
+			Gallahad* p = (Gallahad*) player;
+			healthBar.SetPercentage(p->GetHealth()/10.0);
+		}
+	}
+	else
+	{
+		healthBar.SetPercentage(0);
+	}
+
+	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
+}
+
+void StageState::HandleInput()
 {
 	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE))
 	{
@@ -152,63 +227,7 @@ void StageState::Update()
 	//Teste do sistema de janelas
 	if(InputManager::GetInstance().KeyPress(SDLK_j))
 	{
-		AddWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
-	}
-
-	if(!paused)
-	{
-		for(unsigned i = 0; i < objectArray.size(); i++)
-		{
-			objectArray[i]->Update(Game::GetInstance().GetDeltaTime());
-		}
-		for(unsigned i = 0; i < objectArray.size(); i++)
-		{
-			for(unsigned j = i+1; j < objectArray.size(); j++)
-			{
-				if(objectArray[i]->Is("Animation") || objectArray[j]->Is("Animation"))
-				{
-
-				}
-				else if(IsColliding(objectArray[i]->box, objectArray[j]->box))
-				{
-					objectArray[i]->NotifyObjectCollision(objectArray[j]);
-					objectArray[j]->NotifyObjectCollision(objectArray[i]);
-				}
-			}
-		}
-		for(unsigned i = 0; i < objectArray.size(); i++)
-		{
-			if(objectArray[i]->IsDead())
-			{
-				if(objectArray[i] == Camera::GetInstance().GetFocus())
-					Camera::GetInstance().Unfollow();
-				if(objectArray[i] == player)
-					player = nullptr;
-				delete objectArray[i];
-				objectArray.erase(objectArray.begin()+i);
-			}
-		}
-
-		if(player)
-		{
-			if(mode == "Lancelot")
-			{
-				Lancelot* p = (Lancelot*) player;
-				healthBar.SetPercentage(p->GetHealth()/10.0);
-				
-			}
-			else if(mode == "Gallahad")
-			{
-				Gallahad* p = (Gallahad*) player;
-				healthBar.SetPercentage(p->GetHealth()/10.0);
-			}
-		}
-		else
-		{
-			healthBar.SetPercentage(0);
-		}	
-
-		Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
+		RemoveWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
 	}
 }
 
@@ -220,6 +239,9 @@ void StageState::Render() {
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
 	healthBar.Render(10,10);
+
+	if (inGameMenu!=nullptr)
+		inGameMenu->Render();
 }
 
 bool StageState::QuitRequested()

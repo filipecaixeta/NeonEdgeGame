@@ -6,8 +6,8 @@
 
 class State {
 public:
-	Sprite bg = Sprite();
-	Music music = Music();
+	Sprite bg;
+	Music music;
 	bool quitRequested;
 	State();
 	virtual ~State();

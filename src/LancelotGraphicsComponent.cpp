@@ -2,7 +2,6 @@
 #include "Lancelot.h"
 
 LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
-	sp(new Sprite()),
 	baseName(baseName_)
 {
 	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));

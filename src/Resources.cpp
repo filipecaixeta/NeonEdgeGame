@@ -1,12 +1,13 @@
 #include "Resources.h"
 #include "Game.h"
+#include <cstdio>
+#include <cstdlib>
 
 std::unordered_map<std::string, SDL_Texture*> Resources::imageTable = std::unordered_map<std::string, SDL_Texture*>();
 std::unordered_map<std::string, SDL_Surface*> Resources::surfaceTable = std::unordered_map<std::string, SDL_Surface*>();
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable = std::unordered_map<std::string, Mix_Music*>();
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable = std::unordered_map<std::string, Mix_Chunk*>();
 std::unordered_map<std::string, TTF_Font*> Resources::fontTable = std::unordered_map<std::string, TTF_Font*>();
-std::unordered_map<std::string, SDL_Texture*> Resources::textTable = std::unordered_map<std::string, SDL_Texture*>();
 
 std::string Resources::BASENAME = "resources/";
 std::string Resources::BASENAME_IMAGE = "resources/img/";
@@ -95,7 +96,6 @@ void Resources::ClearSounds()
 	soundTable.clear();
 }
 
-
 TTF_Font* Resources::GetFont(std::string file, int fontSize)
 {
 	char vetor[5];
@@ -115,44 +115,4 @@ void Resources::ClearFonts()
 	for(auto& i: fontTable)
 		TTF_CloseFont(i.second);
 	fontTable.clear();
-}
-
-SDL_Texture *Resources::GetText(SDL_Renderer *renderer, std::string text, std::string font, int fontSize, SDL_Color textColor)
-{
-	char vetor[5];
-	sprintf(vetor, "%d", fontSize);
-	std::string key = text+vetor;
-	if(!textTable.count(key))
-	{
-		SDL_Surface* surf = TTF_RenderText_Blended( GetFont(font,fontSize), text.c_str(), textColor );
-		SDL_Texture *text = SDL_CreateTextureFromSurface( renderer, surf );
-		SDL_FreeSurface(surf);
-		textTable.emplace(key,text);
-	}
-	if(textTable.at(key) == nullptr)
-	{
-		printf("CreateText failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
-	return textTable.at(key);
-}
-
-SDL_Texture *Resources::GetText(std::string text,int fontSize)
-{
-	char vetor[5];
-	sprintf(vetor, "%d", fontSize);
-	std::string key = text+vetor;
-	if(!textTable.count(key) || textTable.at(key) == nullptr)
-	{
-		printf("Use CreateText to create %s\n",text.c_str());
-		exit(EXIT_FAILURE);
-	}
-	return textTable.at(key);
-}
-
-void Resources::ClearText()
-{
-	for(auto& i: textTable)
-		SDL_DestroyTexture(i.second);
-	textTable.clear();
 }

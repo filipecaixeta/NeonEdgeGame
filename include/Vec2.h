@@ -1,7 +1,6 @@
 #ifndef VEC2_H_
 #define VEC2_H_
 
-#include <math.h>
 #include <iostream>
 
 class Vec2 {

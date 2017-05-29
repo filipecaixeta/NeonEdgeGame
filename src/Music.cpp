@@ -1,4 +1,6 @@
 #include "Music.h"
+#include <cstdio>
+#include <cstdlib>
 
 Music::Music() {
 	music = nullptr;

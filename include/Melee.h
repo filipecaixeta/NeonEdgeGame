@@ -2,15 +2,13 @@
 #define MELEE_H_
 
 #include "Attack.h"
-#include "Sprite.h"
-#include "Timer.h"
 
 class Melee : public Attack
 {
 public:
 	Melee(std::string file, int frames, int frameTime, Face facing, int duration, int power, GameObject* owner);
 	~Melee();
-	void Update(float dt);
+	void Update(TileMap* world, float dt);
 	void Render();
 };
 

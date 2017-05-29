@@ -3,6 +3,8 @@
 #include <Game.h>
 #include <Sprite.h>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
 
 class MenuState: public State
 {
@@ -19,6 +21,10 @@ class MenuState: public State
 
 		Vec2 CenterVertical(Sprite *sp);
 		Vec2 CenterVertical(int size);
+		Vec2 CenterVertical(Vec2 size);
+		Vec2 CenterHorizontal(Sprite* sp);
+		Vec2 CenterHorizontal(int size);
+		Vec2 CenterHorizontal(Vec2 size);
 
 		struct Option
 		{
@@ -28,7 +34,7 @@ class MenuState: public State
 			int current;
 		};
 
-	protected:
+protected:
 		std::vector<Option> menuOptions;
 		int currentOption;
 		std::string fontName;

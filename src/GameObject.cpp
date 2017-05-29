@@ -36,11 +36,6 @@ void GameObject::NotifyObjectCollision(GameObject* other)
 
 }
 
-void GameObject::Update(float dt)
-{
-
-}
-
 void GameObject::Render()
 {
 

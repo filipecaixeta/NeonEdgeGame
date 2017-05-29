@@ -6,6 +6,7 @@
 #include "PhysicsComponent.h"
 #include "LancelotGraphicsComponent.h"
 #include "SaveComponent.h"
+#include "TileMap.h"
 
 class Lancelot : public GameObject
 {
@@ -25,7 +26,7 @@ public:
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
-	void Update(float dt);
+	void Update(TileMap* world, float dt);
 	void Render();
 
 	LancelotInputComponent inputComponent;

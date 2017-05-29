@@ -1,8 +1,11 @@
+#include <iostream>
+
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
-#include <iostream>
-#include <menu/MainMenu.h>
+#include "menu/MainMenu.h"
+#include "Resources.h"
+#include <cstdio>
 
 Game* Game::instance = nullptr;
 
@@ -105,6 +108,22 @@ void Game::UpdateState()
 {
 	storedState = stateStack.top();
 	storedState->LoadAssets();
+}
+
+void Game::LoadConfigurations()
+{
+	//Load Game::screenSize
+	//Load Game::fps
+	//Load Game::fullScreenMode
+	//Load inputmanager::translationTable
+}
+
+void Game::SaveConfigurations()
+{
+	//Save Game::screenSize
+	//Save Game::fps
+	//Save Game::fullScreenMode
+	//Save inputmanager::translationTable
 }
 
 void Game::AddState(State* state) {

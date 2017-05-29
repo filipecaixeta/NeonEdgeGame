@@ -1,8 +1,10 @@
+#include <iostream>
+#include <math.h>
+
 #include "Camera.h"
 #include "Game.h"
 #include "InputManager.h"
-#include <iostream>
-#include <math.h>
+
 #ifndef clamp
 	#define clamp(N,L,U) N=std::max((float)L,std::min(N,(float)U))
 #endif

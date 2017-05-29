@@ -1,7 +1,11 @@
 #ifndef GAMEOBJECT_H_
 #define GAMEOBJECT_H_
 
+#include <string>
+
 #include "Rect.h"
+#include "Vec2.h"
+#include "TileMap.h"
 
 class GameObject
 {
@@ -24,7 +28,7 @@ public:
 	virtual void SetPosition(Vec2 position);
 	virtual void NotifyTileCollision(int tile, Face face);
 	virtual void NotifyObjectCollision(GameObject* other);
-	virtual void Update(float dt) = 0;
+	virtual void Update(TileMap* world, float dt)=0;
 	virtual void Render() = 0;
 };
 

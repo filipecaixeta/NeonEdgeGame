@@ -65,6 +65,9 @@ bool MenuState::Is(std::string type)
 
 void MenuState::SetOption(int i)
 {
+	if (!menuOptions.size())
+		return;
+
 	currentOption = currentOption+i;
 	if (currentOption<0)
 	{
@@ -100,4 +103,25 @@ Vec2 MenuState::CenterVertical(int size)
 {
 	SDL_Point windowSize = Game::GetInstance().GetScreenSize();
 	return Vec2((windowSize.x-size)/2,0);
+}
+
+Vec2 MenuState::CenterVertical(Vec2 size)
+{
+	return CenterVertical(size.x);
+}
+
+Vec2 MenuState::CenterHorizontal(Sprite *sp)
+{
+	return CenterHorizontal(sp->GetHeight());
+}
+
+Vec2 MenuState::CenterHorizontal(int size)
+{
+	SDL_Point windowSize = Game::GetInstance().GetScreenSize();
+	return Vec2(0,(windowSize.y-size)/2);
+}
+
+Vec2 MenuState::CenterHorizontal(Vec2 size)
+{
+	return CenterHorizontal(size.y);
 }

@@ -1,5 +1,6 @@
-#include "TileMap.h"
 #include <cstdio>
+
+#include "TileMap.h"
 
 TileMap::TileMap(std::string file, TileSet* tileSet)
 {

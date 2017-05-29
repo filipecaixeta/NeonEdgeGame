@@ -1,7 +1,10 @@
 #include "Lancelot.h"
 #include "Camera.h"
+#include "StageState.h"
+#include "Vec2.h"
+#include "Rect.h"
 #include "Attack.h"
-
+#include "Melee.h"
 
 Lancelot::Lancelot(int x, int y):
 	inputComponent(),
@@ -41,7 +44,10 @@ void Lancelot::Damage(int damage)
 
 void Lancelot::Attack()
 {
+	//Starts attack timer
 	attacking.Start();
+	//Generates attack object
+	StageState::AddObject(new Melee("Melee.png", 2, 0, facing, 500, 1, this));
 }
 
 bool Lancelot::Attacking()
@@ -59,10 +65,11 @@ void Lancelot::NotifyTileCollision(int tile, Face face)
 
 void Lancelot::NotifyObjectCollision(GameObject* other)
 {
+	
 	if(other->Is("Attack"))
 	{
-		//Attack* a = (Attack*) other;
-		//if(a->owner->Is("Lancelot"))
+		Melee* a = (Melee*) other;
+		if(a->owner->Is("Notfredo"))
 			Damage(1);
 	}
 }
@@ -73,11 +80,11 @@ void Lancelot::UpdateTimers(float dt)
 	attacking.Update(dt);
 }
 
-void Lancelot::Update(float dt)
+void Lancelot::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	inputComponent.Update(this,dt);
-	physicsComponent.Update(this,dt);
+	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
 	saveComponent.Update(this,dt);
 }
