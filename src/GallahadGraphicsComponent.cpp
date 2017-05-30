@@ -8,7 +8,8 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 {
 	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));
 	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
-	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 60, true));
+	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 60, true, false));
+	sprites.emplace("Crouching", new Sprite(baseName+"Crouching.png", 4, 120, true, false));
 	sp = sprites["Idle"];
 }
 
@@ -24,7 +25,11 @@ void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
 	Gallahad* g = (Gallahad*) obj;
 	
 	mirror = (g->facing == GameObject::LEFT);
-	if(g->footing == GameObject::AIRBORNE)
+	if(g->Crouching())
+	{
+		UpdateSprite(obj, "Crouching");
+	}
+	else if(g->footing == GameObject::AIRBORNE)
 	{
 		UpdateSprite(obj, "Jumping");
 	}

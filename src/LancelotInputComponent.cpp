@@ -30,8 +30,21 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 	{
 		l->physicsComponent.velocity.x = 0;
 	}
-	clamp(l->physicsComponent.velocity.x,-0.4f,0.4f);
-	
+	if(l->Crouching())
+		clamp(l->physicsComponent.velocity.x,-0.2f,0.2f);
+	else
+		clamp(l->physicsComponent.velocity.x,-0.4f,0.4f);
+
+	//Crouch
+	if(input.IsKeyDown(CROUCH_KEY,  true))
+	{
+		l->Crouch();
+	}
+	else
+	{
+		l->Stand();
+	}
+
 	// Attack
 	if(input.IsKeyDown(ATTACK_KEY,  true))
 	{
@@ -75,6 +88,7 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 			l->lastFooting = GameObject::RIGHT_WALLED;
 		}
 	}
+	
 	if(input.MousePress(LEFT_MOUSE_BUTTON))
 	{
 		l->saveComponent.Save(true);

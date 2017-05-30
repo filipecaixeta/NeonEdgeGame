@@ -14,11 +14,11 @@ public:
 	int power = 0;
 	GameObject* owner = nullptr;
 
-	~Attack();
-	bool IsDead();
-	void UpdateTimers(float dt);
-	void Update(TileMap* world, float dt)=0;
-	void Render() = 0;
+	Attack();
+	virtual ~Attack();
+	virtual bool IsDead();
+	virtual void UpdateTimers(float dt);
+	virtual void Update(TileMap* world, float dt) = 0;
 };
 
 #endif /* ATTACK_H_ */

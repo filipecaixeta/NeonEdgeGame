@@ -7,10 +7,11 @@
 #include "Rect.h"
 #include "Attack.h"
 #include "Melee.h"
+#include "Projectile.h"
 
 Notfredo::Notfredo(int x, int y):
 	physicsComponent(),
-	graphicsComponent("Notfredo")
+	graphicsComponent("EnemyGallahad")
 {
 	name = "Notfredo";
 	Vec2 size = graphicsComponent.GetSize();
@@ -43,7 +44,7 @@ void Notfredo::Attack()
 	//Starts attack timer
 	attacking.Start();
 	//Generates attack object
-	StageState::AddObject(new Melee("Melee.png", 2, 0, facing, 500, 1, this));
+	StageState::AddObject(new Melee("Melee.png", 2, 0, this, 500, 1));
 }
 
 bool Notfredo::Attacking()
@@ -64,10 +65,16 @@ void Notfredo::NotifyTileCollision(int tile, Face face)
 
 void Notfredo::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Attack"))
+	if(other->Is("Melee"))
 	{
 		Melee* a = (Melee*) other;
-		if(a->owner->Is("Lancelot"))
+		if(a->owner->Is("Gallahad") || a->owner->Is("Lancelot"))
+			Damage(1);
+	}
+	if(other->Is("Projectile"))
+	{
+		Projectile* p = (Projectile*) other;
+		if(p->owner->Is("Gallahad") || p->owner->Is("Lancelot"))
 			Damage(1);
 	}
 }

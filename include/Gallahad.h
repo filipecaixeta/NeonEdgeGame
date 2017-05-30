@@ -6,6 +6,7 @@
 #include "PhysicsComponent.h"
 #include "GallahadGraphicsComponent.h"
 #include "SaveComponent.h"
+#include "TileMap.h"
 
 class Gallahad : public GameObject
 {
@@ -15,6 +16,8 @@ private:
 	Timer invincibilityTimer = Timer(500);
 	Timer attacking = Timer(500);
 	Timer hiding = Timer(1500);
+	Timer regenerating = Timer(500);
+	bool crouching = false;
 
 public:
 	Gallahad(int x, int y);
@@ -25,12 +28,15 @@ public:
 	void Damage(int damage);
 	void Attack();
 	void Hide();
+	void Crouch();
+	void Stand();
 	bool Attacking();
 	bool Hiding();
+	bool Crouching();
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
-	void Update(TileMap *world,float dt);
+	void Update(TileMap* world,float dt);
 	void Render();
 
 	GallahadInputComponent inputComponent;

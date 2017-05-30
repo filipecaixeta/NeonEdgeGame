@@ -4,7 +4,7 @@
 NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseName_):
 	baseName(baseName_)
 {
-	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));
+	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 10, 120, true));
 	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
 	sp = sprites["Idle"];
 }

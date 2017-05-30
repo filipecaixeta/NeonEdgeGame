@@ -6,7 +6,7 @@
 class Melee : public Attack
 {
 public:
-	Melee(std::string file, int frames, int frameTime, Face facing, int duration, int power, GameObject* owner);
+	Melee(std::string file, int frames, int frameTime, GameObject* owner, int lifetime, int power);
 	~Melee();
 	void Update(TileMap* world, float dt);
 	void Render();

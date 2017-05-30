@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "State.h"
+#include "Energy.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Notfredo.h"

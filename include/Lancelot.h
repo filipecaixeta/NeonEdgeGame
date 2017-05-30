@@ -15,7 +15,9 @@ private:
 	int energy = 5;
 	Timer invincibilityTimer = Timer(500);
 	Timer attacking = Timer(500);
-	Timer blocking = Timer(500);
+	Timer blocking = Timer(1000);
+	Timer regenerating = Timer(500);
+	bool crouching = false;
 
 public:
 	Lancelot(int x, int y);
@@ -26,8 +28,11 @@ public:
 	void Damage(int damage);
 	void Attack();
 	void Block();
+	void Crouch();
+	void Stand();
 	bool Attacking();
 	bool Blocking();
+	bool Crouching();
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);

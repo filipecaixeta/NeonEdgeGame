@@ -1,5 +1,11 @@
 #include "Gallahad.h"
 #include "Camera.h"
+#include "StageState.h"
+#include "Vec2.h"
+#include "Rect.h"
+#include "Attack.h"
+#include "Melee.h"
+#include "Projectile.h"
 
 Gallahad::Gallahad(int x, int y):
 	inputComponent(),
@@ -47,13 +53,24 @@ void Gallahad::Attack()
 	//Starts attack timer
 	attacking.Start();
 	//Generates attack object
-	//StageState::AddObject(new Melee("Projectile.png", 2, 0, facing, 500, 1, this));
+	StageState::AddObject(new Projectile("Melee.png", 2, 0, this, Vec2(0.6, 0), 800, 1, true));
 }
 
 void Gallahad::Hide()
 {
 	hiding.Start();
 	energy -= 1;
+	clamp(energy,0,5);
+}
+
+void Gallahad::Crouch()
+{
+	crouching = true;
+}
+
+void Gallahad::Stand()
+{
+	crouching = false;
 }
 
 bool Gallahad::Attacking()
@@ -66,6 +83,11 @@ bool Gallahad::Hiding()
 	return hiding.IsRunning();
 }
 
+bool Gallahad::Crouching()
+{
+	return crouching;
+}
+
 void Gallahad::NotifyTileCollision(int tile, Face face)
 {
 	if(tile > 11)
@@ -76,8 +98,27 @@ void Gallahad::NotifyTileCollision(int tile, Face face)
 
 void Gallahad::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Notattack"))
-		Damage(1);
+	if(other->Is("Melee"))
+	{
+		Melee* a = (Melee*) other;
+		if(a->owner->Is("Notfredo"))
+			Damage(1);
+	}
+	if(other->Is("Projectile"))
+	{
+		Projectile* p = (Projectile*) other;
+		if(p->owner->Is("Notfredo"))
+			Damage(1);
+	}
+	if(other->Is("Energy"))
+	{
+		if(crouching && !regenerating.IsRunning())
+		{
+			regenerating.Start();
+			energy += 1;
+			clamp(energy,0,5);
+		}
+	}
 }
 
 void Gallahad::UpdateTimers(float dt)
@@ -85,6 +126,7 @@ void Gallahad::UpdateTimers(float dt)
 	invincibilityTimer.Update(dt);
 	attacking.Update(dt);
 	hiding.Update(dt);
+	regenerating.Update(dt);
 }
 
 void Gallahad::Update(TileMap* world, float dt)

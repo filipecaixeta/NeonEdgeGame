@@ -3,15 +3,20 @@
 #include "Sprite.h"
 #include "Timer.h"
 
-Melee::Melee(std::string file, int frames, int frameTime, Face facing, int lifetime, int power, GameObject* owner)
+Melee::Melee(std::string file, int frames, int frameTime, GameObject* owner, int lifetime, int power)
 {
-	name = "Attack";
+	name = "Melee";
 	sp = Sprite(file, frames, frameTime);
-	Melee::facing = facing;
+	Melee::owner = owner;
+	facing = owner->facing;
+	Melee::lifetime = Timer(lifetime);
+	Melee::lifetime.Start();
+	Melee::power = power;
+	Vec2 size = sp.GetSize();
 	if(facing == LEFT)
 	{
 		sp.SetFrame(1);
-		box.x = owner->box.x - sp.GetWidth();
+		box.x = owner->box.x - size.x;
 	}
 	else
 	{
@@ -19,12 +24,8 @@ Melee::Melee(std::string file, int frames, int frameTime, Face facing, int lifet
 		box.x = owner->box.x + owner->box.w;
 	}
 	box.y = owner->box.y;
-	box.w = sp.GetWidth();
-	box.h = sp.GetHeight();
-	Melee::lifetime = Timer(lifetime);
-	Melee::lifetime.Start();
-	Melee::power = power;
-	Melee::owner = owner;
+	box.w = size.x;
+	box.h = size.y;
 }
 
 Melee::~Melee()

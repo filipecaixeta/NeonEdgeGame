@@ -1,6 +1,11 @@
 #include "Attack.h"
 #include "Camera.h"
 
+Attack::Attack()
+{
+
+}
+
 Attack::~Attack()
 {
 

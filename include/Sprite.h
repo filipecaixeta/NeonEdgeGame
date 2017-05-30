@@ -14,8 +14,9 @@ private:
 	float scaleX = 1;
 	float scaleY = 1;
 	int frameCount = 1;
-	int currentFrame = 1;
 	float frameTime = 0;
+	bool loops = true;
+	int currentFrame = 1;
 	float timeElapsed = 0;
 	int width = 0;
 	int height = 0;
@@ -24,8 +25,8 @@ private:
 
 public:
 	Sprite();
-	Sprite(std::string file, int frameCount = 1, float frameTime = 0, bool enableAlpha = false);
-	Sprite(SDL_Texture *tex, int frameCount = 1, float frameTime = 0, bool enableAlpha = false);
+	Sprite(std::string file, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
+	Sprite(SDL_Texture *tex, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
 	~Sprite();
 	void Open(std::string file, bool enableAlpha=false);
 	void Update(float dt);

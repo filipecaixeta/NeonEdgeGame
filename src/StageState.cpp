@@ -66,6 +66,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
 	AddObject(new Notfredo(800, 1280));
+	AddObjectAsFirst(new Energy(336, 1360, "Energy.png", 4, 120));
 
 	CreateBars(player->name);
 }

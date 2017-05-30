@@ -14,21 +14,23 @@ Sprite::Sprite():
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha):
+Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha, bool loops):
 	destroyTexture(false)
 {
 	texture = nullptr;
 	Sprite::frameCount = frameCount;
 	Sprite::frameTime = frameTime;
+	Sprite::loops = loops;
 	Open(file,enableAlpha);
 }
 
-Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha):
+Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha, bool loops):
 	destroyTexture(true)
 {
 	texture = tex;
 	Sprite::frameCount = frameCount;
 	Sprite::frameTime = frameTime;
+	Sprite::loops = loops;
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 	SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 	if(enableAlpha)
@@ -62,7 +64,7 @@ void Sprite::Update(float dt)
 	{
 		if(currentFrame < frameCount)
 			currentFrame++;
-		else
+		else if(loops)
 			currentFrame = 1;
 		SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 		timeElapsed = 0;

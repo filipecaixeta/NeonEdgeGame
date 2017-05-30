@@ -30,8 +30,21 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 	{
 		g->physicsComponent.velocity.x = 0;
 	}
-	clamp(g->physicsComponent.velocity.x,-0.4f,0.4f);
+	if(g->Crouching())
+		clamp(g->physicsComponent.velocity.x,-0.2f,0.2f);
+	else
+		clamp(g->physicsComponent.velocity.x,-0.4f,0.4f);
 	
+	//Crouch
+	if(input.IsKeyDown(CROUCH_KEY,  true))
+	{
+		g->Crouch();
+	}
+	else
+	{
+		g->Stand();
+	}
+
 	// Attack
 	if(input.IsKeyDown(ATTACK_KEY,  true))
 	{
@@ -42,7 +55,7 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 	}
 	
 	//Hide
-	if(input.IsKeyDown(SPECIAL_KEY, true))
+	if(input.KeyPress(SPECIAL_KEY, true))
 	{
 		if(g->GetEnergy() > 0 && !g->Hiding())
 		{
