@@ -33,9 +33,14 @@ int Lancelot::GetHealth()
 	return hitpoints;
 }
 
+int Lancelot::GetEnergy()
+{
+	return energy;
+}
+
 void Lancelot::Damage(int damage)
 {
-	if(!invincibilityTimer.IsRunning()) 
+	if(!invincibilityTimer.IsRunning() && !blocking.IsRunning()) 
 	{
 		hitpoints -= (damage);
 		invincibilityTimer.Start();
@@ -50,9 +55,20 @@ void Lancelot::Attack()
 	StageState::AddObject(new Melee("Melee.png", 2, 0, facing, 500, 1, this));
 }
 
+void Lancelot::Block()
+{
+	blocking.Start();
+	energy -= 1;
+}
+
 bool Lancelot::Attacking()
 {
 	return attacking.IsRunning();
+}
+
+bool Lancelot::Blocking()
+{
+	return blocking.IsRunning();
 }
 
 void Lancelot::NotifyTileCollision(int tile, Face face)
@@ -78,6 +94,7 @@ void Lancelot::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);
 	attacking.Update(dt);
+	blocking.Update(dt);
 }
 
 void Lancelot::Update(TileMap* world, float dt)

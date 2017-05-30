@@ -19,8 +19,6 @@ public:
 	Footing footing = GROUNDED; 
 	Footing lastFooting = AIRBORNE;
 
-	bool jumping = false;
-
 	virtual ~GameObject() = 0;
 	virtual bool Is(std::string type);
 	virtual bool IsDead();

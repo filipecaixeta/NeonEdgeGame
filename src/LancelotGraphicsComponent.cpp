@@ -47,6 +47,7 @@ Vec2 LancelotGraphicsComponent::GetSize()
 void LancelotGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 {
 	Lancelot* l = (Lancelot*) obj;
+	
 	if(sp != sprites[sprite])
 	{
 		int w = sp->GetWidth();
@@ -57,5 +58,6 @@ void LancelotGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite
 		//l->box.x += (w-sp->GetWidth())/2;
 		l->box.y += h-sp->GetHeight();
 		l->box.SetWH(GetSize());
+		sp->SetFrame(1);
 	}
 }

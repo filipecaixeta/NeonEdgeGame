@@ -10,10 +10,11 @@
 #define RIGHT_MOUSE_BUTTON SDL_BUTTON_RIGHT
 
 #define JUMP_KEY 0
-#define ATACK_KEY 1
-#define MOVE_LEFT_KEY 2
-#define MOVE_RIGHT_KEY 3
-#define MOVE_DOWN_KEY 4
+#define ATTACK_KEY 1
+#define SPECIAL_KEY 2
+#define MOVE_LEFT_KEY 3
+#define MOVE_RIGHT_KEY 4
+#define CROUCH_KEY 5
 
 #include "SDL.h"
 #include <unordered_map>
@@ -28,7 +29,7 @@ private:
 	int mouseUpdate [6];
 	std::unordered_map<int, bool> keyState;
 	std::unordered_map<int, int> keyUpdate;
-	int translationTable[5];
+	int translationTable[6];
 	int lastKey;
 
 	static InputManager* instance;

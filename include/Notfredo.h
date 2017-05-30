@@ -3,7 +3,7 @@
 
 #include "Timer.h"
 #include "PhysicsComponent.h"
-#include "LancelotGraphicsComponent.h"
+#include "NotfredoGraphicsComponent.h"
 #include "TileMap.h"
 
 class Notfredo : public GameObject
@@ -16,9 +16,6 @@ private:
 	Rect radius = Rect();
 	Timer looking = Timer(1500);
 	Timer idle = Timer(1500);
-	
-	PhysicsComponent physicsComponent;
-	LancelotGraphicsComponent graphicsComponent;
 
 public:
 	Notfredo(int x, int y);
@@ -34,6 +31,8 @@ public:
 	void Update(TileMap* world, float dt);
 	void Render();
 
+	PhysicsComponent physicsComponent;
+	NotfredoGraphicsComponent graphicsComponent;
 };
 
 #endif /* NOTFREDO_H_ */

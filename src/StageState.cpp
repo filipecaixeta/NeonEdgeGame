@@ -80,7 +80,7 @@ GameObject* StageState::GetPlayer()
 void StageState::CreateBars(std::string playerName)
 {
 	healthBar = new LoadingBar("lifebar_"+playerName+".png",11);
-	energyBar = new LoadingBar("energybar_"+playerName+".png",174,28,5);
+	energyBar = new LoadingBar("energybar_"+playerName+".png",174,28,6);
 }
 
 void StageState::AddObject(GameObject* ptr)
@@ -149,7 +149,7 @@ void StageState::Update()
 	}
 	else
 	{
-		if (inGameMenu!=nullptr)
+		if (inGameMenu != nullptr)
 		{
 			inGameMenu->Update();
 			if (inGameMenu->QuitRequested()==true)
@@ -200,16 +200,19 @@ void StageState::UpdateGame()
 		{
 			Lancelot* p = (Lancelot*) player;
 			healthBar->SetPercentage(p->GetHealth()/10.0);
+			energyBar->SetPercentage(p->GetEnergy()/5.0);
 		}
 		else if(mode == "Gallahad")
 		{
 			Gallahad* p = (Gallahad*) player;
 			healthBar->SetPercentage(p->GetHealth()/10.0);
+			energyBar->SetPercentage(p->GetEnergy()/5.0);
 		}
 	}
 	else
 	{
 		healthBar->SetPercentage(0);
+		energyBar->SetPercentage(0);
 	}
 
 	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
