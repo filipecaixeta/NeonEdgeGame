@@ -14,13 +14,13 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 	Gallahad* g = (Gallahad*) obj;
 	InputManager &input = InputManager::GetInstance();
 	// Move Left
-	if(input.IsKeyDown(SDLK_a))
+	if(input.IsKeyDown(MOVE_LEFT_KEY, true))
 	{
 		g->physicsComponent.velocity.x -= 0.002*dt;
 		g->facing = GameObject::LEFT;
 	}
 	// Move Right
-	else if(input.IsKeyDown(SDLK_d))
+	else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
 	{
 		g->physicsComponent.velocity.x += 0.002*dt;
 		g->facing = GameObject::RIGHT;
@@ -33,13 +33,25 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 	clamp(g->physicsComponent.velocity.x,-0.4f,0.4f);
 	
 	// Attack
-	if(input.IsKeyDown(SDLK_e))
+	if(input.IsKeyDown(ATTACK_KEY,  true))
 	{
-		//obj->attacking = true;
+		if(!g->Attacking())
+		{
+			g->Attack();
+		}
 	}
 	
-	// Jump
-	if(input.KeyPress(SDLK_SPACE))
+	//Hide
+	if(input.IsKeyDown(SPECIAL_KEY, true))
+	{
+		if(g->GetEnergy() > 0 && !g->Hiding())
+		{
+			g->Hide();
+		}
+	}
+
+	//Jump
+	if(input.KeyPress(JUMP_KEY, true))
 	{
 		// Ground Jump
 		if(g->footing == GameObject::GROUNDED)
@@ -59,9 +71,8 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 		{
 			g->physicsComponent.velocity.y = -0.6;
 			g->physicsComponent.velocity.x = -0.6;
-			g->facing = GameObject::LEFT;
+			g->facing = GameObject::RIGHT;
 			g->lastFooting = GameObject::RIGHT_WALLED;
 		}
-		g->jumping = true;
 	}
 }

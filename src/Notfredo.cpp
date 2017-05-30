@@ -1,6 +1,8 @@
 #include "Notfredo.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "Gallahad.h"
+#include "Lancelot.h"
 #include "Vec2.h"
 #include "Rect.h"
 #include "Attack.h"
@@ -94,9 +96,18 @@ void Notfredo::UpdateAI(float dt)
 	if(StageState::GetPlayer())
 	{
 		Rect player = StageState::GetPlayer()->box;
-		if(player.OverlapsWith(radius)/*&& !Godofredo::player->IsHidden()*/)
+		bool visible = true;
+		if(StageState::GetPlayer()->Is("Gallahad"))
 		{
-			if(player.x < box.x)
+			Gallahad* p = (Gallahad*) StageState::GetPlayer();
+			if(p->Hiding())
+			{
+				visible = false;
+			}
+		}
+		if(player.OverlapsWith(radius) && visible)
+		{
+			if(player.x < box.x )
 			{
 				physicsComponent.velocity.x -= 0.003*dt;
 				if(box.x - physicsComponent.velocity.x*dt < player.x)

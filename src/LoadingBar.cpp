@@ -10,6 +10,17 @@ LoadingBar::LoadingBar(std::string image, int leftBorder_, int rightBorder_):
 
 }
 
+LoadingBar::LoadingBar(std::string image,int stateCount_):
+	stateCount(stateCount_),
+	blockSize(0),
+	discrete(true),
+	percentage(1.0f),
+	leftBorder(0),
+	sp(image,stateCount_)
+{
+	
+}
+
 LoadingBar::LoadingBar(std::string image, int leftBorder_, int blockSize_,int stateCount_):
 	stateCount(stateCount_),
 	blockSize(blockSize_),
@@ -18,7 +29,7 @@ LoadingBar::LoadingBar(std::string image, int leftBorder_, int blockSize_,int st
 	leftBorder(leftBorder_),
 	sp(image,2)
 {
-	
+
 }
 
 void LoadingBar::SetPercentage(float p)
@@ -35,10 +46,18 @@ void LoadingBar::Render(int x, int y)
 	SDL_Rect r = sp.getClip();
 	if (discrete)
 	{
-		int current = stateCount*percentage;
-		r.w = leftBorder+blockSize*current;
-		sp.SetClip(r.x,r.y,r.w,r.h);
-		sp.Render(x,y,0);
+		if (blockSize!=0)
+		{
+			int current = stateCount*percentage;
+			r.w = leftBorder+blockSize*current;
+			sp.SetClip(r.x,r.y,r.w,r.h);
+			sp.Render(x,y,0);
+		}
+		else
+		{
+			sp.SetFrameNormalized(percentage);
+			sp.Render(x,y,0);
+		}
 	}
 	else
 	{

@@ -25,11 +25,11 @@ void ControlsMenu::LoadAssets()
 	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_RIGHT_KEY));
 	menuOptions.push_back({"moveRightOption",new Sprite(text,1,0,true),true,0});
 
-	text = Text::GetText(fontName,fontSize,fontColor,"Move Down");
-	menuOptions.push_back({"moveDown",new Sprite(text,1,0,true),false,0});
+	text = Text::GetText(fontName,fontSize,fontColor,"Crouch");
+	menuOptions.push_back({"CrouchDown",new Sprite(text,1,0,true),false,0});
 
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_DOWN_KEY));
-	menuOptions.push_back({"moveDownOption",new Sprite(text,1,0,true),true,0});
+	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(CROUCH_KEY));
+	menuOptions.push_back({"CrouchOption",new Sprite(text,1,0,true),true,0});
 
 	text = Text::GetText(fontName,fontSize,fontColor,"Jump");
 	menuOptions.push_back({"jump",new Sprite(text,1,0,true),false,0});
@@ -40,7 +40,7 @@ void ControlsMenu::LoadAssets()
 	text = Text::GetText(fontName,fontSize,fontColor,"Attack");
 	menuOptions.push_back({"attack",new Sprite(text,1,0,true),false,0});
 
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(ATACK_KEY));
+	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(ATTACK_KEY));
 	menuOptions.push_back({"attackOption",new Sprite(text,1,0,true),true,0});
 
 	bg.Open("mainMenuBg.png");
@@ -97,9 +97,9 @@ void ControlsMenu::Update()
 			}
 			else if (menuOptions[currentOption].key == "moveDownOption")
 			{
-				InputManager::GetInstance().SetTranslationKey(MOVE_DOWN_KEY,lk);
+				InputManager::GetInstance().SetTranslationKey(CROUCH_KEY,lk);
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
-												  CreateKeyString(MOVE_DOWN_KEY));
+												  CreateKeyString(CROUCH_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
 			}
 			else if (menuOptions[currentOption].key == "jumpOption")
@@ -111,9 +111,9 @@ void ControlsMenu::Update()
 			}
 			else if (menuOptions[currentOption].key == "attackOption")
 			{
-				InputManager::GetInstance().SetTranslationKey(ATACK_KEY,lk);
+				InputManager::GetInstance().SetTranslationKey(ATTACK_KEY,lk);
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
-												  CreateKeyString(ATACK_KEY));
+												  CreateKeyString(ATTACK_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
 			}
 		}

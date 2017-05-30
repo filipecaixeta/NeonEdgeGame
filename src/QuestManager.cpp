@@ -12,7 +12,8 @@ void QuestManager::ReadQuestsFile()
 	unsigned int questsNumber;
 	quests.clear();
 
-	std::stringstream& file = IOFunctions::Open("resources/quests",true);
+	std::string fileStr = IOFunctions::Open("resources/quests",true);
+	std::stringstream file(fileStr);
 
 	file >> questsNumber;
 	questsActive.resize(questsNumber);

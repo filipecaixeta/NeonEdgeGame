@@ -8,7 +8,7 @@
 namespace IOFunctions
 {
 
-	std::stringstream& Open(std::string fileName, bool crpt=false);
+	std::string Open(std::string fileName, bool crpt=false);
 	void Save(std::string fileName, std::string data, bool crpt=false);
 	void Save(std::string fileName, void* data, unsigned int buffSize, bool crpt);
 

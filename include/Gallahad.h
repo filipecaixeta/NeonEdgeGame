@@ -11,14 +11,22 @@ class Gallahad : public GameObject
 {
 private:
 	int hitpoints = 10;
-	Timer invincibilityTimer = Timer(800);
+	int energy = 5;
+	Timer invincibilityTimer = Timer(500);
+	Timer attacking = Timer(500);
+	Timer hiding = Timer(1500);
 
 public:
 	Gallahad(int x, int y);
 	~Gallahad();
 	bool IsDead();
 	int GetHealth();
+	int GetEnergy();
 	void Damage(int damage);
+	void Attack();
+	void Hide();
+	bool Attacking();
+	bool Hiding();
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);

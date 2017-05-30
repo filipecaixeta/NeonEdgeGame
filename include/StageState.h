@@ -27,7 +27,8 @@ private:
 	std::unordered_map<int, TileMap*> roomTable;
 	int** roomArray;
 	std::vector<int> roomOrder;
-	LoadingBar healthBar;
+	LoadingBar *healthBar;
+	LoadingBar *energyBar;
 	State* inGameMenu;
 
 public:
@@ -51,6 +52,7 @@ public:
 	StageState* get();
 	void HandleInput();
 	void UpdateGame();
+	void CreateBars(std::string playerName);
 };
 
 #endif /* STAGESTATE_H_ */

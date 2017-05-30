@@ -9,7 +9,7 @@ InputManager::InputManager():
 	quitRequested(false),
 	mouseState{false},
 	mouseUpdate{0},
-	translationTable{SDLK_SPACE,SDLK_e,SDLK_a,SDLK_d,SDLK_s}
+	translationTable{SDLK_SPACE,SDLK_e,SDLK_q,SDLK_a,SDLK_d,SDLK_s}
 {
 
 }
@@ -57,19 +57,19 @@ int InputManager::TranslateKey(int key)
 }
 
 bool InputManager::KeyPress(int key,bool translate) {
-	if (translate)
+	if(translate)
 		key = TranslateKey(key);
 	return (keyUpdate[key] == updateCounter) ? (keyState[key]) : false;
 }
 
 bool InputManager::KeyRelease(int key,bool translate) {
-	if (translate)
+	if(translate)
 		key = TranslateKey(key);
 	return (keyUpdate[key] == updateCounter) ? (!keyState[key]) : false;
 }
 
 bool InputManager::IsKeyDown(int key,bool translate) {
-	if (translate)
+	if(translate)
 		key = TranslateKey(key);
 	return keyState[key];
 }

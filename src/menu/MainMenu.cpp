@@ -43,7 +43,7 @@ void MainMenu::Update()
 	{
 		if (menuOptions[currentOption].key=="Play")
 		{
-			Game::GetInstance().AddState(new StageState("Lancelot"));
+			Game::GetInstance().AddState(new StageState("Gallahad"));
 		}
 		else if (menuOptions[currentOption].key=="Load")
 		{

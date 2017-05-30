@@ -5,7 +5,7 @@ Input::Input(type t):
 {
 	if (type_==type::SLIDER)
 	{
-		lb = new LoadingBar("sliderMenu.png",5,15,10);
+//		lb = new LoadingBar("sliderMenu.png",5,15,10);
 	}
 }
 

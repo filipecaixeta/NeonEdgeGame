@@ -28,6 +28,11 @@ int Gallahad::GetHealth()
 	return hitpoints;
 }
 
+int Gallahad::GetEnergy()
+{
+	return energy;
+}
+
 void Gallahad::Damage(int damage)
 {
 	if(!invincibilityTimer.IsRunning()) 
@@ -35,6 +40,30 @@ void Gallahad::Damage(int damage)
 		hitpoints -= (damage);
 		invincibilityTimer.Start();
 	}
+}
+
+void Gallahad::Attack()
+{
+	//Starts attack timer
+	attacking.Start();
+	//Generates attack object
+	//StageState::AddObject(new Melee("Projectile.png", 2, 0, facing, 500, 1, this));
+}
+
+void Gallahad::Hide()
+{
+	hiding.Start();
+	energy -= 1;
+}
+
+bool Gallahad::Attacking()
+{
+	return attacking.IsRunning();
+}
+
+bool Gallahad::Hiding()
+{
+	return hiding.IsRunning();
 }
 
 void Gallahad::NotifyTileCollision(int tile, Face face)
@@ -54,6 +83,8 @@ void Gallahad::NotifyObjectCollision(GameObject* other)
 void Gallahad::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);
+	attacking.Update(dt);
+	hiding.Update(dt);
 }
 
 void Gallahad::Update(TileMap* world, float dt)

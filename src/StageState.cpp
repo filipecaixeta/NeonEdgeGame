@@ -21,7 +21,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	tileMap(nullptr),
 	windowArray(),
 	roomArray(nullptr),
-	healthBar("HealthBar.png",5,15,11),
+	healthBar(nullptr),
+	energyBar(nullptr),
 	inGameMenu(nullptr)
 {
 	int random;
@@ -98,6 +99,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
 	AddObject(new Notfredo(800, 1280));
+
+	CreateBars(player->name);
 }
 
 StageState::~StageState()
@@ -117,6 +120,12 @@ StageState::~StageState()
 GameObject* StageState::GetPlayer()
 {
 	return player;
+}
+
+void StageState::CreateBars(std::string playerName)
+{
+	healthBar = new LoadingBar("lifebar_"+playerName+".png",11);
+	energyBar = new LoadingBar("energybar_"+playerName+".png",174,28,6);
 }
 
 void StageState::AddObject(GameObject* ptr)
@@ -170,8 +179,6 @@ void StageState::LoadAssets()
 	bg.Open("LancelotIdle.png");
 	bg.Open("LancelotRunning.png");
 	bg.Open("Melee.png");
-	bg.Open("HealthBar.png");
-	bg.Open("StealthBar.png");
 	bg.Open("NotfredoRunning.png");
 	bg.Open("NotfredoIdle.png");
 	bg.Open("Tileset3D.png");
@@ -187,7 +194,7 @@ void StageState::Update()
 	}
 	else
 	{
-		if (inGameMenu!=nullptr)
+		if (inGameMenu != nullptr)
 		{
 			inGameMenu->Update();
 			if (inGameMenu->QuitRequested()==true)
@@ -237,18 +244,20 @@ void StageState::UpdateGame()
 		if(mode == "Lancelot")
 		{
 			Lancelot* p = (Lancelot*) player;
-			healthBar.SetPercentage(p->GetHealth()/10.0);
-
+			healthBar->SetPercentage(p->GetHealth()/10.0);
+			energyBar->SetPercentage(p->GetEnergy()/5.0);
 		}
 		else if(mode == "Gallahad")
 		{
 			Gallahad* p = (Gallahad*) player;
-			healthBar.SetPercentage(p->GetHealth()/10.0);
+			healthBar->SetPercentage(p->GetHealth()/10.0);
+			energyBar->SetPercentage(p->GetEnergy()/5.0);
 		}
 	}
 	else
 	{
-		healthBar.SetPercentage(0);
+		healthBar->SetPercentage(0);
+		energyBar->SetPercentage(0);
 	}
 
 	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
@@ -283,7 +292,8 @@ void StageState::Render() {
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
-	healthBar.Render(10,10);
+	healthBar->Render(10,10);
+	energyBar->Render(10,10);
 
 	if (inGameMenu!=nullptr)
 		inGameMenu->Render();

@@ -116,7 +116,6 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 						if(obj->lastFooting != GameObject::GROUNDED)
 							obj->lastFooting = obj->footing;
 						obj->footing = GameObject::GROUNDED;
-						obj->jumping = false;
 						return world->At(x,y,0);
 					}
 				}
