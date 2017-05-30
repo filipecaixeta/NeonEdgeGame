@@ -29,7 +29,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	bool endRandom;
 	std::pair<int, int> aux(0, 3);
 	srand(time(NULL));
-	SaveComponent _("teste.txt");
 	algorithm = MapAlgorithm();
 
 	algorithm.RandomizeRoomOrder(&roomOrder);

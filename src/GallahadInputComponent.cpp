@@ -75,4 +75,31 @@ void GallahadInputComponent::Update(GameObject* obj, float dt)
 			g->lastFooting = GameObject::RIGHT_WALLED;
 		}
 	}
+	if(input.MousePress(LEFT_MOUSE_BUTTON))
+	{
+		g->saveComponent.Save(true);
+		g->saveComponent.Update(g, "savefile.txt");
+		/*int a = 0;
+		for (auto i : StageState::objectArray)
+		{
+			std::string b = a;
+			i->SaveComponent::Save(true);
+			i->SaveComponent::Update(i, "saveenemy" + b + ".txt");
+			a++;
+		}*/
+	}
+
+	if(input.MousePress(RIGHT_MOUSE_BUTTON))
+	{
+		g->saveComponent.Save(false);
+		g->saveComponent.Update(g, "savefile.txt");
+		/*int a = 0;
+		for (auto i : StageState::objectArray)
+		{
+			std::string b = a;
+			i->SaveComponent::Save(false);
+			i->SaveComponent::Update(i, "saveenemy" + b + ".txt");
+			a++;
+		}*/
+	}		
 }
