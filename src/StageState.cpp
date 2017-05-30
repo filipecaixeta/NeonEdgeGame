@@ -47,6 +47,13 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 
 	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
 
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			std::cout << roomArray[i][j] << "\t";
+		}
+		std::cout << "\n";
+	}
+
 	tileSet = new TileSet(64, 64, "Tileset3D.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
