@@ -1,9 +1,9 @@
 #include "Lancelot.h"
 #include "Camera.h"
-#include "Attack.h"
+#include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "StageState.h"
+#include "Attack.h"
 #include "Melee.h"
 
 Lancelot::Lancelot(int x, int y):
@@ -44,9 +44,10 @@ void Lancelot::Damage(int damage)
 
 void Lancelot::Attack()
 {
+	//Starts attack timer
 	attacking.Start();
 	//Generates attack object
-	StageState::AddObject(new Melee("notattack.png", 2, 0, facing, 500, 1, this));
+	StageState::AddObject(new Melee("Melee.png", 2, 0, facing, 500, 1, this));
 }
 
 bool Lancelot::Attacking()
@@ -64,10 +65,11 @@ void Lancelot::NotifyTileCollision(int tile, Face face)
 
 void Lancelot::NotifyObjectCollision(GameObject* other)
 {
+	
 	if(other->Is("Attack"))
 	{
-		//Attack* a = (Attack*) other;
-		//if(a->owner->Is("Lancelot"))
+		Melee* a = (Melee*) other;
+		if(a->owner->Is("Notfredo"))
 			Damage(1);
 	}
 }

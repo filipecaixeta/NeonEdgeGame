@@ -11,6 +11,7 @@ class Notfredo : public GameObject
 private:
 	int hitpoints = 5;
 	Timer invincibilityTimer = Timer(500);
+	Timer attacking = Timer(1000);
 
 	Rect radius = Rect();
 	Timer looking = Timer(1500);
@@ -24,6 +25,8 @@ public:
 	~Notfredo();
 	bool IsDead();
 	void Damage(int damage);
+	void Attack();
+	bool Attacking();
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);

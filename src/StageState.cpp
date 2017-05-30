@@ -41,7 +41,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 		}
 	}
 
-	tileSet = new TileSet(64, 64, "tileset3d2.png", 9, 9);
+	tileSet = new TileSet(64, 64, "Tileset3D.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 	//									tileMap->GetHeight()*tileMap->GetTileHeight());
@@ -133,10 +133,10 @@ void StageState::LoadAssets()
 	music.Open("stageState.ogg");
 	bg.Open("LancelotIdle.png");
 	bg.Open("LancelotRunning.png");
-	bg.Open("notattack.png");
+	bg.Open("Melee.png");
 	bg.Open("NotfredoRunning.png");
 	bg.Open("NotfredoIdle.png");
-	bg.Open("tileset3d2.png");
+	bg.Open("Tileset3D.png");
 	music.Play(-1);
 }
 

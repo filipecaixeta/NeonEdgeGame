@@ -1,14 +1,13 @@
 #include "PhysicsComponent.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "StageState.h"
 
 PhysicsComponent::PhysicsComponent(bool kinetic)
 {
 	PhysicsComponent::kinetic = kinetic;
 }
 
-void PhysicsComponent::Update(GameObject* obj, TileMap *world,float dt)
+void PhysicsComponent::Update(GameObject* obj, TileMap* world, float dt)
 {
 	//Gravity
 	if(!kinetic)
@@ -28,14 +27,14 @@ void PhysicsComponent::Update(GameObject* obj, TileMap *world,float dt)
 		clamp(velocity.y,-1.8f,1.8f);
 	}
 
-	//Apply vellocity in x
+	//Apply velocity in x
 	obj->box.x += velocity.x*dt;
 	if(velocity.x < 0)
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::LEFT), GameObject::LEFT);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::RIGHT), GameObject::RIGHT);
 
-	//Apply vellocity in y
+	//Apply velocity in y
 	obj->box.y += velocity.y*dt;
 	if(velocity.y < 0)
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::UPPER), GameObject::UPPER);
@@ -43,7 +42,7 @@ void PhysicsComponent::Update(GameObject* obj, TileMap *world,float dt)
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::BOTTOM), GameObject::BOTTOM);
 }
 
-int PhysicsComponent::TileCollision(GameObject* obj,TileMap *world, GameObject::Face face)
+int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject::Face face)
 {
 	if((face == GameObject::LEFT || face == GameObject::RIGHT) || 
 	   (obj->footing != GameObject::LEFT_WALLED && obj->footing != GameObject::RIGHT_WALLED))
@@ -73,11 +72,11 @@ int PhysicsComponent::TileCollision(GameObject* obj,TileMap *world, GameObject::
 				Rect tile = world->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
-					if(box.x+2 < tile.x+tile.w && box.x+box.w+2 > tile.x+tile.w)
+					if(box.x+4 < tile.x+tile.w && box.x+box.w+4 > tile.x+tile.w)
 					{
 						obj->footing = GameObject::LEFT_WALLED;
 					}
-					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
+					if(box.x <= tile.x+tile.w && box.x+box.w >= tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
@@ -86,11 +85,11 @@ int PhysicsComponent::TileCollision(GameObject* obj,TileMap *world, GameObject::
 				}
 				else if(face == GameObject::RIGHT)
 				{
-					if(box.x+box.w-2 > tile.x && box.x-2 < tile.x)
+					if(box.x+box.w-4 > tile.x && box.x-4 < tile.x)
 					{
 						obj->footing = GameObject::RIGHT_WALLED;
 					}
-					if(box.x+box.w > tile.x && box.x < tile.x)
+					if(box.x+box.w >= tile.x && box.x <= tile.x)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
@@ -125,5 +124,5 @@ int PhysicsComponent::TileCollision(GameObject* obj,TileMap *world, GameObject::
 		}
 	}
 
-	return 0;
+	return -1;
 }
