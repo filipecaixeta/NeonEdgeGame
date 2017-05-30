@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "State.h"
 #include "Lancelot.h"
@@ -25,6 +26,7 @@ private:
 	std::vector<std::unique_ptr<Window>> windowArray;
 	std::unordered_map<int, TileMap*> roomTable;
 	int** roomArray;
+	std::vector<int> roomOrder;
 	LoadingBar healthBar;
 	State* inGameMenu;
 

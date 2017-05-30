@@ -1,5 +1,6 @@
 #include "QuestManager.h"
 #include "IOFunctions.h"
+#include <cstdio>
 
 QuestManager::QuestManager()
 {
