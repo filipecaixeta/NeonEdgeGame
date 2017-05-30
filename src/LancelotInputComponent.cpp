@@ -75,4 +75,31 @@ void LancelotInputComponent::Update(GameObject* obj, float dt)
 			l->lastFooting = GameObject::RIGHT_WALLED;
 		}
 	}
+	if(input.MousePress(LEFT_MOUSE_BUTTON))
+	{
+		l->saveComponent.Save(true);
+		l->saveComponent.Update(l, "savefile.txt");
+		/*int a = 0;
+		for (auto i : StageState::objectArray)
+		{
+			std::string b = a;
+			i->SaveComponent::Save(true);
+			i->SaveComponent::Update(i, "saveenemy" + b + ".txt");
+			a++;
+		}*/
+	}
+
+	if(input.MousePress(RIGHT_MOUSE_BUTTON))
+	{
+		l->saveComponent.Save(false);
+		l->saveComponent.Update(l, "savefile.txt");
+		/*int a = 0;
+		for (auto i : StageState::objectArray)
+		{
+			std::string b = a;
+			i->SaveComponent::Save(false);
+			i->SaveComponent::Update(i, "saveenemy" + b + ".txt");
+			a++;
+		}*/
+	}	
 }

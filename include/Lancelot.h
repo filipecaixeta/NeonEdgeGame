@@ -37,7 +37,7 @@ public:
 	LancelotInputComponent inputComponent;
 	PhysicsComponent physicsComponent;
 	LancelotGraphicsComponent graphicsComponent;
-	SaveComponent &saveComponent;
+	SaveComponent saveComponent;
 };
 
 #endif /* LANCELOT_H_ */

@@ -4,14 +4,24 @@
 #include <string>
 
 #include "GameObject.h"
+#include "Rect.h"
+#include "Vec2.h"
 
 class SaveComponent
 {
 	public:
-		SaveComponent(std::string fileName);
+
+		std::string name;
+		Rect box = Rect();
+		GameObject::Face facing;
+		GameObject::Footing footing;
+		GameObject::Footing lastFooting;
+
+		SaveComponent();
 		~SaveComponent();
-		void Update(GameObject *obj,float dt);
+		void Update(GameObject *obj, std::string fileName);
 		void Save(bool s);
+		void Delete(std::string fileName);
 		static SaveComponent &GetInstance();
 
 	private:

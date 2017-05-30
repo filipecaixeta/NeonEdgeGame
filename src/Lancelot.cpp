@@ -10,7 +10,7 @@ Lancelot::Lancelot(int x, int y):
 	inputComponent(),
 	physicsComponent(),
 	graphicsComponent("Lancelot"),
-	saveComponent(SaveComponent::GetInstance())
+	saveComponent()
 {
 	name = "Lancelot";
 	Vec2 size = graphicsComponent.GetSize();
@@ -103,7 +103,6 @@ void Lancelot::Update(TileMap* world, float dt)
 	inputComponent.Update(this,dt);
 	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
-	saveComponent.Update(this,dt);
 }
 
 void Lancelot::Render()

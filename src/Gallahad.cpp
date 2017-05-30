@@ -5,7 +5,7 @@ Gallahad::Gallahad(int x, int y):
 	inputComponent(),
 	physicsComponent(),
 	graphicsComponent("Gallahad"),
-	saveComponent(SaveComponent::GetInstance())
+	saveComponent()
 {
 	name = "Gallahad";
 	Vec2 size = graphicsComponent.GetSize();
@@ -93,7 +93,6 @@ void Gallahad::Update(TileMap* world, float dt)
 	inputComponent.Update(this,dt);
 	physicsComponent.Update(this,world,dt);
 	graphicsComponent.Update(this,dt);
-	saveComponent.Update(this,dt);
 }
 
 void Gallahad::Render()

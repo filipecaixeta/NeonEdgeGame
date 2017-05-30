@@ -36,7 +36,7 @@ public:
 	GallahadInputComponent inputComponent;
 	PhysicsComponent physicsComponent;
 	GallahadGraphicsComponent graphicsComponent;
-	SaveComponent &saveComponent;
+	SaveComponent saveComponent;
 };
 
 #endif /* GALLAHAD_H_ */
