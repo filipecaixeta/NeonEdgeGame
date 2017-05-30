@@ -30,19 +30,9 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	std::pair<int, int> aux(0, 3);
 	srand(time(NULL));
 	SaveComponent _("teste.txt");
+	algorithm = MapAlgorithm();
 
-	for(int i = 0; i < 10; i++){
-		random = rand() % 3 + 2;
-		if(i == 0){
-			roomOrder.emplace_back(0);
-		}
-		else if(i == 5){
-			roomOrder.emplace_back(1);
-		}
-		else{
-			roomOrder.emplace_back(random);
-		}
-	}
+	algorithm.RandomizeRoomOrder(&roomOrder);
 
 	roomArray = new int*[sizeX];
 	for(int i = 0; i < sizeX; i++){
@@ -55,36 +45,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 		}
 	}
 
-	for(int i = 0; i < roomOrder.size(); i++){
-		if(i == 0){
-			roomArray[aux.first][aux.second] = roomOrder.at(i);
-		}
-		else{
-			while(endRandom == false){
-				random = rand() % 4;
-				if(random == 0 && aux.first + 1 < sizeX){
-					aux.first += 1;
-					roomArray[aux.first][aux.second] = roomOrder.at(i);
-					endRandom = true;
-				}
-				else if(random == 1 && aux.first - 1 > 0){
-					aux.first -= 1;
-					roomArray[aux.first][aux.second] = roomOrder.at(i);
-					endRandom = true;
-				}
-				else if(random == 2 && aux.second + 1 < sizeY){
-					aux.second += 1;
-					roomArray[aux.first][aux.second] = roomOrder.at(i);
-					endRandom = true;
-				}
-				else if(random == 3 && aux.second - 1 > 0){
-					aux.second -= 1;
-					roomArray[aux.first][aux.second] = roomOrder.at(i);
-					endRandom = true;
-				}
-			}
-		}
-	}
+	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
 
 	tileSet = new TileSet(64, 64, "Tileset3D.png", 9, 9);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);

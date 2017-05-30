@@ -12,6 +12,7 @@
 #include "Window.h"
 #include "LoadingBar.h"
 #include "menu/MenuState.h"
+#include "MapAlgorithm.h"
 
 class StageState : public State
 {
@@ -27,6 +28,7 @@ private:
 	std::unordered_map<int, TileMap*> roomTable;
 	int** roomArray;
 	std::vector<int> roomOrder;
+	MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	State* inGameMenu;
