@@ -127,3 +127,60 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 
 	return -1;
 }
+
+int PhysicsComponent::TileCollision(const GameObject* obj, Vec2 pos, TileMap* world, GameObject::Face face)
+{
+ 	Rect box = obj->box;
+	box.SetXY(box.GetXY()+Vec2(1.0f,1.0f));
+	box.SetWH(box.GetWH()-Vec2(2.0f,2.0f));
+
+	int minX = box.x/world->GetTileWidth();
+	int minY = box.y/world->GetTileHeight();
+	int maxX = (box.x+box.w)/world->GetTileWidth();
+	int maxY = (box.y+box.h)/world->GetTileHeight();
+	clamp(minX,0,world->GetWidth()-1);
+	clamp(minY,0,world->GetHeight()-1);
+	clamp(maxX,0,world->GetWidth()-1);
+	clamp(maxY,0,world->GetHeight()-1);
+
+	for(int x = minX; x <= maxX; x++)
+	{
+		for(int y = minY; y <= maxY; y++)
+		{
+			if(world->At(x,y,0) >= SOLID_TILE)
+			{
+				Rect tile = world->GetTileBox(x,y);
+				if(face == GameObject::LEFT)
+				{
+					if(box.x <= tile.x+tile.w && box.x+box.w >= tile.x+tile.w)
+					{
+						return world->At(x,y,0);
+					}
+				}
+				else if(face == GameObject::RIGHT)
+				{
+				if(box.x+box.w >= tile.x && box.x <= tile.x)
+					{
+						return world->At(x,y,0);
+					}
+				}
+				else if(face == GameObject::UPPER)
+				{
+					if(box.y < tile.y+tile.h && box.y+box.h > tile.y+tile.h)
+					{
+						return world->At(x,y,0);
+					}
+				}
+				else if(face == GameObject::BOTTOM)
+				{
+					if(box.y+box.h > tile.y && box.y < tile.y)
+					{
+						return world->At(x,y,0);
+					}
+				}
+			}
+		}
+	}
+
+	return -1;
+}
