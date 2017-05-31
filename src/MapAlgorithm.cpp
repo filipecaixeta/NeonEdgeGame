@@ -1,4 +1,5 @@
 #include "MapAlgorithm.h"
+#include <iostream>
 
 MapAlgorithm::MapAlgorithm(){
 
@@ -30,6 +31,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 	srand(time(NULL));
 
 	for(int i = 0; i < roomOrder->size(); i++){
+		endRandom = false;
 		if(i == 0){
 			roomArray[aux->first][aux->second] = roomOrder->at(i);
 		}
@@ -37,24 +39,32 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 			while(endRandom == false){
 				random = rand() % 4;
 				if(random == 0 && aux->first + 1 < sizeX){
-					aux->first += 1;
-					roomArray[aux->first][aux->second] = roomOrder->at(i);
-					endRandom = true;
+					if(roomArray[aux->first + 1][aux->second] == -1){
+						aux->first += 1;
+						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						endRandom = true;
+					}
 				}
 				else if(random == 1 && aux->first - 1 > 0){
-					aux->first -= 1;
-					roomArray[aux->first][aux->second] = roomOrder->at(i);
-					endRandom = true;
+					if(roomArray[aux->first - 1][aux->second] == -1){
+						aux->first -= 1;
+						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						endRandom = true;
+					}
 				}
 				else if(random == 2 && aux->second + 1 < sizeY){
-					aux->second += 1;
-					roomArray[aux->first][aux->second] = roomOrder->at(i);
-					endRandom = true;
+					if(roomArray[aux->first][aux->second + 1] == -1){
+						aux->second += 1;
+						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						endRandom = true;
+					}
 				}
 				else if(random == 3 && aux->second - 1 > 0){
-					aux->second -= 1;
-					roomArray[aux->first][aux->second] = roomOrder->at(i);
-					endRandom = true;
+					if(roomArray[aux->first][aux->second - 1] == -1){
+						aux->second -= 1;
+						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						endRandom = true;
+					}
 				}
 			}
 		}
