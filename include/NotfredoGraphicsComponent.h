@@ -7,22 +7,14 @@
 #include "Rect.h"
 #include "Sprite.h"
 #include "GameObject.h"
+#include "GraphicsComponent.h"
 
-class NotfredoGraphicsComponent
+class NotfredoGraphicsComponent: public GraphicsComponent
 {
-private:
-	std::unordered_map<std::string, Sprite*> sprites;
-	Sprite* sp;
-	bool mirror;
-	std::string baseName;
-
 public:
 	NotfredoGraphicsComponent(std::string baseName_);
 	~NotfredoGraphicsComponent();
 	void Update(GameObject* obj, float dt);
-	void UpdateSprite(GameObject* obj, std::string sprite);
-	void Render(Vec2 position);
-	Vec2 GetSize();	
 };
 
 #endif // NOTFREDOGRAPHICSCOMPONENT_H

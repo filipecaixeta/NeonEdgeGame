@@ -43,7 +43,7 @@ void LoadingBar::Render(int x, int y)
 	sp.SetFrameNormalized(0.0);
 	sp.Render(x,y,0);
 	sp.SetFrameNormalized(1.0);
-	SDL_Rect r = sp.getClip();
+	SDL_Rect r = sp.GetClip();
 	if (discrete)
 	{
 		if (blockSize!=0)

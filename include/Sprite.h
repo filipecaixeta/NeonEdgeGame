@@ -33,7 +33,7 @@ public:
 	void Render(int x, int y, float angle = 0);
 	void Render(Vec2 pos, float angle = 0);
 	void SetClip(int x, int y, int w, int h);
-	SDL_Rect getClip();
+	SDL_Rect GetClip();
 	void SetScaleX(float scale);
 	void SetScaleY(float scale);
 	void SetTransparency(float a);

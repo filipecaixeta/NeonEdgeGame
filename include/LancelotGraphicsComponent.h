@@ -1,27 +1,20 @@
 #ifndef LANCELOTGRAPHICSCOMPONENT_H
 #define LANCELOTGRAPHICSCOMPONENT_H
 
+#include <string>
+
 #include "Vec2.h"
 #include "Rect.h"
 #include "Sprite.h"
 #include "GameObject.h"
-#include <string>
+#include "GraphicsComponent.h"
 
-class LancelotGraphicsComponent
+class LancelotGraphicsComponent: public GraphicsComponent
 {
-private:
-	std::unordered_map<std::string, Sprite*> sprites;
-	Sprite* sp;
-	bool mirror;
-	std::string baseName;
-
 public:
 	LancelotGraphicsComponent(std::string baseName_);
 	~LancelotGraphicsComponent();
 	void Update(GameObject* obj, float dt);
-	void UpdateSprite(GameObject* obj, std::string sprite);
-	void Render(Vec2 position);
-	Vec2 GetSize();	
 };
 
 #endif // LANCELOTGRAPHICSCOMPONENT_H

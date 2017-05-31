@@ -2,7 +2,7 @@
 #include "Notfredo.h"
 
 NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseName_):
-	baseName(baseName_)
+	GraphicsComponent(baseName_)
 {
 	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 10, 120, true));
 	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
@@ -11,9 +11,6 @@ NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseName_):
 
 NotfredoGraphicsComponent::~NotfredoGraphicsComponent()
 {
-	for(auto& i: sprites)
-		delete i.second;
-	sprites.clear();
 }
 
 void NotfredoGraphicsComponent::Update(GameObject* obj, float dt)
@@ -32,32 +29,4 @@ void NotfredoGraphicsComponent::Update(GameObject* obj, float dt)
 
 	sp->Mirror(mirror);
 	sp->Update(dt);
-}
-
-void NotfredoGraphicsComponent::Render(Vec2 position)
-{
-	sp->Render(position);
-}
-
-Vec2 NotfredoGraphicsComponent::GetSize()
-{
-	return sp->GetSize();
-}
-
-void NotfredoGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
-{
-	Notfredo* n = (Notfredo*) obj;
-	
-	if(sp != sprites[sprite])
-	{
-		int w = sp->GetWidth();
-		int h = sp->GetHeight();
-		sp = sprites[sprite];
-		if(n->facing == GameObject::RIGHT)
-			n->box.x += (w-sp->GetWidth());
-		//l->box.x += (w-sp->GetWidth())/2;
-		n->box.y += h-sp->GetHeight();
-		n->box.SetWH(GetSize());
-		sp->SetFrame(1);
-	}
 }

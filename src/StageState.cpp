@@ -175,10 +175,23 @@ void StageState::Update()
 
 void StageState::UpdateGame()
 {
+	UpdateObjects();
+	UpdateObjects2ObjectsInteraction();
+	CleanDeadObjects();
+	CleanUpdateBars();
+	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
+}
+
+void StageState::UpdateObjects()
+{
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		objectArray[i]->Update(tileMap, Game::GetInstance().GetDeltaTime());
 	}
+}
+
+void StageState::UpdateObjects2ObjectsInteraction()
+{
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		for(unsigned j = i+1; j < objectArray.size(); j++)
@@ -194,6 +207,10 @@ void StageState::UpdateGame()
 			}
 		}
 	}
+}
+
+void StageState::CleanDeadObjects()
+{
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		if(objectArray[i]->IsDead())
@@ -206,7 +223,10 @@ void StageState::UpdateGame()
 			objectArray.erase(objectArray.begin()+i);
 		}
 	}
+}
 
+void StageState::CleanUpdateBars()
+{
 	if(player)
 	{
 		if(mode == "Lancelot")
@@ -227,8 +247,6 @@ void StageState::UpdateGame()
 		healthBar->SetPercentage(0);
 		energyBar->SetPercentage(0);
 	}
-
-	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
 }
 
 void StageState::HandleInput()
