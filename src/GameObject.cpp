@@ -36,6 +36,11 @@ void GameObject::NotifyObjectCollision(GameObject* other)
 
 }
 
+bool GameObject::GetColisionData(SDL_Surface** surface_, SDL_Rect& clipRect_, Vec2& pos_, bool& mirror)
+{
+	return false;
+}
+
 void GameObject::Render()
 {
 

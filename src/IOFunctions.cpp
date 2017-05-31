@@ -44,7 +44,7 @@ void IOFunctions::Save(std::string fileName, void* data, unsigned int buffSize, 
 		char* buff = (char*)data;
 		std::string password(PASSWORD);
 		int passSize = password.size();
-		for (int i=0; i<buffSize; i++)
+		for (unsigned int i=0; i<buffSize; i++)
 		{
 			buff[i] = buff[i]^password[i%passSize];
 		}

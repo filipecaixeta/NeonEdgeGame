@@ -93,7 +93,7 @@ void Sprite::SetClip(int x, int y, int w, int h)
 	clipRect.h = h;
 }
 
-SDL_Rect Sprite::getClip()
+SDL_Rect Sprite::GetClip()
 {
 	return clipRect;
 }

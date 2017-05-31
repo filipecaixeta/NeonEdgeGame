@@ -121,6 +121,15 @@ void Gallahad::NotifyObjectCollision(GameObject* other)
 	}
 }
 
+bool Gallahad::GetColisionData(SDL_Surface **surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
+{
+	*surface_ = graphicsComponent.GetSurface();
+	clipRect_ = graphicsComponent.GetClip();
+	pos_ = box.GetXY();
+	mirror = graphicsComponent.GetMirror();
+	return true;
+}
+
 void Gallahad::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);

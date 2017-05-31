@@ -17,8 +17,11 @@ void MainMenu::LoadAssets()
 {
 	SDL_Texture *text;
 
-	text = Text::GetText(fontName,fontSize,fontColor,"Play");
-	menuOptions.push_back({"Play",new Sprite(text,1,0,true),true,0});
+	text = Text::GetText(fontName,fontSize,fontColor,"Lancelot");
+	menuOptions.push_back({"Lancelot",new Sprite(text,1,0,true),true,0});
+
+	text = Text::GetText(fontName,fontSize,fontColor,"Gallahad");
+	menuOptions.push_back({"Gallahad",new Sprite(text,1,0,true),true,0});
 
 	text = Text::GetText(fontName,fontSize,fontColor,"Load");
 	menuOptions.push_back({"Load",new Sprite(text,1,0,true),true,0});
@@ -43,7 +46,11 @@ void MainMenu::Update()
 	if(	InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
 		InputManager::GetInstance().KeyPress(SDLK_RETURN) )
 	{
-		if (menuOptions[currentOption].key=="Play")
+		if (menuOptions[currentOption].key=="Lancelot")
+		{
+			Game::GetInstance().AddState(new StageState("Lancelot"));
+		}
+		if (menuOptions[currentOption].key=="Gallahad")
 		{
 			Game::GetInstance().AddState(new StageState("Gallahad"));
 		}

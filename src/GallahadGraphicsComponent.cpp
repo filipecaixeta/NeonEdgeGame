@@ -3,21 +3,22 @@
 #include "Rect.h"
 
 GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
-	sp(new Sprite()),
-	baseName(baseName_)
+	GraphicsComponent(baseName_)
 {
-	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));
-	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
-	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 60, true, false));
-	sprites.emplace("Crouching", new Sprite(baseName+"Crouching.png", 4, 120, true, false));
+	surfaces.emplace("Idle",Resources::GetSurface(baseName+"Idle.png"));
+	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 80, true));
+	surfaces.emplace("Running",Resources::GetSurface(baseName+"Running.png"));
+	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 80, true));
+	surfaces.emplace("Jumping",Resources::GetSurface(baseName+"Jumping.png"));
+	sprites.emplace("Jumping", new Sprite(baseName+"Jumping.png", 8, 80, true, false));
+	surfaces.emplace("Crouching",Resources::GetSurface(baseName+"Crouching.png"));
+	sprites.emplace("Crouching", new Sprite(baseName+"Crouching.png", 4, 80, true, false));
 	sp = sprites["Idle"];
+	surface = surfaces["Idle"];
 }
 
 GallahadGraphicsComponent::~GallahadGraphicsComponent()
 {
-	for(auto& i: sprites)
-		delete i.second;
-	sprites.clear();
 }
 
 void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
@@ -53,30 +54,4 @@ void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
 
 	sp->Mirror(mirror);
 	sp->Update(dt);
-}
-
-void GallahadGraphicsComponent::Render(Vec2 position)
-{
-	sp->Render(position);
-}
-
-Vec2 GallahadGraphicsComponent::GetSize()
-{
-	return sp->GetSize();
-}
-
-void GallahadGraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
-{
-	Gallahad* g = (Gallahad*) obj;
-	
-	if(sp != sprites[sprite])
-	{
-		int w = sp->GetWidth();
-		int h = sp->GetHeight();
-		sp = sprites[sprite];
-		g->box.x += (w-sp->GetWidth())/2;
-		g->box.y += h-sp->GetHeight();
-		g->box.SetWH(GetSize());
-		sp->SetFrame(1);
-	}
 }

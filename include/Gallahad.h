@@ -25,6 +25,7 @@ public:
 	bool IsDead();
 	int GetHealth();
 	int GetEnergy();
+	bool GetColisionData(SDL_Surface** surface_, SDL_Rect& clipRect_, Vec2& pos_, bool& mirror);
 	void Damage(int damage);
 	void Attack();
 	void Hide();

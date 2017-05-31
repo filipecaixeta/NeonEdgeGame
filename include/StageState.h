@@ -34,6 +34,11 @@ private:
 	LoadingBar *energyBar;
 	State* inGameMenu;
 
+	void UpdateObjects();
+	void UpdateObjects2ObjectsInteraction();
+	void CleanDeadObjects();
+	void CleanUpdateBars();
+
 public:
 	StageState(std::string mode_, int sizeX = 10, int sizeY = 10);
 	~StageState();
