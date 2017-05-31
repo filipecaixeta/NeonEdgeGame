@@ -72,27 +72,21 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 				Rect tile = world->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
-					if(box.x+2 < tile.x+tile.w && box.x+box.w+2 > tile.x+tile.w)
-					{
-						obj->footing = GameObject::LEFT_WALLED;
-					}
 					if(box.x <= tile.x+tile.w && box.x+box.w >= tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
+						obj->footing = GameObject::LEFT_WALLED;
 						return world->At(x,y,0);
 					}
 				}
 				else if(face == GameObject::RIGHT)
 				{
-					if(box.x+box.w-2 > tile.x && box.x-2 < tile.x)
-					{
-						obj->footing = GameObject::RIGHT_WALLED;
-					}
 					if(box.x+box.w >= tile.x && box.x <= tile.x)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
+						obj->footing = GameObject::RIGHT_WALLED;
 						return world->At(x,y,0);
 					}
 				}

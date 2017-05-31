@@ -53,7 +53,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 		std::cout << "\n";
 	}
 
-	tileSet = new TileSet(64, 64, "Tileset3D.png", 9, 9);
+	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 	//									tileMap->GetHeight()*tileMap->GetTileHeight());

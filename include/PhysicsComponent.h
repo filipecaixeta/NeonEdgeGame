@@ -1,7 +1,7 @@
 #ifndef PHYSICSCOMPONENT_H
 #define PHYSICSCOMPONENT_H
 
-#define SOLID_TILE 6
+#define SOLID_TILE 0
 
 #include "GameObject.h"
 #include "TileMap.h"
