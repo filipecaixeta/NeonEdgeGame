@@ -5,6 +5,8 @@
 #include "StageState.h"
 #include "Text.h"
 #include <iostream>
+//#include <fstream>
+//#include <string>
 
 MainMenu::MainMenu():
 	MenuState()
@@ -47,7 +49,72 @@ void MainMenu::Update()
 		}
 		else if (menuOptions[currentOption].key=="Load")
 		{
+/*			std::fstream fs;
+			std::string Resolution;
+			fs.open("Resolution.txt", std::fstream::in);
+			fs.read("Resolution", sizeof(std::string));
+			if (Resolution == "4x3")
+			{
+				Game::GetInstance().SetScreenSize(Game::GetInstance().res4x3);
+			}
+			else if (Resolution == "16x9")
+			{
+				Game::GetInstance().SetScreenSize(Game::GetInstance().res16x9);
+			}
+			else if (Resolution == "16x9")
+			{
+				Game::GetInstance().SetScreenSize(Game::GetInstance().res21x9);
+			}
+			fs.close();
 
+			std::string WindowMode;
+			fs.open("WindowMode.txt", std::fstream::in);
+			fs.read("WindowMode", sizeof(std::string));
+			if (WindowMode == "Windowed")
+			{
+				Game::GetInstance().setFullScreen(false);
+			}
+			else if (WindowMode == "21x9")
+			{
+				Game::GetInstance().setFullScreen(true);
+			}
+			fs.close();
+
+			int FPS;
+			fs.open("FPS.txt", std::fstream::in)
+			fs.read(FPS, sizeof(int));
+			Game::GetInstance().fps = FPS;
+			fs.close();
+
+			int moveLeftOption;
+			fs.open("moveLeftOption.txt", std::fstream::in);
+			fs.read(moveLeftOption, sizeof(int));
+			InputManager::GetInstance().SetTranslationKey(MOVE_LEFT_KEY, moveLeftOption);
+			fs.close();
+
+			int moveRightOption;
+			fs.open("moveRightOption.txt", std::fstream::in);
+			fs.read(moveRightOption, sizeof(int));
+			InputManager::GetInstance().SetTranslationKey(MOVE_RIGHT_KEY, moveRightOption);
+			fs.close();
+
+			int moveDownOption;
+			fs.open("moveDownOption.txt", std::fstream::in);
+			fs.read(moveDownOption, sizeof(int));
+			InputManager::GetInstance().SetTranslationKey(MOVE_DOWN_KEY, moveDownOption);
+			fs.close();
+
+			int jumpOption;
+			fs.open("jumpOption.txt", std::fstream::in);
+			fs.read(jumpOption, sizeof(int));
+			InputManager::GetInstance().SetTranslationKey(JUMP_KEY, jumpOption);
+			fs.close();
+
+			int attackOption;
+			fs.open("attackOption.txt", std::fstream::in);
+			fs.read(attackOption, sizeof(int));
+			InputManager::GetInstance().SetTranslationKey(ATTACK_KEY, attackOption);
+			fs.close();*/
 		}
 		else if (menuOptions[currentOption].key=="Settings")
 		{
