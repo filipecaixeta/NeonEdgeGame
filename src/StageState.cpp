@@ -9,7 +9,7 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 #include "menu/InGameQuests.h"
-#include "PixelPerfectColision.h"
+#include "ColisionFunctions.h"
 
 GameObject* StageState::player = nullptr;
 std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
@@ -184,7 +184,14 @@ void StageState::UpdateObjects2ObjectsInteraction()
 	{
 		if (objectArray[i]->Is("Enemy") &&
 			objectArray[i]->box.OverlapsWith(player->box))
-			std::cout << PixelPerfectColision::CheckColision(player,objectArray[i]) << std::endl;
+		{
+
+			std::cout << ColisionFunctions::PixelPerfectColision(player,objectArray[i]) << std::endl;
+		}
+		if (objectArray[i]->Is("Enemy") &&
+			ColisionFunctions::RayCastColision(tileMap,player->box.GetXY()+Vec2(0,40),objectArray[i]->box.GetXY())==false)
+			std::cout << "Visivel " << std::endl;
+
 	}
 }
 

@@ -107,3 +107,13 @@ Rect TileMap::GetTileBox(int x, int y)
 {
 	return Rect(x*GetTileWidth(), y*GetTileHeight(), GetTileWidth(), GetTileHeight());
 }
+
+Vec2 TileMap::GetTileSize()
+{
+	return Vec2(GetTileWidth(),GetTileHeight());
+}
+
+Vec2 TileMap::GetSize()
+{
+	return Vec2(mapWidth*GetTileWidth(),mapHeight*GetTileHeight());
+}
