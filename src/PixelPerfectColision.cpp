@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include "PixelPerfectColision.h"
 #ifndef clamp
 	#define clamp(N,L,U) N=std::max(L,std::min(N,U))

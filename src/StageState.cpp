@@ -26,7 +26,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	energyBar(nullptr),
 	inGameMenu(nullptr)
 {
-	//	CreateMap(sizeX,sizeY);
+	CreateMap(sizeX,sizeY);
 
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
