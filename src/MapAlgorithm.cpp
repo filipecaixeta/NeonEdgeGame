@@ -36,6 +36,82 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 			roomArray[aux->first][aux->second] = roomOrder->at(i);
 		}
 		else{
+			if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->first - 1 > 0 && aux->second - 1 > 0){
+				if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 &&
+					roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
+					for(int i = 0; i < sizeX; i++){
+						for(int j = 0; j < sizeY; j++){
+							roomArray[i][j] = -1;
+						}
+					}
+
+					aux->first = 0;
+					aux->second = 3;
+
+					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					break;
+				}
+			}
+			if(aux->second + 1 < sizeY && aux->first - 1 > 0 && aux->second - 1 > 0){
+				if(roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
+					for(int i = 0; i < sizeX; i++){
+						for(int j = 0; j < sizeY; j++){
+							roomArray[i][j] = -1;
+						}
+					}
+
+					aux->first = 0;
+					aux->second = 3;
+
+					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					break;
+				}
+			}
+			if(aux->first + 1 < sizeX && aux->first - 1 > 0 && aux->second - 1 > 0){
+				if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second - 1] > -1){
+					for(int i = 0; i < sizeX; i++){
+						for(int j = 0; j < sizeY; j++){
+							roomArray[i][j] = -1;
+						}
+					}
+
+					aux->first = 0;
+					aux->second = 3;
+
+					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					break;
+				}
+			}
+			if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->second - 1 > 0){
+				if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
+					for(int i = 0; i < sizeX; i++){
+						for(int j = 0; j < sizeY; j++){
+							roomArray[i][j] = -1;
+						}
+					}
+
+					aux->first = 0;
+					aux->second = 3;
+
+					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					break;
+				}
+			}
+			if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->first - 1 > 0){
+				if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1){
+					for(int i = 0; i < sizeX; i++){
+						for(int j = 0; j < sizeY; j++){
+							roomArray[i][j] = -1;
+						}
+					}
+
+					aux->first = 0;
+					aux->second = 3;
+
+					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					break;
+				}
+			}
 			while(endRandom == false){
 				random = rand() % 4;
 				if(random == 0 && aux->first + 1 < sizeX){
