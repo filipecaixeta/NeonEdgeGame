@@ -10,6 +10,8 @@ public:
 	MapAlgorithm();
 	void RandomizeRoomOrder(std::vector<int>* roomOrder);
 	void PopulateRoomArray(int** roomArray, std::vector<int>* roomOrder, std::pair<int, int>* aux, int sizeX, int sizeY);
+private:
+	void PopulateBranch(int** roomArray, std::vector<int>* roomOrder, std::pair<int, int> aux, int sizeX, int sizeY);
 };
 
 #endif

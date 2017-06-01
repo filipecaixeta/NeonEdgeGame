@@ -1,6 +1,7 @@
 #include "menu/GraphicsMenu.h"
 #include "Text.h"
 #include "InputManager.h"
+//#include <fstream>
 
 GraphicsMenu::GraphicsMenu():
 	MenuState()
@@ -89,6 +90,7 @@ void GraphicsMenu::Update()
 
 		if (menuOptions[currentOption].key=="ResolutionOption")
 		{
+//			std::fstream fs;
 			menuOptions[currentOption].current = (menuOptions[currentOption].current+rl)%3;
 			if (menuOptions[currentOption].current<0)
 				menuOptions[currentOption].current = 2;
@@ -96,20 +98,28 @@ void GraphicsMenu::Update()
 			if (menuOptions[currentOption].current == 0)
 			{
 				Game::GetInstance().SetScreenSize(Game::GetInstance().res4x3);
+//				fs.open("Resolution.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("4x3", sizeof(std::string));
 			}
 			else if (menuOptions[currentOption].current == 1)
 			{
 				Game::GetInstance().SetScreenSize(Game::GetInstance().res16x9);
+//				fs.open("Resolution.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("16x9", sizeof(std::string));
 			}
 			else if (menuOptions[currentOption].current == 2)
 			{
 				Game::GetInstance().SetScreenSize(Game::GetInstance().res21x9);
+//				fs.open("Resolution.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("21x9", sizeof(std::string));
 			}
 			UpdateScreenSizeSprite(menuOptions[currentOption].current,
 								   menuOptions[currentOption].sprite);
+//			fs.close();
 		}
 		if (menuOptions[currentOption].key=="WindowModeOption")
 		{
+//			std::fstream fs;
 			menuOptions[currentOption].current = (menuOptions[currentOption].current+rl)%2;
 			if (menuOptions[currentOption].current<0)
 				menuOptions[currentOption].current = 1;
@@ -117,16 +127,22 @@ void GraphicsMenu::Update()
 			if (menuOptions[currentOption].current == 0)
 			{
 				Game::GetInstance().setFullScreen(false);
+//				fs.open("WindowMode.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("Windowed", sizeof(std::string));
 			}
 			else if (menuOptions[currentOption].current == 1)
 			{
 				Game::GetInstance().setFullScreen(true);
+//				fs.open("WindowMode.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("Fullscreen", sizeof(std::string));
 			}
 			UpdateWindowModeSprite(menuOptions[currentOption].current,
 								   menuOptions[currentOption].sprite);
+//			fs.close();
 		}
 		if (menuOptions[currentOption].key=="FPSOption")
 		{
+//			std::fstream fs;			
 			menuOptions[currentOption].current = (menuOptions[currentOption].current+rl)%3;
 			if (menuOptions[currentOption].current<0)
 				menuOptions[currentOption].current = 2;
@@ -134,14 +150,20 @@ void GraphicsMenu::Update()
 			if (menuOptions[currentOption].current == 0)
 			{
 				Game::GetInstance().fps = 30;
+//				fs.open("FPS.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("30", sizeof(std::string));
 			}
 			else if (menuOptions[currentOption].current == 1)
 			{
 				Game::GetInstance().fps = 60;
+//				fs.open("FPS.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("60", sizeof(std::string));
 			}
 			else if (menuOptions[currentOption].current == 2)
 			{
 				Game::GetInstance().fps = 480;
+//				fs.open("FPS.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write("480", sizeof(std::string));
 			}
 			UpdateFPSSprite(menuOptions[currentOption].current,
 							menuOptions[currentOption].sprite);

@@ -11,5 +11,5 @@ CMakeCache.txt
 *.cbp
 bin/Game.exe
 Makefile
-bin/savefile.txt
+savefile.txt
 

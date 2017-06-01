@@ -1,6 +1,7 @@
 #include "menu/ControlsMenu.h"
 #include "Text.h"
 #include "InputManager.h"
+//#include <fstream>
 
 ControlsMenu::ControlsMenu():
 	MenuState(),
@@ -80,13 +81,16 @@ void ControlsMenu::Update()
 		int lk = InputManager::GetInstance().GetLastKey();
 		if (lk != -1)
 		{
-			replaceKey = false;
+//			std::fstream fs;
+//			replaceKey = false;
 			if (menuOptions[currentOption].key == "moveLeftOption")
 			{
 				InputManager::GetInstance().SetTranslationKey(MOVE_LEFT_KEY,lk);
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
 												  CreateKeyString(MOVE_LEFT_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
+//				fs.open("moveLeftOption.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write((char*)lk, sizeof(lk));
 			}
 			else if (menuOptions[currentOption].key == "moveRightOption")
 			{
@@ -94,6 +98,8 @@ void ControlsMenu::Update()
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
 												  CreateKeyString(MOVE_RIGHT_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
+//				fs.open("moveRightOption.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write((char*)lk, sizeof(lk));
 			}
 			else if (menuOptions[currentOption].key == "moveDownOption")
 			{
@@ -101,6 +107,8 @@ void ControlsMenu::Update()
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
 												  CreateKeyString(CROUCH_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
+//				fs.open("moveDownOption.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write((char*)lk, sizeof(lk));
 			}
 			else if (menuOptions[currentOption].key == "jumpOption")
 			{
@@ -108,6 +116,8 @@ void ControlsMenu::Update()
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
 												  CreateKeyString(JUMP_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
+//				fs.open("jumpOption.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write((char*)lk, sizeof(lk));
 			}
 			else if (menuOptions[currentOption].key == "attackOption")
 			{
@@ -115,7 +125,10 @@ void ControlsMenu::Update()
 				SDL_Texture *text = Text::GetText(fontName,fontSize,fontColor,
 												  CreateKeyString(ATTACK_KEY));
 				menuOptions[currentOption].sprite->SetTexture(text,true);
+//				fs.open("attackOption.txt", std::fstream::out | std::fstream::trunc);
+//				fs.write((char*)lk, sizeof(lk));
 			}
+//			fs.close();
 		}
 	}
 	else

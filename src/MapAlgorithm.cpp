@@ -70,3 +70,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 		}
 	}
 }
+
+void MapAlgorithm::PopulateBranch(int** roomArray, std::vector<int>* roomOrder, std::pair<int, int> aux, int sizeX, int sizeY){
+
+}
