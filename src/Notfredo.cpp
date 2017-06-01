@@ -8,35 +8,24 @@
 #include "Attack.h"
 #include "Melee.h"
 #include "Projectile.h"
+#include "IAComponent.h"
 
 Notfredo::Notfredo(int x, int y):
-	physicsComponent(),
-	graphicsComponent("EnemyGallahad")
+	Character(x,y),
+	radius(),
+	looking(1500),
+	idle(1500)
 {
+	inputComponent = new IAComponent();
+	graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
 	name = "Notfredo";
-	Vec2 size = graphicsComponent.GetSize();
-	box = Rect(x, y, size.x, size.y);
-	facing = RIGHT;
+	box.SetWH(graphicsComponent->GetSize());
 	idle.Start();
 }
 
 Notfredo::~Notfredo()
 {
 
-}
-
-bool Notfredo::IsDead()
-{
-	return (hitpoints < 1);
-}
-
-void Notfredo::Damage(int damage)
-{
-	if(!invincibilityTimer.IsRunning())
-	{
-		hitpoints -= (damage);
-		invincibilityTimer.Start();
-	}
 }
 
 void Notfredo::Attack()
@@ -47,11 +36,6 @@ void Notfredo::Attack()
 	StageState::AddObject(new Melee("Melee.png", 2, 0, this, 500, 1));
 }
 
-bool Notfredo::Attacking()
-{
-	return attacking.IsRunning();
-}
-
 void Notfredo::NotifyTileCollision(int tile, Face face)
 {
 	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
@@ -60,22 +44,6 @@ void Notfredo::NotifyTileCollision(int tile, Face face)
 		{
 			physicsComponent.velocity.y = -0.5;
 		}
-	}
-}
-
-void Notfredo::NotifyObjectCollision(GameObject* other)
-{
-	if(other->Is("Melee"))
-	{
-		Melee* a = (Melee*) other;
-		if(a->owner->Is("Gallahad") || a->owner->Is("Lancelot"))
-			Damage(1);
-	}
-	if(other->Is("Projectile"))
-	{
-		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Gallahad") || p->owner->Is("Lancelot"))
-			Damage(1);
 	}
 }
 
@@ -170,11 +138,12 @@ void Notfredo::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	UpdateAI(dt);
+	inputComponent->Update(this,dt);
 	physicsComponent.Update(this,world,dt);
-	graphicsComponent.Update(this,dt);
+	graphicsComponent->Update(this,dt);
 }
 
-void Notfredo::Render()
+bool Notfredo::Is(std::string type)
 {
-	graphicsComponent.Render(GetPosition()-Camera::GetInstance().pos);
+	return (type=="Enemy");
 }

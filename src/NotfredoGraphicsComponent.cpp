@@ -4,21 +4,20 @@
 NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseName_):
 	GraphicsComponent(baseName_)
 {
-	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 10, 120, true));
-	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
+	AddSprite(baseName,"Idle",10,80);
+	AddSprite(baseName,"Running",8,80);
 	sp = sprites["Idle"];
+	surface = surfaces["Idle"];
 }
 
 NotfredoGraphicsComponent::~NotfredoGraphicsComponent()
 {
 }
 
-void NotfredoGraphicsComponent::Update(GameObject* obj, float dt)
+void NotfredoGraphicsComponent::Update(Character* obj, float dt)
 {
-	Notfredo* n = (Notfredo*) obj;
-	
-	mirror = (n->facing == GameObject::LEFT);
-	if(n->physicsComponent.velocity.x == 0)
+	mirror = (obj->facing == GameObject::LEFT);
+	if(obj->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}

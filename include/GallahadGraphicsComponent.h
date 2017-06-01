@@ -5,15 +5,15 @@
 
 #include "Vec2.h"
 #include "Sprite.h"
-#include "GameObject.h"
 #include "GraphicsComponent.h"
+#include "Character.h"
 
 class GallahadGraphicsComponent: public GraphicsComponent
 {
 public:
 	GallahadGraphicsComponent(std::string baseName_);
 	~GallahadGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+	void Update(Character* obj, float dt);
 };
 
 #endif // GALLAHADGRAPHICSCOMPONENT_H

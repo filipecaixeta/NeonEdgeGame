@@ -12,7 +12,6 @@ GraphicsComponent::~GraphicsComponent()
 	for(auto& i: sprites)
 		delete i.second;
 	sprites.clear();
-	surfaces.clear();
 }
 
 void GraphicsComponent::Render(Vec2 position)
@@ -53,4 +52,10 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 		obj->box.SetWH(GetSize());
 		sp->SetFrame(1);
 	}
+}
+
+void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount, int frameTime)
+{
+	surfaces.emplace(name,Resources::GetSurface(baseName+name+".png"));
+	sprites.emplace(name, new Sprite(baseName+name+".png", frameCount, frameTime, true));
 }

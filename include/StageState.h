@@ -61,6 +61,7 @@ public:
 	void HandleInput();
 	void UpdateGame();
 	void CreateBars(std::string playerName);
+	void CreateMap(int sizeX, int sizeY);
 };
 
 #endif /* STAGESTATE_H_ */

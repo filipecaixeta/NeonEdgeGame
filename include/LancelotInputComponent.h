@@ -2,12 +2,14 @@
 #define LANCELOTINPUTCOMPONENT_H
 
 #include "GameObject.h"
+#include "InputComponent.h"
 
-class LancelotInputComponent
+class LancelotInputComponent: public InputComponent
 {
 public:
 	LancelotInputComponent();
-	void Update(GameObject* obj, float dt);
+	void Update(Character* obj_, float dt_);
+	void Block();
 };
 
 #endif // LANCELOTINPUTCOMPONENT_H

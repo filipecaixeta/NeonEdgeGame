@@ -1,13 +1,15 @@
 #ifndef GALLAHADINPUTCOMPONENT_H
 #define GALLAHADINPUTCOMPONENT_H
 
-#include "GameObject.h"
+#include "Gallahad.h"
+#include "InputComponent.h"
 
-class GallahadInputComponent
+class GallahadInputComponent: public InputComponent
 {
 public:
 	GallahadInputComponent();
-	void Update(GameObject* obj, float dt);
+	void Update(Character* obj_, float dt_);
+	void Hide();
 };
 
 #endif // GALLAHADINPUTCOMPONENT_H

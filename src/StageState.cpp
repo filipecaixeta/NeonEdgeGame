@@ -9,6 +9,7 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 #include "menu/InGameQuests.h"
+#include "PixelPerfectColision.h"
 
 GameObject* StageState::player = nullptr;
 std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
@@ -25,40 +26,12 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	energyBar(nullptr),
 	inGameMenu(nullptr)
 {
-	int random;
-	bool endRandom;
-	std::pair<int, int> aux(0, 3);
-	srand(time(NULL));
-	algorithm = MapAlgorithm();
-
-	algorithm.RandomizeRoomOrder(&roomOrder);
-
-	roomArray = new int*[sizeX];
-	for(int i = 0; i < sizeX; i++){
-		roomArray[i] = new int[sizeY];
-	}
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-			roomArray[i][j] = -1;
-		}
-	}
-
-	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-			std::cout << roomArray[i][j] << "\t";
-		}
-		std::cout << "\n";
-	}
+	//	CreateMap(sizeX,sizeY);
 
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
-	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
-	//									tileMap->GetHeight()*tileMap->GetTileHeight());
-	//Camera::GetInstance().maxPos = Vec2(tileMap.m_nodes[0]->m_data.tileMap->GetWidth()*tileMap.m_nodes[0]->m_data.tileMap->GetTileWidth(),
-	//									tileMap.m_nodes[0]->m_data.tileMap->GetHeight()*tileMap.m_nodes[0]->m_data.tileMap->GetTileHeight());
+	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
+										tileMap->GetHeight()*tileMap->GetTileHeight());
 	if(mode == "Lancelot")
 		player = new Lancelot(200, 1000);
 	else if(mode == "Gallahad")
@@ -207,6 +180,12 @@ void StageState::UpdateObjects2ObjectsInteraction()
 			}
 		}
 	}
+	for(unsigned i = 0; i < objectArray.size(); i++)
+	{
+		if (objectArray[i]->Is("Enemy") &&
+			objectArray[i]->box.OverlapsWith(player->box))
+			std::cout << PixelPerfectColision::CheckColision(player,objectArray[i]) << std::endl;
+	}
 }
 
 void StageState::CleanDeadObjects()
@@ -268,6 +247,35 @@ void StageState::HandleInput()
 	if(InputManager::GetInstance().KeyPress(SDLK_j))
 	{
 		RemoveWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
+	}
+}
+
+void StageState::CreateMap(int sizeX, int sizeY)
+{
+	std::pair<int, int> aux(0, 3);
+	srand(time(NULL));
+	algorithm = MapAlgorithm();
+
+	algorithm.RandomizeRoomOrder(&roomOrder);
+
+	roomArray = new int*[sizeX];
+	for(int i = 0; i < sizeX; i++){
+		roomArray[i] = new int[sizeY];
+	}
+
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			roomArray[i][j] = -1;
+		}
+	}
+
+	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
+
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			std::cout << roomArray[i][j] << "\t";
+		}
+		std::cout << "\n";
 	}
 }
 

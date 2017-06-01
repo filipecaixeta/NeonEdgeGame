@@ -6,7 +6,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Sprite.h"
-#include "GameObject.h"
+#include "Character.h"
 #include "GraphicsComponent.h"
 
 class LancelotGraphicsComponent: public GraphicsComponent
@@ -14,7 +14,7 @@ class LancelotGraphicsComponent: public GraphicsComponent
 public:
 	LancelotGraphicsComponent(std::string baseName_);
 	~LancelotGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+	void Update(Character* obj, float dt);
 };
 
 #endif // LANCELOTGRAPHICSCOMPONENT_H

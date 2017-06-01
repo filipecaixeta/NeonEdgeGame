@@ -4,26 +4,25 @@
 LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	GraphicsComponent(baseName_)
 {
-	sprites.emplace("Idle", new Sprite(baseName+"Idle.png", 8, 120, true));
-	sprites.emplace("Running", new Sprite(baseName+"Running.png", 8, 120, true));
-	sprites.emplace("Crouching", new Sprite(baseName+"Crouching.png", 4, 120, true, false));
+	AddSprite(baseName,"Idle",8,80);
+	AddSprite(baseName,"Running",8,80);
+	AddSprite(baseName,"Crouching",4,80);
 	sp = sprites["Idle"];
+	surface = surfaces["Idle"];
 }
 
 LancelotGraphicsComponent::~LancelotGraphicsComponent()
 {
 }
 
-void LancelotGraphicsComponent::Update(GameObject* obj, float dt)
+void LancelotGraphicsComponent::Update(Character* obj, float dt)
 {
-	Lancelot* l = (Lancelot*) obj;
-	
-	mirror = (l->facing == GameObject::LEFT);
-	if(l->Crouching())
+	mirror = (obj->facing == GameObject::LEFT);
+	if(obj->Crouching())
 	{
 		UpdateSprite(obj, "Crouching");
 	}
-	else if(l->physicsComponent.velocity.x == 0)
+	else if(obj->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}
