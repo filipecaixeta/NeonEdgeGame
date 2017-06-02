@@ -26,6 +26,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	energyBar(nullptr),
 	inGameMenu(nullptr)
 {
+	this->sizeX = sizeX;
+	this->sizeY = sizeY;
 	CreateMap(sizeX,sizeY);
 
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
@@ -38,7 +40,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 		player = new Gallahad(200, 1000);
 	Camera::GetInstance().Follow(player);
 	AddObject(player);
-	AddObject(new Notfredo(800, 1280));
+	AddObject(new Notfredo(800, 1000));
 	AddObjectAsFirst(new Energy(336, 1360, "Energy.png", 4, 120));
 
 	CreateBars(player->name);
@@ -188,9 +190,9 @@ void StageState::UpdateObjects2ObjectsInteraction()
 
 			std::cout << ColisionFunctions::PixelPerfectColision(player,objectArray[i]) << std::endl;
 		}
-		if (objectArray[i]->Is("Enemy") &&
-			ColisionFunctions::RayCastColision(tileMap,player->box.GetXY()+Vec2(0,40),objectArray[i]->box.GetXY())==false)
-			std::cout << "Visivel " << std::endl;
+		//if (objectArray[i]->Is("Enemy") &&
+			//ColisionFunctions::RayCastColision(tileMap,player->box.GetXY()+Vec2(0,40),objectArray[i]->box.GetXY())==false)
+			//std::cout << "Visivel " << std::endl;
 
 	}
 }
@@ -276,6 +278,17 @@ void StageState::CreateMap(int sizeX, int sizeY)
 		}
 	}
 
+	roomInfo = new TileMap**[sizeX];
+	for(int i = 0; i < sizeX; i++){
+		roomInfo[i] = new TileMap*[sizeY];
+	}
+
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			roomInfo[i][j] = nullptr;
+		}
+	}
+
 	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
 
 	for(int i = 0; i < sizeX; i++){
@@ -284,13 +297,53 @@ void StageState::CreateMap(int sizeX, int sizeY)
 		}
 		std::cout << "\n";
 	}
+
+	MassLoad(sizeX, sizeY);
+}
+
+void StageState::MassLoad(int sizeX, int sizeY){
+	for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			switch(roomArray[i][j]){
+				case 0:
+					roomInfo[i][j] = new TileMap("resources/map/room00.txt", tileSet, {i, j});
+				break;
+				case 1:
+					roomInfo[i][j] = new TileMap("resources/map/room01.txt", tileSet, {i, j});
+				break;
+				case 2:
+					roomInfo[i][j] = new TileMap("resources/map/room02.txt", tileSet, {i, j});
+				break;
+				case 3:
+					roomInfo[i][j] = new TileMap("resources/map/room03.txt", tileSet, {i, j});
+				break;
+				case 4:
+					roomInfo[i][j] = new TileMap("resources/map/room04.txt", tileSet, {i, j});
+				break;
+			}
+		}
+	}
 }
 
 void StageState::Render() {
 	tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	/*for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			if(roomInfo[i][j] != nullptr){
+				roomInfo[i][j]->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+			}
+		}
+	}*/
 	for(unsigned int i = 0; i < objectArray.size(); i++)
 		objectArray[i]->Render();
 	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	/*for(int i = 0; i < sizeX; i++){
+		for(int j = 0; j < sizeY; j++){
+			if(roomInfo[i][j] != nullptr){
+				roomInfo[i][j]->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+			}
+		}
+	}*/
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
 	healthBar->Render(10,10);

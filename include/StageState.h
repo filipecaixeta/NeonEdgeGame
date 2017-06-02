@@ -26,13 +26,17 @@ private:
 	static GameObject* player;
 	static std::vector<GameObject*> objectArray;
 	std::vector<std::unique_ptr<Window>> windowArray;
-	std::unordered_map<int, TileMap*> roomTable;
+	//std::unordered_map<SDL_Point, TileMap*> roomTable;
+	TileMap*** roomInfo;
 	int** roomArray;
 	std::vector<int> roomOrder;
+	std::vector<std::pair<int, int>> roomWay;
+	std::vector<std::pair<int, int>>::iterator it;
 	MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	State* inGameMenu;
+	int sizeX, sizeY;
 
 	void UpdateObjects();
 	void UpdateObjects2ObjectsInteraction();
@@ -62,6 +66,7 @@ public:
 	void UpdateGame();
 	void CreateBars(std::string playerName);
 	void CreateMap(int sizeX, int sizeY);
+	void MassLoad(int sizeX, int sizeY);
 };
 
 #endif /* STAGESTATE_H_ */

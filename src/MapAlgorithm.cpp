@@ -24,7 +24,7 @@ void MapAlgorithm::RandomizeRoomOrder(std::vector<int>* roomOrder){
 	}
 }
 
-void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrder, std::pair<int, int>* aux, int sizeX, int sizeY){
+void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrder, std::pair<int, int>* aux, /*std::vector<std::pair<int, int>>* roomWay,*/ int sizeX, int sizeY){
 	int random;
 	bool endRandom;
 
@@ -47,8 +47,9 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 
 					aux->first = 0;
 					aux->second = 3;
-
-					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					
+					//roomWay->clear();
+					this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
 					break;
 				}
 			}
@@ -62,8 +63,9 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 
 					aux->first = 0;
 					aux->second = 3;
-
-					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					
+					//roomWay->clear();
+					this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
 					break;
 				}
 			}
@@ -77,8 +79,9 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 
 					aux->first = 0;
 					aux->second = 3;
-
-					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					
+					//roomWay->clear();
+					this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
 					break;
 				}
 			}
@@ -93,7 +96,8 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					aux->first = 0;
 					aux->second = 3;
 
-					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					//roomWay->clear();
+					this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
 					break;
 				}
 			}
@@ -108,7 +112,8 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					aux->first = 0;
 					aux->second = 3;
 
-					this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);
+					//roomWay->clear();
+					this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
 					break;
 				}
 			}
@@ -118,6 +123,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					if(roomArray[aux->first + 1][aux->second] == -1){
 						aux->first += 1;
 						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						//roomWay->emplace_back(aux);
 						endRandom = true;
 					}
 				}
@@ -125,6 +131,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					if(roomArray[aux->first - 1][aux->second] == -1){
 						aux->first -= 1;
 						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						//roomWay->emplace_back(aux);
 						endRandom = true;
 					}
 				}
@@ -132,6 +139,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					if(roomArray[aux->first][aux->second + 1] == -1){
 						aux->second += 1;
 						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						//roomWay->emplace_back(aux);
 						endRandom = true;
 					}
 				}
@@ -139,6 +147,7 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 					if(roomArray[aux->first][aux->second - 1] == -1){
 						aux->second -= 1;
 						roomArray[aux->first][aux->second] = roomOrder->at(i);
+						//roomWay->emplace_back(aux);
 						endRandom = true;
 					}
 				}

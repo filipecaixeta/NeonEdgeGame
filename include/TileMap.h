@@ -14,9 +14,10 @@ private:
 	int mapWidth;
 	int mapHeight;
 	int mapDepth;
+	SDL_Point position;
 
 public:
-	TileMap(std::string file, TileSet* tileSet);
+	TileMap(std::string file, TileSet* tileSet, SDL_Point pos = {0, 0});
 	~TileMap();
 	void Load(std::string file);
 	void SetTileSet(TileSet* tileSet);
