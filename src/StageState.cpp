@@ -9,9 +9,10 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 #include "menu/InGameQuests.h"
+#include "menu/InGameItens.h"
 #include "ColisionFunctions.h"
 
-GameObject* StageState::player = nullptr;
+Character* StageState::player = nullptr;
 std::vector<GameObject*> StageState::objectArray = std::vector<GameObject*>();
 
 StageState::StageState(std::string mode_, int sizeX, int sizeY):
@@ -102,7 +103,7 @@ void StageState::RemoveWindow(Window* ptr)
 void StageState::Pause()
 {
 	paused = true;
-	inGameMenu = new InGameQuests();
+	inGameMenu = new InGameItens();
 	inGameMenu->LoadAssets();
 }
 
@@ -217,18 +218,8 @@ void StageState::CleanUpdateBars()
 {
 	if(player)
 	{
-		if(mode == "Lancelot")
-		{
-			Lancelot* p = (Lancelot*) player;
-			healthBar->SetPercentage(p->GetHealth()/10.0);
-			energyBar->SetPercentage(p->GetEnergy()/5.0);
-		}
-		else if(mode == "Gallahad")
-		{
-			Gallahad* p = (Gallahad*) player;
-			healthBar->SetPercentage(p->GetHealth()/10.0);
-			energyBar->SetPercentage(p->GetEnergy()/5.0);
-		}
+			healthBar->SetPercentage(player->GetHealth()/10.0);
+			energyBar->SetPercentage(player->GetEnergy()/5.0);
 	}
 	else
 	{

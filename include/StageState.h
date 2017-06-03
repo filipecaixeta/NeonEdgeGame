@@ -14,6 +14,7 @@
 #include "LoadingBar.h"
 #include "menu/MenuState.h"
 #include "MapAlgorithm.h"
+#include "Character.h"
 
 class StageState : public State
 {
@@ -23,7 +24,7 @@ private:
 	bool paused;
 
 	TileMap* tileMap;
-	static GameObject* player;
+	static Character* player;
 	static std::vector<GameObject*> objectArray;
 	std::vector<std::unique_ptr<Window>> windowArray;
 	//std::unordered_map<SDL_Point, TileMap*> roomTable;
