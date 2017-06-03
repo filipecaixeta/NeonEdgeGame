@@ -28,10 +28,10 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
-	CreateMap(sizeX,sizeY);
 
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
+	CreateMap(sizeX,sizeY);
 	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 										tileMap->GetHeight()*tileMap->GetTileHeight());
 	if(mode == "Lancelot")
@@ -326,17 +326,17 @@ void StageState::MassLoad(int sizeX, int sizeY){
 }
 
 void StageState::Render() {
-	tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
-	/*for(int i = 0; i < sizeX; i++){
+	//tileMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	for(int i = 0; i < sizeX; i++){
 		for(int j = 0; j < sizeY; j++){
 			if(roomInfo[i][j] != nullptr){
 				roomInfo[i][j]->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 			}
 		}
-	}*/
+	}
 	for(unsigned int i = 0; i < objectArray.size(); i++)
 		objectArray[i]->Render();
-	tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+	//tileMap->RenderLayer(1, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 	/*for(int i = 0; i < sizeX; i++){
 		for(int j = 0; j < sizeY; j++){
 			if(roomInfo[i][j] != nullptr){
