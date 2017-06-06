@@ -6,6 +6,10 @@
 #include "TileMap.h"
 #include "Character.h"
 
+#define MAX_VALUE 10000;
+
+typedef struct Node node;
+
 class Notfredo : public Character
 {
 public:
@@ -17,7 +21,11 @@ public:
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
 	bool Is(std::string type);
+    void PathFind();
 private:
+    node* New(int x,int y,int z);
+    node* Pop(node* stack);
+    void Push(int x,int y,int z,node* stack);
 	Rect radius;
 	Timer looking;
 	Timer idle;
