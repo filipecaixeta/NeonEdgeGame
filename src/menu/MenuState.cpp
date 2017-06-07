@@ -71,7 +71,7 @@ void MenuState::SetOption(int i)
 	currentOption = currentOption+i;
 	if (currentOption<0)
 	{
-		currentOption = menuOptions.size()-1;
+		currentOption = menuOptions.size()+i;
 	}
 	currentOption = currentOption%menuOptions.size();
 

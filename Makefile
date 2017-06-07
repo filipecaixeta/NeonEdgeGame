@@ -2,7 +2,7 @@ CC=g++
 RMDIR = rm -rf
 RM = rm -f
 DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d -I/usr/include/SDL2
-DIRECTIVES = -std=c++11 -Wall -Wextra -c -I $(HEADER_PATH)
+DIRECTIVES = -std=c++11 -Wall -Wextra -c -I $(HEADER_PATH) -Bstatic -static-libgcc
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
 HEADER_PATH = include

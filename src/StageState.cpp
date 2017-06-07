@@ -10,6 +10,7 @@
 #include "SaveComponent.h"
 #include "menu/InGameQuests.h"
 #include "menu/InGameItens.h"
+#include "ItensManager.h"
 #include "ColisionFunctions.h"
 
 Character* StageState::player = nullptr;
@@ -103,7 +104,7 @@ void StageState::RemoveWindow(Window* ptr)
 void StageState::Pause()
 {
 	paused = true;
-	inGameMenu = new InGameItens();
+	inGameMenu = new InGameItens(new ItensManager);
 	inGameMenu->LoadAssets();
 }
 

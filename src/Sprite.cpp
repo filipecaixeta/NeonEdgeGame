@@ -77,7 +77,8 @@ void Sprite::Render(int x, int y, float angle)
 	dstRect.h = clipRect.h*scaleY;
 	dstRect.x = x - ((dstRect.w-clipRect.w)/2);
 	dstRect.y = y - ((dstRect.h-clipRect.h)/2);
-	SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect, angle, nullptr, flipHorizontal);
+	if (texture!=nullptr)
+		SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect, angle, nullptr, flipHorizontal);
 }
 
 void Sprite::Render(Vec2 pos, float angle)

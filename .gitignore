@@ -1,5 +1,4 @@
 build
-bin/Game
 *.project
 *.pro
 *.user
@@ -9,7 +8,5 @@ callgrind.*
 CMakeFiles/
 CMakeCache.txt
 *.cbp
-bin/Game.exe
 Makefile
 savefile.txt
-
