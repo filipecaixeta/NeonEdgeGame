@@ -32,8 +32,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
 	tileMap = new TileMap("resources/map/tileMap.txt", tileSet);
 	CreateMap(sizeX,sizeY);
-	Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
-										tileMap->GetHeight()*tileMap->GetTileHeight());
+	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
+	//									tileMap->GetHeight()*tileMap->GetTileHeight());
 	if(mode == "Lancelot")
 		player = new Lancelot(200, 1000);
 	else if(mode == "Gallahad")
@@ -261,7 +261,7 @@ void StageState::HandleInput()
 
 void StageState::CreateMap(int sizeX, int sizeY)
 {
-	std::pair<int, int> aux(0, 3);
+	std::pair<int, int> aux(0, 0);
 	srand(time(NULL));
 	algorithm = MapAlgorithm();
 

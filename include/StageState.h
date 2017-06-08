@@ -36,7 +36,7 @@ private:
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	State* inGameMenu;
-	int sizeX, sizeY;
+	int sizeX, sizeY, roomSizeX, roomSizeY;
 
 	void UpdateObjects();
 	void UpdateObjects2ObjectsInteraction();
