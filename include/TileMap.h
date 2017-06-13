@@ -32,6 +32,7 @@ public:
 	Rect GetTileBox(int x,int y);
 	Vec2 GetTileSize();
 	Vec2 GetSize();
+	SDL_Point GetPos();
 };
 
 #endif /* TILEMAP_H_ */

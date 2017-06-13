@@ -22,7 +22,7 @@ public:
 	virtual SDL_Surface*GetSurface();
 	virtual SDL_Rect GetClip();
 	virtual bool GetMirror();
-	virtual void AddSprite(std::string baseName, std::string name, int frameCount, int frameTime);
+	virtual void AddSprite(std::string baseName, std::string name, int frameCount, int frameTime, bool loops = false);
 protected:
 	std::unordered_map<std::string, Sprite*> sprites;
 	std::unordered_map<std::string, SDL_Surface*> surfaces;

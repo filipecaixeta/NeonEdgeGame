@@ -64,7 +64,7 @@ void Sprite::Update(float dt)
 	{
 		if(currentFrame < frameCount)
 			currentFrame++;
-		else if(loops)
+		else if(!loops)
 			currentFrame = 1;
 		SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 		timeElapsed = 0;

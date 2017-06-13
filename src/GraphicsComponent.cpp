@@ -54,8 +54,8 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 	}
 }
 
-void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount, int frameTime)
+void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount, int frameTime, bool loops)
 {
 	surfaces.emplace(name,Resources::GetSurface(baseName+name+".png"));
-	sprites.emplace(name, new Sprite(baseName+name+".png", frameCount, frameTime, true));
+	sprites.emplace(name,new Sprite(baseName+name+".png", frameCount, frameTime, true, loops));
 }

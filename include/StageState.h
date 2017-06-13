@@ -10,6 +10,7 @@
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Notfredo.h"
+#include "Room.h"
 #include "Window.h"
 #include "LoadingBar.h"
 #include "menu/MenuState.h"
@@ -18,16 +19,15 @@
 class StageState : public State
 {
 private:
+	static GameObject* player;
+	static Room* currentRoom;
+
 	std::string mode;
 	TileSet* tileSet;
 	bool paused;
-
-	TileMap* tileMap;
-	static GameObject* player;
-	static std::vector<GameObject*> objectArray;
 	std::vector<std::unique_ptr<Window>> windowArray;
 	//std::unordered_map<SDL_Point, TileMap*> roomTable;
-	TileMap*** roomInfo;
+	Room*** roomInfo;
 	int** roomArray;
 	std::vector<int> roomOrder;
 	std::vector<std::pair<int, int>> roomWay;
@@ -38,9 +38,9 @@ private:
 	State* inGameMenu;
 	int sizeX, sizeY, roomSizeX, roomSizeY;
 
-	void UpdateObjects();
-	void UpdateObjects2ObjectsInteraction();
-	void CleanDeadObjects();
+	void HandleInput();
+	void UpdateRoom();
+	void UpdateGame();
 	void CleanUpdateBars();
 
 public:
@@ -48,6 +48,7 @@ public:
 	~StageState();
 
 	static GameObject* GetPlayer();
+	static void KillPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
@@ -62,8 +63,6 @@ public:
 	bool QuitRequested();
 	bool Is(std::string type);
 	StageState* get();
-	void HandleInput();
-	void UpdateGame();
 	void CreateBars(std::string playerName);
 	void CreateMap(int sizeX, int sizeY);
 	void MassLoad(int sizeX, int sizeY);

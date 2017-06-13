@@ -55,7 +55,7 @@ void Character::Damage(int damage)
 
 void Character::Attack()
 {
-	return;
+
 }
 
 void Character::Crouch()
@@ -90,8 +90,8 @@ void Character::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Melee"))
 	{
-		Melee* a = (Melee*) other;
-		if(a->owner->Is("Notfredo"))
+		Melee* m = (Melee*) other;
+		if(m->owner->Is("Notfredo"))
 			Damage(1);
 	}
 	if(other->Is("Projectile"))
@@ -111,7 +111,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 	}
 }
 
-bool Character::GetColisionData(SDL_Surface **surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
+bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
 {
 	*surface_ = graphicsComponent->GetSurface();
 	clipRect_ = graphicsComponent->GetClip();
@@ -127,11 +127,11 @@ void Character::UpdateTimers(float dt)
 	regenerating.Update(dt);
 }
 
-void Character::Update(TileMap* world, float dt)
+void Character::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
 	inputComponent->Update(this,dt);
-	physicsComponent.Update(this,world,dt);
+	physicsComponent.Update(this,map,dt);
 	graphicsComponent->Update(this,dt);
 }
 

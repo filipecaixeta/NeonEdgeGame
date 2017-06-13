@@ -7,8 +7,8 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 {
 	AddSprite(baseName,"Idle",8,80);
 	AddSprite(baseName,"Running",8,80);
-	AddSprite(baseName,"Crouching",4,80);
-	AddSprite(baseName,"Jumping",8,80);
+	AddSprite(baseName,"Crouching",4,80,true);
+	AddSprite(baseName,"Jumping",8,80,true);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }

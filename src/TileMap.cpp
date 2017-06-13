@@ -107,7 +107,9 @@ int TileMap::GetTileHeight()
 
 Rect TileMap::GetTileBox(int x, int y)
 {
-	return Rect(x*GetTileWidth(), y*GetTileHeight(), GetTileWidth(), GetTileHeight());
+	return Rect((x*GetTileWidth())+(mapWidth*GetTileWidth()*position.x),
+				(y*GetTileHeight())+(mapHeight*GetTileHeight()*position.y),
+				GetTileWidth(),GetTileHeight());
 }
 
 Vec2 TileMap::GetTileSize()
@@ -118,4 +120,9 @@ Vec2 TileMap::GetTileSize()
 Vec2 TileMap::GetSize()
 {
 	return Vec2(mapWidth*GetTileWidth(),mapHeight*GetTileHeight());
+}
+
+SDL_Point TileMap::GetPos()
+{
+	return position; 
 }
