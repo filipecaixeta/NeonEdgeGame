@@ -54,10 +54,10 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 	box.SetXY(box.GetXY()+Vec2(1.0f,1.0f));
 	box.SetWH(box.GetWH()-Vec2(2.0f,2.0f));
 
-	int minX = box.x/world->GetTileWidth();
-	int minY = box.y/world->GetTileHeight();
-	int maxX = (box.x+box.w)/world->GetTileWidth();
-	int maxY = (box.y+box.h)/world->GetTileHeight();
+	int minX = (box.x-(world->GetWidth()*world->GetTileWidth()*world->GetPos().x))/world->GetTileWidth();
+	int minY = (box.y-(world->GetHeight()*world->GetTileHeight()*world->GetPos().y))/world->GetTileHeight();
+	int maxX = ((box.x+box.w)-(world->GetWidth()*world->GetTileWidth()*world->GetPos().x))/world->GetTileWidth();
+	int maxY = (box.y+box.h-(world->GetHeight()*world->GetTileHeight()*world->GetPos().y))/world->GetTileHeight();
 	clamp(minX,0,world->GetWidth()-1);
 	clamp(minY,0,world->GetHeight()-1);
 	clamp(maxX,0,world->GetWidth()-1);
