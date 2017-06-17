@@ -23,9 +23,9 @@ public:
 	bool Is(std::string type);
     void PathFind();
 private:
-    node* New(int x,int y,int z);
+    node* New(int x,int y,int z,float physical_distance);
     node* Pop(node* stack);
-    void Push(int x,int y,int z,node* stack);
+    void Push(int x,int y,int z,node* stack,float physical_distance);
 	Rect radius;
 	Timer looking;
 	Timer idle;

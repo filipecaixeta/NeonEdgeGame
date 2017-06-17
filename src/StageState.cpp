@@ -57,6 +57,10 @@ StageState::~StageState()
 	windowArray.clear();
 }
 
+Room* StageState::GetCurrentRoom(){
+    return currentRoom;
+}
+
 GameObject* StageState::GetPlayer()
 {
 	return player;

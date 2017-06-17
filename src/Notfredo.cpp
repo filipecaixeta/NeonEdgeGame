@@ -9,6 +9,7 @@
 #include "Melee.h"
 #include "Projectile.h"
 #include "IAComponent.h"
+#include "Room.h"
 
 typedef struct Node node;
 
@@ -77,7 +78,7 @@ void Notfredo::UpdateTimers(float dt)
 	}
 }
 
-node* Notfredo::New(int x,int y,int z){
+node* Notfredo::New(int x,int y,int z,float physical_distance){
     node* aux = new node;
     aux->x = x;
     aux->y = y;
@@ -87,7 +88,7 @@ node* Notfredo::New(int x,int y,int z){
     aux->going_through = nullptr;
     aux->graph_distance = 0;
     aux->next = nullptr;
-    aux->physical_distance = 0;
+    aux->physical_distance = physical_distance;
 
     return aux;
 }
@@ -101,24 +102,39 @@ node* Notfredo::Pop(node* stack){
     return aux;
 }
 
-void Notfredo::Push(int x,int y,int z,node* stack){
+void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance){
     node* aux = stack;
 
     while(aux->next != nullptr){
         aux = aux->next;
     }
 
-    aux->next = New(x,y,z);
+    aux->next = New(x,y,z,physical_distance);
 }
 
 void Notfredo::PathFind(){
 
+     int mapWidth = StageState::GetCurrentRoom()->GetMap()->GetWidth();
+
+     int mapHeight =  StageState::GetCurrentRoom()->GetMap()->GetHeight();
+
+     int x,y;
+
     node tileStack;
+
     //for all tiles in current tilemap
         //push new node with tile coordinates,
         //combined distance of MAX_VALUE(to be determined),
         //and physical_distance as the distance between the
         //tile and the target(player)
+
+    for(x = 0;x < mapWidth; x++){
+        for(y = 0;y < mapHeight; y++){
+           Push(x,y,0,&tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
+        }
+    }
+
+
 
     //starting with start tile(fredo's tile)
     //while top of stack is not the target's tile
