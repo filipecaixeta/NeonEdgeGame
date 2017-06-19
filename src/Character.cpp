@@ -58,6 +58,13 @@ void Character::Attack()
 
 }
 
+void Character::CurrentTile(int *x, int *y, int *z)
+{
+   *y = this->box.y / StageState::GetCurrentRoom()->GetMap()->GetTileHeight();
+   *x = this->box.x / StageState::GetCurrentRoom()->GetMap()->GetTileWidth();
+   *z = 0;
+}
+
 void Character::Crouch()
 {
 	crouching = true;
