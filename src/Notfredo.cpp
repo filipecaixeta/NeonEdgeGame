@@ -78,7 +78,8 @@ void Notfredo::UpdateTimers(float dt)
 	}
 }
 
-node* Notfredo::New(int x,int y,int z,float physical_distance){
+node* Notfredo::New(int x,int y,int z,float physical_distance)
+{
     node* aux = new node;
     aux->x = x;
     aux->y = y;
@@ -94,7 +95,8 @@ node* Notfredo::New(int x,int y,int z,float physical_distance){
 }
 
 
-node* Notfredo::Pop(node* stack){
+node* Notfredo::Pop(node* stack)
+{
     node* aux = stack;
 
     stack = stack->next;
@@ -102,7 +104,8 @@ node* Notfredo::Pop(node* stack){
     return aux;
 }
 
-void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance){
+void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance)
+{
     node* aux = stack;
 
     while(aux->next != nullptr){
@@ -112,15 +115,67 @@ void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance){
     aux->next = New(x,y,z,physical_distance);
 }
 
-void Notfredo::PathFind(){
+void Notfredo::CopyNode(node* source,node* target){
+
+    target->combined_distance = source->combined_distance;
+    target->discovered = source->discovered;
+    target->going_through = source->going_through;
+    target->graph_distance = source->graph_distance;
+    target->next = source->next;
+    target->physical_distance = source->physical_distance;
+    target->x = source->x;
+    target->y = source->y;
+    target->z = source->z;
+
+}
+
+void Notfredo::QuickSort(node* tileStack, int start, int end)
+{
+
+    int pivot, i, j, half;
+
+    node* aux;
+
+    i = start;
+    j = end;
+
+
+    half = (int) ((i + j) / 2);
+    pivot = tileStack[half].combined_distance;
+
+    do
+    {
+      while (tileStack[i].combined_distance < pivot) i = i + 1;
+      while (tileStack[j].combined_distance > pivot) j = j - 1;
+
+      if(i <= j)
+      {
+         CopyNode(&tileStack[i],aux);
+
+         CopyNode(&tileStack[j],&tileStack[i]);
+
+         CopyNode(aux,&tileStack[j]);
+
+         i = i + 1;
+         j = j - 1;
+      }
+    }while(j > i);
+
+    if(start < j) QuickSort(tileStack, start, j);
+    if(i < end) QuickSort(tileStack, i, end);
+}
+
+void Notfredo::PathFind()
+{
 
      int mapWidth = StageState::GetCurrentRoom()->GetMap()->GetWidth();
 
      int mapHeight =  StageState::GetCurrentRoom()->GetMap()->GetHeight();
 
-     int x,y;
+     int x,y,tileStackSize = 0;
 
     node tileStack;
+    node* aux;
 
     //for all tiles in current tilemap
         //push new node with tile coordinates,
@@ -128,12 +183,23 @@ void Notfredo::PathFind(){
         //and physical_distance as the distance between the
         //tile and the target(player)
 
-    for(x = 0;x < mapWidth; x++){
-        for(y = 0;y < mapHeight; y++){
+    for(x = 0;x < mapWidth; x++)
+    {
+        for(y = 0;y < mapHeight; y++)
+        {
            Push(x,y,0,&tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
         }
     }
 
+    aux = &tileStack;
+
+    while(aux->next != nullptr)
+    {
+        aux = aux->next;
+        tileStackSize ++;
+    }
+
+    QuickSort(&tileStack,0,tileStackSize-1);
 
 
     //starting with start tile(fredo's tile)
