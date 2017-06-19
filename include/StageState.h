@@ -49,11 +49,11 @@ public:
 	~StageState();
 
 	static GameObject* GetPlayer();
-    static Room* GetCurrentRoom();
 	static void KillPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
+	static Room* GetCurrentRoom();
 	void AddWindow(Window* ptr);
 	void RemoveWindow(Window* ptr);
 
@@ -68,7 +68,6 @@ public:
 	void CreateBars(std::string playerName);
 	void CreateMap(int sizeX, int sizeY);
 	void MassLoad(int sizeX, int sizeY);
-
 };
 
 #endif /* STAGESTATE_H_ */
