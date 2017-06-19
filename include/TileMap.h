@@ -9,7 +9,7 @@
 
 class TileMap {
 private:
-	std::vector<std::vector<std::vector<int>>> tileMatrix;
+	std::vector<int> tileMatrix;
 	TileSet* tileSet;
 	int mapWidth;
 	int mapHeight;
