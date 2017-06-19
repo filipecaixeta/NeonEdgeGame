@@ -174,8 +174,9 @@ void Notfredo::PathFind()
 
      int x,y,tileStackSize = 0;
 
-    node tileStack;
+    node tileStack,startTile,endTile;
     node* aux;
+    node* currentNode;
 
     //for all tiles in current tilemap
         //push new node with tile coordinates,
@@ -203,6 +204,60 @@ void Notfredo::PathFind()
 
 
     //starting with start tile(fredo's tile)
+
+    this->CurrentTile(&startTile.x,&startTile.y,&startTile.z);
+
+    if(StageState::GetPlayer()->Is("Gallahad"))
+    {
+        //Gallahad::CurrentTile(&endTile.x,&endTile.y,&endTile.z);
+    }
+    else if(StageState::GetPlayer()->Is("Lancelot"))
+         {
+            //Lancelot::CurrentTile(&endTile.x,&endTile.y,&endTile.z);
+         }
+
+    do
+    {
+        currentNode = Pop(&tileStack);
+
+       aux = currentNode;
+
+        for(int i = 0;i < 4;i++)
+        {
+            if(i == 0 && StageState::GetCurrentRoom()->GetMap()->At(currentNode->x+1,currentNode->y,0) != SOLID_TILE)
+            {
+
+                aux->x+=1;
+            }
+
+            if(i == 1 && StageState::GetCurrentRoom()->GetMap()->At(currentNode->x-1,currentNode->y,0) != SOLID_TILE)
+            {
+
+                aux->x-=1;
+            }
+            if(i == 2 && StageState::GetCurrentRoom()->GetMap()->At(currentNode->x,currentNode->y+1,0) != SOLID_TILE)
+            {
+
+                aux->y+=1;
+            }
+            if(i == 3 && StageState::GetCurrentRoom()->GetMap()->At(currentNode->x,currentNode->y-1,0) != SOLID_TILE)
+            {
+
+                aux->y-=1;
+            }
+
+            if(!aux->discovered)
+            {
+                aux->graph_distance+=1;
+
+                aux->combined_distance = aux->graph_distance + aux->physical_distance;
+
+            }
+            else if(aux->graph_distance < 5){}
+        }
+
+    }while(true);
+
     //while top of stack is not the target's tile
         //pop top of stack. That is the current node
 

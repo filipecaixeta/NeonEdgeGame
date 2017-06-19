@@ -31,6 +31,7 @@ public:
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
 	virtual void Render();
+    virtual void CurrentTile(int* x,int* y,int* z);
 
 	InputComponent* inputComponent;
 	PhysicsComponent physicsComponent;
