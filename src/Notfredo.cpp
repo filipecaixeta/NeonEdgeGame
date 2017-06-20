@@ -165,18 +165,29 @@ void Notfredo::QuickSort(node* tileStack, int start, int end)
     if(i < end) QuickSort(tileStack, i, end);
 }
 
-void Notfredo::PathFind()
+
+node* Notfredo::Find(node* tileStack,int x,int y)
+    {
+       node* aux = tileStack;
+       while(aux->x != x || aux->y != y) aux = aux->next;
+       return aux;
+
+    }
+
+
+node* Notfredo::PathFind()
 {
 
      int mapWidth = StageState::GetCurrentRoom()->GetMap()->GetWidth();
 
      int mapHeight =  StageState::GetCurrentRoom()->GetMap()->GetHeight();
 
-     int x,y,tileStackSize = 0;
+     int x,y,pathStackSize = 1;
 
     node tileStack,startTile,endTile;
     node* aux;
     node* currentNode;
+    node* pathStack;
 
     //for all tiles in current tilemap
         //push new node with tile coordinates,
@@ -192,16 +203,6 @@ void Notfredo::PathFind()
         }
     }
 
-    aux = &tileStack;
-
-    while(aux->next != nullptr)
-    {
-        aux = aux->next;
-        tileStackSize ++;
-    }
-
-    QuickSort(&tileStack,0,tileStackSize-1);
-
 
     //starting with start tile(fredo's tile)
 
@@ -216,11 +217,16 @@ void Notfredo::PathFind()
             //Lancelot::CurrentTile(&endTile.x,&endTile.y,&endTile.z);
          }
 
-    do
-    {
-        currentNode = Pop(&tileStack);
 
-       aux = currentNode;
+    currentNode = Find(&tileStack,startTile.x,startTile.y);
+    currentNode->combined_distance = currentNode->physical_distance+currentNode->graph_distance;
+    Push(currentNode->x,currentNode->y,currentNode->z,pathStack,currentNode->physical_distance);
+
+    while(pathStack->x != endTile.x && pathStack->y != endTile.y)
+    {
+
+
+        aux = currentNode;
 
         for(int i = 0;i < 4;i++)
         {
@@ -252,11 +258,33 @@ void Notfredo::PathFind()
 
                 aux->combined_distance = aux->graph_distance + aux->physical_distance;
 
+                aux->going_through = currentNode;
+
+                Push(aux->x,aux->y,aux->z,pathStack,aux->physical_distance);
+
+                pathStackSize++;
+
+                aux->discovered = true;
+
             }
-            else if(aux->graph_distance < 5){}
+
         }
 
-    }while(true);
+
+
+        QuickSort(pathStack,0,pathStackSize-1);
+
+        currentNode = Pop(pathStack);
+
+    }
+
+    aux = pathStack;
+
+    while(aux->going_through != nullptr){
+        aux = aux->going_through;
+    }
+
+    return aux;
 
     //while top of stack is not the target's tile
         //pop top of stack. That is the current node
