@@ -49,11 +49,11 @@ public:
 	~StageState();
 
 	static GameObject* GetPlayer();
-    static Room* GetCurrentRoom();
 	static void KillPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
+	static Room* GetCurrentRoom();
 	void AddWindow(Window* ptr);
 	void RemoveWindow(Window* ptr);
 
@@ -71,7 +71,6 @@ public:
 
 	State* inGameMenu;
 	ItensManager* itensManager;
-
 };
 
 #endif /* STAGESTATE_H_ */

@@ -11,6 +11,13 @@
 #include "TileMap.h"
 #include "GameObject.h"
 
+struct ObjectData
+{
+	int id;
+	int x;
+	int y;
+};
+
 class Room
 {
 public:
@@ -29,9 +36,13 @@ public:
 	void Render();
 
 private:
+	void CreateObjects();
+	void LoadObjects(std::string file);
+	
 	int index;
 	Vec2 position;
 	TileMap* map;
+	std::vector<ObjectData> objectData;
 	std::vector<GameObject*> objectArray;
 };
 

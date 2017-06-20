@@ -1,4 +1,8 @@
 #include <cstdio>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <stdlib.h>
 
 #include "TileMap.h"
 
@@ -16,7 +20,30 @@ TileMap::~TileMap()
 
 void TileMap::Load(std::string file)
 {
-	std::FILE* fileReader = fopen(file.c_str(), "r");
+	std::ifstream f;
+	std::string num;
+	f.open(file.c_str(), std::ios::in);
+	if(f.is_open()){
+		getline(f, num, ',');
+		//std::cout << "leu: " << num << std::endl;
+		mapWidth = atoi(num.c_str());
+		getline(f, num, ',');
+		//std::cout << "leu: " << num << std::endl;
+		mapHeight = atoi(num.c_str());
+		getline(f, num, ',');
+		//std::cout << "leu: " << num << std::endl;
+		mapDepth = atoi(num.c_str());
+		while(getline(f, num, ',')){
+			tileMatrix.push_back(atoi(num.c_str())-1);
+			//std::cout << "leu: " << num << std::endl;
+			//std::cout << "atoi: " << atoi(num.c_str())-1 << std::endl;
+		}
+	}
+	else{
+		std::cout<< "f.open: unable to open file: " << file.c_str();
+	}
+
+	/*std::FILE* fileReader = fopen(file.c_str(), "r");
 	if(fileReader != NULL)
 	{
 		char n [2];
@@ -50,7 +77,7 @@ void TileMap::Load(std::string file)
 	{
 		std::cerr << "Unable to read" << file.c_str() << std::endl;
 	}
-	fclose(fileReader);
+	fclose(fileReader);*/
 }
 
 void TileMap::SetTileSet(TileSet* tileSet)
@@ -62,16 +89,26 @@ int& TileMap::At(int x, int y, int z)
 {
 	//if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 		//std::cerr << "Tile at (" << x << "," << y << "," << z << ") out of map boundaries" << std::endl;
-	return tileMatrix[z][y][x];
+	return tileMatrix.at(x + (y*mapWidth) + (z*mapWidth*mapHeight));
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-	for(int j = mapHeight-1; j > -1; j--) {
+	int i, j;
+	int tileWidth = tileSet->GetTileWidth();
+	int tileHeight = tileSet->GetTileHeight();
+	for(j = 0; j < mapHeight; j++){
+		for(i = 0; i < mapWidth; i++){
+			tileSet->Render(At(i, j, layer), i*tileWidth + position.x * mapWidth * tileWidth - cameraX,
+							j*tileHeight + position.y * mapHeight * tileHeight- cameraY);
+		}
+	}
+
+	/*for(int j = mapHeight-1; j > -1; j--) {
 		for(int i = mapWidth-1; i > -1; i--) {
 			tileSet->Render(tileMatrix[layer][j][i], i*tileSet->GetTileWidth() + position.x * mapWidth * tileSet->GetTileWidth() - cameraX,
 							j*tileSet->GetTileHeight() + position.y * mapHeight * tileSet->GetTileHeight() - cameraY);
 		}
-	}
+	}*/
 }
 
 void TileMap::Render(int cameraX, int cameraY)

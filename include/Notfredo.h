@@ -21,14 +21,17 @@ public:
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
 	bool Is(std::string type);
-    void PathFind();
+    node* PathFind();
 private:
     node* New(int x,int y,int z,float physical_distance);
     node* Pop(node* stack);
     void Push(int x,int y,int z,node* stack,float physical_distance);
+    void QuickSort(node* tileStack,int start,int end);
+    void CopyNode(node* source,node* target);
 	Rect radius;
 	Timer looking;
-	Timer idle;
+    Timer idle;
+    node* Find(node *tileStack, int x, int y);
 };
 
 #endif /* NOTFREDO_H_ */

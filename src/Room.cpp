@@ -1,4 +1,8 @@
 #include <sstream>
+#include <cstdio>
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
 
 #include "Room.h"
 #include "Camera.h"
@@ -12,6 +16,8 @@ Room::Room(TileSet* tileSet, int index, Vec2 position)
 	ss << index;
 	map = new TileMap("resources/map/room0"+ss.str()+".txt", tileSet, {position.x,position.y});
 	objectArray = std::vector<GameObject*>();
+	LoadObjects("resources/map/objs/room0"+ss.str()+".txt");
+	CreateObjects();
 }
 
 Room::~Room()
@@ -127,4 +133,52 @@ void Room::Render()
 		objectArray[i]->Render();
 	}
 	//map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
+}
+
+void Room::CreateObjects(){
+	for(unsigned int i = 0; i < objectData.size(); i++){
+		if(objectData.at(i).id == 0){
+			//cria Lancelot
+		}
+		if(objectData.at(i).id == 1){
+			//cria Galahad
+		}
+		if(objectData.at(i).id == 2){
+			AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
+		}
+		if(objectData.at(i).id == 10){
+			AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+									objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+		}
+	}
+}
+
+void Room::LoadObjects(std::string file){
+	int repeat = 0;
+	ObjectData data;
+	std::ifstream f;
+	std::string num;
+
+	f.open(file.c_str(), std::ios::in);
+	if(f.is_open()){
+		while(getline(f, num, ',')){
+			if(repeat == 0){
+				data.id = atoi(num.c_str());
+				repeat++;
+			}
+			else if(repeat == 1){
+				data.x = atoi(num.c_str());
+				repeat++;
+			}
+			else if(repeat == 2){
+				data.y = atoi(num.c_str());
+				objectData.push_back(data);
+				repeat = 0;
+			}
+		}
+	}
+	else{
+		std::cout<< "f.open: unable to open file: " << file.c_str();
+	}
 }
