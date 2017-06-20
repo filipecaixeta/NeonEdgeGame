@@ -37,7 +37,7 @@ private:
 	MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
-	int sizeX, sizeY, roomSizeX, roomSizeY;
+	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
 
 	void HandleInput();
 	void UpdateRoom();
