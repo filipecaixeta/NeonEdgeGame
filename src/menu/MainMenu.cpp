@@ -13,6 +13,10 @@ MainMenu::MainMenu():
 {
 }
 
+MainMenu::~MainMenu(){
+	music.Stop();
+}
+
 void MainMenu::LoadAssets()
 {
 	SDL_Texture *text;
@@ -27,6 +31,9 @@ void MainMenu::LoadAssets()
 
 	bgOptions.Open("menus/Menu-Neutro-Base.png");
 
+	music.Open("menuTheme.ogg");
+	music.Play(-1);
+
 	SetOption(1);
 }
 
@@ -38,10 +45,12 @@ void MainMenu::Update()
 	{
 		if (SelectedOptionIs("Lancelot"))
 		{
+			music.Stop();
 			Game::GetInstance().AddState(new StageState("Lancelot"));
 		}
 		if (SelectedOptionIs("Galahad"))
 		{
+			music.Stop();
 			Game::GetInstance().AddState(new StageState("Gallahad"));
 		}
 		else if (SelectedOptionIs("Load"))
