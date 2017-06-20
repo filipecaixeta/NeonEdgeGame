@@ -17,6 +17,7 @@ void MainMenu::LoadAssets()
 {
 	SDL_Texture *text;
 
+	menuOptions.push_back({"Galahad",new Sprite("menus/new-game-button.png"),true,0});
 	menuOptions.push_back({"Lancelot",new Sprite("menus/new-game-button.png"),true,0});
 	menuOptions.push_back({"Load",new Sprite("menus/load-game-button.png"),true,0});
 	menuOptions.push_back({"Settings",new Sprite("menus/settings-button.png"),true,0});
@@ -39,7 +40,7 @@ void MainMenu::Update()
 		{
 			Game::GetInstance().AddState(new StageState("Lancelot"));
 		}
-		if (SelectedOptionIs("Gallahad"))
+		if (SelectedOptionIs("Galahad"))
 		{
 			Game::GetInstance().AddState(new StageState("Gallahad"));
 		}
@@ -59,7 +60,7 @@ void MainMenu::Update()
 
 void MainMenu::Render()
 {
-	int positionsY[4] = {431,498,564,631};
+	int positionsY[5] = {370,431,498,564,631};
 	bg.Render(0,0);
 	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,431));
 	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
