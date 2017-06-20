@@ -1,8 +1,9 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
+#include <vector>
 #include "menu/MenuState.h"
 #include "Input.h"
-#include <vector>
+#include "Sprite.h"
 
 class MainMenu: public MenuState
 {

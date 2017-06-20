@@ -12,6 +12,8 @@ public:
 	void UpdateScreenSizeSprite(int option, Sprite* sprite);
 	void UpdateWindowModeSprite(int option, Sprite* sprite);
 	void UpdateFPSSprite(int option, Sprite* sprite);
+	std::vector<Option> menuOptions2;
+	Sprite selectedArrow;
 };
 
 #endif // GRAPHICSMENU_H

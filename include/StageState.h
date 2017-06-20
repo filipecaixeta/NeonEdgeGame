@@ -16,6 +16,7 @@
 #include "menu/MenuState.h"
 #include "MapAlgorithm.h"
 #include "Character.h"
+#include "ItensManager.h"
 
 class StageState : public State
 {
@@ -36,7 +37,6 @@ private:
 	MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
-	State* inGameMenu;
 	int sizeX, sizeY, roomSizeX, roomSizeY;
 
 	void HandleInput();
@@ -68,6 +68,9 @@ public:
 	void CreateBars(std::string playerName);
 	void CreateMap(int sizeX, int sizeY);
 	void MassLoad(int sizeX, int sizeY);
+
+	State* inGameMenu;
+	ItensManager* itensManager;
 
 };
 

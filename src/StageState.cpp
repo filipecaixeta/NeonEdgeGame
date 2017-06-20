@@ -8,8 +8,7 @@
 #include "Camera.h"
 #include "DialogWindow.h"
 #include "SaveComponent.h"
-#include "menu/InGameQuests.h"
-#include "menu/InGameItens.h"
+#include "menu/inGamePause.h"
 #include "ItensManager.h"
 #include "ColisionFunctions.h"
 
@@ -25,7 +24,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	roomArray(nullptr),
 	healthBar(nullptr),
 	energyBar(nullptr),
-	inGameMenu(nullptr)
+	inGameMenu(nullptr),
+	itensManager(new ItensManager())
 {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
@@ -92,8 +92,6 @@ void StageState::CreateBars(std::string playerName)
 	energyBar = new LoadingBar("energybar_"+playerName+".png",174,28,6);
 }
 
-
-
 void StageState::RemoveWindow(Window* ptr)
 {
 	windowArray.emplace_back(ptr);
@@ -102,7 +100,7 @@ void StageState::RemoveWindow(Window* ptr)
 void StageState::Pause()
 {
 	paused = true;
-	inGameMenu = new InGameItens(new ItensManager);
+	inGameMenu = new inGamePause(this);
 	inGameMenu->LoadAssets();
 }
 

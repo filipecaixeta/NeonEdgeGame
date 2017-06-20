@@ -12,6 +12,7 @@ InGameItens::InGameItens(ItensManager* itensManager_):
 	isOnHotBar(false)
 {
 	rowSize=HOT_BAR_SIZE;
+	fontSize = 15;
 }
 
 InGameItens::~InGameItens()

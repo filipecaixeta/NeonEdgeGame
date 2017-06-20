@@ -4,7 +4,7 @@
 MenuState::MenuState():
 	menuOptions(),
 	currentOption(-1),
-	fontName("8bitOperatorPlus8-Regular.ttf"),
+	fontName("Sabo-Filled.ttf"),
 	fontSize(72),
 	fontColor({255,255,255,255})
 {
@@ -80,13 +80,6 @@ void MenuState::SetOption(int i)
 		SetOption(i);
 		return;
 	}
-	for (unsigned int j=0; j<menuOptions.size(); j++)
-	{
-		menuOptions[j].sprite->SetScaleX(1.0);
-		menuOptions[j].sprite->SetScaleY(1.0);
-	}
-	menuOptions[currentOption].sprite->SetScaleX(1.1);
-	menuOptions[currentOption].sprite->SetScaleY(1.1);
 }
 
 State *MenuState::get()
@@ -124,4 +117,9 @@ Vec2 MenuState::CenterHorizontal(int size)
 Vec2 MenuState::CenterHorizontal(Vec2 size)
 {
 	return CenterHorizontal(size.y);
+}
+
+bool MenuState::SelectedOptionIs(std::string opt)
+{
+	return menuOptions[currentOption].key==opt;
 }

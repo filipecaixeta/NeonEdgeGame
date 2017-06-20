@@ -17,6 +17,7 @@ class MenuState: public State
 		virtual bool QuitRequested();
 		virtual bool Is(std::string type);
 		virtual void SetOption(int i);
+		virtual bool SelectedOptionIs(std::string opt);
 		virtual State* get();
 
 		Vec2 CenterVertical(Sprite *sp);
@@ -40,6 +41,7 @@ protected:
 		std::string fontName;
 		int fontSize;
 		SDL_Color fontColor;
+		Sprite bgOptions;
 };
 
 #endif // MENUSTATE_H

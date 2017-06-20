@@ -14,39 +14,55 @@ void ControlsMenu::LoadAssets()
 {
 	SDL_Texture *text;
 
-	text = Text::GetText(fontName,fontSize,fontColor,"Move Left");
-	menuOptions.push_back({"moveLeft",new Sprite(text,1,0,true),false,0});
+	Sprite *marker = new Sprite("menus/marker.png");
+	menuOptions.push_back({"moveLeft",marker,true,0});
+	menuOptions.push_back({"moveLeftOption",marker,true,0});
+	menuOptions.push_back({"moveRight",marker,true,0});
+	menuOptions.push_back({"moveRightOption",marker,true,0});
 
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_LEFT_KEY));
-	menuOptions.push_back({"moveLeftOption",new Sprite(text,1,0,true),true,0});
 
-	text = Text::GetText(fontName,fontSize,fontColor,"Move Right");
-	menuOptions.push_back({"moveRight",new Sprite(text,1,0,true),false,0});
+	bg.Open("menus/BG_Back.png");
 
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_RIGHT_KEY));
-	menuOptions.push_back({"moveRightOption",new Sprite(text,1,0,true),true,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,"Crouch");
-	menuOptions.push_back({"CrouchDown",new Sprite(text,1,0,true),false,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(CROUCH_KEY));
-	menuOptions.push_back({"CrouchOption",new Sprite(text,1,0,true),true,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,"Jump");
-	menuOptions.push_back({"jump",new Sprite(text,1,0,true),false,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(JUMP_KEY));
-	menuOptions.push_back({"jumpOption",new Sprite(text,1,0,true),true,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,"Attack");
-	menuOptions.push_back({"attack",new Sprite(text,1,0,true),false,0});
-
-	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(ATTACK_KEY));
-	menuOptions.push_back({"attackOption",new Sprite(text,1,0,true),true,0});
-
-	bg.Open("mainMenuBg.png");
+	bgOptions.Open("menus/Menu-Neutro-Base.png");
 
 	SetOption(1);
+
+
+//	SDL_Texture *text;
+
+//	text = Text::GetText(fontName,fontSize,fontColor,"Move Left");
+//	menuOptions.push_back({"moveLeft",new Sprite(text,1,0,true),false,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_LEFT_KEY));
+//	menuOptions.push_back({"moveLeftOption",new Sprite(text,1,0,true),true,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,"Move Right");
+//	menuOptions.push_back({"moveRight",new Sprite(text,1,0,true),false,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(MOVE_RIGHT_KEY));
+//	menuOptions.push_back({"moveRightOption",new Sprite(text,1,0,true),true,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,"Crouch");
+//	menuOptions.push_back({"CrouchDown",new Sprite(text,1,0,true),false,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(CROUCH_KEY));
+//	menuOptions.push_back({"CrouchOption",new Sprite(text,1,0,true),true,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,"Jump");
+//	menuOptions.push_back({"jump",new Sprite(text,1,0,true),false,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(JUMP_KEY));
+//	menuOptions.push_back({"jumpOption",new Sprite(text,1,0,true),true,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,"Attack");
+//	menuOptions.push_back({"attack",new Sprite(text,1,0,true),false,0});
+
+//	text = Text::GetText(fontName,fontSize,fontColor,CreateKeyString(ATTACK_KEY));
+//	menuOptions.push_back({"attackOption",new Sprite(text,1,0,true),true,0});
+
+//	bg.Open("mainMenuBg.png");
+
+//	SetOption(1);
 }
 
 std::string ControlsMenu::CreateKeyString(int c)
@@ -137,5 +153,9 @@ void ControlsMenu::Update()
 
 void ControlsMenu::Render()
 {
+	int positionsY[4] = {431,498,564,631};
+	bg.Render(0,0);
+	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,99));
+	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 	MenuState::Render();
 }
