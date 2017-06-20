@@ -35,9 +35,9 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 	//									tileMap->GetHeight()*tileMap->GetTileHeight());
 	if(mode == "Lancelot")
-		player = new Lancelot(80, 65);
+		player = new Lancelot(1000, 65);
 	else if(mode == "Gallahad")
-		player = new Gallahad(80, 65);
+		player = new Gallahad(1000, 65);
 	Camera::GetInstance().Follow(player);
 	currentRoom = roomInfo[0][0];
 	AddObject(player);

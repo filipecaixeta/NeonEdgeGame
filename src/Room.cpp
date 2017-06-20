@@ -144,10 +144,12 @@ void Room::CreateObjects(){
 			//cria Galahad
 		}
 		if(objectData.at(i).id == 2){
-			AddObject(new Energy(objectData.at(i).x, objectData.at(i).y, "Energy.png", 4, 120));
+			AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
 		}
 		if(objectData.at(i).id == 10){
-			AddObject(new Notfredo(objectData.at(i).x,objectData.at(i).y));
+			AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+									objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 	}
 }
