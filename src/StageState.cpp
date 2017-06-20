@@ -41,8 +41,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	Camera::GetInstance().Follow(player);
 	currentRoom = roomInfo[0][0];
 	AddObject(player);
-	AddObject(new Notfredo(800,1000));
-	AddObject(new Energy(320, 512, "Energy.png", 4, 120));
 
 	CreateBars(player->name);
 }
