@@ -149,8 +149,13 @@ void Room::CreateObjects(){
 		}
 		if(objectData.at(i).id == 10){
 			AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-									objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),GROUND));
 		}
+        if(objectData.at(i).id == 12)
+        {
+            AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+                                   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),FLYING));
+        }
 	}
 }
 
