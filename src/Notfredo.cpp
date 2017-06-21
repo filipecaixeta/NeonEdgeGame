@@ -72,6 +72,14 @@ void Notfredo::NotifyObjectCollision(GameObject* other)
         if(c->Attacking())
             Damage(1);
     }
+    if(other->Is("Projectile"))
+    {
+        Projectile* p = (Projectile*) other;
+        if(!p->owner->Is("Notfredo"))
+        {
+            Damage(1);
+        }
+    }
 }
 
 void Notfredo::UpdateTimers(float dt)
