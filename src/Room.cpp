@@ -18,6 +18,7 @@ Room::Room(TileSet* tileSet, int index, Vec2 position)
 	objectArray = std::vector<GameObject*>();
 	LoadObjects("resources/map/objs/room0"+ss.str()+".txt");
 	CreateObjects();
+	std::cout << ss.str() << "\t";
 }
 
 Room::~Room()

@@ -275,6 +275,7 @@ void StageState::MassLoad(int sizeX, int sizeY)
 		{
 			roomInfo[i][j] = new Room(tileSet, roomArray[i][j], Vec2(i,j));
 		}
+		std::cout << "\n";
 	}
 }
 
