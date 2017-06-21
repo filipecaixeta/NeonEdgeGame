@@ -7,21 +7,22 @@
 #include <vector>
 
 class PressurePlate : public GameObject
-{/*
+{
 private:
+	bool toggle;
 	Sprite spOn;
-	Sprite spOff
+	Sprite spOff;
 	std::vector<std::vector<int>> onTiles;
 	std::vector<std::vector<int>> offTiles;
-;
+	
 public:
-	PressurePlate(float x, float y, std::string spriteOn, std::string spriteOff, std::vector<std::vector<int>> onTiles);
+	PressurePlate(int x, int y, TileMap* world, std::string spriteOn, std::string spriteOff, std::vector<std::vector<int>> onTiles);
 	~PressurePlate();
 	bool IsDead();
-	void Trigger();
+	void Trigger(TileMap* map);
 	void NotifyObjectCollision(GameObject* other);
-	void Update(float dt);
-	void Render();*/
+	void Update(TileMap* map, float dt);
+	void Render();
 };
 
 #endif 

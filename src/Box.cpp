@@ -1,17 +1,17 @@
 #include "Box.h"
 #include "Camera.h"
+#include "InputManager.h"
+#include "StageState.h"
+#include "Character.h"
+#include "Room.h"
 /*
-Box::Box(float x, float y, std::string sprite, float frameCount, float frameTime, bool loops, float lifetime, bool dies)
+Box::Box(int x, int y, TileMap* world, std::string sprite)
 {
 	name = "Box";
-	sp = Sprite(sprite, frameCount, frameTime);
+	sp = Sprite(sprite);
 	Vec2 size = sp.GetSize();
-	box = Rect(x, y, size.x, size.y);
-	endTimer = Timer(lifetime);
-	if(loops)
-		endTimer.Start();
-	Box::loops = loops;
-	Box::dies = dies;
+	box.SetXY(Vec2(x,y));
+	box.SetWH(size);
 }
 
 Box::~Box()
@@ -21,33 +21,32 @@ Box::~Box()
 
 bool Box::IsDead()
 {
-	return dead;
+	return false;
+}
+
+void Box::Trigger(TileMap* map) {
+	
 }
 
 void Box::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Gallahad") || other->Is("Lancelot"))
 	{
-		if(other->facing == RIGHT)
-		{
-			//Box::SetPosition(Box::GetPosition().x + 10, Box::GetPosition().y);
+				if(other->facing == RIGHT)
+				{
+					box.x+=4;
+				}
+				else
+				{
+					box.x-=4;
+				}
 		}
-		else
-		{
-			//Box::SetPosition(Box::GetPosition().x - 10, Box::GetPosition().y);
-		}
-	}
 }
 
-void Box::UpdateTimers(float dt)
+void Box::Update(TileMap* map, float dt)
 {
-	endTimer.Update(dt);
-}
-
-void Box::Update(float dt)
-{
-	UpdateTimers(dt);
-	sp.Update(dt);
+	Trigger(map);
+	box.y+=
 }
 
 void Box::Render()
