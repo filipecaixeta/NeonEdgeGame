@@ -8,7 +8,8 @@
 
 Gallahad::Gallahad(int x, int y):
 	Player(x,y),
-	hiding(1500)
+	hiding(1500),
+	shooting(false)
 {
 	inputComponent = new GallahadInputComponent();
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
@@ -26,12 +27,7 @@ void Gallahad::Attack()
 	//Starts attack timer
 	attackCD.Start();
 	//Generates attack object
-	StageState::AddObject(new Projectile("Melee.png", 2, 0, this, Vec2(0.6, 0), 800, 1, true));
-}
-
-bool Gallahad::Hiding()
-{
-	return hiding.IsRunning();
+	StageState::AddObject(new Projectile("GallahadProjectile.png", 4, 80, this, Vec2(0.8, 0), 800, 1, true));
 }
 
 void Gallahad::Hide()
@@ -39,6 +35,26 @@ void Gallahad::Hide()
 	hiding.Start();
 	energy -= 1;
 	clamp(energy,0,5);
+}
+
+void Gallahad::Shoot()
+{
+	shooting = true;
+}
+
+void Gallahad::Hold()
+{
+	shooting = false;
+}
+
+bool Gallahad::Hiding()
+{
+	return hiding.IsRunning();
+}
+
+bool Gallahad::Shooting()
+{
+	return shooting;
 }
 
 void Gallahad::UpdateTimers(float dt)

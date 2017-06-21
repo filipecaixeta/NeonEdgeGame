@@ -31,7 +31,16 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 		Crouch(false);
 
 	if(input.IsKeyDown(ATTACK_KEY,  true))
+	{
+		Gallahad* g = (Gallahad*) obj_;
+		g->Shoot();
 		Attack();
+	}
+	else
+	{
+		Gallahad* g = (Gallahad*) obj_;
+		g->Hold();
+	}
 
 	if(input.KeyPress(SPECIAL_KEY, true))
 		Hide();
