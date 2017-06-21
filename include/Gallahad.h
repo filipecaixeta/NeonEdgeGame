@@ -13,12 +13,16 @@ public:
 	Gallahad(int x, int y);
 	~Gallahad();
 	void Attack();
-	bool Hiding();
 	void Hide();
+	void Shoot();
+	void Hold();
+	bool Hiding();
+	bool Shooting();
 	void UpdateTimers(float dt);
 
 private:
 	Timer hiding;
+	bool shooting;
 };
 
 #endif /* GALLAHAD_H_ */
