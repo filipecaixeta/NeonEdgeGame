@@ -9,6 +9,7 @@ class MainMenu: public MenuState
 {
 	public:
 		MainMenu();
+		~MainMenu();
 		void LoadAssets();
 		void Update();
 		void Render();

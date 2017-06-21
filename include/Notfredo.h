@@ -10,10 +10,12 @@
 
 typedef struct Node node;
 
+enum Type{FLYING,GROUND};
+
 class Notfredo : public Character
 {
 public:
-	Notfredo(int x, int y);
+    Notfredo(int x, int y,Type type);
 	~Notfredo();
 	void Attack();
 	void NotifyTileCollision(int tile, Face face);
@@ -32,6 +34,7 @@ private:
 	Timer looking;
     Timer idle;
     node* Find(node *tileStack, int x, int y);
+    Type type;
 };
 
 #endif /* NOTFREDO_H_ */

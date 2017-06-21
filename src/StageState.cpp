@@ -40,6 +40,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 		player = new Gallahad(1000, 65);
 	Camera::GetInstance().Follow(player);
 	currentRoom = roomInfo[0][0];
+	currentRoomX = 0;
+	currentRoomY = 0;
 	AddObject(player);
 
 	CreateBars(player->name);
@@ -154,6 +156,8 @@ void StageState::UpdateRoom()
 	{
 		currentRoom->RemovePlayer();
 		currentRoom = roomInfo[x][y];
+		currentRoomX = x;
+		currentRoomY = y;
 		currentRoom->AddObjectAsFirst(player);
 	}
 }
@@ -206,7 +210,9 @@ void StageState::Render()
 	{
 		for(int j = sizeY-1; j >= 0; j--)
 		{
-			roomInfo[i][j]->Render();
+			if(i > currentRoomX - 1 || i < currentRoomX + 1)
+				if(j > currentRoomY - 1 || j < currentRoomY + 1)
+					roomInfo[i][j]->Render();
 		}
 	}
 	//currentRoom->Render();

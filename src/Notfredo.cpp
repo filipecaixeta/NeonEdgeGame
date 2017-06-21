@@ -23,17 +23,26 @@ struct Node{
   node* next;
 };
 
-Notfredo::Notfredo(int x, int y):
+Notfredo::Notfredo(int x, int y,Type type):
 	Character(x,y),
 	radius(),
 	looking(1500),
 	idle(1500)
 {
 	inputComponent = new IAComponent();
-	graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
+    if(type == GROUND)
+    {
+        graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
+    }
+    if(type == FLYING)
+    {
+        graphicsComponent = new NotfredoGraphicsComponent("Drone inimigo Idle Sprite");
+
+    }
 	name = "Notfredo";
 	box.SetWH(graphicsComponent->GetSize());
 	idle.Start();
+    this->type = type;
 }
 
 Notfredo::~Notfredo()
@@ -308,71 +317,80 @@ node* Notfredo::PathFind()
 
 void Notfredo::UpdateAI(float dt)
 {
-	radius = Rect(box.x-200, box.y-200, box.w+400, box.h+400);
-	if(StageState::GetPlayer())
-	{
-		Rect player = StageState::GetPlayer()->box;
-		bool visible = true;
-		if(StageState::GetPlayer()->Is("Gallahad"))
-		{
-			Gallahad* p = (Gallahad*) StageState::GetPlayer();
-			if(p->Hiding())
-			{
-				visible = false;
-			}
-		}
-		if(player.OverlapsWith(radius) && visible)
-		{
-			if(player.x < box.x )
-			{
-				physicsComponent.velocity.x -= 0.003*dt;
-				if(box.x - physicsComponent.velocity.x*dt < player.x)
-				{
-					box.x = player.x;
-					physicsComponent.velocity.x = 0;
-				}
-				facing = LEFT;
-			}
-			else
-			{
-				physicsComponent.velocity.x += 0.003*dt;
-				if(box.x + physicsComponent.velocity.x*dt > player.x)
-				{
-					box.x = player.x;
-					physicsComponent.velocity.x = 0;
-				}
-				facing = RIGHT;
-			}
-			clamp(physicsComponent.velocity.x,-0.4f,0.4f);
+    if(type == GROUND)
+    {
+        radius = Rect(box.x-200, box.y-200, box.w+400, box.h+400);
+        if(StageState::GetPlayer())
+        {
+            Rect player = StageState::GetPlayer()->box;
+            bool visible = true;
+            if(StageState::GetPlayer()->Is("Gallahad"))
+            {
+                Gallahad* p = (Gallahad*) StageState::GetPlayer();
+                if(p->Hiding())
+                {
+                    visible = false;
+                }
+            }
+            if(player.OverlapsWith(radius) && visible)
+            {
+                if(player.x < box.x )
+                {
+                    physicsComponent.velocity.x -= 0.003*dt;
+                    if(box.x - physicsComponent.velocity.x*dt < player.x)
+                    {
+                        box.x = player.x;
+                        physicsComponent.velocity.x = 0;
+                    }
+                    facing = LEFT;
+                }
+                else
+                {
+                    physicsComponent.velocity.x += 0.003*dt;
+                    if(box.x + physicsComponent.velocity.x*dt > player.x)
+                    {
+                        box.x = player.x;
+                        physicsComponent.velocity.x = 0;
+                    }
+                    facing = RIGHT;
+                }
+                clamp(physicsComponent.velocity.x,-0.4f,0.4f);
 
-			if(!Attacking())
-			{
-				Attack();
-			}
-		}
-		else if(looking.IsRunning() && looking.GetElapsed() == 0)
-		{
-			if(facing == LEFT)
-				physicsComponent.velocity.x = -0.2;
-			else
-				physicsComponent.velocity.x = 0.2;
-		}
-		else
-		{
-			if(idle.IsRunning() && idle.GetElapsed() == 0)
-			{
-				physicsComponent.velocity.x = 0;
-				if(facing == LEFT)
-				{
-					facing = RIGHT;
-				}
-				else
-				{
-					facing = LEFT;
-				}
-			}
-		}
-	}
+                if(!Attacking())
+                {
+                    Attack();
+                }
+            }
+            else if(looking.IsRunning() && looking.GetElapsed() == 0)
+            {
+                if(facing == LEFT)
+                    physicsComponent.velocity.x = -0.2;
+                else
+                    physicsComponent.velocity.x = 0.2;
+            }
+            else
+            {
+                if(idle.IsRunning() && idle.GetElapsed() == 0)
+                {
+                    physicsComponent.velocity.x = 0;
+                    if(facing == LEFT)
+                    {
+                        facing = RIGHT;
+                    }
+                    else
+                    {
+                        facing = LEFT;
+                    }
+                }
+            }
+        }
+    }
+    if(type == FLYING)
+    {
+        node* aux = PathFind();
+        box.x = aux->x;
+        box.y = aux->y;
+    }
 }
 
 void Notfredo::Update(TileMap* world, float dt)
