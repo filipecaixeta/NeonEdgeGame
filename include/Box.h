@@ -4,22 +4,21 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Timer.h"
+#include <vector>
 
 class Box : public GameObject
-{
-/*private:
+{/*
+private:
 	Sprite sp;
-	Timer endTimer;
-	bool dead = false;
-
+	
 public:
-	Box(float x, float y, std::string sprite, float frameCount = 1, float frameTime = 0);
+	Box(int x, int y, TileMap* world, std::string sprite);
 	~Box();
 	bool IsDead();
+	void Trigger(TileMap* map);
 	void NotifyObjectCollision(GameObject* other);
-	void UpdateTimers(float dt);
-	void Update(float dt);
-	void Render();*/
-};
+	void Update(TileMap* map, float dt);
+	void Render();
+*/};
 
 #endif 

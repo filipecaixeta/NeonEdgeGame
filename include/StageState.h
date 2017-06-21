@@ -8,6 +8,8 @@
 #include "State.h"
 #include "Energy.h"
 #include "Lever.h"
+#include "PressurePlate.h"
+#include "Box.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Notfredo.h"
