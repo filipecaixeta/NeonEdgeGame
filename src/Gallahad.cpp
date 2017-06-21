@@ -4,11 +4,10 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Attack.h"
-#include "Melee.h"
 #include "Projectile.h"
 
 Gallahad::Gallahad(int x, int y):
-	Character(x,y),
+	Player(x,y),
 	hiding(1500)
 {
 	inputComponent = new GallahadInputComponent();
@@ -25,7 +24,7 @@ Gallahad::~Gallahad()
 void Gallahad::Attack()
 {
 	//Starts attack timer
-	attacking.Start();
+	attackCD.Start();
 	//Generates attack object
 	StageState::AddObject(new Projectile("Melee.png", 2, 0, this, Vec2(0.6, 0), 800, 1, true));
 }
@@ -44,8 +43,6 @@ void Gallahad::Hide()
 
 void Gallahad::UpdateTimers(float dt)
 {
-	invincibilityTimer.Update(dt);
-	attacking.Update(dt);
+	Player::UpdateTimers(dt);
 	hiding.Update(dt);
-	regenerating.Update(dt);
 }

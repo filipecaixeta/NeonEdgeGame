@@ -9,16 +9,13 @@
 
 Character::Character(int x,int y):
 	GameObject(),
-	inputComponent(nullptr),
 	physicsComponent(),
 	graphicsComponent(nullptr),
 	saveComponent(),
 	hitpoints(10),
-	energy(5),
 	invincibilityTimer(500),
-	attacking(500),
-	regenerating(500),
-	crouching(false)
+	attacking(200),
+	attackCD(500)
 {
 	box.SetXY(Vec2(x,y));
 	facing = RIGHT;
@@ -39,11 +36,6 @@ int Character::GetHealth()
 	return hitpoints;
 }
 
-int Character::GetEnergy()
-{
-	return energy;
-}
-
 void Character::Damage(int damage)
 {
 	if(!invincibilityTimer.IsRunning())
@@ -58,6 +50,16 @@ void Character::Attack()
 
 }
 
+bool Character::Attacking()
+{
+	return attacking.IsRunning();
+}
+
+bool Character::Cooling()
+{
+	return attackCD.IsRunning();
+}
+
 void Character::CurrentTile(int *x, int *y, int *z)
 {
    *y = this->box.y / StageState::GetCurrentRoom()->GetMap()->GetTileHeight();
@@ -65,24 +67,13 @@ void Character::CurrentTile(int *x, int *y, int *z)
    *z = 0;
 }
 
-void Character::Crouch()
+bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
 {
-	crouching = true;
-}
-
-void Character::Stand()
-{
-	crouching = false;
-}
-
-bool Character::Attacking()
-{
-	return attacking.IsRunning();
-}
-
-bool Character::Crouching()
-{
-	return crouching;
+	*surface_ = graphicsComponent->GetSurface();
+	clipRect_ = graphicsComponent->GetClip();
+	pos_ = box.GetXY();
+	mirror = graphicsComponent->GetMirror();
+	return true;
 }
 
 void Character::NotifyTileCollision(int tile, Face face)
@@ -95,49 +86,24 @@ void Character::NotifyTileCollision(int tile, Face face)
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Melee"))
-	{
-		Melee* m = (Melee*) other;
-		if(m->owner->Is("Notfredo"))
-			Damage(1);
-	}
-	if(other->Is("Projectile"))
-	{
-		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Notfredo"))
-			Damage(1);
-	}
-	if(other->Is("Energy"))
-	{
-		if(crouching && !regenerating.IsRunning())
-		{
-			regenerating.Start();
-			energy += 1;
-			clamp(energy,0,5);
-		}
-	}
-}
 
-bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
-{
-	*surface_ = graphicsComponent->GetSurface();
-	clipRect_ = graphicsComponent->GetClip();
-	pos_ = box.GetXY();
-	mirror = graphicsComponent->GetMirror();
-	return true;
 }
 
 void Character::UpdateTimers(float dt)
 {
 	invincibilityTimer.Update(dt);
 	attacking.Update(dt);
-	regenerating.Update(dt);
+	if(attacking.GetElapsed() == 1)
+	{
+		attacking.Reset();
+		attackCD.Start();
+	}
+	attackCD.Update(dt);
 }
 
 void Character::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
-	inputComponent->Update(this,dt);
 	physicsComponent.Update(this,map,dt);
 	graphicsComponent->Update(this,dt);
 }

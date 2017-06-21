@@ -18,13 +18,13 @@
 #include "LoadingBar.h"
 #include "menu/MenuState.h"
 #include "MapAlgorithm.h"
-#include "Character.h"
+#include "Player.h"
 #include "ItensManager.h"
 
 class StageState : public State
 {
 private:
-	static Character* player;
+	static Player* player;
 	static Room* currentRoom;
 
 	std::string mode;

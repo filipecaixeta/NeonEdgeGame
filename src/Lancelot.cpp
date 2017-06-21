@@ -8,8 +8,9 @@
 #include "Projectile.h"
 
 Lancelot::Lancelot(int x, int y):
-	Character(x,y),
-	blocking(1000)
+	Player(x,y),
+	blocking(1000),
+	charges(0)
 {
 	inputComponent = new LancelotInputComponent();
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
@@ -26,8 +27,6 @@ void Lancelot::Attack()
 {
 	//Starts attack timer
 	attacking.Start();
-	//Generates attack object
-	StageState::AddObject(new Melee("Melee.png", 2, 0, this, 500, 1));
 }
 
 void Lancelot::Block()
@@ -37,13 +36,33 @@ void Lancelot::Block()
 	clamp(energy,0,5);
 }
 
+void Lancelot::Charge()
+{
+	charges++;
+}
+
 bool Lancelot::Blocking()
 {
 	return blocking.IsRunning();
 }
 
+int Lancelot::Charged()
+{
+	return charges;
+}
+
 void Lancelot::UpdateTimers(float dt)
 {
-	Character::UpdateTimers(dt);
+	attacking.SetLimit(60+(200*charges));
+	invincibilityTimer.Update(dt);
+	attacking.Update(dt);
+	if(attacking.GetElapsed() == 1)
+	{
+		charges = 0;
+		attacking.Reset();
+		attackCD.Start();
+	}
+	attackCD.Update(dt);
+	regenCD.Update(dt);
 	blocking.Update(dt);
 }

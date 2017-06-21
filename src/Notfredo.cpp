@@ -5,10 +5,8 @@
 #include "Lancelot.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "Attack.h"
-#include "Melee.h"
+#include "Player.h"
 #include "Projectile.h"
-#include "IAComponent.h"
 #include "Room.h"
 
 typedef struct Node node;
@@ -29,14 +27,13 @@ Notfredo::Notfredo(int x, int y,Type type):
 	looking(1500),
 	idle(1500)
 {
-	inputComponent = new IAComponent();
     if(type == GROUND)
     {
         graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
     }
     if(type == FLYING)
     {
-        graphicsComponent = new NotfredoGraphicsComponent("DroneInimigoSprite");
+        graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad"/*"DroneInimigoSprite"*/);
 
     }
 	name = "Notfredo";
@@ -54,11 +51,9 @@ void Notfredo::Attack()
 {
 	//Starts attack timer
 	attacking.Start();
-	//Generates attack object
-	StageState::AddObject(new Melee("Melee.png", 2, 0, this, 500, 1));
 }
 
-void Notfredo::NotifyTileCollision(int tile, Face face)
+void Notfredo::NotifyTileCollision(int tile, GameObject::Face face)
 {
 	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
 	{
@@ -69,10 +64,19 @@ void Notfredo::NotifyTileCollision(int tile, Face face)
 	}
 }
 
+void Notfredo::NotifyObjectCollision(GameObject* other)
+{
+    if(other->Is("Lancelot") || other->Is("Gallahad"))
+    {
+        Character* c = (Character*) other;
+        if(c->Attacking())
+            Damage(1);
+    }
+}
+
 void Notfredo::UpdateTimers(float dt)
 {
-	invincibilityTimer.Update(dt);
-	attacking.Update(dt);
+	Character::UpdateTimers(dt);
 	if(looking.IsRunning())
 	{	
 		looking.Update(dt);
@@ -103,7 +107,6 @@ node* Notfredo::New(int x,int y,int z,float physical_distance)
     return aux;
 }
 
-
 node* Notfredo::Pop(node* stack)
 {
     node* aux = stack;
@@ -124,8 +127,8 @@ void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance)
     aux->next = New(x,y,z,physical_distance);
 }
 
-void Notfredo::CopyNode(node* source,node* target){
-
+void Notfredo::CopyNode(node* source,node* target)
+{
     target->combined_distance = source->combined_distance;
     target->discovered = source->discovered;
     target->going_through = source->going_through;
@@ -176,22 +179,21 @@ void Notfredo::QuickSort(node* tileStack, int start, int end)
 
 
 node* Notfredo::Find(node* tileStack,int x,int y)
-    {
-       node* aux = tileStack;
-       while(aux->x != x || aux->y != y) aux = aux->next;
-       return aux;
-
-    }
+{
+    node* aux = tileStack;
+    while(aux->x != x || aux->y != y) aux = aux->next;
+    return aux;
+}
 
 
 node* Notfredo::PathFind()
 {
 
-     int mapWidth = StageState::GetCurrentRoom()->GetMap()->GetWidth();
+    int mapWidth = StageState::GetCurrentRoom()->GetMap()->GetWidth();
 
-     int mapHeight =  StageState::GetCurrentRoom()->GetMap()->GetHeight();
+    int mapHeight =  StageState::GetCurrentRoom()->GetMap()->GetHeight();
 
-     int x,y,pathStackSize = 1;
+    int x,y,pathStackSize = 1;
 
     node tileStack,startTile,endTile;
     node* aux;
@@ -208,7 +210,7 @@ node* Notfredo::PathFind()
     {
         for(y = 0;y < mapHeight; y++)
         {
-           Push(x,y,0,&tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
+            Push(x,y,0,&tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
         }
     }
 
@@ -222,9 +224,9 @@ node* Notfredo::PathFind()
         //Gallahad::CurrentTile(&endTile.x,&endTile.y,&endTile.z);
     }
     else if(StageState::GetPlayer()->Is("Lancelot"))
-         {
+    {
             //Lancelot::CurrentTile(&endTile.x,&endTile.y,&endTile.z);
-         }
+    }
 
 
     currentNode = Find(&tileStack,startTile.x,startTile.y);
@@ -233,8 +235,6 @@ node* Notfredo::PathFind()
 
     while(pathStack->x != endTile.x && pathStack->y != endTile.y)
     {
-
-
         aux = currentNode;
 
         for(int i = 0;i < 4;i++)
@@ -356,7 +356,7 @@ void Notfredo::UpdateAI(float dt)
                 }
                 clamp(physicsComponent.velocity.x,-0.4f,0.4f);
 
-                if(!Attacking())
+                if(!Attacking() && !Cooling())
                 {
                     Attack();
                 }
@@ -397,7 +397,6 @@ void Notfredo::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
 	UpdateAI(dt);
-	inputComponent->Update(this,dt);
 	physicsComponent.Update(this,world,dt);
 	graphicsComponent->Update(this,dt);
 }

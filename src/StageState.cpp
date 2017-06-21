@@ -12,7 +12,7 @@
 #include "ItensManager.h"
 #include "ColisionFunctions.h"
 
-Character* StageState::player = nullptr;
+Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
 StageState::StageState(std::string mode_, int sizeX, int sizeY):
@@ -35,9 +35,9 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
 	//									tileMap->GetHeight()*tileMap->GetTileHeight());
 	if(mode == "Lancelot")
-		player = new Lancelot(1000, 65);
+		player = new Lancelot(133, 131);
 	else if(mode == "Gallahad")
-		player = new Gallahad(1000, 65);
+		player = new Gallahad(133, 131);
 	Camera::GetInstance().Follow(player);
 	currentRoom = roomInfo[0][0];
 	currentRoomX = 0;
@@ -210,8 +210,8 @@ void StageState::Render()
 	{
 		for(int j = sizeY-1; j >= 0; j--)
 		{
-			if(i > currentRoomX - 1 || i < currentRoomX + 1)
-				if(j > currentRoomY - 1 || j < currentRoomY + 1)
+			/*if(i > currentRoomX - 1 || i < currentRoomX + 1)
+				if(j > currentRoomY - 1 || j < currentRoomY + 1)*/
 					roomInfo[i][j]->Render();
 		}
 	}

@@ -15,6 +15,7 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 
 GallahadGraphicsComponent::~GallahadGraphicsComponent()
 {
+
 }
 
 void GallahadGraphicsComponent::Update(Character* obj, float dt)
@@ -22,7 +23,7 @@ void GallahadGraphicsComponent::Update(Character* obj, float dt)
 	Gallahad* g = (Gallahad*) obj;
 
 	mirror = (obj->facing == GameObject::LEFT);
-	if(obj->Crouching())
+	if(g->Crouching())
 	{
 		UpdateSprite(obj, "Crouching");
 	}

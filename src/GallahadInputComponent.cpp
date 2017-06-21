@@ -9,7 +9,7 @@ GallahadInputComponent::GallahadInputComponent()
 
 }
 
-void GallahadInputComponent::Update(Character* obj_, float dt_)
+void GallahadInputComponent::Update(Player* obj_, float dt_)
 {
 	InputComponent::Update(obj_,dt_);
 	InputManager &input = InputManager::GetInstance();
