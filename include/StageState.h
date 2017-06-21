@@ -7,6 +7,7 @@
 
 #include "State.h"
 #include "Energy.h"
+#include "Lever.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Notfredo.h"

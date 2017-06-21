@@ -1,10 +1,3 @@
-/*
- * Timer.h
- *
- *  Created on: 12 de abr de 2017
- *      Author: Gabriel
- */
-
 #ifndef TIMER_H_
 #define TIMER_H_
 

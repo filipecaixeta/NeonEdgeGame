@@ -1,7 +1,7 @@
 #include "Energy.h"
 #include "Camera.h"
 
-Energy::Energy(float x, float y, std::string sprite, float frameCount, float frameTime, bool loops, float lifetime, bool dies)
+Energy::Energy(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops, float lifetime, bool dies)
 {
 	name = "Energy";
 	sp = Sprite(sprite, frameCount, frameTime);

@@ -85,7 +85,12 @@ void TileMap::SetTileSet(TileSet* tileSet)
 	TileMap::tileSet = tileSet;
 }
 
-int& TileMap::At(int x, int y, int z)
+void TileMap::SetTile(int x, int y, int z, int n)
+{
+	tileMatrix[x + (y*mapWidth) + (z*mapWidth*mapHeight)] = n;
+}
+
+int TileMap::At(int x, int y, int z)
 {
 	//if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight)
 		//std::cerr << "Tile at (" << x << "," << y << "," << z << ") out of map boundaries" << std::endl;
@@ -96,8 +101,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	int i, j;
 	int tileWidth = tileSet->GetTileWidth();
 	int tileHeight = tileSet->GetTileHeight();
-	for(j = 0; j < mapHeight; j++){
-		for(i = 0; i < mapWidth; i++){
+	for(j = mapHeight-1; j >= 0; j--){
+		for(i = mapWidth-1; i >= 0; i--){
 			tileSet->Render(At(i, j, layer), i*tileWidth + position.x * mapWidth * tileWidth - cameraX,
 							j*tileHeight + position.y * mapHeight * tileHeight- cameraY);
 		}

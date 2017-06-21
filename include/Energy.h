@@ -15,7 +15,7 @@ private:
 	bool dead = false;
 
 public:
-	Energy(float x, float y, std::string sprite, float frameCount = 1, float frameTime = 0,
+	Energy(int x, int y, std::string sprite, float frameCount = 1, float frameTime = 0,
 		   bool loops = true, float lifetime = 0, bool dies = false);
 	~Energy();
 	bool IsDead();
