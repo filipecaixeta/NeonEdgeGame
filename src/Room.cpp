@@ -175,9 +175,9 @@ void Room::CreateObjects(){
         }
         if(objectData.at(i).id == 23)
         {
-        	AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        	/*AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        						map, "Lever.png"));
+        						map, "Lever.png"));*/
         }
 	}
 }
