@@ -36,7 +36,7 @@ Notfredo::Notfredo(int x, int y,Type type):
     }
     if(type == FLYING)
     {
-        graphicsComponent = new NotfredoGraphicsComponent("Drone inimigo Idle Sprite");
+        graphicsComponent = new NotfredoGraphicsComponent("DroneInimigoSprite");
 
     }
 	name = "Notfredo";
