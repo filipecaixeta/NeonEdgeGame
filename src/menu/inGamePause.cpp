@@ -2,6 +2,7 @@
 #include "menu/SettingsMenu.h"
 #include "menu/MainMenu.h"
 #include "menu/InGameItens.h"
+#include "menu/InGameQuests.h"
 #include "InputManager.h"
 #include "StageState.h"
 
@@ -18,6 +19,7 @@ void inGamePause::LoadAssets()
 
 	menuOptions.push_back({"Skills",new Sprite("menus/skills-button.png"),true,0});
 	menuOptions.push_back({"Inventory",new Sprite("menus/inventory-button.png"),true,0});
+	menuOptions.push_back({"Quests",new Sprite("menus/quests-button.png"),true,0});
 	menuOptions.push_back({"Settings",new Sprite("menus/settings-button.png"),true,0});
 	menuOptions.push_back({"MainMenu",new Sprite("menus/main-menu-button.png"),true,0});
 
@@ -40,8 +42,11 @@ void inGamePause::Update()
 		{
 			stageState->inGameMenu = new InGameItens(stageState->itensManager);
 			stageState->inGameMenu->LoadAssets();
-//			StageState.get()->inGameMenu = new InGameItens(itensManager);
-//			Game::GetInstance().AddState(new InGameItens(itensManager));
+		}
+		else if (SelectedOptionIs("Quests"))
+		{
+			stageState->inGameMenu = new InGameQuests();
+			stageState->inGameMenu->LoadAssets();
 		}
 		else if (SelectedOptionIs("Settings"))
 		{
@@ -56,7 +61,7 @@ void inGamePause::Update()
 
 void inGamePause::Render()
 {
-	int positionsY[4] = {383,448,514,581};
-	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,123));
+	int positionsY[5] = {381,447,514,581,648};
+	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,122));
 	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 }
