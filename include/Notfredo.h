@@ -1,10 +1,10 @@
 #ifndef NOTFREDO_H_
 #define NOTFREDO_H_
 
-#include "Timer.h"
-#include "NotfredoGraphicsComponent.h"
-#include "TileMap.h"
 #include "Character.h"
+#include "Timer.h"
+#include "TileMap.h"
+#include "NotfredoGraphicsComponent.h"
 
 #define MAX_VALUE 10000;
 
@@ -19,11 +19,13 @@ public:
 	~Notfredo();
 	void Attack();
 	void NotifyTileCollision(int tile, Face face);
+    void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
 	bool Is(std::string type);
     node* PathFind();
+    
 private:
     node* New(int x,int y,int z,float physical_distance);
     node* Pop(node* stack);

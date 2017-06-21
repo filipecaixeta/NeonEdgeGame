@@ -9,7 +9,7 @@ InputComponent::~InputComponent()
 {
 }
 
-void InputComponent::Update(Character* obj_, float dt_)
+void InputComponent::Update(Player* obj_, float dt_)
 {
 	obj = obj_;
 	dt = dt_;
@@ -34,7 +34,7 @@ void InputComponent::StayStill()
 
 void InputComponent::Crouch(bool c)
 {
-	if (c==true)
+	if (c == true)
 		obj->Crouch();
 	else
 		obj->Stand();
@@ -42,7 +42,7 @@ void InputComponent::Crouch(bool c)
 
 void InputComponent::Attack()
 {
-	if(!obj->Attacking())
+	if(!obj->Attacking() && !obj->Cooling())
 	{
 		obj->Attack();
 	}

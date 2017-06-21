@@ -1,13 +1,13 @@
 #ifndef GALLAHAD_H_
 #define GALLAHAD_H_
 
+#include "Player.h"
 #include "Timer.h"
-#include "Character.h"
 #include "TileMap.h"
 #include "GallahadInputComponent.h"
 #include "GallahadGraphicsComponent.h"
 
-class Gallahad : public Character
+class Gallahad : public Player
 {
 public:
 	Gallahad(int x, int y);
@@ -16,6 +16,7 @@ public:
 	bool Hiding();
 	void Hide();
 	void UpdateTimers(float dt);
+
 private:
 	Timer hiding;
 };

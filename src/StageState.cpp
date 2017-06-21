@@ -12,7 +12,7 @@
 #include "ItensManager.h"
 #include "ColisionFunctions.h"
 
-Character* StageState::player = nullptr;
+Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
 StageState::StageState(std::string mode_, int sizeX, int sizeY):

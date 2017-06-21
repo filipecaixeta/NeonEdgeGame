@@ -28,6 +28,12 @@ void Timer::Stop()
     running = false;
 }
 
+void Timer::Reset()
+{
+    time = 0;
+    running = false;
+}
+
 void Timer::Update(float dt)
 {
     if(running)

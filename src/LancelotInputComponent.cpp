@@ -9,7 +9,7 @@ LancelotInputComponent::LancelotInputComponent()
 
 }
 
-void LancelotInputComponent::Update(Character* obj_, float dt_)
+void LancelotInputComponent::Update(Player* obj_, float dt_)
 {
 	InputComponent::Update(obj_,dt_);
 	InputManager &input = InputManager::GetInstance();
@@ -31,7 +31,12 @@ void LancelotInputComponent::Update(Character* obj_, float dt_)
 		Crouch(false);
 
 	if(input.IsKeyDown(ATTACK_KEY,  true))
+	{
 		Attack();
+		Lancelot *l = (Lancelot*)obj;
+		if(l->Charged() < 6)
+			l->Charge();
+	}
 	
 	if(input.IsKeyDown(SPECIAL_KEY, true))
 		Block();

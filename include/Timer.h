@@ -13,6 +13,7 @@ public:
 	~Timer();
 	void Start();
     void Stop();
+    void Reset();
 	void Update(float dt);
 	void SetLimit(float l);
 	bool IsRunning();

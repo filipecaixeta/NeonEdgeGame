@@ -8,18 +8,26 @@ LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"Running",8,80);
 	AddSprite(baseName,"Crouching",4,80,true);
 	AddSprite(baseName,"Jumping",8,80,true);
+	AddSprite(baseName,"Attacking",11,80);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }
 
 LancelotGraphicsComponent::~LancelotGraphicsComponent()
 {
+
 }
 
 void LancelotGraphicsComponent::Update(Character* obj, float dt)
 {
+	Lancelot* l = (Lancelot*) obj;
+
 	mirror = (obj->facing == GameObject::LEFT);
-	if(obj->Crouching())
+	if(l->Attacking())
+	{
+		UpdateSprite(obj, "Attacking");
+	}
+	else if(l->Crouching())
 	{
 		UpdateSprite(obj, "Crouching");
 	}
