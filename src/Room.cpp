@@ -7,6 +7,7 @@
 #include "Room.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "ColisionFunctions.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position)
 {
@@ -98,6 +99,7 @@ void Room::ObjectCollision()
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
 			}
+			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
 		}
 	}
 }
