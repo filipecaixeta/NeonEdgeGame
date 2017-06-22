@@ -13,6 +13,8 @@ public:
 	virtual void Update(Player* obj_, float dt_)=0;
 	virtual void MoveLeft();
 	virtual void MoveRight();
+	virtual void MoveUp();
+	virtual void MoveDown();
 	virtual void StayStill();
 	virtual void Crouch(bool c);
 	virtual void Attack();

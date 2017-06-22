@@ -19,6 +19,7 @@ Room::Room(TileSet* tileSet, int index, Vec2 position)
 	objectArray = std::vector<GameObject*>();
 	LoadObjects("resources/map/objs/room0"+ss.str()+".txt");
 	CreateObjects();
+	std::cout << ss.str() << "\t";
 }
 
 Room::~Room()
@@ -168,6 +169,18 @@ void Room::CreateObjects(){
         	AddObject(new Lever(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png", objectData.at(i).v));
+        }
+        if(objectData.at(i).id == 22)
+        {
+        	AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
+        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));
+        }
+        if(objectData.at(i).id == 23)
+        {
+        	/*AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
+        						map, "Lever.png"));*/
         }
 	}
 }

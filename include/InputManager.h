@@ -15,6 +15,8 @@
 #define MOVE_LEFT_KEY 3
 #define MOVE_RIGHT_KEY 4
 #define CROUCH_KEY 5
+#define MOVE_UP_KEY 6
+#define MOVE_DOWN_KEY 7
 
 #include "SDL.h"
 #include <unordered_map>
@@ -29,7 +31,7 @@ private:
 	int mouseUpdate [6];
 	std::unordered_map<int, bool> keyState;
 	std::unordered_map<int, int> keyUpdate;
-	int translationTable[6];
+	int translationTable[8];
 	int lastKey;
 
 	static InputManager* instance;

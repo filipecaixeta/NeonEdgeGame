@@ -21,12 +21,11 @@ Projectile::Projectile(std::string file, int frames, int frameTime,  GameObject*
 	Vec2 size = sp.GetSize();
 	if(facing == LEFT)
 	{
-		sp.SetFrame(1);
+		sp.Mirror(true);
 		box.x = owner->box.x - size.x;
 	}
 	else
 	{
-		sp.SetFrame(2);
 		box.x = owner->box.x + owner->box.w;
 	}
 	box.y = owner->box.y + (owner->box.h/2 - size.y/2);
@@ -54,6 +53,7 @@ void Projectile::NotifyObjectCollision(GameObject* other)
 void Projectile::Update(TileMap* world, float dt)
 {
 	UpdateTimers(dt);
+	sp.Update(dt);
 	physicsComponent.Update(this,world,dt);
 }
 

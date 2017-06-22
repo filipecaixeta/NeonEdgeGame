@@ -27,6 +27,14 @@ void InputComponent::MoveRight()
 	obj->facing = GameObject::RIGHT;
 }
 
+void InputComponent::MoveUp(){
+	obj->physicsComponent.velocity.y -= 0.002*dt;
+}
+
+void InputComponent::MoveDown(){
+	obj->physicsComponent.velocity.y += 0.002*dt;
+}
+
 void InputComponent::StayStill()
 {
 	obj->physicsComponent.velocity.x = 0;
