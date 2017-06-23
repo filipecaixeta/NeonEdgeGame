@@ -12,7 +12,7 @@ Item::Item(int id, int x, int y):
 
 void Item::Eval(Player* player)
 {
-
+	std::cerr << "Eval Item" <<std::endl;
 }
 
 void Item::SetActive(bool b)
@@ -32,13 +32,11 @@ bool Item::Is(std::string type)
 
 bool Item::IsDead()
 {
-	std::cout <<"Morreu "<<dead<<std::endl;
 	return dead;
 }
 
 void Item::NotifyObjectCollision(GameObject* other)
 {
-	std::cout <<"Morreu "<<dead<<std::endl;
 	dead = true;
 }
 

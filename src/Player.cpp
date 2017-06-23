@@ -74,3 +74,8 @@ void Player::Update(TileMap* map, float dt)
 	physicsComponent.Update(this,map,dt);
 	graphicsComponent->Update(this,dt);
 }
+
+bool Player::Is(std::string type)
+{
+	return type=="Player";
+}

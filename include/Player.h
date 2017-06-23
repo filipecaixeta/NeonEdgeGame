@@ -20,6 +20,7 @@ public:
 	virtual void NotifyObjectCollision(GameObject* other);
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
+	virtual bool Is(std::string type);
 
 	InputComponent* inputComponent;
 

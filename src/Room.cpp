@@ -100,6 +100,10 @@ void Room::ObjectCollision()
 			{
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
+				if (objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
+					dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
+				else if (objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
+					dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
 			}
 //			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
 		}
@@ -118,7 +122,6 @@ void Room::ObjectCleanup()
 				StageState::KillPlayer();
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
-			std::cout <<"Matando objeto"<<std::endl;
 		}
 	}
 }
