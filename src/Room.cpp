@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "StageState.h"
 #include "ColisionFunctions.h"
+#include "Item.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position)
 {
@@ -100,7 +101,7 @@ void Room::ObjectCollision()
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
 			}
-			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
+//			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
 		}
 	}
 }
@@ -117,6 +118,7 @@ void Room::ObjectCleanup()
 				StageState::KillPlayer();
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
+			std::cout <<"Matando objeto"<<std::endl;
 		}
 	}
 }
@@ -182,6 +184,10 @@ void Room::CreateObjects(){
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png"));*/
         }
+		if(objectData.at(i).id > 100) // Item
+		{
+			AddObject(new Item(objectData[i].id,objectData[i].x,objectData[i].y));
+		}
 	}
 }
 
