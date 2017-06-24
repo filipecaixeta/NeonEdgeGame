@@ -15,6 +15,7 @@ public:
 	{
 		Sprite *sp;
 		bool active;
+		unsigned int count;
 		std::string name;
 		std::string description;
 	};

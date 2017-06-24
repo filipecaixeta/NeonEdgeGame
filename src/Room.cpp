@@ -49,7 +49,8 @@ void Room::RemoveObject(GameObject* ptr)
 	{
 		if(ptr == objectArray[i])
 		{
-			delete objectArray[i];
+			if (!objectArray[i]->Is("Item"))
+				delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}

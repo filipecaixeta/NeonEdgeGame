@@ -9,7 +9,6 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 #include "menu/inGamePause.h"
-#include "ItensManager.h"
 #include "ColisionFunctions.h"
 
 Player* StageState::player = nullptr;
@@ -25,7 +24,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	healthBar(nullptr),
 	energyBar(nullptr),
 	inGameMenu(nullptr),
-	itensManager(new ItensManager())
+	itensManager()
 {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;

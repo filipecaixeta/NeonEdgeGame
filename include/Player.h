@@ -5,8 +5,10 @@
 #include "Timer.h"
 #include "TileMap.h"
 #include "InputComponent.h"
+#include "ItensManager.h"
 
 class InputComponent;
+class ItensManager;
 
 class Player : public Character
 {
@@ -23,6 +25,7 @@ public:
 	virtual bool Is(std::string type);
 
 	InputComponent* inputComponent;
+	ItensManager* itemManager;
 
 protected:
 	int energy;

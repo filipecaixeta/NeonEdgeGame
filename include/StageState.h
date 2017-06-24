@@ -21,6 +21,8 @@
 #include "Player.h"
 #include "ItensManager.h"
 
+class ItensManager;
+
 class StageState : public State
 {
 private:
