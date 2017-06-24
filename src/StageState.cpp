@@ -21,7 +21,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	tileSet(nullptr),
 	paused(false),
 	windowArray(),
-	roomArray(nullptr),
+	//roomArray(nullptr),
 	healthBar(nullptr),
 	energyBar(nullptr),
 	inGameMenu(nullptr),
@@ -31,18 +31,19 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	this->sizeY = sizeY;
 
 	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
-	CreateMap(sizeX,sizeY);
-	//Camera::GetInstance().maxPos = Vec2(tileMap->GetWidth()*tileMap->GetTileWidth(),
-	//									tileMap->GetHeight()*tileMap->GetTileHeight());
-	if(mode == "Lancelot")
+	currentRoom = new Room(tileSet, 0, Vec2(0,0));
+	//CreateMap(sizeX,sizeY);
+	/*if(mode == "Lancelot")
 		player = new Lancelot(133, 131);
 	else if(mode == "Gallahad")
-		player = new Gallahad(133, 131);
-	Camera::GetInstance().Follow(player);
-	currentRoom = roomInfo[0][0];
+		player = new Gallahad(269, 544);*/
+	player = (Player*) currentRoom->GetFirst();
+	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
-	AddObject(player);
+
+	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
+										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
 
 	CreateBars(player->name);
 }
@@ -50,8 +51,9 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 StageState::~StageState()
 {
 	player = nullptr;
-	currentRoom = nullptr;
-	delete[] roomArray;
+	delete currentRoom;
+	//currentRoom = nullptr;
+	//delete[] roomArray;
 	delete tileSet;
 	music.Stop();
 	windowArray.clear();
@@ -148,7 +150,7 @@ void StageState::HandleInput()
 	}
 }
 
-void StageState::UpdateRoom()
+/*void StageState::UpdateRoom()
 {
 	int x = (int)player->box.GetCenter().x/(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth());
 	int y = (int)player->box.GetCenter().y/(currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
@@ -160,11 +162,11 @@ void StageState::UpdateRoom()
 		currentRoomY = y;
 		currentRoom->AddObjectAsFirst(player);
 	}
-}
+}*/
 
 void StageState::UpdateGame()
 {
-	UpdateRoom();
+	//UpdateRoom();
 	currentRoom->Update(Game::GetInstance().GetDeltaTime());
 	CleanUpdateBars();
 	Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
@@ -206,16 +208,16 @@ void StageState::Update()
 
 void StageState::Render() 
 {
-	for(int i = sizeX-1; i >= 0; i--)
+	/*for(int i = sizeX-1; i >= 0; i--)
 	{
 		for(int j = sizeY-1; j >= 0; j--)
 		{
-			/*if(i > currentRoomX - 1 || i < currentRoomX + 1)
-				if(j > currentRoomY - 1 || j < currentRoomY + 1)*/
+			if(i > currentRoomX - 1 || i < currentRoomX + 1)
+				if(j > currentRoomY - 1 || j < currentRoomY + 1)
 					roomInfo[i][j]->Render();
 		}
-	}
-	//currentRoom->Render();
+	}*/
+	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
 	healthBar->Render(10,10);
@@ -225,7 +227,7 @@ void StageState::Render()
 		inGameMenu->Render();
 }
 
-void StageState::CreateMap(int sizeX, int sizeY)
+/*void StageState::CreateMap(int sizeX, int sizeY)
 {
 	std::pair<int, int> aux(0, 0);
 	srand(time(NULL));
@@ -265,9 +267,9 @@ void StageState::CreateMap(int sizeX, int sizeY)
 	}
 
 	MassLoad(sizeX, sizeY);
-}
+}*/
 
-void StageState::MassLoad(int sizeX, int sizeY)
+/*void StageState::MassLoad(int sizeX, int sizeY)
 {
 	for(int i = 0; i < sizeX; i++)
 	{
@@ -277,7 +279,7 @@ void StageState::MassLoad(int sizeX, int sizeY)
 		}
 		std::cout << "\n";
 	}
-}
+}*/
 
 bool StageState::QuitRequested()
 {

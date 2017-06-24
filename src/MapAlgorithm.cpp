@@ -1,8 +1,8 @@
 #include "MapAlgorithm.h"
 #include <iostream>
 
-MapAlgorithm::MapAlgorithm(){
-
+MapAlgorithm::MapAlgorithm(int numberOfRooms){
+	this->numberOfRooms = numberOfRooms;
 }
 
 void MapAlgorithm::RandomizeRoomOrder(std::vector<int>* roomOrder){
@@ -10,7 +10,7 @@ void MapAlgorithm::RandomizeRoomOrder(std::vector<int>* roomOrder){
 
 	srand(time(NULL));
 
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < numberOfRooms; i++){
 		random = rand() % 3 + 2;
 		if(i == 0){
 			roomOrder->emplace_back(0);
@@ -73,87 +73,6 @@ void MapAlgorithm::PopulateRoomArray(int** roomArray, std::vector<int>* roomOrde
 			roomArray[aux->first][aux->second] = roomOrder->at(i);
 		}
 		else{
-			// if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->first - 1 > 0 && aux->second - 1 > 0){
-			// 	if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 &&
-			// 		roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
-			// 		for(int i = 0; i < sizeX; i++){
-			// 			for(int j = 0; j < sizeY; j++){
-			// 				roomArray[i][j] = -1;
-			// 			}
-			// 		}
-
-			// 		aux->first = 0;
-			// 		aux->second = 3;
-					
-			// 		//roomWay->clear();
-			// 		this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
-			// 		break;
-			// 	}
-			// }
-			// if(aux->second + 1 < sizeY && aux->first - 1 > 0 && aux->second - 1 > 0){
-			// 	if(roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
-			// 		for(int i = 0; i < sizeX; i++){
-			// 			for(int j = 0; j < sizeY; j++){
-			// 				roomArray[i][j] = -1;
-			// 			}
-			// 		}
-
-			// 		aux->first = 0;
-			// 		aux->second = 3;
-					
-			// 		//roomWay->clear();
-			// 		this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
-			// 		break;
-			// 	}
-			// }
-			// if(aux->first + 1 < sizeX && aux->first - 1 > 0 && aux->second - 1 > 0){
-			// 	if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second - 1] > -1){
-			// 		for(int i = 0; i < sizeX; i++){
-			// 			for(int j = 0; j < sizeY; j++){
-			// 				roomArray[i][j] = -1;
-			// 			}
-			// 		}
-
-			// 		aux->first = 0;
-			// 		aux->second = 3;
-					
-			// 		//roomWay->clear();
-			// 		this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
-			// 		break;
-			// 	}
-			// }
-			// if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->second - 1 > 0){
-			// 	if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1 && roomArray[aux->first][aux->second - 1] > -1){
-			// 		for(int i = 0; i < sizeX; i++){
-			// 			for(int j = 0; j < sizeY; j++){
-			// 				roomArray[i][j] = -1;
-			// 			}
-			// 		}
-
-			// 		aux->first = 0;
-			// 		aux->second = 3;
-
-			// 		//roomWay->clear();
-			// 		this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
-			// 		break;
-			// 	}
-			// }
-			// if(aux->first + 1 < sizeX && aux->second + 1 < sizeY && aux->first - 1 > 0){
-			// 	if(roomArray[aux->first + 1][aux->second] > -1 && roomArray[aux->first - 1][aux->second] > -1 && roomArray[aux->first][aux->second + 1] > -1){
-			// 		for(int i = 0; i < sizeX; i++){
-			// 			for(int j = 0; j < sizeY; j++){
-			// 				roomArray[i][j] = -1;
-			// 			}
-			// 		}
-
-			// 		aux->first = 0;
-			// 		aux->second = 3;
-
-			// 		//roomWay->clear();
-			// 		this->PopulateRoomArray(roomArray, roomOrder, aux, /*roomWay,*/ sizeX, sizeY);
-			// 		break;
-			// 	}
-			// }
 			if(IsBlocked(roomArray, std::make_pair(aux->first, aux->second), sizeX, sizeY)){
 				CleanMap(roomArray, aux, sizeX, sizeY);
 				this->PopulateRoomArray(roomArray, roomOrder, aux, sizeX, sizeY);

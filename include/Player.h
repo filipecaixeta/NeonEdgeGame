@@ -18,6 +18,7 @@ public:
 	virtual void Stand();
 	virtual bool Crouching();
 	virtual void NotifyObjectCollision(GameObject* other);
+	virtual bool OutOfBounds(TileMap* map);
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
 

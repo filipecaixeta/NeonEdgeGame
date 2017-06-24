@@ -14,9 +14,12 @@ public:
 	Drone(int x, int y);
 	~Drone();
 	void UpdateTimers(float dt);
+	void Update(TileMap* map, float dt);
+	void SetActive(bool active);
+	bool GetActive();
 
 private:
-	
+	bool active;
 };
 
 #endif /* DRONE_H_ */

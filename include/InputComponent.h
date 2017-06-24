@@ -20,6 +20,7 @@ public:
 	virtual void Attack();
 	virtual void Jump();
 	virtual void Save(bool s);
+	virtual void Active();
 
 protected:
 	Player* obj;

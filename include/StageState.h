@@ -12,6 +12,7 @@
 #include "Box.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
+#include "Drone.h"
 #include "Notfredo.h"
 #include "Room.h"
 #include "Window.h"
@@ -32,18 +33,18 @@ private:
 	bool paused;
 	std::vector<std::unique_ptr<Window>> windowArray;
 	//std::unordered_map<SDL_Point, TileMap*> roomTable;
-	Room*** roomInfo;
-	int** roomArray;
-	std::vector<int> roomOrder;
-	std::vector<std::pair<int, int>> roomWay;
-	std::vector<std::pair<int, int>>::iterator it;
-	MapAlgorithm algorithm;
+	//Room*** roomInfo;
+	//int** roomArray;
+	//std::vector<int> roomOrder;
+	//std::vector<std::pair<int, int>> roomWay;
+	//std::vector<std::pair<int, int>>::iterator it;
+	//MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
 
 	void HandleInput();
-	void UpdateRoom();
+	//void UpdateRoom();
 	void UpdateGame();
 	void CleanUpdateBars();
 
@@ -69,8 +70,8 @@ public:
 	bool Is(std::string type);
 	StageState* get();
 	void CreateBars(std::string playerName);
-	void CreateMap(int sizeX, int sizeY);
-	void MassLoad(int sizeX, int sizeY);
+	//void CreateMap(int sizeX, int sizeY);
+	//void MassLoad(int sizeX, int sizeY);
 
 	State* inGameMenu;
 	ItensManager* itensManager;

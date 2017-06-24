@@ -66,6 +66,11 @@ void Room::RemovePlayer()
 	}	
 }
 
+GameObject* Room::GetFirst()
+{
+	return objectArray[0];
+}
+
 Vec2 Room::GetPos()
 {
 	return position;
@@ -141,11 +146,16 @@ void Room::CreateObjects(){
 	{
 		if(objectData.at(i).id == 0)
 		{
-			//cria Lancelot
+			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			RemoveObject(objectArray[0]);
+			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		if(objectData.at(i).id == 1)
 		{
-			//cria Galahad
+			AddObjectAsFirst(new Gallahad(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		if(objectData.at(i).id == 2)
 		{
@@ -179,6 +189,11 @@ void Room::CreateObjects(){
         	/*AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png"));*/
+        }
+        if(objectData.at(i).id == 41)
+        {
+        	AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 	}
 }

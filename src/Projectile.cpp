@@ -40,14 +40,15 @@ Projectile::~Projectile()
 
 void Projectile::NotifyTileCollision(int tile, Face face)
 {
-	if(!pierce)
+	if(!pierce && tile >= SOLID_TILE)
 		lifetime.Stop();
 }
 
 void Projectile::NotifyObjectCollision(GameObject* other)
 {
-	if(!pierce)
-		lifetime.Stop();
+	if(!other->Is("Gallahad"))
+		if(!pierce)
+			lifetime.Stop();
 }
 
 void Projectile::Update(TileMap* world, float dt)
