@@ -7,6 +7,8 @@
 #include "Room.h"
 #include "Camera.h"
 #include "StageState.h"
+#include "ColisionFunctions.h"
+#include "Item.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position)
 {
@@ -103,7 +105,12 @@ void Room::ObjectCollision()
 			{
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
+				if (objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
+					dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
+				else if (objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
+					dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
 			}
+//			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
 		}
 	}
 }
@@ -195,6 +202,10 @@ void Room::CreateObjects(){
         	AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
+		if(objectData.at(i).id > 100) // Item
+		{
+			AddObject(new Item(objectData[i].id,objectData[i].x,objectData[i].y));
+		}
 	}
 }
 

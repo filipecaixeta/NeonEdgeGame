@@ -82,3 +82,8 @@ void Player::Update(TileMap* map, float dt)
 		SetPosition(Vec2(269,544));
 	graphicsComponent->Update(this,dt);
 }
+
+bool Player::Is(std::string type)
+{
+	return type=="Player";
+}

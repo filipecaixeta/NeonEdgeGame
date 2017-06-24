@@ -43,6 +43,7 @@ Game::Game(std::string title) {
 	}
 
 	fps = 30;
+	nextTime_ = 0;
 
     SDL_Point screenSize = GetFullScreenSize();
 
@@ -191,9 +192,20 @@ int Game::GetDeltaTime() {
 	return dt;
 }
 
+Uint32 Game::timeLeft()
+{
+	Uint32 now;
+	now = SDL_GetTicks();
+	if(nextTime_ <= now)
+		return 0;
+	else
+		return nextTime_ - now;
+}
+
 void Game::Run() {
 	storedState = stateStack.top();
 	storedState->LoadAssets();
+	nextTime_ = SDL_GetTicks() + 1000.0/fps;
 	while(!InputManager::GetInstance().QuitRequested()) {
 		while(storedState->QuitRequested() == false &&
 			  InputManager::GetInstance().QuitRequested() == false &&
@@ -206,7 +218,9 @@ void Game::Run() {
 			storedState->Update();
 			storedState->Render();
 			SDL_RenderPresent(renderer);
-			SDL_Delay(1000/fps);
+
+			SDL_Delay(timeLeft());
+			nextTime_ += 1000/fps;
 		}
 		if (storedState != stateStack.top())
 		{

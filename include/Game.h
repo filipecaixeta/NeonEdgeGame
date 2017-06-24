@@ -15,6 +15,7 @@ private:
 	int dt = 0;
     SDL_Point screenSize;
     bool fullScreen = 0;
+	Uint32 nextTime_;
 
 	void CalculateDeltaTime();
     SDL_Point GetFullScreenSize();
@@ -42,6 +43,7 @@ public:
 
 	void LoadConfigurations();
 	void SaveConfigurations();
+	Uint32 timeLeft();
 };
 
 #endif /* GAME_H_ */
