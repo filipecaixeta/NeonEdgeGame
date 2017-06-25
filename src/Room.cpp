@@ -49,7 +49,8 @@ void Room::RemoveObject(GameObject* ptr)
 	{
 		if(ptr == objectArray[i])
 		{
-			delete objectArray[i];
+			if (!objectArray[i]->Is("Item"))
+				delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}
@@ -210,51 +211,43 @@ void Room::CreateObjects(){
 }
 
 void Room::LoadObjects(std::string file){
-	int repeat = 0;
-	ObjectData data;
 	std::ifstream f;
-	std::string num;
-
 	f.open(file.c_str(), std::ios::in);
-	if(f.is_open())
+
+	if(!f.is_open())
 	{
-		while(getline(f, num, ','))
-		{
-			if(repeat == 0)
-			{
-				data.id = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 1)
-			{
-				data.x = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 2)
-			{
-				data.y = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 3)
-			{
-				int n = atoi(num.c_str());
-				for(int i = 0; i<n; i++)
-				{
-					data.v.push_back(std::vector<int>());
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-				}
-				objectData.push_back(data);
-				repeat = 0;
-			}
-		}
+		std::cerr<< "f.open: unable to open file: " << file.c_str();
+		return;
 	}
-	else
+	for (std::string line; std::getline(f, line); )
 	{
-		std::cout<< "f.open: unable to open file: " << file.c_str();
+		char delimiter;
+		int n;
+		ObjectData data;
+		std::stringstream ss(line);
+		ss >> data.id;
+		ss >> delimiter;
+		ss >> data.x;
+		ss >> delimiter;
+		ss >> data.y;
+		ss >> delimiter;
+		ss >> n;
+		ss >> delimiter;
+
+		for(int i = 0; i<n; i++)
+		{
+			int temp;
+			data.v.push_back(std::vector<int>());
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+		}
+		objectData.push_back(data);
 	}
 }

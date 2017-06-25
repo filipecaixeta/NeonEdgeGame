@@ -6,6 +6,7 @@ Player::Player(int x, int y):
 	inputComponent(nullptr),
 	energy(5),
 	regenCD(500),
+	itemManager(),
 	crouching(false)
 {
 

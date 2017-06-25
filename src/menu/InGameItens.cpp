@@ -25,7 +25,7 @@ void InGameItens::LoadAssets()
 {
 	itens = itensManager->GetActiveItems();
 
-	itensManager->hotItens[1] = "Arco";
+//	itensManager->hotItens[1] = "Arco";
 
 	for(auto &i: itens)
 	{
@@ -47,10 +47,11 @@ void InGameItens::LoadAssets()
 	}
 
 
-	bg.Open("inGameItens.png");
+	bg.Open("menus/MenuItensGalahad.png");
 	bg.SetBlending(true);
 	SetOption(1);
-	SetItemText(itens[0]);
+	if (itens.size()!=0)
+		SetItemText(itens[0]);
 }
 
 void InGameItens::SetItemText(ItensManager::itemType item)
@@ -131,7 +132,8 @@ void InGameItens::Update()
 void InGameItens::SetOption(int i)
 {
 	MenuState::SetOption(i);
-	SetItemText(itens[currentOption]);
+	if (itens.size()!=0)
+		SetItemText(itens[currentOption]);
 }
 
 void InGameItens::SetHotBarOption(int i)
@@ -159,25 +161,25 @@ void InGameItens::Render()
 {
 	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
 	bg.Render(bgXY);
-	Vec2 pos(0,-30);
+	Vec2 pos(27,101-96);
 	int i=0;
 	for(auto option: menuOptions)
 	{
 		if (i%rowSize==0)
 		{
-			pos.y += 130;
-			pos.x = 50;
+			pos.y += 96;
+			pos.x = 27;
 		}
 		option.sprite->Render(bgXY+pos);
-		pos.x += 130;
+		pos.x += 92;
 		i++;
 	}
-	pos = Vec2(50,495);
+	pos = Vec2(27,373);
 	for(auto option: hotBarOptions)
 	{
 		option.sprite->Render(bgXY+pos);
-		pos.x += 130;
+		pos.x += 92;
 	}
-	itemTitle->Render(bgXY+Vec2(470,100));
-	itemText->Render(bgXY+Vec2(470,230));
+	itemTitle->Render(bgXY+Vec2(323,111));
+	itemText->Render(bgXY+Vec2(323,151));
 }

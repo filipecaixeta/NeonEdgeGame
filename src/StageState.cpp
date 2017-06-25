@@ -9,7 +9,6 @@
 #include "DialogWindow.h"
 #include "SaveComponent.h"
 #include "menu/inGamePause.h"
-#include "ItensManager.h"
 #include "ColisionFunctions.h"
 
 Player* StageState::player = nullptr;
@@ -38,6 +37,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	else if(mode == "Gallahad")
 		player = new Gallahad(269, 544);*/
 	player = (Player*) currentRoom->GetFirst();
+	player->itemManager = itensManager;
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
@@ -54,7 +54,7 @@ StageState::~StageState()
 	delete currentRoom;
 	//currentRoom = nullptr;
 	//delete[] roomArray;
-	delete tileSet;
+//	delete tileSet;
 	music.Stop();
 	windowArray.clear();
 }
