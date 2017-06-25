@@ -74,6 +74,7 @@ void Arthur::UpdateAI(float dt){
 				}
 				if(dash.IsRunning()){
 					physicsComponent.velocity.x -= 0.006*dt;
+					Attack();
 				}
 				clamp(physicsComponent.velocity.x,-0.8f,0.8f);
 			}
@@ -85,6 +86,7 @@ void Arthur::UpdateAI(float dt){
 				}
 				if(dash.IsRunning()){
 					physicsComponent.velocity.x += 0.006*dt;
+					Attack();
 				}
 				clamp(physicsComponent.velocity.x,-0.8f,0.8f);
 			}
@@ -96,7 +98,7 @@ void Arthur::UpdateAI(float dt){
 						state = IDLE;
 					}
 					if(slash.IsRunning()){
-						//causa dano
+						Attack();
 					}
 				}
 				if(player.x > box.x){
@@ -106,7 +108,7 @@ void Arthur::UpdateAI(float dt){
 						state = IDLE;
 					}
 					if(slash.IsRunning()){
-						//causa dano
+						Attack();
 					}
 				}
 			}
@@ -136,11 +138,22 @@ void Arthur::UpdateAI(float dt){
 	}
 }
 
+void Arthur::Attack(){
+	attacking.Start();
+}
+
 void Arthur::UpdateTimers(float dt){
+	attacking.SetLimit(60);
 	idle.Update(dt);
 	slash.Update(dt);
 	dash.Update(dt);
 	punch.Update(dt);
+	if(attacking.GetElapsed() == 1)
+	{
+		attacking.Reset();
+		attackCD.Start();
+	}
+	attackCD.Update(dt);
 }
 
 void Arthur::Update(TileMap* world, float dt){

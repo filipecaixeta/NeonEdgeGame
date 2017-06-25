@@ -15,6 +15,7 @@ public:
 	void UpdateTimers(float dt);
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
+	void Attack();
 	ArthurState GetState();
 private:
 	Timer idle;
