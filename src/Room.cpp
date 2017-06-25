@@ -180,6 +180,11 @@ void Room::CreateObjects(){
             AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),FLYING));
         }
+        if(objectData.at(i).id == 20)
+        {
+        	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        						 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
         if(objectData.at(i).id == 21)
         {
         	AddObject(new Lever(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),

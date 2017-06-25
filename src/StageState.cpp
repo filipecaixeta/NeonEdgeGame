@@ -29,7 +29,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
 
-	tileSet = new TileSet(64, 64, "Tile_Map.png", 8, 8);
+	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
 	currentRoom = new Room(tileSet, 0, Vec2(0,0));
 	//CreateMap(sizeX,sizeY);
 	/*if(mode == "Lancelot")

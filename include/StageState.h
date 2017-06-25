@@ -14,6 +14,7 @@
 #include "Gallahad.h"
 #include "Drone.h"
 #include "Notfredo.h"
+#include "Arthur.h"
 #include "Room.h"
 #include "Window.h"
 #include "LoadingBar.h"

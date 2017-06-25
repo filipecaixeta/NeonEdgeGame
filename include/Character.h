@@ -27,6 +27,7 @@ public:
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
 	virtual void Render();
+	virtual bool OutOfBounds(TileMap* map);
 
 	PhysicsComponent physicsComponent;
 	GraphicsComponent* graphicsComponent;
@@ -37,6 +38,7 @@ protected:
 	Timer invincibilityTimer;
 	Timer attacking;
 	Timer attackCD;
+	int startingX, startingY;
 };
 
 #endif // CHARACTER_H

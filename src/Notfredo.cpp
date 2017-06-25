@@ -406,6 +406,8 @@ void Notfredo::Update(TileMap* world, float dt)
 	UpdateTimers(dt);
 	UpdateAI(dt);
 	physicsComponent.Update(this,world,dt);
+    if(OutOfBounds(world))
+        SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);
 }
 

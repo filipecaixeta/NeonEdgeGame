@@ -77,7 +77,7 @@ void Gallahad::Update(TileMap* map, float dt)
 		physicsComponent.Update(this,map,dt);
 	}
 	if(OutOfBounds(map))
-		SetPosition(Vec2(269,544));
+		SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);
 }
 
