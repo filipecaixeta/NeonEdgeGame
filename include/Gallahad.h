@@ -19,10 +19,14 @@ public:
 	bool Hiding();
 	bool Shooting();
 	void UpdateTimers(float dt);
+	void Update(TileMap* map, float dt);
+	void SetActive(bool active);
+	bool GetActive();
 
 private:
 	Timer hiding;
 	bool shooting;
+	bool active;
 };
 
 #endif /* GALLAHAD_H_ */

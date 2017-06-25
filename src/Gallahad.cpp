@@ -17,6 +17,7 @@ Gallahad::Gallahad(int x, int y):
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
 	name = "Gallahad";
 	box.SetWH(graphicsComponent->GetSize());
+	active = true;
 	std::cout << x << " " << y << "\n";
 }
 
@@ -66,4 +67,24 @@ void Gallahad::UpdateTimers(float dt)
 	std::cout << box.x << " " << box.y << "\n";
 	Player::UpdateTimers(dt);
 	hiding.Update(dt);
+}
+
+void Gallahad::Update(TileMap* map, float dt)
+{
+	UpdateTimers(dt);
+	inputComponent->Update(this,dt);
+	if(active){
+		physicsComponent.Update(this,map,dt);
+	}
+	if(OutOfBounds(map))
+		SetPosition(Vec2(269,544));
+	graphicsComponent->Update(this,dt);
+}
+
+void Gallahad::SetActive(bool active){
+	this->active = active;
+}
+
+bool Gallahad::GetActive(){
+	return active;
 }

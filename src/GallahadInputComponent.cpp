@@ -14,6 +14,9 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	InputComponent::Update(obj_,dt_);
 	InputManager &input = InputManager::GetInstance();
 
+	if(input.IsKeyDown(ACTIVE_KEY, true))
+		Active();
+
 	if(input.IsKeyDown(MOVE_LEFT_KEY, true))
 		MoveLeft();
 	else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
@@ -61,4 +64,12 @@ void GallahadInputComponent::Hide()
 	{
 		g->Hide();
 	}
+}
+
+void GallahadInputComponent::Active(){
+	Gallahad* g = (Gallahad*) obj;
+	if(g->GetActive() == true)
+		g->SetActive(false);
+	else
+		g->SetActive(true);
 }
