@@ -11,7 +11,7 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"Jumping",8,80,true);
 	AddSprite(baseName,"Shot",4,80, true);
 	AddSprite(baseName,"RunningShot",8,80);
-	AddSprite(baseName,"JumpingShot",8,80);
+	AddSprite(baseName,"JumpingShot",8,80, true);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }

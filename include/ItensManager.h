@@ -24,6 +24,7 @@ public:
 	std::vector<itemType> GetActiveItems();
 	std::vector<itemType> GetItems();
 	itemType GetItem(std::string name);
+	void AddItem(int id);
 	bool IsActive(std::string name);
 	bool IsHot(std::string name);
 	void SetActive(std::string name, bool active);

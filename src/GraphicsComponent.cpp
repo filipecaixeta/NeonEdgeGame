@@ -5,13 +5,20 @@ GraphicsComponent::GraphicsComponent(std::string baseName_):
 	sp(new Sprite()),
 	baseName(baseName_)
 {
+
 }
 
 GraphicsComponent::~GraphicsComponent()
 {
-	for(auto& i: sprites)
+	sp = nullptr;
+	for(auto& i : sprites)
 		delete i.second;
 	sprites.clear();
+
+	surface = nullptr;
+	for(auto& i : surfaces)
+		delete i.second;
+	surfaces.clear();
 }
 
 void GraphicsComponent::Render(Vec2 position)
@@ -47,7 +54,10 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
 		surface = surfaces[sprite];
-		obj->box.x += (w-sp->GetWidth())/2;
+		if(obj->facing == GameObject::LEFT)
+			obj->box.x += w-sp->GetWidth();
+		else
+			obj->box.x = obj->box.x;
 		obj->box.y += h-sp->GetHeight();
 		obj->box.SetWH(GetSize());
 		sp->SetFrame(1);

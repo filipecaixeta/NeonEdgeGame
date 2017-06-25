@@ -62,5 +62,3 @@ void GallahadInputComponent::Hide()
 		g->Hide();
 	}
 }
-
-

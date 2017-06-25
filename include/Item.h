@@ -12,8 +12,7 @@ class Player;
 class Item: public GameObject
 {
 public:
-	Item(int id, int x, int y);
-	Item(const Item& obj);
+	Item(int id_, int x, int y);
 	void Eval(Player *player);
 	void SetActive(bool b);
 	bool GetActive();
@@ -29,6 +28,7 @@ public:
 	Sprite* sp;
 	bool dead;
 	std::string name;
+	int id;
 
 };
 #endif // ITEM_H

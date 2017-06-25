@@ -30,7 +30,7 @@ void LancelotInputComponent::Update(Player* obj_, float dt_)
 	else
 		Crouch(false);
 
-	if(input.IsKeyDown(ATTACK_KEY,  true))
+	if(input.KeyPress(ATTACK_KEY,  true))
 	{
 		Attack();
 		Lancelot *l = (Lancelot*)obj;

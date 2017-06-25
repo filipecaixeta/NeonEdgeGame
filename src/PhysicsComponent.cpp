@@ -72,7 +72,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 				Rect tile = world->GetTileBox(x,y);
 				if(face == GameObject::LEFT)
 				{
-					if(box.x <= tile.x+tile.w && box.x+box.w >= tile.x+tile.w)
+					if(box.x < tile.x+tile.w && box.x+box.w > tile.x+tile.w)
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
@@ -82,7 +82,7 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 				}
 				else if(face == GameObject::RIGHT)
 				{
-					if(box.x+box.w >= tile.x && box.x <= tile.x)
+					if(box.x+box.w > tile.x && box.x < tile.x)
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
@@ -177,4 +177,8 @@ int PhysicsComponent::TileCollision(const GameObject* obj, Vec2 pos, TileMap* wo
 	}
 
 	return -1;
+}
+
+void PhysicsComponent::SetKinetic(bool kinetic){
+	PhysicsComponent::kinetic = kinetic;
 }

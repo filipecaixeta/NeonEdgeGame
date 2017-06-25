@@ -7,6 +7,7 @@ InputComponent::InputComponent()
 
 InputComponent::~InputComponent()
 {
+	
 }
 
 void InputComponent::Update(Player* obj_, float dt_)
@@ -79,6 +80,10 @@ void InputComponent::Jump()
 		obj->facing = GameObject::RIGHT;
 		obj->lastFooting = GameObject::RIGHT_WALLED;
 	}
+}
+
+void InputComponent::Active(){
+	
 }
 
 void InputComponent::Save(bool s)

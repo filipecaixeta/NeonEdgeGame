@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Gallahad.h"
 #include "Camera.h"
 #include "StageState.h"
@@ -15,6 +17,7 @@ Gallahad::Gallahad(int x, int y):
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
 	name = "Gallahad";
 	box.SetWH(graphicsComponent->GetSize());
+	std::cout << x << " " << y << "\n";
 }
 
 Gallahad::~Gallahad()
@@ -24,10 +27,11 @@ Gallahad::~Gallahad()
 
 void Gallahad::Attack()
 {
+	std::cout << box.x << " " << box.y << "\n";
 	//Starts attack timer
 	attackCD.Start();
 	//Generates attack object
-	StageState::AddObject(new Projectile("GallahadProjectile.png", 4, 80, this, Vec2(0.8, 0), 800, 1, true));
+	StageState::AddObject(new Projectile("GallahadProjectile.png", 4, 80, this, Vec2(0.8, 0), 800, 1, false));
 }
 
 void Gallahad::Hide()
@@ -59,6 +63,7 @@ bool Gallahad::Shooting()
 
 void Gallahad::UpdateTimers(float dt)
 {
+	std::cout << box.x << " " << box.y << "\n";
 	Player::UpdateTimers(dt);
 	hiding.Update(dt);
 }

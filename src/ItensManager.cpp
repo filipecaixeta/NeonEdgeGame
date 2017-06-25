@@ -2,50 +2,6 @@
 
 ItensManager::ItensManager()
 {
-	std::string imageName = "items.png";
-	int frameCount = 12;
-	itens.emplace("Picareta",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Picareta"),
-					  std::string("Item legal 1")});
-	itens["Picareta"].sp->SetFrame(1);
-	itens.emplace("Arco",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Arco"),
-					  std::string("Item legal 2")});
-	itens["Arco"].sp->SetFrame(2);
-	itens.emplace("Vara de Pescar",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Vara de Pescar"),
-					  std::string("Item legal 3")});
-	itens["Vara de Pescar"].sp->SetFrame(3);
-	itens.emplace("Frango",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Frango"),
-					  std::string("Item legal 4")});
-	itens["Frango"].sp->SetFrame(4);
-	itens.emplace("Couro",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Couro"),
-					  std::string("Item legal 5")});
-	itens["Couro"].sp->SetFrame(5);
-	itens.emplace("Carne",itemType{
-					  new Sprite(imageName,frameCount),
-					  true,
-					  1,
-					  std::string("Carne"),
-					  std::string("Item legal 6")});
-	itens["Carne"].sp->SetFrame(6);
 }
 
 std::vector<ItensManager::itemType> ItensManager::GetActiveItems()
@@ -72,6 +28,50 @@ std::vector<ItensManager::itemType> ItensManager::GetItems()
 ItensManager::itemType ItensManager::GetItem(std::string name)
 {
 	return itens[name];
+}
+
+void ItensManager::AddItem(int id)
+{
+	std::string imageName = "items.png";
+	int frameCount = 12;
+	std::string name = "";
+	std::string desc = "";
+	switch (id)
+	{
+		case 1:
+			name = "Picareta";
+			desc = "Picareta Legal";
+			break;
+		case 2:
+			name = "Arco";
+			desc = "Arco legal";
+			break;
+		case 3:
+			name = "Vara de pesca";
+			desc = "Vara de pesca legal";
+			break;
+		case 4:
+			name = "Coro";
+			desc = "Coro legal";
+			break;
+		default:
+			break;
+	}
+	if (name!="")
+	{
+		if (!itens.count(name))
+		{
+			itens.emplace(name,itemType{
+							  new Sprite(imageName,frameCount),
+							  true,
+							  1,
+							  name,
+							  desc});
+			itens[name].sp->SetFrame(id);
+		}
+		else
+			itens[name].count++;
+	}
 }
 
 bool ItensManager::IsActive(std::string name)

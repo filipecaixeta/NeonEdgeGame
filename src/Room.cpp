@@ -69,6 +69,11 @@ void Room::RemovePlayer()
 	}	
 }
 
+GameObject* Room::GetFirst()
+{
+	return objectArray[0];
+}
+
 Vec2 Room::GetPos()
 {
 	return position;
@@ -149,11 +154,16 @@ void Room::CreateObjects(){
 	{
 		if(objectData.at(i).id == 0)
 		{
-			//cria Lancelot
+			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			RemoveObject(objectArray[0]);
+			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		if(objectData.at(i).id == 1)
 		{
-			//cria Galahad
+			AddObjectAsFirst(new Gallahad(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		if(objectData.at(i).id == 2)
 		{
@@ -188,6 +198,11 @@ void Room::CreateObjects(){
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png"));*/
         }
+        if(objectData.at(i).id == 41)
+        {
+        	AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
 		if(objectData.at(i).id > 100) // Item
 		{
 			AddObject(new Item(objectData[i].id,objectData[i].x,objectData[i].y));
@@ -196,51 +211,43 @@ void Room::CreateObjects(){
 }
 
 void Room::LoadObjects(std::string file){
-	int repeat = 0;
-	ObjectData data;
 	std::ifstream f;
-	std::string num;
-
 	f.open(file.c_str(), std::ios::in);
-	if(f.is_open())
+
+	if(!f.is_open())
 	{
-		while(getline(f, num, ','))
-		{
-			if(repeat == 0)
-			{
-				data.id = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 1)
-			{
-				data.x = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 2)
-			{
-				data.y = atoi(num.c_str());
-				repeat++;
-			}
-			else if(repeat == 3)
-			{
-				int n = atoi(num.c_str());
-				for(int i = 0; i<n; i++)
-				{
-					data.v.push_back(std::vector<int>());
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-					getline(f, num, ',');
-					data.v[i].push_back(atoi(num.c_str()));
-				}
-				objectData.push_back(data);
-				repeat = 0;
-			}
-		}
+		std::cerr<< "f.open: unable to open file: " << file.c_str();
+		return;
 	}
-	else
+	for (std::string line; std::getline(f, line); )
 	{
-		std::cout<< "f.open: unable to open file: " << file.c_str();
+		char delimiter;
+		int n;
+		ObjectData data;
+		std::stringstream ss(line);
+		ss >> data.id;
+		ss >> delimiter;
+		ss >> data.x;
+		ss >> delimiter;
+		ss >> data.y;
+		ss >> delimiter;
+		ss >> n;
+		ss >> delimiter;
+
+		for(int i = 0; i<n; i++)
+		{
+			int temp;
+			data.v.push_back(std::vector<int>());
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+			ss >> temp;
+			ss >> delimiter;
+			data.v[i].push_back(temp);
+		}
+		objectData.push_back(data);
 	}
 }

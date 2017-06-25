@@ -1,11 +1,13 @@
 #include "Item.h"
 #include "Camera.h"
+#include "StageState.h"
 
-Item::Item(int id, int x, int y):
+Item::Item(int id_, int x, int y):
 	sp(new Sprite("items.png",12)),
-	dead(false)
+	dead(false),
+	id(id_-100)
 {
-	sp->SetFrame(id-100);
+	sp->SetFrame(id);
 	box.SetXY(Vec2(x,y));
 	box.SetWH(sp->GetSize());
 	name = "Item";
@@ -13,20 +15,12 @@ Item::Item(int id, int x, int y):
 
 void Item::Eval(Player* player)
 {
-//	player->itemManager->AddItem(*this);
-	std::cerr << "Eval Item" <<std::endl;
+	player->itemManager->AddItem(id);
 }
 
 void Item::SetActive(bool b)
 {
 
-}
-
-Item::Item(const Item &obj)
-{
-	sp = new Sprite();
-	dead = obj.dead;
-	name = obj.name;
 }
 
 bool Item::GetActive()
@@ -46,7 +40,8 @@ bool Item::IsDead()
 
 void Item::NotifyObjectCollision(GameObject* other)
 {
-	dead = true;
+	if (other->Is("Player"))
+		dead = true;
 }
 
 void Item::Update(TileMap* map, float dt)

@@ -42,42 +42,6 @@ void TileMap::Load(std::string file)
 	else{
 		std::cout<< "f.open: unable to open file: " << file.c_str();
 	}
-
-	/*std::FILE* fileReader = fopen(file.c_str(), "r");
-	if(fileReader != NULL)
-	{
-		char n [2];
-		fgets(n, 3, fileReader);
-		mapWidth = atoi(n);
-		fgets(n, 2, fileReader);
-		fgets(n, 3, fileReader);
-		mapHeight = atoi(n);
-		fgets(n, 2, fileReader);
-		fgets(n, 3, fileReader);
-		mapDepth = atoi(n);
-		fgets(n, 2, fileReader);
-		for(int k = 0; k < mapDepth; k++)
-		{
-			tileMatrix.emplace_back(std::vector<std::vector<int>>());
-			for(int j = 0; j < mapHeight; j++)
-			{
-				tileMatrix[k].emplace_back(std::vector<int>());
-				for(int i = 0; i < mapWidth; i++)
-				{
-					fgets(n, 2, fileReader);
-					fgets(n, 3, fileReader);
-					tileMatrix[k][j].emplace_back(atoi(n)-1);
-				}
-				fgets(n, 2, fileReader);
-			}
-			fgets(n, 3, fileReader);
-		}
-	}
-	else
-	{
-		std::cerr << "Unable to read" << file.c_str() << std::endl;
-	}
-	fclose(fileReader);*/
 }
 
 void TileMap::SetTileSet(TileSet* tileSet)
@@ -103,8 +67,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	int tileHeight = tileSet->GetTileHeight();
 	for(j = mapHeight-1; j >= 0; j--){
 		for(i = mapWidth-1; i >= 0; i--){
-			tileSet->Render(At(i, j, layer), i*tileWidth + position.x * mapWidth * tileWidth - cameraX,
-							j*tileHeight + position.y * mapHeight * tileHeight- cameraY);
+			tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
+							j*tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
 		}
 	}
 
@@ -149,8 +113,8 @@ int TileMap::GetTileHeight()
 
 Rect TileMap::GetTileBox(int x, int y)
 {
-	return Rect((x*GetTileWidth())+(mapWidth*GetTileWidth()*position.x),
-				(y*GetTileHeight())+(mapHeight*GetTileHeight()*position.y),
+	return Rect((x*GetTileWidth())/*+(mapWidth*GetTileWidth()*position.x)*/,
+				(y*GetTileHeight())/*+(mapHeight*GetTileHeight()*position.y)*/,
 				GetTileWidth(),GetTileHeight());
 }
 

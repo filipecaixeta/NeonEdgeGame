@@ -8,7 +8,7 @@ class DroneInputComponent: public InputComponent
 public:
 	DroneInputComponent();
 	void Update(Player* obj_, float dt_);
-	void Block();
+	void Active();
 };
 
-#endif // DroneINPUTCOMPONENT_H
+#endif //DroneINPUTCOMPONENT_H
