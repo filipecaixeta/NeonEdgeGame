@@ -9,6 +9,7 @@
 #include "Projectile.h"
 #include "Room.h"
 
+
 typedef struct Node node;
 
 struct Node{
@@ -99,7 +100,7 @@ void Notfredo::UpdateTimers(float dt)
 	}
 }
 
-node* Notfredo::New(int x,int y,int z,float physical_distance)
+/*node* Notfredo::New(int x,int y,int z,float physical_distance)
 {
     node* aux = new node;
     aux->x = x;
@@ -121,12 +122,19 @@ node* Notfredo::Pop(node* stack)
 
     stack = stack->next;
 
+    aux->next = nullptr;
+
     return aux;
 }
 
 void Notfredo::Push(int x,int y,int z,node* stack,float physical_distance)
 {
     node* aux = stack;
+
+    if(stack == nullptr){
+        stack = New(x,y,z,physical_distance);
+        return;
+    }
 
     while(aux->next != nullptr){
         aux = aux->next;
@@ -186,11 +194,10 @@ void Notfredo::QuickSort(node* tileStack, int start, int end)
 }
 
 
-node* Notfredo::Find(node* tileStack,int x,int y)
+node* Notfredo::Find(std::stack<node> tileStack,int x,int y)
 {
-    node* aux = tileStack;
-    while(aux->x != x || aux->y != y) aux = aux->next;
-    return aux;
+    node* aux = ;
+
 }
 
 
@@ -203,10 +210,11 @@ node* Notfredo::PathFind()
 
     int x,y,pathStackSize = 1;
 
-    node tileStack,startTile,endTile;
-    node* aux;
-    node* currentNode;
-    node* pathStack;
+    node startTile,endTile;
+    std::stack<node> tileStack;
+    node* aux = nullptr;
+    node* currentNode = nullptr;
+    node* pathStack = nullptr;
 
     //for all tiles in current tilemap
         //push new node with tile coordinates,
@@ -218,7 +226,8 @@ node* Notfredo::PathFind()
     {
         for(y = 0;y < mapHeight; y++)
         {
-            Push(x,y,0,&tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
+            tileStack.push(*New(x,y,0,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter())));
+            //Push(x,y,0,tileStack,StageState::GetCurrentRoom()->GetMap()->GetTileBox(x,y).GetCenter().distance(StageState::GetPlayer()->box.GetCenter()));
         }
     }
 
@@ -237,7 +246,7 @@ node* Notfredo::PathFind()
     }
 
 
-    currentNode = Find(&tileStack,startTile.x,startTile.y);
+    currentNode = Find(tileStack,startTile.x,startTile.y);
     currentNode->combined_distance = currentNode->physical_distance+currentNode->graph_distance;
     Push(currentNode->x,currentNode->y,currentNode->z,pathStack,currentNode->physical_distance);
 
@@ -322,7 +331,7 @@ node* Notfredo::PathFind()
     //return sequence of tiles to target
 
 }
-
+*/
 void Notfredo::UpdateAI(float dt)
 {
     if(type == GROUND)
@@ -395,9 +404,9 @@ void Notfredo::UpdateAI(float dt)
     }
     if(type == FLYING)
     {
-        node* aux = PathFind();
+        /*node* aux = PathFind();
         box.x = aux->x;
-        box.y = aux->y;
+        box.y = aux->y;*/
     }
 }
 

@@ -9,6 +9,7 @@
 #include "StageState.h"
 #include "ColisionFunctions.h"
 #include "Item.h"
+#include "CeilingEnemy.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position)
 {
@@ -179,6 +180,11 @@ void Room::CreateObjects(){
         {
             AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),FLYING));
+        }
+        if(objectData.at(i).id == 14)
+        {
+            AddObject(new CeilingEnemy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+                                       objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
         if(objectData.at(i).id == 20)
         {
