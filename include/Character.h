@@ -20,7 +20,6 @@ public:
 	virtual void Attack();
 	virtual bool Attacking();
 	virtual bool Cooling();
-	virtual void CurrentTile(int* x, int* y, int* z);
 	virtual bool GetColisionData(SDL_Surface** surface_, SDL_Rect& clipRect_, Vec2& pos_, bool& mirror);
 	virtual void NotifyTileCollision(int tile, Face face);
 	virtual void NotifyObjectCollision(GameObject* other);

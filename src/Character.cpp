@@ -62,12 +62,6 @@ bool Character::Cooling()
 	return attackCD.IsRunning();
 }
 
-void Character::CurrentTile(int *x, int *y, int *z)
-{
-   *y = this->box.y / StageState::GetCurrentRoom()->GetMap()->GetTileHeight();
-   *x = this->box.x / StageState::GetCurrentRoom()->GetMap()->GetTileWidth();
-   *z = 0;
-}
 
 bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
 {
