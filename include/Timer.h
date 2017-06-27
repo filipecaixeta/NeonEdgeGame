@@ -18,6 +18,7 @@ public:
 	void SetLimit(float l);
 	bool IsRunning();
 	float GetElapsed();
+	float GetTime();
 };
 
 #endif /* TIMER_H_ */

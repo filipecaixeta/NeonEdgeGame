@@ -58,3 +58,7 @@ float Timer::GetElapsed()
 {
     return std::min(1.0f,time/limit);
 }
+
+float Timer::GetTime(){
+    return time;
+}
