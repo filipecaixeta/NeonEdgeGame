@@ -1,15 +1,19 @@
+#include <iostream>
+
 #include "CeilingEnemy.h"
 #include "StageState.h"
 #include "GraphicsComponent.h"
 
 CeilingEnemy::CeilingEnemy(int x,int y):
     Character(x,y),
-    timer()
+    timer(4000)
 {
     graphicsComponent = new CeilingEnemyGraphicsComponent("DroneInimigoSprite");
     name = "SpiderMan";
     box.SetWH(graphicsComponent->GetSize());
     physicsComponent.SetKinetic(true);
+    state = WAITING;
+    physicsComponent.velocity.y = 0;
 
 }
 
@@ -31,28 +35,37 @@ void CeilingEnemy::Update(TileMap* world, float dt)
 
 void CeilingEnemy::UpdateAI(float dt)
 {
-    if(state == WAITING && timer.GetElapsed() > 3000 && StageState::GetPlayer()->box.x == this->box.x)
+    if(state == WAITING && !timer.IsRunning() && StageState::GetPlayer()->box.GetCenter().x > this->box.x - 20 && StageState::GetPlayer()->box.GetCenter().x < this->box.x + 20 )
     {
+        //std::cout << "entrou aqui0";
         state = ATTACKING;
     }
     else if(state == ATTACKING && this->footing != GROUNDED)
     {
-        physicsComponent.velocity.y+=20;
+        //std::cout << "entrou aqui1";
+        physicsComponent.velocity.y+=0.006*dt;
+        clamp(physicsComponent.velocity.x,-0.2f,0.2f);
     }
     else if(state == ATTACKING && this->footing == GROUNDED)
     {
+        //std::cout << "entrou aqui2";
         state = REARMING;
-        physicsComponent.velocity.y-=10;
+        physicsComponent.velocity.y-=0.012*dt;
+        clamp(physicsComponent.velocity.x,-0.2f,0.2f);
         timer.Reset();
     }
-    else if(state == REARMING && timer.GetElapsed() <= 3000)
+    else if(state == REARMING && timer.GetTime() <= 3000 && timer.IsRunning())
     {
-        physicsComponent.velocity.y-=10;
+        //std::cout << "entrou aqui3";
+        physicsComponent.velocity.y-=0.012*dt;
+        clamp(physicsComponent.velocity.x,-0.2f,0.2f);
     }
-    else if(state == REARMING && timer.GetElapsed() > 3000)
+    else if(state == REARMING && (timer.GetTime() > 3000 || !timer.IsRunning()))
     {
+        //std::cout << "entrou aqui4";
         state = WAITING;
         timer.Reset();
+        physicsComponent.velocity.y = 0;
     }
 }
 
