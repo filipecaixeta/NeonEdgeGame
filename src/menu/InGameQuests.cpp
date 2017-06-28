@@ -22,16 +22,16 @@ void InGameQuests::LoadAssets()
 	qm.ReadQuestsFile();
 	questType& questsV = qm.GetQuests();
 
-	fontSize = 28;
+	fontSize = 24;
 
 	for (auto &q: questsV)
 	{
 		quests[q.first]=q.second;
-		SDL_Texture* text = Text::GetText(fontName,fontSize,fontColor,q.first);
+		SDL_Texture* text = Text::GetText(fontName,fontSize,fontColor,q.first,320);
 		menuOptions.push_back({q.first,new Sprite(text,1,0,true),true,0});
 	}
 
-	bg.Open("inGameMenu.png");
+	bg.Open("menus/MenuQuestGalahad.png");
 	bg.SetBlending(true);
 
 	SetOption(1);
@@ -45,26 +45,26 @@ void InGameQuests::Update()
 void InGameQuests::SetQuestText(std::string questName)
 {
 	SDL_Texture *text;
-	text = Text::GetText(fontName,fontSize*1.2,fontColor,questName,420);
+	text = Text::GetText(fontName,fontSize,fontColor,questName,320);
 	questTitle->SetTexture(text,true);
 	std::string& textStr = quests[questName];
-	text = Text::GetText(fontName,fontSize,fontColor,textStr,420);
+	text = Text::GetText(fontName,fontSize*0.8,fontColor,textStr,320);
 	questText->SetTexture(text,true);
 }
 
 void InGameQuests::Render()
 {
-	int offset = 70;
+	int offset = 50;
 	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
 	bg.Render(bgXY);
-	Vec2 pos(90,90);
+	Vec2 pos(17,50);
 	for(auto option: menuOptions)
 	{
 		option.sprite->Render(bgXY+pos);
 		pos.y += offset;
 	}
-	questTitle->Render(bgXY+Vec2(400,100));
-	questText->Render(bgXY+Vec2(400,150));
+	questTitle->Render(bgXY+Vec2(255,50));
+	questText->Render(bgXY+Vec2(255,100));
 }
 
 void InGameQuests::SetOption(int i)

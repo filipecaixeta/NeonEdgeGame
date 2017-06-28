@@ -10,6 +10,7 @@
 #include "TileSet.h"
 #include "TileMap.h"
 #include "GameObject.h"
+#include "SceneObjects.h"
 
 struct ObjectData
 {
@@ -46,6 +47,7 @@ private:
 	TileMap* map;
 	std::vector<ObjectData> objectData;
 	std::vector<GameObject*> objectArray;
+	SceneObjects sceneObjects;
 };
 
 #endif

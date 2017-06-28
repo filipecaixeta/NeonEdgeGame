@@ -11,7 +11,8 @@
 #include "Item.h"
 #include "CeilingEnemy.h"
 
-Room::Room(TileSet* tileSet, int index, Vec2 position)
+Room::Room(TileSet* tileSet, int index, Vec2 position):
+	sceneObjects("resources/map/objs/sceneObjects.txt")
 {
 	std::stringstream ss;
 	Room::index = index;
@@ -136,6 +137,7 @@ void Room::ObjectCleanup()
 void Room::Update(float dt)
 {
 	ObjectUpdate(dt);
+	sceneObjects.Update();
 	ObjectCollision();
 	ObjectCleanup();
 }
@@ -143,6 +145,7 @@ void Room::Update(float dt)
 void Room::Render()
 {
 	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
+	sceneObjects.Render();
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		objectArray[i]->Render();
@@ -161,60 +164,60 @@ void Room::CreateObjects(){
 			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
-		if(objectData.at(i).id == 1)
+		else if(objectData.at(i).id == 1)
 		{
 			AddObjectAsFirst(new Gallahad(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
-		if(objectData.at(i).id == 2)
+		else if(objectData.at(i).id == 2)
 		{
 			AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
 		}
-		if(objectData.at(i).id == 10)
+		else if(objectData.at(i).id == 10)
 		{
 			AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                     objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),GROUND));
 		}
-        if(objectData.at(i).id == 12)
+		else if(objectData.at(i).id == 12)
         {
             AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),FLYING));
         }
-        if(objectData.at(i).id == 14)
+		else if(objectData.at(i).id == 14)
         {
             AddObject(new CeilingEnemy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                        objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-        if(objectData.at(i).id == 20)
+		else if(objectData.at(i).id == 20)
         {
         	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-        if(objectData.at(i).id == 21)
+		else if(objectData.at(i).id == 21)
         {
         	AddObject(new Lever(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png", objectData.at(i).v));
         }
-        if(objectData.at(i).id == 22)
+		else if(objectData.at(i).id == 22)
         {
         	AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));
         }
-        if(objectData.at(i).id == 23)
+		else if(objectData.at(i).id == 23)
         {
         	/*AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png"));*/
         }
-        if(objectData.at(i).id == 41)
+		else if(objectData.at(i).id == 41)
         {
         	AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-		if(objectData.at(i).id > 100) // Item
+		else if(objectData.at(i).id > 100) // Item
 		{
 			AddObject(new Item(objectData[i].id,objectData[i].x,objectData[i].y));
 		}
