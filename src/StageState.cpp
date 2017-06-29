@@ -42,6 +42,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	currentRoomX = 0;
 	currentRoomY = 0;
 
+	AddObject(new Box(2000, 1000, "window.png"));
+
 	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
 										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
 
@@ -54,7 +56,7 @@ StageState::~StageState()
 	delete currentRoom;
 	//currentRoom = nullptr;
 	//delete[] roomArray;
-//	delete tileSet;
+	//delete tileSet;
 	music.Stop();
 	windowArray.clear();
 }

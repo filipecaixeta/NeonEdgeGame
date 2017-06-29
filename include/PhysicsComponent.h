@@ -16,6 +16,7 @@ public:
 	void Update(GameObject* obj, TileMap *world, float dt);
 	int TileCollision(GameObject* obj, TileMap* world, GameObject::Face face);
 	int TileCollision(const GameObject* obj, Vec2 pos, TileMap* world, GameObject::Face face);
+	void TileFix(GameObject* obj, TileMap* world, GameObject::Face face);
 	void SetKinetic(bool kinetic);
 };
 

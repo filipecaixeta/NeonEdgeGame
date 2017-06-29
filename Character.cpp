@@ -86,40 +86,27 @@ void Character::NotifyObjectCollision(GameObject* other)
 	{
 		if(facing == RIGHT)
 		{
-			SetPosition(Vec2(other->box.x-box.w-1,box.y));
+			SetPosition(Vec2(GetPosition().x-2,GetPosition().y));
 		}
 		else
 		{
-			SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
+			SetPosition(Vec2(GetPosition().x+2,GetPosition().y));
 		}
 	}
 	if(other->Is("Box"))
 	{
-		if(physicsComponent.velocity.x < 0 && footing == GROUNDED)
+		if((facing == RIGHT) && (footing == GROUNDED))
 		{
-			if(box.x < other->box.x+other->box.w && box.x+box.w > other->box.x+other->box.w)
-			{
-				SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
-			}
+			SetPosition(Vec2(GetPosition().x-2,GetPosition().y));
 		}
-		else if(physicsComponent.velocity.x > 0 && footing == GROUNDED)
+		else if ((facing == LEFT) && (footing == GROUNDED))
 		{
-			if(box.x+box.w > other->box.x && box.x < other->box.x)
-			{
-				SetPosition(Vec2(other->box.x-box.w-1,box.y));
-			}
+			SetPosition(Vec2(GetPosition().x+2,GetPosition().y));
 		}
-		else if(footing != GROUNDED)
+		else
 		{
-			if(box.y+box.h > other->box.y && box.y < other->box.y)
-			{
-				SetPosition(Vec2(box.x,other->box.y-box.h-1));
-				if(lastFooting != GROUNDED)
-					lastFooting = footing;
-				footing = GROUNDED;
-			}
+			SetPosition(Vec2(GetPosition().x,GetPosition().y-2));
 		}
-		graphicsComponent->Update(this,0);
 	}
 }
 

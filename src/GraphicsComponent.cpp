@@ -1,5 +1,6 @@
 #include "GraphicsComponent.h"
 #include "Rect.h"
+#include "StageState.h"
 
 GraphicsComponent::GraphicsComponent(std::string baseName_):
 	sp(new Sprite()),
@@ -54,14 +55,15 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
 		surface = surfaces[sprite];
-		if(obj->facing == GameObject::LEFT)
-			obj->box.x += w-sp->GetWidth();
-		else
-			obj->box.x = obj->box.x;
+		obj->box.x += (w-obj->box.w)/2;
 		obj->box.y += h-sp->GetHeight();
 		obj->box.SetWH(GetSize());
 		sp->SetFrame(1);
 	}
+
+	Character* c = (Character*) obj;
+	c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::LEFT);	
+	c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::RIGHT);
 }
 
 void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount, int frameTime, bool loops)

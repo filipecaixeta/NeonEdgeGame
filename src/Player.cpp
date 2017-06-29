@@ -39,6 +39,7 @@ bool Player::Crouching()
 
 void Player::NotifyObjectCollision(GameObject* other)
 {
+	Character::NotifyObjectCollision(other);
 	if(other->Is("Notfredo"))
 	{
 		Character* c = (Character*) other;
