@@ -42,7 +42,6 @@ void SceneObjects::LoadObjects(std::string file)
 		char name[40];
 		SDL_Rect pos;
 		std::sscanf(line.c_str(),"%s %d,%d",name,&pos.x,&pos.y);
-		std::cerr << line << std::endl;
 		if (objs.count(name)==0)
 		{
 			Obj obj;
