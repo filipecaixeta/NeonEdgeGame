@@ -168,6 +168,8 @@ void Room::CreateObjects(){
 		{
 			AddObjectAsFirst(new Gallahad(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		else if(objectData.at(i).id == 2)
 		{

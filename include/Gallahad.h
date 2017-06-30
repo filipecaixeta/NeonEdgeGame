@@ -1,6 +1,7 @@
 #ifndef GALLAHAD_H_
 #define GALLAHAD_H_
 
+#include "Drone.h"
 #include "Player.h"
 #include "Timer.h"
 #include "TileMap.h"
