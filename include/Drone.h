@@ -18,9 +18,11 @@ public:
 	void SetActive(bool active);
 	bool GetActive();
 	bool Is(std::string type);
+	bool IsDead();
 
 private:
 	bool active;
+	bool dead;
 };
 
 #endif /* DRONE_H_ */

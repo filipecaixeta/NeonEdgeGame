@@ -8,14 +8,15 @@
 #include "Projectile.h"
 
 Drone::Drone(int x, int y):
-	Player(x,y)
+	Player(x,y),
+	active(false),
+	dead(false)
 {
 	inputComponent = new DroneInputComponent();
 	graphicsComponent = new DroneGraphicsComponent("Drone");
 	physicsComponent.SetKinetic(true);
 	name = "Drone";
 	box.SetWH(graphicsComponent->GetSize());
-	active = false;
 }
 
 Drone::~Drone()
@@ -30,6 +31,12 @@ void Drone::UpdateTimers(float dt)
 
 void Drone::Update(TileMap* map, float dt){
 	UpdateTimers(dt);
+
+	if (StageState::GetPlayer()==nullptr)
+	{
+		dead=true;
+		return;
+	}
 	inputComponent->Update(this,dt);
 	if(active == true)
 		physicsComponent.Update(this,map,dt);
@@ -41,6 +48,11 @@ void Drone::Update(TileMap* map, float dt){
 		SetPosition(Vec2(269,544));
 	graphicsComponent->Update(this,dt);
 
+}
+
+bool Drone::IsDead()
+{
+	return dead;
 }
 
 void Drone::SetActive(bool active){
