@@ -17,6 +17,7 @@ public:
 	void Update(TileMap* map, float dt);
 	void SetActive(bool active);
 	bool GetActive();
+	bool Is(std::string type);
 
 private:
 	bool active;

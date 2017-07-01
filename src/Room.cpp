@@ -10,6 +10,7 @@
 #include "ColisionFunctions.h"
 #include "Item.h"
 #include "CeilingEnemy.h"
+#include "NotFredoStationary.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position):
 	sceneObjects("resources/map/objs/sceneObjects.txt")
@@ -190,6 +191,11 @@ void Room::CreateObjects(){
         {
             AddObject(new CeilingEnemy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                        objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
+		else if(objectData.at(i).id == 15)
+        {
+            AddObject(new NotFredoStationary(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+                                   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 		else if(objectData.at(i).id == 20)
         {

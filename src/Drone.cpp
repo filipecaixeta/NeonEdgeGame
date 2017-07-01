@@ -50,3 +50,8 @@ void Drone::SetActive(bool active){
 bool Drone::GetActive(){
 	return active;
 }
+
+bool Drone::Is(std::string type)
+{
+	return type=="Drone";
+}
