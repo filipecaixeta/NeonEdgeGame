@@ -14,7 +14,7 @@
 Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
-StageState::StageState(std::string mode_, int sizeX, int sizeY):
+StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string background):
 	State(),
 	mode(mode_),
 	tileSet(nullptr),
@@ -42,6 +42,10 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	currentRoomX = 0;
 	currentRoomY = 0;
 
+	bg = new Sprite(background);
+	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
+	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
+
 	AddObject(new Box(2000, 1000, "window.png"));
 
 	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
@@ -54,6 +58,7 @@ StageState::~StageState()
 {
 	player = nullptr;
 	delete currentRoom;
+	delete bg;
 	//currentRoom = nullptr;
 	//delete[] roomArray;
 	//delete tileSet;
@@ -121,12 +126,12 @@ void StageState::Resume()
 void StageState::LoadAssets()
 {
 	music.Open("stageState.ogg");
-	bg.Open("LancelotIdle.png");
+	/*bg.Open("LancelotIdle.png");
 	bg.Open("LancelotRunning.png");
 	bg.Open("Melee.png");
 	bg.Open("NotfredoRunning.png");
 	bg.Open("NotfredoIdle.png");
-	bg.Open("Tileset3D.png");
+	bg.Open("Tileset3D.png");*/
 	music.Play(-1);
 }
 
@@ -219,6 +224,7 @@ void StageState::Render()
 					roomInfo[i][j]->Render();
 		}
 	}*/
+	bg->Render(0, 0);
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
