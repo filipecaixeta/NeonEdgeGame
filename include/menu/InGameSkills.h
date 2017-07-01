@@ -10,6 +10,7 @@ public:
 	void LoadAssets();
 	void Update();
 	void Render();
+	~InGameSkills();
 };
 
 #endif // INGAMESKILLS_H
