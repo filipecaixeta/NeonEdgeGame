@@ -45,6 +45,7 @@ private:
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
+	Sprite* bg;
 
 	void HandleInput();
 	//void UpdateRoom();
@@ -52,7 +53,7 @@ private:
 	void CleanUpdateBars();
 
 public:
-	StageState(std::string mode_, int sizeX = 10, int sizeY = 10);
+	StageState(std::string mode_, int sizeX = 10, int sizeY = 10, std::string background = "background.png");
 	~StageState();
 
 	static GameObject* GetPlayer();
