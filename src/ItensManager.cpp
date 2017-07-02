@@ -1,4 +1,5 @@
 #include "ItensManager.h"
+#include "InputManager.h"
 
 ItensManager::ItensManager()
 {
@@ -39,8 +40,8 @@ void ItensManager::AddItem(int id)
 	switch (id)
 	{
 		case 1:
-			name = "Picareta";
-			desc = "Picareta Legal";
+			name = "Healing Potion";
+			desc = "Provides health regeneration";
 			break;
 		case 2:
 			name = "Arco";
@@ -92,4 +93,36 @@ bool ItensManager::IsHot(std::string name)
 void ItensManager::SetActive(std::string name, bool active)
 {
 	itens[name].active = active;
+}
+
+void ItensManager::ConsumeItem(int hotItensPos)
+{
+	if (itens.count(hotItens[hotItensPos])>0)
+	{
+		itens[hotItens[hotItensPos]].count--;
+		if (itens[hotItens[hotItensPos]].count<=0)
+		{
+			delete itens[hotItens[hotItensPos]].sp;
+			itens.erase(hotItens[hotItensPos]);
+			hotItens[hotItensPos]="";
+		}
+	}
+}
+
+void ItensManager::Render()
+{
+	//50,641
+	int positionX[3] = {50,50+92,50+92*2};
+	for (int i=0; i<HOT_BAR_SIZE; i++)
+	{
+		if (itens.count(hotItens[i]))
+		{
+			itens[hotItens[i]].sp->Render(Vec2(positionX[i],641));
+		}
+	}
+}
+
+void ItensManager::Update()
+{
+
 }

@@ -228,8 +228,9 @@ void StageState::Render()
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
-	healthBar->Render(10,10);
-	energyBar->Render(10,10);
+	healthBar->Render(51,44);
+	energyBar->Render(51,44);
+	itensManager->Render();
 
 	if (inGameMenu!=nullptr)
 		inGameMenu->Render();

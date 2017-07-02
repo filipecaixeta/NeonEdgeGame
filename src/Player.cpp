@@ -37,6 +37,15 @@ bool Player::Crouching()
 	return crouching;
 }
 
+void Player::EvalItem(std::string itemName)
+{
+	if (itemName=="Healing Potion")
+	{
+		hitpoints += 5;
+		clamp(hitpoints,0,10);
+	}
+}
+
 void Player::NotifyObjectCollision(GameObject* other)
 {
 	Character::NotifyObjectCollision(other);

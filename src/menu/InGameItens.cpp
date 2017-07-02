@@ -97,6 +97,7 @@ void InGameItens::Update()
 					hotBarOptions[i].sprite = new Sprite();
 					hotBarOptions[i].selectable = false;
 					hotBarOptions[i].key = "";
+					itensManager->hotItens[i] = "";
 				}
 			}
 		}

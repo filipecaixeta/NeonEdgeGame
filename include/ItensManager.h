@@ -28,6 +28,9 @@ public:
 	bool IsActive(std::string name);
 	bool IsHot(std::string name);
 	void SetActive(std::string name, bool active);
+	void ConsumeItem(int hotItensPos);
+	void Render();
+	void Update();
 	std::string hotItens[HOT_BAR_SIZE];
 private:
 	std::unordered_map<std::string,itemType> itens;

@@ -29,6 +29,8 @@ void DroneInputComponent::Update(Player* obj_, float dt_)
 		StayStill();
 		obj->physicsComponent.velocity.y = 0;
 	}
+
+	ProcessItems();
 }
 
 void DroneInputComponent::Active(){
