@@ -28,7 +28,6 @@ class ItensManager;
 class StageState : public State
 {
 private:
-	static Player* player;
 	static Room* currentRoom;
 
 	std::string mode;
@@ -78,7 +77,7 @@ public:
 	//void MassLoad(int sizeX, int sizeY);
 
 	State* inGameMenu;
-	ItensManager* itensManager;
+	static Player* player;
 };
 
 #endif /* STAGESTATE_H_ */

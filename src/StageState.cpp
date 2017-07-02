@@ -23,8 +23,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	//roomArray(nullptr),
 	healthBar(nullptr),
 	energyBar(nullptr),
-	inGameMenu(nullptr),
-	itensManager(new ItensManager())
+	inGameMenu(nullptr)
 {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
@@ -37,7 +36,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	else if(mode == "Gallahad")
 		player = new Gallahad(269, 544);*/
 	player = (Player*) currentRoom->GetFirst();
-	player->itemManager = itensManager;
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
@@ -224,7 +222,8 @@ void StageState::Render()
 		windowArray.at(i)->Render();
 	healthBar->Render(51,44);
 	energyBar->Render(51,44);
-	itensManager->Render();
+	if (player->itemManager!=nullptr)
+		player->itemManager->Render();
 
 	if (inGameMenu!=nullptr)
 		inGameMenu->Render();

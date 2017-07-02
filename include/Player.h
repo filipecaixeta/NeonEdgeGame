@@ -13,7 +13,7 @@ class ItensManager;
 class Player : public Character
 {
 public:
-	Player(int x, int y);
+	Player(ItensManager* itemManager,int x, int y);
 	virtual ~Player();
 	virtual int GetEnergy();
 	virtual void Crouch();

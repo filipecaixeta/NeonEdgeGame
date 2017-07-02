@@ -42,7 +42,7 @@ void inGamePause::Update()
 		}
 		else if (SelectedOptionIs("Inventory"))
 		{
-			stageState->inGameMenu = new InGameItens(stageState->itensManager);
+			stageState->inGameMenu = new InGameItens(stageState->player->itemManager);
 			stageState->inGameMenu->LoadAssets();
 		}
 		else if (SelectedOptionIs("Quests"))

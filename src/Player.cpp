@@ -1,12 +1,12 @@
 #include "Player.h"
 #include "Projectile.h"
 
-Player::Player(int x, int y):
+Player::Player(ItensManager* itemManager, int x, int y):
 	Character(x,y),
 	inputComponent(nullptr),
 	energy(5),
 	regenCD(500),
-	itemManager(),
+	itemManager(itemManager),
 	crouching(false)
 {
 

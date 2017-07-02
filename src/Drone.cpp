@@ -7,8 +7,8 @@
 #include "Melee.h"
 #include "Projectile.h"
 
-Drone::Drone(int x, int y):
-	Player(x,y),
+Drone::Drone(ItensManager* itemManager, int x, int y):
+	Player(itemManager,x,y),
 	active(false),
 	dead(false)
 {

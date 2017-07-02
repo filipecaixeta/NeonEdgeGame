@@ -159,17 +159,19 @@ void Room::CreateObjects(){
 	{
 		if(objectData.at(i).id == 0)
 		{
-			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+			ItensManager* itensManager = new ItensManager();
+			AddObjectAsFirst(new Lancelot(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 			RemoveObject(objectArray[0]);
-			AddObjectAsFirst(new Lancelot(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+			AddObjectAsFirst(new Lancelot(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		else if(objectData.at(i).id == 1)
 		{
-			AddObjectAsFirst(new Gallahad(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+			ItensManager* itensManager = new ItensManager();
+			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
-			AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		else if(objectData.at(i).id == 2)
@@ -222,7 +224,8 @@ void Room::CreateObjects(){
         }
 		else if(objectData.at(i).id == 41)
         {
-        	AddObject(new Drone(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+			ItensManager* itensManager = new ItensManager();
+			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 		else if(objectData.at(i).id > 100) // Item

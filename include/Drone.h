@@ -11,7 +11,7 @@
 class Drone : public Player
 {
 public:
-	Drone(int x, int y);
+	Drone(ItensManager* itemManager, int x, int y);
 	~Drone();
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);

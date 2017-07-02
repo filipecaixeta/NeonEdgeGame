@@ -7,8 +7,8 @@
 #include "Melee.h"
 #include "Projectile.h"
 
-Lancelot::Lancelot(int x, int y):
-	Player(x,y),
+Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
+	Player(itemManager,x,y),
 	blocking(1000),
 	charges(0)
 {

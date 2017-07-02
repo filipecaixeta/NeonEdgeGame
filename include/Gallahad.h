@@ -11,7 +11,7 @@
 class Gallahad : public Player
 {
 public:
-	Gallahad(int x, int y);
+	Gallahad(ItensManager* itemManager, int x, int y);
 	~Gallahad();
 	void Attack();
 	void Hide();
