@@ -72,6 +72,25 @@ void ItensManager::AddItem(int id)
 		}
 		else
 			itens[name].count++;
+
+		bool exists = false;
+		for(int i=0; i<HOT_BAR_SIZE; i++)
+		{
+			if (hotItens[i]==name)
+			{
+				exists = true;
+				break;
+			}
+		}
+		if (exists==false)
+			for(int i=0; i<HOT_BAR_SIZE; i++)
+			{
+				if (hotItens[i]=="")
+				{
+					hotItens[i] = name;
+					break;
+				}
+			}
 	}
 }
 

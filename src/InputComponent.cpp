@@ -97,15 +97,15 @@ void InputComponent::ProcessItems()
 {
 	InputManager &input = InputManager::GetInstance();
 	int hotItemPos = -1;
-	if(input.IsKeyDown(HOT_KEY_1, true))
+	if(input.KeyPress(HOT_KEY_1, true))
 	{
 		hotItemPos = 0;
 	}
-	if(input.IsKeyDown(HOT_KEY_2, true))
+	if(input.KeyPress(HOT_KEY_2, true))
 	{
 		hotItemPos = 1;
 	}
-	if(input.IsKeyDown(HOT_KEY_3, true))
+	if(input.KeyPress(HOT_KEY_3, true))
 	{
 		hotItemPos = 2;
 	}

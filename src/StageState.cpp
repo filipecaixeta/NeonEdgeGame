@@ -149,12 +149,6 @@ void StageState::HandleInput()
 		else
 			Pause();
 	}
-
-	//Teste do sistema de janelas
-	if(InputManager::GetInstance().KeyPress(SDLK_j))
-	{
-		RemoveWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
-	}
 }
 
 /*void StageState::UpdateRoom()
