@@ -1,3 +1,3 @@
-Coluna_Objeto 2560,976a
-Object_Armory 2028,1056
+Coluna_Objeto 560,526
+Object_Armory 1120,530
 Object_Handscanner 800,650

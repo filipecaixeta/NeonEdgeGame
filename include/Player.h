@@ -13,12 +13,13 @@ class ItensManager;
 class Player : public Character
 {
 public:
-	Player(int x, int y);
+	Player(ItensManager* itemManager,int x, int y);
 	virtual ~Player();
 	virtual int GetEnergy();
 	virtual void Crouch();
 	virtual void Stand();
 	virtual bool Crouching();
+	virtual void EvalItem(std::string itemName);
 	virtual void NotifyObjectCollision(GameObject* other);
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);

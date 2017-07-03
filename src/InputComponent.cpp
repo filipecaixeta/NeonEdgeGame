@@ -1,4 +1,5 @@
 #include "InputComponent.h"
+#include "InputManager.h"
 
 InputComponent::InputComponent()
 {
@@ -90,4 +91,27 @@ void InputComponent::Save(bool s)
 {
 	obj->saveComponent.Save(s);
 	obj->saveComponent.Update(obj, "savefile.txt");
+}
+
+void InputComponent::ProcessItems()
+{
+	InputManager &input = InputManager::GetInstance();
+	int hotItemPos = -1;
+	if(input.KeyPress(HOT_KEY_1, true))
+	{
+		hotItemPos = 0;
+	}
+	if(input.KeyPress(HOT_KEY_2, true))
+	{
+		hotItemPos = 1;
+	}
+	if(input.KeyPress(HOT_KEY_3, true))
+	{
+		hotItemPos = 2;
+	}
+	if (hotItemPos!=-1)
+	{
+		obj->EvalItem(obj->itemManager->hotItens[hotItemPos]);
+		obj->itemManager->ConsumeItem(hotItemPos);
+	}
 }

@@ -1,6 +1,7 @@
 #ifndef GALLAHAD_H_
 #define GALLAHAD_H_
 
+#include "Drone.h"
 #include "Player.h"
 #include "Timer.h"
 #include "TileMap.h"
@@ -10,7 +11,7 @@
 class Gallahad : public Player
 {
 public:
-	Gallahad(int x, int y);
+	Gallahad(ItensManager* itemManager, int x, int y);
 	~Gallahad();
 	void Attack();
 	void Hide();

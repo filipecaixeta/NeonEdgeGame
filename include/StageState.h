@@ -32,7 +32,6 @@ class ItensManager;
 class StageState : public State
 {
 private:
-	static Player* player;
 	static Room* currentRoom;
 
 	std::string mode;
@@ -49,6 +48,7 @@ private:
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
+	Sprite* bg;
 
 	void HandleInput();
 	//void UpdateRoom();
@@ -56,7 +56,7 @@ private:
 	void CleanUpdateBars();
 
 public:
-	StageState(std::string mode_, int sizeX = 10, int sizeY = 10);
+	StageState(std::string mode_, int sizeX = 10, int sizeY = 10, std::string background = "background.png");
 	~StageState();
 
 	static GameObject* GetPlayer();
@@ -81,7 +81,7 @@ public:
 	//void MassLoad(int sizeX, int sizeY);
 
 	State* inGameMenu;
-	ItensManager* itensManager;
+	static Player* player;
 };
 
 #endif /* STAGESTATE_H_ */

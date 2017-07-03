@@ -7,15 +7,16 @@
 #include "Melee.h"
 #include "Projectile.h"
 
-Drone::Drone(int x, int y):
-	Player(x,y)
+Drone::Drone(ItensManager* itemManager, int x, int y):
+	Player(itemManager,x,y),
+	active(false),
+	dead(false)
 {
 	inputComponent = new DroneInputComponent();
 	graphicsComponent = new DroneGraphicsComponent("Drone");
 	physicsComponent.SetKinetic(true);
 	name = "Drone";
 	box.SetWH(graphicsComponent->GetSize());
-	active = false;
 }
 
 Drone::~Drone()
@@ -30,6 +31,12 @@ void Drone::UpdateTimers(float dt)
 
 void Drone::Update(TileMap* map, float dt){
 	UpdateTimers(dt);
+
+	if (StageState::GetPlayer()==nullptr)
+	{
+		dead=true;
+		return;
+	}
 	inputComponent->Update(this,dt);
 	if(active == true)
 		physicsComponent.Update(this,map,dt);
@@ -43,10 +50,20 @@ void Drone::Update(TileMap* map, float dt){
 
 }
 
+bool Drone::IsDead()
+{
+	return dead;
+}
+
 void Drone::SetActive(bool active){
 	this->active = active;
 }
 
 bool Drone::GetActive(){
 	return active;
+}
+
+bool Drone::Is(std::string type)
+{
+	return type=="Drone";
 }

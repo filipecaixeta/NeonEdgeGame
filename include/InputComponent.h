@@ -21,6 +21,7 @@ public:
 	virtual void Jump();
 	virtual void Save(bool s);
 	virtual void Active();
+	virtual void ProcessItems();
 
 protected:
 	Player* obj;

@@ -15,7 +15,8 @@ Item::Item(int id_, int x, int y):
 
 void Item::Eval(Player* player)
 {
-	player->itemManager->AddItem(id);
+	if (player->itemManager!=nullptr)
+		player->itemManager->AddItem(id);
 }
 
 void Item::SetActive(bool b)

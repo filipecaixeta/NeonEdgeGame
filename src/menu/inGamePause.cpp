@@ -2,6 +2,7 @@
 #include "menu/SettingsMenu.h"
 #include "menu/MainMenu.h"
 #include "menu/InGameItens.h"
+#include "menu/InGameSkills.h"
 #include "menu/InGameQuests.h"
 #include "InputManager.h"
 #include "StageState.h"
@@ -36,11 +37,12 @@ void inGamePause::Update()
 	{
 		if (SelectedOptionIs("Skills"))
 		{
-//			Game::GetInstance().AddState(new GraphicsMenu());
+			stageState->inGameMenu = new InGameSkills();
+			stageState->inGameMenu->LoadAssets();
 		}
 		else if (SelectedOptionIs("Inventory"))
 		{
-			stageState->inGameMenu = new InGameItens(stageState->itensManager);
+			stageState->inGameMenu = new InGameItens(stageState->player->itemManager);
 			stageState->inGameMenu->LoadAssets();
 		}
 		else if (SelectedOptionIs("Quests"))

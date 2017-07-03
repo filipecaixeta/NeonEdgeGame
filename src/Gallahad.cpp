@@ -8,8 +8,8 @@
 #include "Attack.h"
 #include "Projectile.h"
 
-Gallahad::Gallahad(int x, int y):
-	Player(x,y),
+Gallahad::Gallahad(ItensManager* itemManager, int x, int y):
+	Player(itemManager,x,y),
 	hiding(1500),
 	shooting(false)
 {

@@ -55,6 +55,8 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 		Save(true);
 	if(input.MousePress(RIGHT_MOUSE_BUTTON))
 		Save(false);
+
+	ProcessItems();
 }
 
 void GallahadInputComponent::Hide()

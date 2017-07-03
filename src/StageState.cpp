@@ -14,7 +14,7 @@
 Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
-StageState::StageState(std::string mode_, int sizeX, int sizeY):
+StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string background):
 	State(),
 	mode(mode_),
 	tileSet(nullptr),
@@ -23,8 +23,7 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	//roomArray(nullptr),
 	healthBar(nullptr),
 	energyBar(nullptr),
-	inGameMenu(nullptr),
-	itensManager(new ItensManager())
+	inGameMenu(nullptr)
 {
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
@@ -37,10 +36,13 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 	else if(mode == "Gallahad")
 		player = new Gallahad(269, 544);*/
 	player = (Player*) currentRoom->GetFirst();
-	player->itemManager = itensManager;
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
+
+	bg = new Sprite(background);
+	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
+	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
 
 	AddObject(new Box(2000, 1000, "window.png"));
 
@@ -74,6 +76,7 @@ StageState::~StageState()
 {
 	player = nullptr;
 	delete currentRoom;
+	delete bg;
 	//currentRoom = nullptr;
 	//delete[] roomArray;
 	//delete tileSet;
@@ -141,12 +144,12 @@ void StageState::Resume()
 void StageState::LoadAssets()
 {
 	music.Open("stageState.ogg");
-	bg.Open("LancelotIdle.png");
+	/*bg.Open("LancelotIdle.png");
 	bg.Open("LancelotRunning.png");
 	bg.Open("Melee.png");
 	bg.Open("NotfredoRunning.png");
 	bg.Open("NotfredoIdle.png");
-	bg.Open("Tileset3D.png");
+	bg.Open("Tileset3D.png");*/
 	music.Play(-1);
 }
 
@@ -163,12 +166,6 @@ void StageState::HandleInput()
 			Resume();
 		else
 			Pause();
-	}
-
-	//Teste do sistema de janelas
-	if(InputManager::GetInstance().KeyPress(SDLK_j))
-	{
-		RemoveWindow(new DialogWindow(0, 512, 512, 640, "uhaeuh aeuheauh aeuheauh euhuhe huaheuhua ehueah uea hueah eueuhaauhea ehuauehe uhaeuhuha euhea"));
 	}
 }
 
@@ -239,11 +236,14 @@ void StageState::Render()
 					roomInfo[i][j]->Render();
 		}
 	}*/
+	bg->Render(0, 0);
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
-	healthBar->Render(10,10);
-	energyBar->Render(10,10);
+	healthBar->Render(51,44);
+	energyBar->Render(51,44);
+	if (player->itemManager!=nullptr)
+		player->itemManager->Render();
 
 	if (inGameMenu!=nullptr)
 		inGameMenu->Render();
