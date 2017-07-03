@@ -84,7 +84,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Door"))
 	{
-		if(facing == RIGHT)
+		if(box.x < other->box.x - 1)
 		{
 			SetPosition(Vec2(other->box.x-box.w-1,box.y));
 		}
@@ -93,7 +93,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 			SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
 		}
 	}
-	if(other->Is("Box"))
+	if(other->Is("Box") || other->Is("Plattform"))
 	{
 		if(physicsComponent.velocity.x < 0 && footing == GROUNDED)
 		{
@@ -117,6 +117,36 @@ void Character::NotifyObjectCollision(GameObject* other)
 				if(lastFooting != GROUNDED)
 					lastFooting = footing;
 				footing = GROUNDED;
+				if(other->Is("Plattform"))
+				{
+					Plattform* p = (Plattform*) other;
+					if(p->on)
+					{
+						if(p->box.x - p->route[p->cycleCount][0] > 10 || p->box.x - p->route[p->cycleCount][0] < - 10 || p->box.y - p->route[p->cycleCount][1] > 10 || p->box.y - p->route[p->cycleCount][1] < - 10 )
+						{
+							if(p->box.y != p->route[p->cycleCount][1])
+							{
+								if(p->box.y != p->route[p->cycleCount][1])
+								{
+									box.x += p->route[p->cycleCount][2]*(p->route[p->cycleCount][0]-p->box.x)/abs(((p->route[p->cycleCount][1])-p->box.y));
+								}
+								else if(p->box.x < p->route[p->cycleCount][0])
+								{
+									box.x +=p->route[p->cycleCount][2];
+								}	
+								else
+								{
+									box.x -= p->route[p->cycleCount][2];	
+								}
+							}
+						}
+						else
+						{
+							box.x += p->box.x - p->route[p->cycleCount][0];
+							box.y += p->box.y - p->route[p->cycleCount][1] + 1;
+						}	
+					}
+				}
 			}
 		}
 		graphicsComponent->Update(this,0);

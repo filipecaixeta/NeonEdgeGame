@@ -61,6 +61,15 @@ void Player::NotifyObjectCollision(GameObject* other)
 			clamp(energy,0,5);
 		}
 	}
+	if(other->Is("Life"))
+	{
+		if(crouching && !regenCD.IsRunning())
+		{
+			regenCD.Start();
+			hitpoints += 1;
+			//clamp(hitpoints,0,5);
+		}
+	}
 }
 
 void Player::UpdateTimers(float dt)

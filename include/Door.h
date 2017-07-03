@@ -14,7 +14,7 @@ private:
 	bool dead;
 	
 public:
-	Door(int x, int y, TileMap* world, std::string sprite, bool locked);
+	Door(int x, int y, std::string sprite, bool locked);
 	~Door();
 	bool IsDead();
 	void NotifyObjectCollision(GameObject* other);

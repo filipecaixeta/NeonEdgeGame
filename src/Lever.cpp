@@ -4,7 +4,7 @@
 #include "StageState.h"
 #include "Character.h"
 #include "Room.h"
-
+/*
 Lever::Lever(int x, int y, TileMap* world, std::string sprite, std::vector<std::vector<int>> onTiles)
 {
 	name = "Lever";
@@ -20,6 +20,16 @@ Lever::Lever(int x, int y, TileMap* world, std::string sprite, std::vector<std::
 		offTiles[i][2] = world->At(offTiles[i][0], offTiles[i][1], 0);
 	}
 	triggerCooldown = Timer(500);
+}*/
+
+Lever::Lever(int x, int y, std::string sprite, std::vector<Plattform*> plattform) {
+	name = "Lever";
+	sp = Sprite(sprite);
+	Vec2 size = sp.GetSize();
+	box.SetXY(Vec2(x,y));
+	box.SetWH(size);
+	Lever::plattform = plattform;
+	triggerCooldown = Timer(500);
 }
 
 Lever::~Lever()
@@ -32,7 +42,8 @@ bool Lever::IsDead()
 	return false;
 }
 
-void Lever::Trigger(TileMap* map) {
+/*void Lever::Trigger(TileMap* map)
+{
 	if(facing == LEFT)
 	{
 		for (int i = 0; i<onTiles.size(); i++)
@@ -46,6 +57,14 @@ void Lever::Trigger(TileMap* map) {
 		{
 			map->SetTile(offTiles[i][0], offTiles[i][1], 0, offTiles[i][2]);
 		}
+	}
+}*/
+
+void Lever::Trigger(TileMap* map, float dt)
+{
+	for(int i = 0; i < plattform.size(); ++i)
+	{
+		plattform.at(i)->Update(map ,dt);
 	}
 }
 
@@ -83,7 +102,7 @@ void Lever::Update(TileMap* map, float dt)
 {
 	if(triggerCooldown.IsRunning() && triggerCooldown.GetElapsed() == 0)
 	{
-		Trigger(map);
+		Trigger(map, dt);
 	}
 	UpdateTimers(dt);
 }

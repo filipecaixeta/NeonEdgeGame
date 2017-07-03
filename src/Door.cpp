@@ -4,8 +4,9 @@
 #include "StageState.h"
 #include "Character.h"
 #include "Room.h"
+#include <unordered_map>
 
-Door::Door(int x, int y, TileMap* world, std::string sprite, bool locked)
+Door::Door(int x, int y, std::string sprite, bool locked)
 {
 	name = "Door";
 	sp = Sprite(sprite);
@@ -27,17 +28,22 @@ bool Door::IsDead()
 
 void Door::NotifyObjectCollision(GameObject* other)
 {
-	if(locked)
+	if(other->Is("Player"))
 	{
-		if(1)
+		if(locked)
 		{
+			//Player* p = (Player*) other;
+			//std::unordered_map<std::string,itemType>::const_iterator got = p->itemManager->itens.find("Picareta");
+			if(1)//got != p->itemManager->itens.end())
+			{
+				dead = true;
+			}
+		}
+		else
+		{
+			dead = true;
 			
 		}
-	}
-	else
-	{
-		dead = true;
-		
 	}
 }
 

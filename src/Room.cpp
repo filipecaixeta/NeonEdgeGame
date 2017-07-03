@@ -194,12 +194,12 @@ void Room::CreateObjects(){
         	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-		else if(objectData.at(i).id == 21)
+		/*else if(objectData.at(i).id == 21)
         {
         	AddObject(new Lever(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
         						map, "Lever.png", objectData.at(i).v));
-        }
+        }*/
 		else if(objectData.at(i).id == 22)
         {
         	AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),

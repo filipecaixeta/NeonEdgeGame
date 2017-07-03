@@ -7,9 +7,13 @@
 
 #include "State.h"
 #include "Energy.h"
+#include "Life.h"
 #include "Lever.h"
 #include "PressurePlate.h"
 #include "Box.h"
+#include "BoxSpawner.h"
+#include "Plattform.h"
+#include "Door.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Drone.h"

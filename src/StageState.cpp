@@ -44,6 +44,26 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY):
 
 	AddObject(new Box(2000, 1000, "window.png"));
 
+	AddObject(new BoxSpawner(2500, 1000));
+
+	AddObject(new Life(1800, 1170, "window.png"));
+
+	AddObject(new Door(2900, 1170, "Melee.png", false));
+
+	AddObject(new Door(2800, 1170, "Melee.png", true));
+
+	int a[10][3] = {{2200,1100,3},{2200,870,3},{2200,1070,3},{2200,970,3},{2200,1070,3},{2400,770,3},{1900,970,3},{2000,1070,3},{2200,1140,3},{2200,970,3}};
+
+//	Plattform* plattform = new Plattform(2200, 1170, "window.png", a);
+
+	AddObject(new Plattform(2000, 1000, "window.png", a));
+/*
+	std::vector<Plattform*> plot;
+
+	plot.emplace_back(plattform);
+
+	AddObject(new Lever(2600, 1120, "Lever.png", plot));*/
+
 	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
 										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
 

@@ -29,7 +29,7 @@ public:
 	bool IsHot(std::string name);
 	void SetActive(std::string name, bool active);
 	std::string hotItens[HOT_BAR_SIZE];
-private:
+//private:
 	std::unordered_map<std::string,itemType> itens;
 };
 

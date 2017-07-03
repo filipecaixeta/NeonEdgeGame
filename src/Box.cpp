@@ -12,7 +12,8 @@ Box::Box(int x, int y, std::string sprite)
 	Vec2 size = sp.GetSize();
 	box.SetXY(Vec2(x,y));
 	box.SetWH(size);
-	hitpoints = 10;
+	hitpoints = 4;
+	triggerCooldown = Timer(1000);
 }
 
 Box::~Box()
@@ -22,7 +23,12 @@ Box::~Box()
 
 bool Box::IsDead()
 {
-	return false;
+	return hitpoints<1;
+}
+
+void Box::Trigger(TileMap* map)
+{
+	hitpoints -= 1;
 }
 
 void Box::NotifyObjectCollision(GameObject* other)
@@ -30,25 +36,37 @@ void Box::NotifyObjectCollision(GameObject* other)
 	if(other->Is("Gallahad") || other->Is("Lancelot") || other->Is("Player"))
 	{
 		Character* c = (Character*) other;
-		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED))
+		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y))
 		{
 			box.x += 5;
 		}
-		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED))
+		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y))
 		{
 			box.x -= 5;
 		}
+		if(c->Attacking())
+		{
+			if(!triggerCooldown.IsRunning())
+			{
+				triggerCooldown.Start();
+			}
+		}
 	}
-	Character* C = (Character*)other;
-	if(C->Attacking())
-	{
-		hitpoints -= 1;
-	}
+}
+
+void Box::UpdateTimers(float dt)
+{
+	triggerCooldown.Update(dt);
 }
 
 void Box::Update(TileMap* map, float dt)
 {
 	physicsComponent.Update(this,map,dt);
+	if(triggerCooldown.IsRunning() && triggerCooldown.GetElapsed() == 0)
+	{
+		Trigger(map);
+	}
+	UpdateTimers(dt);
 }
 
 void Box::Render()
