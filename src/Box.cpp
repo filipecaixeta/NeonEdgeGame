@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "StageState.h"
 #include "Character.h"
+#include "Projectile.h"
 #include "Room.h"
 
 Box::Box(int x, int y, std::string sprite)
@@ -50,6 +51,17 @@ void Box::NotifyObjectCollision(GameObject* other)
 			{
 				triggerCooldown.Start();
 			}
+		}
+	}
+	if(other->Is("Projectile"))
+	{
+		Projectile* p = (Projectile*) other;
+		if(p->owner->Is("Gallahad") || p->owner->Is("Player"))
+		{
+			if(!triggerCooldown.IsRunning())
+			{
+				triggerCooldown.Start();
+			}			
 		}
 	}
 }

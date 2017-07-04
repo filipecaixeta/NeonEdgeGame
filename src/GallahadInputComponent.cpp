@@ -1,6 +1,8 @@
 #include "GallahadInputComponent.h"
 #include "InputManager.h"
 #include "Gallahad.h"
+#include "Camera.h"
+#include "Drone.h"
 
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -15,7 +17,19 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	InputManager &input = InputManager::GetInstance();
 
 	if(input.IsKeyDown(ACTIVE_KEY, true))
+	{
 		Active();
+		//Camera::GetInstance().Follow(); PEGAR PONTEIRO PARA O DRONE
+	}
+
+
+
+	Gallahad *g = (Gallahad*)obj;
+	if(g->GetActive()) 
+	{
+
+	Camera::GetInstance().Follow(obj_);
+
 
 	if(input.IsKeyDown(MOVE_LEFT_KEY, true))
 		MoveLeft();
@@ -50,6 +64,13 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 
 	if(input.KeyPress(JUMP_KEY, true))
 		Jump();
+
+	}
+
+
+
+
+
 
 	if(input.MousePress(LEFT_MOUSE_BUTTON))
 		Save(true);

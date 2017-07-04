@@ -44,21 +44,19 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
 	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
 
-	AddObject(new Box(2000, 1000, "window.png"));
+	AddObject(new BoxSpawner(140, 576));
 
-	AddObject(new BoxSpawner(2500, 1000));
+	AddObject(new Life(400, 576, "window.png"));
 
-	AddObject(new Life(1800, 1170, "window.png"));
+	AddObject(new Door(100, 576, "Melee.png", false));
 
-	AddObject(new Door(2900, 1170, "Melee.png", false));
+	//AddObject(new Door(2800, 1170, "Melee.png", true));
 
-	AddObject(new Door(2800, 1170, "Melee.png", true));
-
-	int a[10][3] = {{2200,1100,3},{2200,870,3},{2200,1070,3},{2200,970,3},{2200,1070,3},{2400,770,3},{1900,970,3},{2000,1070,3},{2200,1140,3},{2200,970,3}};
+	int a[10][3] = {{1780,576,3},{2200,576,3},{2200,1076,3},{2200,576,3},{2500,1000,3},{1780,300,3},{2200,970,3},{2000,1070,3},{2200,1140,3},{2200,576,3}};
 
 //	Plattform* plattform = new Plattform(2200, 1170, "window.png", a);
 
-	AddObject(new Plattform(2000, 1000, "window.png", a));
+	AddObject(new Plattform(2400, 576, "window.png", a));
 /*
 	std::vector<Plattform*> plot;
 

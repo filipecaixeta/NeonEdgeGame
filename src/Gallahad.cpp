@@ -73,9 +73,9 @@ void Gallahad::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
 	inputComponent->Update(this,dt);
-	if(active){
+	//if(active){ NÃO FAZ SENTIDO
 		physicsComponent.Update(this,map,dt);
-	}
+	//}
 	if(OutOfBounds(map))
 		SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);

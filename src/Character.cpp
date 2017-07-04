@@ -109,7 +109,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 				SetPosition(Vec2(other->box.x-box.w-1,box.y));
 			}
 		}
-		else if(footing != GROUNDED)
+		else if(footing != GROUNDED && box.x+box.w - 40 > other->box.x)
 		{
 			if(box.y+box.h > other->box.y && box.y < other->box.y)
 			{
@@ -124,8 +124,6 @@ void Character::NotifyObjectCollision(GameObject* other)
 					{
 						if(p->box.x - p->route[p->cycleCount][0] > 10 || p->box.x - p->route[p->cycleCount][0] < - 10 || p->box.y - p->route[p->cycleCount][1] > 10 || p->box.y - p->route[p->cycleCount][1] < - 10 )
 						{
-							if(p->box.y != p->route[p->cycleCount][1])
-							{
 								if(p->box.y != p->route[p->cycleCount][1])
 								{
 									box.x += p->route[p->cycleCount][2]*(p->route[p->cycleCount][0]-p->box.x)/abs(((p->route[p->cycleCount][1])-p->box.y));
@@ -138,12 +136,11 @@ void Character::NotifyObjectCollision(GameObject* other)
 								{
 									box.x -= p->route[p->cycleCount][2];	
 								}
-							}
 						}
 						else
 						{
 							box.x += p->box.x - p->route[p->cycleCount][0];
-							box.y += p->box.y - p->route[p->cycleCount][1] + 1;
+							box.y += p->box.y - p->route[p->cycleCount][1];
 						}	
 					}
 				}
