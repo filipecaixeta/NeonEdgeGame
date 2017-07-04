@@ -55,15 +55,23 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 		int h = sp->GetHeight();
 		sp = sprites[sprite];
 		surface = surfaces[sprite];
-		obj->box.x += (w-obj->box.w)/2;
+		
+		if(obj->footing == GameObject::LEFT_WALLED)
+			obj->box.x += 0;
+		else if(obj->footing == GameObject::RIGHT_WALLED)
+			obj->box.x += w-sp->GetWidth();
+		else
+			obj->box.x += (w-sp->GetWidth())/2;
 		obj->box.y += h-sp->GetHeight();
 		obj->box.SetWH(GetSize());
-		sp->SetFrame(1);
+		
+		if(!sp->Loops())
+			sp->SetFrame(1);
+		
+		Character* c = (Character*) obj;
+		c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::LEFT);	
+		c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::RIGHT);
 	}
-
-	Character* c = (Character*) obj;
-	c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::LEFT);	
-	c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::RIGHT);
 }
 
 void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount, int frameTime, bool loops)

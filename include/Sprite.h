@@ -48,6 +48,7 @@ public:
 	int GetHeight();
 	Vec2 GetSize();
 	int GetFrameCount();
+	bool Loops();
 	bool GetMirror();
 	bool IsOpen();
 };

@@ -16,6 +16,7 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
 	name = "Lancelot";
 	box.SetWH(graphicsComponent->GetSize());
+	attackCD.SetLimit(0);
 }
 
 Lancelot::~Lancelot()

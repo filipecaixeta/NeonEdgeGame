@@ -178,6 +178,11 @@ int Sprite::GetFrameCount()
 	return frameCount;
 }
 
+bool Sprite::Loops()
+{
+	return !loops;
+}
+
 bool Sprite::GetMirror()
 {
 	return flipHorizontal==SDL_FLIP_HORIZONTAL;

@@ -33,6 +33,7 @@ void PhysicsComponent::Update(GameObject* obj, TileMap* world, float dt)
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::LEFT), GameObject::LEFT);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::RIGHT), GameObject::RIGHT);
+	WallCheck(obj, world);
 
 	//Apply velocity in y
 	obj->box.y += velocity.y*dt;
@@ -177,6 +178,43 @@ int PhysicsComponent::TileCollision(const GameObject* obj, Vec2 pos, TileMap* wo
 	}
 
 	return -1;
+}
+
+void PhysicsComponent::WallCheck(GameObject* obj, TileMap* world)
+{
+	Rect box = obj->box;
+	box.SetXY(box.GetXY()+Vec2(1.0f,1.0f));
+	box.SetWH(box.GetWH()-Vec2(2.0f,2.0f));
+
+	int minX = ((box.x-(world->GetWidth()*world->GetTileWidth()*world->GetPos().x))/world->GetTileWidth())-1;
+	int minY = (box.y-(world->GetHeight()*world->GetTileHeight()*world->GetPos().y))/world->GetTileHeight();
+	int maxX = (((box.x+box.w)-(world->GetWidth()*world->GetTileWidth()*world->GetPos().x))/world->GetTileWidth())+1;
+	int maxY = (box.y+box.h-(world->GetHeight()*world->GetTileHeight()*world->GetPos().y))/world->GetTileHeight();
+	clamp(minX,0,world->GetWidth()-1);
+	clamp(minY,0,world->GetHeight()-1);
+	clamp(maxX,0,world->GetWidth()-1);
+	clamp(maxY,0,world->GetHeight()-1);
+
+	for(int x = minX; x <= maxX; x++)
+	{
+		for(int y = minY; y <= maxY; y++)
+		{
+			if(world->At(x,y,0) >= SOLID_TILE)
+			{
+				Rect tile = world->GetTileBox(x,y);
+				if(box.x-4 < tile.x+tile.w && box.x+box.w-4 > tile.x+tile.w)
+				{
+					obj->footing = GameObject::LEFT_WALLED;
+					return;
+				}
+				if(box.x+box.w+4 > tile.x && box.x+4 < tile.x)
+				{
+					obj->footing = GameObject::RIGHT_WALLED;
+					return;
+				}
+			}
+		}
+	}
 }
 
 void PhysicsComponent::TileFix(GameObject* obj, TileMap* world, GameObject::Face face)
