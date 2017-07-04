@@ -65,7 +65,7 @@ void InputComponent::Jump()
 	// Ground Jump
 	if(obj->footing == GameObject::GROUNDED)
 	{
-		obj->physicsComponent.velocity.y = -0.6;
+		obj->physicsComponent.velocity.y = -1.0;
 	}
 	// Wall-Jump from a wall to the left
 	else if(obj->footing == GameObject::LEFT_WALLED && obj->lastFooting != GameObject::LEFT_WALLED)
