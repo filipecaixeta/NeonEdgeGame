@@ -16,7 +16,7 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	InputComponent::Update(obj_,dt_);
 	InputManager &input = InputManager::GetInstance();
 
-	if(input.IsKeyDown(ACTIVE_KEY, true))
+	if(input.KeyPress(ACTIVE_KEY, true))
 	{
 		Active();
 		//Camera::GetInstance().Follow(); PEGAR PONTEIRO PARA O DRONE

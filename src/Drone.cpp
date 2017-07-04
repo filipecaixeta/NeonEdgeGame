@@ -38,8 +38,11 @@ void Drone::Update(TileMap* map, float dt){
 		return;
 	}
 	inputComponent->Update(this,dt);
-	if(active == true)
+	if(active == true){
 		physicsComponent.Update(this,map,dt);
+		clamp(physicsComponent.velocity.x,-0.4f,0.4f);
+		clamp(physicsComponent.velocity.y,-0.4f,0.4f);
+	}
 	else{
 		box.x = StageState::GetPlayer()->box.x;
 		box.y = StageState::GetPlayer()->box.y - 8;
