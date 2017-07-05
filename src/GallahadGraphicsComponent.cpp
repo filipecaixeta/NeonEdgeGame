@@ -61,6 +61,11 @@ void GallahadGraphicsComponent::Update(Character* obj, float dt)
 		sp->SetTransparency(1);
 	}
 
+	if (obj->dieTimer.IsRunning())
+	{
+		UpdateSprite(obj, "Dying");
+	}
+
 	sp->Mirror(mirror);
 	sp->Update(dt);
 }

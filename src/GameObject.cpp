@@ -12,7 +12,7 @@ bool GameObject::Is(std::string type)
 
 bool GameObject::IsDead()
 {
-	return false;
+	return isDead;
 }
 
 Vec2 GameObject::GetPosition()
@@ -39,6 +39,11 @@ void GameObject::NotifyObjectCollision(GameObject* other)
 bool GameObject::GetColisionData(SDL_Surface** surface_, SDL_Rect& clipRect_, Vec2& pos_, bool& mirror)
 {
 	return false;
+}
+
+void GameObject::DieAnimation()
+{
+	dieTimer.Start();
 }
 
 void GameObject::Render()

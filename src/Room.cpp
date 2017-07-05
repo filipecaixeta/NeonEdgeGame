@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "CeilingEnemy.h"
 #include "NotFredoStationary.h"
+#include "Turret.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position):
 	sceneObjects("resources/map/objs/sceneObjects.txt")
@@ -199,6 +200,11 @@ void Room::CreateObjects(){
             AddObject(new NotFredoStationary(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
+		else if(objectData.at(i).id == 16)
+		{
+			AddObject(new Turret(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+		}
 		else if(objectData.at(i).id == 20)
         {
         	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
