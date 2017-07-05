@@ -6,6 +6,7 @@
 #include "Rect.h"
 #include "Vec2.h"
 #include "TileMap.h"
+#include "Timer.h"
 
 class GameObject
 {
@@ -18,6 +19,8 @@ public:
 	Face facing = RIGHT;
 	Footing footing = GROUNDED; 
 	Footing lastFooting = AIRBORNE;
+	Timer dieTimer = Timer(500);
+	bool isDead=false;
 
 	virtual ~GameObject() = 0;
 	virtual bool Is(std::string type);
@@ -29,6 +32,7 @@ public:
 	virtual bool GetColisionData(SDL_Surface** surface_, SDL_Rect &clipRect_, Vec2 &pos_, bool &mirror);
 	virtual void Update(TileMap* map, float dt) = 0;
 	virtual void Render() = 0;
+	virtual void DieAnimation();
 };
 
 #endif /* GAMEOBJECT_H_ */

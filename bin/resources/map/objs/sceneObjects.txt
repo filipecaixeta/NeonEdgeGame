@@ -1,3 +1,1 @@
-Coluna_Objeto 560,526
-Object_Armory 1120,530
-Object_Handscanner 800,650
+lixo1 500,2143

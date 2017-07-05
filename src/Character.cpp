@@ -30,7 +30,12 @@ Character::~Character()
 
 bool Character::IsDead()
 {
-	return (hitpoints < 1);
+	if (hitpoints<=0)
+	{
+		if (!dieTimer.IsRunning())
+			dieTimer.Start();
+	}
+	return isDead;
 }
 
 int Character::GetHealth()
@@ -74,14 +79,35 @@ bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 
 
 void Character::NotifyTileCollision(int tile, Face face)
 {
-	if(tile > 11)
+	if(tile > 30)
 	{
 		Damage(1);
+	}
+	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
+	{
+		if(physicsComponent.velocity.y >= 0.6)
+		{
+			physicsComponent.velocity.y = -0.5;
+		}
 	}
 }
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
+	if(other->Is("Player"))
+	{
+		Player* c = (Player*) other;
+		if(c->Attacking())
+			Damage(1);
+	}
+	if(other->Is("Projectile"))
+	{
+		Projectile* p = (Projectile*) other;
+		if(!p->owner->Is("Notfredo"))
+		{
+			Damage(1);
+		}
+	}
 	if(other->Is("Door"))
 	{
 		if(box.x < other->box.x - 1)
@@ -152,6 +178,9 @@ void Character::NotifyObjectCollision(GameObject* other)
 
 void Character::UpdateTimers(float dt)
 {
+	dieTimer.Update(dt);
+	if (dieTimer.GetElapsed() == 1)
+		isDead = true;
 	invincibilityTimer.Update(dt);
 	attacking.Update(dt);
 	if(attacking.GetElapsed() == 1)

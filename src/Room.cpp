@@ -11,8 +11,9 @@
 #include "Item.h"
 #include "CeilingEnemy.h"
 #include "NotFredoStationary.h"
+#include "Turret.h"
 
-Room::Room(TileSet* tileSet, int index, Vec2 position):
+Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
 	sceneObjects("resources/map/objs/sceneObjects.txt")
 {
 	std::stringstream ss;
@@ -20,6 +21,7 @@ Room::Room(TileSet* tileSet, int index, Vec2 position):
 	Room::position = position;
 	ss << index;
 	map = new TileMap("resources/map/room0"+ss.str()+".txt", tileSet, {position.x,position.y});
+	backgroundMap = new TileMap("resources/map/bg.txt", background, {position.x, position.y}, true);
 	objectArray = std::vector<GameObject*>();
 	LoadObjects("resources/map/objs/room0"+ss.str()+".txt");
 	CreateObjects();
@@ -145,6 +147,7 @@ void Room::Update(float dt)
 
 void Room::Render()
 {
+	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x * 1.1, Camera::GetInstance().pos.y * 1.1);
 	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	sceneObjects.Render();
 	for(unsigned i = 0; i < objectArray.size(); i++)
@@ -199,6 +202,11 @@ void Room::CreateObjects(){
             AddObject(new NotFredoStationary(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
+		else if(objectData.at(i).id == 16)
+		{
+			AddObject(new Turret(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+		}
 		else if(objectData.at(i).id == 20)
         {
         	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),

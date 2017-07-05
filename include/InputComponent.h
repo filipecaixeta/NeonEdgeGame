@@ -10,7 +10,7 @@ class InputComponent
 public:
 	InputComponent();
 	virtual ~InputComponent();
-	virtual void Update(Player* obj_, float dt_)=0;
+	virtual void Update(Player* obj_, float dt_);
 	virtual void MoveLeft();
 	virtual void MoveRight();
 	virtual void MoveUp();
