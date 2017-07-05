@@ -16,7 +16,7 @@ struct CutsceneObject
 
 class Cutscene : public State{
 private:
-	std::vector<CutsceneObject*> objs;
+	std::vector<CutsceneObject> objs;
 	DialogWindow* textBox;
 
 public:
@@ -26,6 +26,7 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
+	CutsceneObject AddCutsceneObject(std::string sprite, int x, int y);
 };
 
 #endif
