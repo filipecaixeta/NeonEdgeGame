@@ -15,9 +15,10 @@ private:
 	int mapHeight;
 	int mapDepth;
 	SDL_Point position;
+	bool origem;
 
 public:
-	TileMap(std::string file, TileSet* tileSet, SDL_Point pos = {0, 0});
+	TileMap(std::string file, TileSet* tileSet, SDL_Point pos = {0, 0}, bool origemEmbaixo = false);
 	~TileMap();
 	void Load(std::string file);
 	void SetTileSet(TileSet* tileSet);

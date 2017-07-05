@@ -74,7 +74,7 @@ bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 
 
 void Character::NotifyTileCollision(int tile, Face face)
 {
-	if(tile > 11)
+	if(tile > 30)
 	{
 		Damage(1);
 	}

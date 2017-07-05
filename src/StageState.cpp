@@ -28,8 +28,9 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	this->sizeX = sizeX;
 	this->sizeY = sizeY;
 
+	this->background = new TileSet(7389, 1711, background, 0, 0);
 	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
-	currentRoom = new Room(tileSet, 0, Vec2(0,0));
+	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
 	//CreateMap(sizeX,sizeY);
 	/*if(mode == "Lancelot")
 		player = new Lancelot(133, 131);
@@ -40,7 +41,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	currentRoomX = 0;
 	currentRoomY = 0;
 
-	bg = new Sprite(background);
 	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
 	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
 
@@ -74,7 +74,6 @@ StageState::~StageState()
 {
 	player = nullptr;
 	delete currentRoom;
-	delete bg;
 	//currentRoom = nullptr;
 	//delete[] roomArray;
 	//delete tileSet;
@@ -234,7 +233,6 @@ void StageState::Render()
 					roomInfo[i][j]->Render();
 		}
 	}*/
-	bg->Render(0, 0);
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
