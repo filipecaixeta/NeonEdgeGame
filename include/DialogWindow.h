@@ -18,11 +18,15 @@ public:
 private:
 	void RenderPiece(int posx, int posy, int x, int y, int w, int h);
 	std::vector<SDL_Texture*> textArray;
+    std::vector<SDL_Texture*> characterNameArray;
+    std::vector<Sprite*> characterName;
 	std::vector<Sprite*> dialog;
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 24;
 	std::string fontName;
 	Button okay;
+    Sprite face;
+
 };
 
 #endif

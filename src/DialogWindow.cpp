@@ -2,9 +2,10 @@
 #include "Game.h"
 #include <iostream>
 
-DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto){
+DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto,std::string nomePersonagem,std::string facePersonagem){
 	fontName = "Raleway-Light.ttf";
 	sp = Sprite("window.png");
+    face = Sprite(facePersonagem.c_str());
 
 	box.x = posX;
 	box.y = posY;
@@ -13,10 +14,11 @@ DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto){
 
 	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, w - posX));
 	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
+    characterNameArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,nomePersonagem,w-posX));
+    characterName.emplace_back(new Sprite(characterNameArray.at(0),1,0,true));
 }
 
 void DialogWindow::Update(float dt){
-
 }
 
 void DialogWindow::Render(int cameraX, int cameraY){
@@ -49,4 +51,10 @@ void DialogWindow::Render(int cameraX, int cameraY){
 	}
 	for(unsigned int i = 0; i < dialog.size(); i++)
 		dialog.at(i)->Render(box.x + 4 - cameraX, box.y + 4 - cameraY);
+    for(unsigned int j = 0; j < characterName.size();j++)
+    {
+        characterName.at(j)->Render(box.x-cameraX,box.y-cameraY);
+    }
+
+
 }
