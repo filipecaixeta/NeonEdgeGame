@@ -5,12 +5,12 @@ Window::~Window(){
 }
 
 void Window::RenderPiece(int posx, int posy, int x, int y, int w, int h){
-	sp.SetClip(x, y, w, h);
-	sp.Render(posx, posy);
+	/*sp.SetClip(x, y, w, h);
+	sp.Render(posx, posy);*/
 }
 
 void Window::Render(int cameraX, int cameraY){
-	int sizex = (box.w - box.x)/WINDOWPIECE;
+	/*int sizex = (box.w - box.x)/WINDOWPIECE;
 	int sizey = (box.h - box.y)/WINDOWPIECE;
 
 	for(int i = 0; i < sizex; i++){
@@ -34,5 +34,5 @@ void Window::Render(int cameraX, int cameraY){
 			else
 				RenderPiece(box.x + i*WINDOWPIECE - cameraX, box.y + j*WINDOWPIECE - cameraY, 16, 16, 48, 48);
 		}
-	}
+	}*/
 }

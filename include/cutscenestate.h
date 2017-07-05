@@ -1,5 +1,0 @@
-#ifndef CUTSCENESTATE_H
-#define CUTSCENESTATE_H
-
-#endif // CUTSCENESTATE_H
-
