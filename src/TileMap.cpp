@@ -6,11 +6,12 @@
 
 #include "TileMap.h"
 
-TileMap::TileMap(std::string file, TileSet* tileSet, SDL_Point pos)
+TileMap::TileMap(std::string file, TileSet* tileSet, SDL_Point pos, bool origemEmbaixo)
 {
 	position = pos;
 	Load(file);
 	SetTileSet(tileSet);
+	origem = origemEmbaixo;
 }
 
 TileMap::~TileMap()
@@ -67,8 +68,12 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	int tileHeight = tileSet->GetTileHeight();
 	for(j = mapHeight-1; j >= 0; j--){
 		for(i = mapWidth-1; i >= 0; i--){
-			tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
-							j*tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
+			if(origem == false)
+				tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
+								j*tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
+			else
+				tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
+								j*tileHeight + mapHeight*tileHeight - tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
 		}
 	}
 
