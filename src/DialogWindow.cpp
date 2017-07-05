@@ -18,7 +18,9 @@ DialogWindow::DialogWindow(int posX, int posY, int w, int h, std::string texto,s
     characterName.emplace_back(new Sprite(characterNameArray.at(0),1,0,true));
 }
 
-void DialogWindow::Update(float dt){
+void DialogWindow::Update(float dt)
+{
+    face.Update(dt);
 }
 
 void DialogWindow::Render(int cameraX, int cameraY){
@@ -55,6 +57,7 @@ void DialogWindow::Render(int cameraX, int cameraY){
     {
         characterName.at(j)->Render(box.x-cameraX,box.y-cameraY);
     }
+    face.Render(Vec2(box.x-cameraX,box.y-cameraY));
 
 
 }

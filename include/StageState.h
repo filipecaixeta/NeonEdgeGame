@@ -36,6 +36,7 @@ private:
 
 	std::string mode;
 	TileSet* tileSet;
+	TileSet* background;
 	bool paused;
 	std::vector<std::unique_ptr<Window>> windowArray;
 	//std::unordered_map<SDL_Point, TileMap*> roomTable;
@@ -48,7 +49,6 @@ private:
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
-	Sprite* bg;
 
 	void HandleInput();
 	//void UpdateRoom();

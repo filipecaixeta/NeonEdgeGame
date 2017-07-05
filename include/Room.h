@@ -23,7 +23,7 @@ struct ObjectData
 class Room
 {
 public:
-	Room(TileSet* tileSet, int index, Vec2 position);
+	Room(TileSet* tileSet, int index, Vec2 position, TileSet* background);
 	~Room();
 	void AddObject(GameObject* ptr);
 	void AddObjectAsFirst(GameObject* ptr);
@@ -48,6 +48,7 @@ private:
 	std::vector<ObjectData> objectData;
 	std::vector<GameObject*> objectArray;
 	SceneObjects sceneObjects;
+	TileMap* backgroundMap;
 };
 
 #endif
