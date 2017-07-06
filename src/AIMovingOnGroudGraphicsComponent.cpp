@@ -5,7 +5,7 @@ AIMovingOnGroudGraphicsComponent::AIMovingOnGroudGraphicsComponent(std::string b
 {
 	AddSprite(baseName,"Idle",1,80);
 	AddSprite(baseName,"Running",6,80);
-	AddSprite(baseName,"Dying",10,80);
+	AddSprite(baseName,"Dying",10,100);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }

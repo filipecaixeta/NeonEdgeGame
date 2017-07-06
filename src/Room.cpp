@@ -20,8 +20,9 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
 	Room::index = index;
 	Room::position = position;
 	ss << index;
-	map = new TileMap("resources/map/room0"+ss.str()+".txt", tileSet, {position.x,position.y});
-	backgroundMap = new TileMap("resources/map/bg.txt", background, {position.x, position.y}, true);
+	map = new TileMap("resources/map/room0"+ss.str()+".txt", tileSet, {0,0});
+	std::cerr << map->GetSize() << std::endl;
+	backgroundMap = new TileMap("resources/map/bg.txt", background, {0, map->GetSize().y}, true);
 	objectArray = std::vector<GameObject*>();
 	LoadObjects("resources/map/objs/room0"+ss.str()+".txt");
 	CreateObjects();
@@ -55,7 +56,9 @@ void Room::RemoveObject(GameObject* ptr)
 		if(ptr == objectArray[i])
 		{
 			if (!objectArray[i]->Is("Item"))
+			{
 				delete objectArray[i];
+			}
 			objectArray.erase(objectArray.begin()+i);
 			break;
 		}
@@ -131,6 +134,7 @@ void Room::ObjectCleanup()
 				Camera::GetInstance().Unfollow();
 			if(objectArray[i] == StageState::GetPlayer())
 				StageState::KillPlayer();
+			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY());
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 		}
@@ -147,7 +151,7 @@ void Room::Update(float dt)
 
 void Room::Render()
 {
-	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x * 1.1, Camera::GetInstance().pos.y * 1.1);
+	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	sceneObjects.Render();
 	for(unsigned i = 0; i < objectArray.size(); i++)

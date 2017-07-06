@@ -69,11 +69,11 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	for(j = mapHeight-1; j >= 0; j--){
 		for(i = mapWidth-1; i >= 0; i--){
 			if(origem == false)
-				tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
-								j*tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
+				tileSet->Render(At(i, j, layer), i*tileWidth - cameraX,
+								j*tileHeight - cameraY);
 			else
-				tileSet->Render(At(i, j, layer), i*tileWidth /*+ position.x * mapWidth * tileWidth*/ - cameraX,
-								j*tileHeight + mapHeight*tileHeight - tileHeight /*+ position.y * mapHeight * tileHeight*/ - cameraY);
+				tileSet->Render(At(i, j, layer), i*tileWidth - cameraX,
+								j*tileHeight + position.y - tileHeight - cameraY);
 		}
 	}
 

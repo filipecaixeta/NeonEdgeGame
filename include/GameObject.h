@@ -19,7 +19,7 @@ public:
 	Face facing = RIGHT;
 	Footing footing = GROUNDED; 
 	Footing lastFooting = AIRBORNE;
-	Timer dieTimer = Timer(500);
+	Timer dieTimer = Timer(1000);
 	bool isDead=false;
 
 	virtual ~GameObject() = 0;

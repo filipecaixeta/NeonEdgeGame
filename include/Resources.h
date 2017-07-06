@@ -18,13 +18,13 @@ private:
 	static std::unordered_map<std::string, TTF_Font*> fontTable;
 	static std::unordered_map<std::string, SDL_Texture*> textTable;
 
+public:
 	static std::string BASENAME;
 	static std::string BASENAME_IMAGE;
 	static std::string BASENAME_MUSIC;
 	static std::string BASENAME_SOUND;
 	static std::string BASENAME_FONT;
 
-public:
 	static SDL_Texture* GetImage(std::string file,bool forceDuplicate);
 	static void ClearImages();
 	static SDL_Surface* GetSurface(std::string file);

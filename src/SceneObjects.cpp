@@ -20,7 +20,32 @@ void SceneObjects::Render()
 
 void SceneObjects::Update()
 {
-	LoadObjects(fileName);
+//	LoadObjects(fileName);
+}
+
+void SceneObjects::AddObject(std::string name, Vec2 pos)
+{
+	AddObject(name,SDL_Point{pos.x,pos.y});
+}
+
+void SceneObjects::AddObject(std::string name, SDL_Point pos)
+{
+	if (objs.count(name)==0)
+	{
+		Obj obj;
+		name = std::string("sceneObjs/")+std::string(name)+std::string(".png");
+		if (FILE *file = std::fopen((Resources::BASENAME_IMAGE+name).c_str(), "r"))
+		{
+			fclose(file);
+			obj.sp.Open(name);
+			obj.positionVec.push_back(pos);
+			objs.emplace(name,obj);
+		}
+	}
+	else
+	{
+		objs[name].positionVec.push_back(pos);
+	}
 }
 
 void SceneObjects::LoadObjects(std::string file)
@@ -40,20 +65,9 @@ void SceneObjects::LoadObjects(std::string file)
 	for (std::string line; std::getline(f, line); )
 	{
 		char name[40];
-		SDL_Rect pos;
+		SDL_Point pos;
 		std::sscanf(line.c_str(),"%s %d,%d",name,&pos.x,&pos.y);
-		if (objs.count(name)==0)
-		{
-			Obj obj;
-			obj.sp.Open(std::string("sceneObjs/")+std::string(name)+std::string(".png"));
-			obj.positionVec.push_back(pos);
-			objs.emplace(name,obj);
-		}
-		else
-		{
-			objs[name].positionVec.push_back(pos);
-		}
-
+		AddObject(name,pos);
 	}
 	f.close();
 }
