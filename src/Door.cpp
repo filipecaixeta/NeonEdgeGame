@@ -1,10 +1,12 @@
 #include "Door.h"
+#include "Animation.h"
 #include "Camera.h"
 #include "InputManager.h"
 #include "StageState.h"
 #include "Character.h"
 #include "Room.h"
 #include <unordered_map>
+#include <string>
 
 Door::Door(int x, int y, std::string sprite, bool locked)
 {
@@ -13,6 +15,7 @@ Door::Door(int x, int y, std::string sprite, bool locked)
 	Vec2 size = sp.GetSize();
 	box.SetXY(Vec2(x,y));
 	box.SetWH(size);
+	hard = true;
 	Door::locked = locked;
 }
 
@@ -32,17 +35,21 @@ void Door::NotifyObjectCollision(GameObject* other)
 	{
 		if(locked)
 		{
-			//Player* p = (Player*) other;
-			//std::unordered_map<std::string,itemType>::const_iterator got = p->itemManager->itens.find("Picareta");
-			if(1)//got != p->itemManager->itens.end())
+			Player* p = (Player*) other;
+			std::unordered_map<std::string,ItensManager::itemType>::const_iterator got = p->itemManager->itens.find("Arco");
+			if(got != p->itemManager->itens.end())
 			{
-				dead = true;
+				sp = Sprite();
+				hard = false;
+				dead = false;
+				p->itemManager->itens.erase("Arco");
 			}
 		}
 		else
 		{
+			hard = false;
+			sp = Sprite();
 			dead = true;
-			
 		}
 	}
 }

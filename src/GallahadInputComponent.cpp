@@ -92,7 +92,11 @@ void GallahadInputComponent::Hide()
 void GallahadInputComponent::Active(){
 	Gallahad* g = (Gallahad*) obj;
 	if(g->GetActive() == true)
+	{
 		g->SetActive(false);
+	}
 	else
+	{
 		g->SetActive(true);
+	}
 }

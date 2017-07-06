@@ -1,6 +1,7 @@
 #include "DroneInputComponent.h"
 #include "InputManager.h"
 #include "Drone.h"
+#include "Camera.h"
 
 #define clamp(N,L,U) N=std::max(L,std::min(N,U))
 
@@ -36,7 +37,12 @@ void DroneInputComponent::Update(Player* obj_, float dt_)
 void DroneInputComponent::Active(){
 	Drone* d = (Drone*) obj;
 	if(d->GetActive() == true)
+	{
 		d->SetActive(false);
+	}
 	else
+	{
 		d->SetActive(true);
+		Camera::GetInstance().Follow(d);
+	}
 }
