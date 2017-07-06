@@ -23,6 +23,7 @@ private:
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 16;
 	std::string fontName;
+	int index;
 	bool textOnly;
 	bool Next();
 
@@ -33,7 +34,7 @@ public:
 	void Update();
 	void Render();
 	bool Is(std::string type);
-	CutsceneObject AddCutsceneObject(std::string sprite, int x, int y);
+    CutsceneObject AddCutsceneObject(std::string sprite, int x, int y,bool mirror);
 };
 
 #endif

@@ -20,7 +20,7 @@ private:
     Sprite* characterName;
 	std::vector<Sprite*> dialog;
 	SDL_Color fontColor = {255,255,255,255};
-	int fontSize = 24;
+	int fontSize = 21;
 	std::string fontName;
     Sprite* face;
 

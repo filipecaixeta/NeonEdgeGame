@@ -29,9 +29,9 @@ void DialogWindow::Update(float dt)
 void DialogWindow::Render(int cameraX, int cameraY){
 	if(face != nullptr)
 		face->Render(box.x, box.y);
-	sp.Render(box.x + face->GetWidth(), box.y);
+	sp.Render(box.x + face->GetWidth(), box.y + 23);
 	for(unsigned int i = 0; i < dialog.size(); i++)
-		dialog.at(i)->Render(372, 547);
+		dialog.at(i)->Render(372, 587);
     if(face!= nullptr)
-    	characterName->Render(367, 512);
+    	characterName->Render(357, 542);
 }
