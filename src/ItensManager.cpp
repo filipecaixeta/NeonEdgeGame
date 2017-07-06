@@ -34,7 +34,7 @@ ItensManager::itemType ItensManager::GetItem(std::string name)
 void ItensManager::AddItem(int id)
 {
 	std::string imageName = "items.png";
-	int frameCount = 5;
+	int frameCount = 6;
 	std::string name = "";
 	std::string desc = "";
 	switch (id)
@@ -58,6 +58,10 @@ void ItensManager::AddItem(int id)
 		case 5:
 			name = "Healing Potion 50";
 			desc = "Provides health regeneration by 50%";
+			break;
+		case 6:
+			name = "Driver";
+			desc = "";
 			break;
 		default:
 			break;
