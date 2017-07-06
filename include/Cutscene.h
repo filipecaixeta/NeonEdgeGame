@@ -33,7 +33,7 @@ public:
 	void Update();
 	void Render();
 	bool Is(std::string type);
-	CutsceneObject AddCutsceneObject(std::string sprite, int x, int y);
+    CutsceneObject AddCutsceneObject(std::string sprite, int x, int y,bool mirror);
 };
 
 #endif
