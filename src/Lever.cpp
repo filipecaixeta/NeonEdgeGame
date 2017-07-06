@@ -3,7 +3,10 @@
 #include "InputManager.h"
 #include "StageState.h"
 #include "Character.h"
+#include "Projectile.h"
 #include "Room.h"
+#include "Drone.h"
+
 /*
 Lever::Lever(int x, int y, TileMap* world, std::string sprite, std::vector<std::vector<int>> onTiles)
 {
@@ -29,7 +32,7 @@ Lever::Lever(int x, int y, std::string sprite, std::vector<Plattform*> plattform
 	box.SetXY(Vec2(x,y));
 	box.SetWH(size);
 	Lever::plattform = plattform;
-	triggerCooldown = Timer(500);
+	triggerCooldown = Timer(1000);
 }
 
 Lever::~Lever()
@@ -64,7 +67,7 @@ void Lever::Trigger(TileMap* map, float dt)
 {
 	for(int i = 0; i < plattform.size(); ++i)
 	{
-		plattform.at(i)->Update(map ,dt);
+		plattform.at(i)->Toggle();
 	}
 }
 
@@ -90,6 +93,48 @@ void Lever::NotifyObjectCollision(GameObject* other)
 				triggerCooldown.Start();
 			}
 		}
+	}
+	if(other->Is("Projectile"))
+	{
+		Projectile* p = (Projectile*) other;
+		if(p->GetOwner()->Is("Player"))
+		{
+			if(!triggerCooldown.IsRunning())
+			{
+				if(facing == RIGHT)
+				{
+					facing = LEFT;
+					sp.Mirror(true);
+				}
+				else
+				{
+					facing = RIGHT;
+					sp.Mirror(false);
+				}
+				triggerCooldown.Start();
+			}	
+		}
+	}
+	if(other->Is("Drone"))
+	{
+		Drone* d = (Drone*) other;
+		if(d->Active())
+		{
+			if(!triggerCooldown.IsRunning())
+			{
+				if(facing == RIGHT)
+				{
+					facing = LEFT;
+					sp.Mirror(true);
+				}
+				else
+				{
+					facing = RIGHT;
+					sp.Mirror(false);
+				}
+				triggerCooldown.Start();
+			}
+		}		
 	}
 }
 

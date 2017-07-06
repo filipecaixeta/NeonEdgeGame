@@ -5,7 +5,7 @@
 #include "Character.h"
 #include "Room.h"
 
-PressurePlate::PressurePlate(int x, int y, TileMap* world, std::string spriteOn, std::string spriteOff, std::vector<std::vector<int>> onTiles)
+/*PressurePlate::PressurePlate(int x, int y, TileMap* world, std::string spriteOn, std::string spriteOff, std::vector<std::vector<int>> onTiles)
 {
 	name = "PressurePlate";
 	toggle = false;
@@ -21,6 +21,18 @@ PressurePlate::PressurePlate(int x, int y, TileMap* world, std::string spriteOn,
 		offTiles.push_back(onTiles[i]);
 		offTiles[i][2] = world->At(offTiles[i][0], offTiles[i][1], 0);
 	}
+}*/
+
+PressurePlate::PressurePlate(int x, int y, std::string spriteOn, std::string spriteOff, Door* door)
+{
+	name = "PressurePlate";
+	toggle = false;
+	spOn = Sprite(spriteOn);
+	spOff = Sprite(spriteOff);
+	Vec2 size = spOn.GetSize();
+	box.SetXY(Vec2(x,y));
+	box.SetWH(size);
+	PressurePlate::door = door;
 }
 
 PressurePlate::~PressurePlate()
@@ -35,20 +47,15 @@ bool PressurePlate::IsDead()
 
 void PressurePlate::Trigger(TileMap* map)
 {
-	//int **coisa = toggle ? onTiles : offTiles;
 	if(toggle)
 	{
-		for (int i = 0; i<onTiles.size(); i++)
-		{
-			map->SetTile(onTiles[i][0], onTiles[i][1], 0, onTiles[i][2]);
-		}
+		door->hard = false;
+		door->sp = Sprite();
 	}
 	else
 	{
-		for (int i = 0; i<offTiles.size(); i++)
-		{
-			map->SetTile(offTiles[i][0], offTiles[i][1], 0, offTiles[i][2]);
-		}
+		door->hard = true;
+		door->sp = Sprite("Melee.png");
 	}
 }
 
@@ -59,8 +66,8 @@ void PressurePlate::NotifyObjectCollision(GameObject* other)
 
 void PressurePlate::Update(TileMap* map, float dt)
 {
-		Trigger(map);
-		toggle = false;
+	Trigger(map);
+	toggle = false;
 }
 
 void PressurePlate::Render()

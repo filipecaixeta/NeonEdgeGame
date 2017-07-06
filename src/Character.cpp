@@ -3,8 +3,6 @@
 #include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "Attack.h"
-#include "Melee.h"
 #include "Projectile.h"
 
 Character::Character(int x,int y):
@@ -13,6 +11,7 @@ Character::Character(int x,int y):
 	graphicsComponent(nullptr),
 	saveComponent(),
 	hitpoints(10),
+	power(1),
 	invincibilityTimer(500),
 	attacking(200),
 	attackCD(500)
@@ -36,6 +35,11 @@ bool Character::IsDead()
 			dieTimer.Start();
 	}
 	return isDead;
+}
+
+bool Character::IsCharacter()
+{
+	return true;
 }
 
 int Character::GetHealth()
@@ -67,6 +71,15 @@ bool Character::Cooling()
 	return attackCD.IsRunning();
 }
 
+void Character::Empower(int pow)
+{
+	power = pow;
+}
+
+int Character::Power()
+{
+	return power;
+}
 
 bool Character::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
 {
@@ -94,18 +107,25 @@ void Character::NotifyTileCollision(int tile, Face face)
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Player"))
+	if(!IsPlayer() || !other->IsPlayer())
 	{
-		Player* c = (Player*) other;
-		if(c->Attacking())
-			Damage(1);
+		SolidCollision(other);
 	}
-	if(other->Is("Projectile"))
+	if(!IsPlayer())
 	{
-		Projectile* p = (Projectile*) other;
-		if(!p->owner->Is("Notfredo"))
+		if(other->IsPlayer())
 		{
-			Damage(1);
+			Player* c = (Player*) other;
+			if(c->Attacking())
+				Damage(c->Power());
+		}
+		if(other->Is("Projectile"))
+		{
+			Projectile* p = (Projectile*) other;
+			if(p->GetOwner()->IsPlayer())
+			{
+				Damage(p->Power());
+			}
 		}
 	}
 	if(other->Is("Door"))
@@ -119,7 +139,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 			SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
 		}
 	}
-	if(other->Is("Box") || other->Is("Plattform"))
+	/*if(other->Is("Box") || other->Is("Plattform"))
 	{
 		if(physicsComponent.velocity.x < 0 && footing == GROUNDED)
 		{
@@ -173,7 +193,7 @@ void Character::NotifyObjectCollision(GameObject* other)
 			}
 		}
 		graphicsComponent->Update(this,0);
-	}
+	}*/
 }
 
 void Character::UpdateTimers(float dt)

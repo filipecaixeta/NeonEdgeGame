@@ -25,10 +25,13 @@ public:
 	virtual ~GameObject() = 0;
 	virtual bool Is(std::string type);
 	virtual bool IsDead();
+	virtual bool IsCharacter();
+	virtual bool IsPlayer();
 	virtual Vec2 GetPosition();
 	virtual void SetPosition(Vec2 position);
 	virtual void NotifyTileCollision(int tile, Face face);
 	virtual void NotifyObjectCollision(GameObject* other);
+	virtual void SolidCollision(GameObject* other);
 	virtual bool GetColisionData(SDL_Surface** surface_, SDL_Rect &clipRect_, Vec2 &pos_, bool &mirror);
 	virtual void Update(TileMap* map, float dt) = 0;
 	virtual void Render() = 0;

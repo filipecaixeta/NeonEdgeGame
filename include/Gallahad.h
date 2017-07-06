@@ -7,11 +7,12 @@
 #include "TileMap.h"
 #include "GallahadInputComponent.h"
 #include "GallahadGraphicsComponent.h"
+#include "Drone.h"
 
 class Gallahad : public Player
 {
 public:
-	Gallahad(ItensManager* itemManager, int x, int y);
+	Gallahad(ItensManager* itemManager, int x, int y, GameObject* d);
 	~Gallahad();
 	void Attack();
 	void Hide();
@@ -19,12 +20,14 @@ public:
 	void Hold();
 	bool Hiding();
 	bool Shooting();
+	void Activate(bool on);
+	bool Active();
+	Drone* GetDrone();
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
-	void SetActive(bool active);
-	bool GetActive();
 
 private:
+	GameObject* drone;
 	Timer hiding;
 	bool shooting;
 	bool active;

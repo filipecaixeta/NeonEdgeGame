@@ -15,7 +15,7 @@ class GraphicsComponent
 public:
 	GraphicsComponent(std::string baseName_);
 	virtual ~GraphicsComponent();
-	virtual void Update(Character* obj, float dt)=0;
+	virtual void Update(GameObject* obj, float dt) = 0;
 	virtual void UpdateSprite(GameObject* obj, std::string sprite);
 	virtual void Render(Vec2 position);
 	virtual Vec2 GetSize();

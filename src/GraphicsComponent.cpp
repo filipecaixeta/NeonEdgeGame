@@ -1,6 +1,7 @@
 #include "GraphicsComponent.h"
 #include "Rect.h"
 #include "StageState.h"
+#include "Character.h"
 
 GraphicsComponent::GraphicsComponent(std::string baseName_):
 	sp(new Sprite()),
@@ -68,9 +69,12 @@ void GraphicsComponent::UpdateSprite(GameObject* obj, std::string sprite)
 		if(!sp->Loops())
 			sp->SetFrame(1);
 		
-		Character* c = (Character*) obj;
-		c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::LEFT);	
-		c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::RIGHT);
+		if(obj->IsCharacter())
+		{
+			Character* c = (Character*) obj;
+			c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::LEFT);	
+			c->physicsComponent.TileFix(c, StageState::GetCurrentRoom()->GetMap(), GameObject::RIGHT);
+		}
 	}
 }
 

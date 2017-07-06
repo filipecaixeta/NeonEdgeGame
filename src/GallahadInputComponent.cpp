@@ -14,68 +14,53 @@ GallahadInputComponent::GallahadInputComponent()
 void GallahadInputComponent::Update(Player* obj_, float dt_)
 {
 	InputComponent::Update(obj_,dt_);
-	InputManager &input = InputManager::GetInstance();
+	InputManager& input = InputManager::GetInstance();
 
 	if(input.KeyPress(ACTIVE_KEY, true))
 	{
-		Active();
+		Toggle();
 		//Camera::GetInstance().Follow(); PEGAR PONTEIRO PARA O DRONE
 	}
 
-
-
-	Gallahad *g = (Gallahad*)obj;
-	if(g->GetActive()) 
+	Gallahad *g = (Gallahad*) obj_;
+	if(g->Active()) 
 	{
+		Camera::GetInstance().Follow(obj_);
 
-	Camera::GetInstance().Follow(obj_);
+		if(input.IsKeyDown(MOVE_LEFT_KEY, true))
+			MoveLeft();
+		else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
+			MoveRight();
+		else
+			StayStill();
+		if(obj_->Crouching())
+			clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
+		else
+			clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);
+		
+		if(input.IsKeyDown(CROUCH_KEY, true))
+			Crouch(true);
+		else
+			Crouch(false);
 
+		if(input.IsKeyDown(ATTACK_KEY, true))
+		{
+			Gallahad* g = (Gallahad*) obj_;
+			g->Shoot();
+			Attack();
+		}
+		else
+		{
+			Gallahad* g = (Gallahad*) obj_;
+			g->Hold();
+		}
 
-	if(input.IsKeyDown(MOVE_LEFT_KEY, true))
-		MoveLeft();
-	else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
-		MoveRight();
-	else
-		StayStill();
-	if(obj->Crouching())
-		clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
-	else
-		clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);
-	
-	if(input.IsKeyDown(CROUCH_KEY,  true))
-		Crouch(true);
-	else
-		Crouch(false);
+		if(input.KeyPress(SPECIAL_KEY, true))
+			Hide();
 
-	if(input.IsKeyDown(ATTACK_KEY,  true))
-	{
-		Gallahad* g = (Gallahad*) obj_;
-		g->Shoot();
-		Attack();
+		if(input.KeyPress(JUMP_KEY, true))
+			Jump();
 	}
-	else
-	{
-		Gallahad* g = (Gallahad*) obj_;
-		g->Hold();
-	}
-
-	if(input.KeyPress(SPECIAL_KEY, true))
-		Hide();
-
-	if(input.KeyPress(JUMP_KEY, true))
-		Jump();
-
-	}
-
-
-
-
-
-
-	if(input.MousePress(LEFT_MOUSE_BUTTON))
-		Save(true);
-	if(input.MousePress(RIGHT_MOUSE_BUTTON))
-		Save(false);
 
 	ProcessItems();
 }
@@ -89,10 +74,17 @@ void GallahadInputComponent::Hide()
 	}
 }
 
-void GallahadInputComponent::Active(){
+void GallahadInputComponent::Toggle()
+{
 	Gallahad* g = (Gallahad*) obj;
-	if(g->GetActive() == true)
-		g->SetActive(false);
+	if(g->Active())
+	{
+		g->Activate(false);
+		g->GetDrone()->Activate(true);
+	}
 	else
-		g->SetActive(true);
+	{
+		g->Activate(true);
+		g->GetDrone()->Activate(false);
+	}
 }

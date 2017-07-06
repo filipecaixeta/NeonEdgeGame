@@ -13,7 +13,7 @@ class GallahadGraphicsComponent: public GraphicsComponent
 public:
 	GallahadGraphicsComponent(std::string baseName_);
 	~GallahadGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif // GALLAHADGRAPHICSCOMPONENT_H

@@ -18,7 +18,7 @@ ArthurGraphicsComponent::~ArthurGraphicsComponent(){
 
 }
 
-void ArthurGraphicsComponent::Update(Character* obj, float dt){
+void ArthurGraphicsComponent::Update(GameObject* obj, float dt){
 	mirror = (obj->facing == GameObject::LEFT);
 
 	Arthur* a = (Arthur*) obj;

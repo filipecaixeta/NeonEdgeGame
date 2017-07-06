@@ -34,14 +34,14 @@ void Box::Trigger(TileMap* map)
 
 void Box::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Gallahad") || other->Is("Lancelot") || other->Is("Player"))
+	if(other->Is("Player") && !other->Is("Drone"))
 	{
 		Character* c = (Character*) other;
-		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y))
+		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y) && (other->facing == RIGHT))
 		{
 			box.x += 5;
 		}
-		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y))
+		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y) && (other->facing == LEFT))
 		{
 			box.x -= 5;
 		}
@@ -53,10 +53,40 @@ void Box::NotifyObjectCollision(GameObject* other)
 			}
 		}
 	}
+	if(other->Is("Drone"))
+	{
+		if(other->box.x < box.x && other->box.y > box.y)
+		{
+			box.x += 10;
+		}
+		if(other->box.x > box.x && other->box.y > box.y)
+		{
+			box.x -= 10;
+		}
+		if(other->box.y < box.y)
+		{
+			other->box.y -= 10;
+		}
+	}
+	if(other->Is("Door"))
+	{
+		Door* d = (Door*) other;
+		if(d->hard)
+		{
+			if(box.x < other->box.x)
+			{
+				box.x -= 10;
+			}
+			else
+			{
+				box.x += 10;
+			}
+		}
+	}
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Gallahad") || p->owner->Is("Player"))
+		if(p->GetOwner()->Is("Gallahad") || p->GetOwner()->Is("Player"))
 		{
 			if(!triggerCooldown.IsRunning())
 			{

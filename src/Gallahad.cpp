@@ -5,20 +5,20 @@
 #include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "Attack.h"
 #include "Projectile.h"
 
-Gallahad::Gallahad(ItensManager* itemManager, int x, int y):
+Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	Player(itemManager,x,y),
 	hiding(1500),
 	shooting(false)
 {
+	name = "Gallahad";
 	inputComponent = new GallahadInputComponent();
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
-	name = "Gallahad";
 	box.SetWH(graphicsComponent->GetSize());
+	drone = d;//new Drone(itemManager, x, y);
+	//StageState::AddObject(drone);
 	active = true;
-	std::cout << x << " " << y << "\n";
 }
 
 Gallahad::~Gallahad()
@@ -28,11 +28,10 @@ Gallahad::~Gallahad()
 
 void Gallahad::Attack()
 {
-	std::cout << box.x << " " << box.y << "\n";
 	//Starts attack timer
 	attackCD.Start();
 	//Generates attack object
-	StageState::AddObject(new Projectile("GallahadProjectile.png", 4, 80, this, Vec2(0.8, 0), 800, 1, false));
+	StageState::AddObject(new Projectile(this, Vec2(0.8, 0), 800, 1, false));
 }
 
 void Gallahad::Hide()
@@ -62,9 +61,24 @@ bool Gallahad::Shooting()
 	return shooting;
 }
 
+void Gallahad::Activate(bool on)
+{
+	active = on;
+}
+
+bool Gallahad::Active()
+{
+	return active;
+}
+
+Drone* Gallahad::GetDrone()
+{
+	Drone* d = (Drone*) drone;
+	return d;
+}
+
 void Gallahad::UpdateTimers(float dt)
 {
-	std::cout << box.x << " " << box.y << "\n";
 	Player::UpdateTimers(dt);
 	hiding.Update(dt);
 }
@@ -73,18 +87,8 @@ void Gallahad::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
 	inputComponent->Update(this,dt);
-	//if(active){ NÃO FAZ SENTIDO
-		physicsComponent.Update(this,map,dt);
-	//}
+	physicsComponent.Update(this,map,dt);
 	if(OutOfBounds(map))
 		SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);
-}
-
-void Gallahad::SetActive(bool active){
-	this->active = active;
-}
-
-bool Gallahad::GetActive(){
-	return active;
 }

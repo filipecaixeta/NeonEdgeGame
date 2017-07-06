@@ -32,10 +32,13 @@ void LancelotInputComponent::Update(Player* obj_, float dt_)
 
 	if(input.KeyPress(ATTACK_KEY,  true))
 	{
+		if(input.IsKeyDown(MOVE_LEFT_KEY,  true) || input.IsKeyDown(MOVE_RIGHT_KEY,  true))
+			Combo("Chop");
+		else if(input.IsKeyDown(SDLK_w))
+			Combo("Uppercut");
+		else
+			Combo("Straight");
 		Attack();
-		Lancelot *l = (Lancelot*)obj;
-		if(l->Charged() < 6)
-			l->Charge();
 	}
 	
 	if(input.IsKeyDown(SPECIAL_KEY, true))
@@ -54,9 +57,15 @@ void LancelotInputComponent::Update(Player* obj_, float dt_)
 
 void LancelotInputComponent::Block()
 {
-	Lancelot *l = (Lancelot*)obj;
+	Lancelot *l = (Lancelot*) obj;
 	if(l->GetEnergy() > 0 && !l->Blocking())
 	{
 		l->Block();
 	}
+}
+
+void LancelotInputComponent::Combo(std::string c)
+{
+	Lancelot *l = (Lancelot*) obj;
+	l->Combo(c);
 }

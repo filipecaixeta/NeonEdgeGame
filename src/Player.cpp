@@ -4,17 +4,24 @@
 Player::Player(ItensManager* itemManager, int x, int y):
 	Character(x,y),
 	inputComponent(nullptr),
+	itemManager(itemManager),
+	skills({false,false,true,true,true,false,false}),
+	skillPoints(2),
 	energy(5),
 	regenCD(500),
-	itemManager(itemManager),
 	crouching(false)
 {
-
+	name = "Player";
 }
 
 Player::~Player()
 {
 
+}
+
+bool Player::IsPlayer()
+{
+	return true;
 }
 
 int Player::GetEnergy()
@@ -39,7 +46,7 @@ bool Player::Crouching()
 
 void Player::EvalItem(std::string itemName)
 {
-	if (itemName=="Healing Potion")
+	if (itemName == "Healing Potion")
 	{
 		hitpoints += 5;
 		clamp(hitpoints,0,10);
@@ -49,17 +56,17 @@ void Player::EvalItem(std::string itemName)
 void Player::NotifyObjectCollision(GameObject* other)
 {
 	Character::NotifyObjectCollision(other);
-	if(other->Is("Notfredo"))
+	if(other->IsCharacter() && !other->IsPlayer())
 	{
 		Character* c = (Character*) other;
 		if(c->Attacking())
-			Damage(1);
+			Damage(c->Power());
 	}
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Notfredo"))
-			Damage(1);
+		if(!p->GetOwner()->IsPlayer())
+			Damage(p->Power());
 	}
 	if(other->Is("Energy"))
 	{
@@ -76,7 +83,7 @@ void Player::NotifyObjectCollision(GameObject* other)
 		{
 			regenCD.Start();
 			hitpoints += 1;
-			//clamp(hitpoints,0,5);
+			clamp(hitpoints,0,10);
 		}
 	}
 }

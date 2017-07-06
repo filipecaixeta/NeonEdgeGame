@@ -134,7 +134,7 @@ void Room::ObjectCleanup()
 				Camera::GetInstance().Unfollow();
 			if(objectArray[i] == StageState::GetPlayer())
 				StageState::KillPlayer();
-			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY());
+			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 		}
@@ -176,10 +176,11 @@ void Room::CreateObjects(){
 		else if(objectData.at(i).id == 1)
 		{
 			ItensManager* itensManager = new ItensManager();
-			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   		  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
+								   		  objectArray.at(objectArray.size()-1)));
 		}
 		else if(objectData.at(i).id == 2)
 		{
@@ -224,9 +225,9 @@ void Room::CreateObjects(){
         }*/
 		else if(objectData.at(i).id == 22)
         {
-        	AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        	/*AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));
+        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));*/
         }
 		else if(objectData.at(i).id == 23)
         {

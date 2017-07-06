@@ -54,7 +54,7 @@ void NotFredoStationary::NotifyObjectCollision(GameObject* other)
     if(other->Is("Projectile"))
     {
         Projectile* p = (Projectile*) other;
-        if(!p->owner->Is("NotFredoStationary"))
+        if(!p->GetOwner()->Is("NotFredoStationary"))
         {
             Damage(1);
         }

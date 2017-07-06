@@ -9,11 +9,16 @@
 class Door : public GameObject
 {
 private:
-	Sprite sp;
+	
 	bool locked;
 	bool dead;
+
 	
 public:
+
+	Sprite sp;
+	bool hard;
+
 	Door(int x, int y, std::string sprite, bool locked);
 	~Door();
 	bool IsDead();

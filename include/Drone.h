@@ -13,16 +13,13 @@ class Drone : public Player
 public:
 	Drone(ItensManager* itemManager, int x, int y);
 	~Drone();
+	void Activate(bool on);
+	bool Active();
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
-	void SetActive(bool active);
-	bool GetActive();
-	bool Is(std::string type);
-	bool IsDead();
 
 private:
 	bool active;
-	bool dead;
 };
 
 #endif /* DRONE_H_ */
