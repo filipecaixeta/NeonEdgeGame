@@ -56,7 +56,7 @@ private:
 	void CleanUpdateBars();
 
 public:
-	StageState(std::string mode_, int sizeX = 10, int sizeY = 10, std::string background = "background.png");
+	StageState(std::string mode_, int sizeX = 10, int sizeY = 10, std::string background = "background.png", std::string fase = "cidadeLancelot");
 	~StageState();
 
 	static GameObject* GetPlayer();
@@ -65,6 +65,7 @@ public:
 	static void AddObjectAsFirst(GameObject* ptr);
 	static void RemoveObject(GameObject* ptr);
 	static Room* GetCurrentRoom();
+	static std::string GetFase();
 	void AddWindow(Window* ptr);
 	void RemoveWindow(Window* ptr);
 
@@ -82,6 +83,7 @@ public:
 
 	State* inGameMenu;
 	static Player* player;
+	static std::string stage;
 };
 
 #endif /* STAGESTATE_H_ */

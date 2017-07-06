@@ -34,7 +34,7 @@ public:
 	void Update();
 	void Render();
 	bool Is(std::string type);
-    CutsceneObject AddCutsceneObject(std::string sprite, int x, int y,bool mirror);
+    void AddCutsceneObject(std::string sprite, int x, int y,bool mirror, float frameTime = 0, int frameCount = 1);
 };
 
 #endif

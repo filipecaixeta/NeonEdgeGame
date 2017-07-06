@@ -11,10 +11,11 @@
 #include "menu/inGamePause.h"
 #include "ColisionFunctions.h"
 
+std::string StageState::stage = "";
 Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
-StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string background):
+StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string background, std::string fase):
 	State(),
 	mode(mode_),
 	tileSet(nullptr),
@@ -68,6 +69,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
 
 	CreateBars(player->name);
+
+	stage = fase;
 }
 
 StageState::~StageState()

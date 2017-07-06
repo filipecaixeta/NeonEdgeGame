@@ -6,7 +6,7 @@ DialogWindow::DialogWindow(int posX, int posY, std::string texto,std::string cha
 	fontName = "Sabo-Filled.ttf";
 	sp = Sprite("window.png");
     if(!spriteRetrato.empty())
-    	face = new Sprite(spriteRetrato.c_str(), 8, 80, false, true);
+    	face = new Sprite(spriteRetrato.c_str(), 8, 80, false, false);
     else
     	face = nullptr;
 
@@ -15,7 +15,7 @@ DialogWindow::DialogWindow(int posX, int posY, std::string texto,std::string cha
 	box.w = face->GetWidth() + sp.GetWidth();
 	box.h = face->GetHeight();
 
-	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, sp.GetWidth()));
+	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, sp.GetWidth() - 30));
 	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
     nameTexture = Text::GetText(fontName,fontSize,fontColor,charName, sp.GetWidth());
     characterName = new Sprite(nameTexture,1,0,true);
@@ -31,7 +31,7 @@ void DialogWindow::Render(int cameraX, int cameraY){
 		face->Render(box.x, box.y);
 	sp.Render(box.x + face->GetWidth(), box.y + 23);
 	for(unsigned int i = 0; i < dialog.size(); i++)
-		dialog.at(i)->Render(372, 587);
+		dialog.at(i)->Render(362, 567);
     if(face!= nullptr)
     	characterName->Render(357, 542);
 }

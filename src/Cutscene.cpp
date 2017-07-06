@@ -25,10 +25,10 @@ Cutscene::Cutscene(int index, bool textOnly){
 		break;
 
         case 1:
-            AddCutsceneObject("Introducao.png",0,0,false);
+            AddCutsceneObject("Introducao.png",25,0,false,100,8);
             textBox.emplace_back(new DialogWindow(59,514,"Lancelot, I have an urgent task for you: the Empire Guard is reporting a rogue A.I. breakout in Crusallias City, Sector 7. I need you on-site to find the source and destroy it.","King Arthur","retrato_arthur.png"));
             textBox.emplace_back(new DialogWindow(59,514,"W-What?! Crusallias is the biggest city on Castella! Were there casualties? Is the guard caring for the population?","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"It doesn’t matter, soldier. The source of the breakout is of utmost importance to the mission, we can’t let it stage any other attack against the empire.","King Arthur","retrato_arthur.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"It doesnt matter, soldier. The source of the breakout is of utmost importance to the mission, we cant let it stage any other attack against the empire.","King Arthur","retrato_arthur.png"));
             textBox.emplace_back(new DialogWindow(59,514,"...Right. I am on my way, Your Highness.","Lancelot","retrato_lancelot.png"));
         break;
 
@@ -37,18 +37,18 @@ Cutscene::Cutscene(int index, bool textOnly){
             AddCutsceneObject("LancelotIdle.png",0,0,false);
             AddCutsceneObject("GalahadIdle.png",100,100,true);
             textBox.emplace_back(new DialogWindow(59,514,"Knight Galahad? What are you doing here?","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"Calm down, rookie. I’m not here to steal your mission or anything. I have more important things to do, like warning you about what happened to these drones.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"Calm down, rookie. Im not here to steal your mission or anything. I have more important things to do, like warning you about what happened to these drones.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(59,514,"What do you mean? This better not be another one of your tricks.","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"Heh, if only. You were told the bots are going rogue right? Well, they are not. Someone gave them orders to do this, and they came from the Avalon Space Station. I’m going to investigate it further.","Galahad","retrato_galahad.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"Well, this doesn’t make any sense. The only ones who can send out orders from the station are the Knights and King Arthur himself. And every knight except me was assigned to a mission this past week.","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"And I’m speaking with you right now, so I guess you have your answer. I’ll get going, Lancelot. Do what you must.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"Heh, if only. You were told the bots are going rogue right? Well, they are not. Someone gave them orders to do this, and they came from the Avalon Space Station. Im going to investigate it further.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"Well, this doesnt make any sense. The only ones who can send out orders from the station are the Knights and King Arthur himself. And every knight except me was assigned to a mission this past week.","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"And Im speaking with you right now, so I guess you have your answer. Ill get going, Lancelot. Do what you must.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(59,514,"...","Lancelot","retrato_lancelot.png"));
         break;
 
         case 3:
             AddCutsceneObject("galahad-sozinha.png",0,0,false);
             AddCutsceneObject("GalahadIdle.png",100,100,false);
-            textBox.emplace_back(new DialogWindow(59,514,"The data is mine, now let me see… Wait, what? The logs date back to more than a year ago… They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action… by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements… If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"The data is mine, now let me see… Wait, what? The logs date back to more than a year ago… They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
         break;
 
         case 4:
@@ -62,12 +62,12 @@ Cutscene::Cutscene(int index, bool textOnly){
             AddCutsceneObject("GalahadIdle.png",200,100,false);
             textBox.emplace_back(new DialogWindow(59,514,"Great, now that i have taken care of the big guy I can hack the local mainframe and learn the truth.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(59,514,"...No...","Galahad","retrato_galahad.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"I must tell Lancelot about this. The A.I. were ordered to kill by the king himself, It seems like the data I found on the station was true… Arthur sent his knight to die.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"I must tell Lancelot about this. The A.I. were ordered to kill by the king himself, It seems like the data I found on the station was true... Arthur sent his knight to die.","Galahad","retrato_galahad.png"));
         break;
 
         case 6:
             textBox.emplace_back(new DialogWindow(59,514,"Someone is calling me? ...Galahad? What Happened?","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"What...no… I will only believe if i hear it from the king himself.","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"What...no... I will only believe if i hear it from the king himself.","Lancelot","retrato_lancelot.png"));
         break;
 
         case 7:
@@ -140,16 +140,16 @@ bool Cutscene::Is(std::string type){
 	return true;
 }
 
-CutsceneObject Cutscene::AddCutsceneObject(std::string sprite, int x, int y,bool mirror){
-	CutsceneObject aux;
-	aux.sp = new Sprite(sprite);
-    aux.sp->Mirror(mirror);
-	aux.box.x = x;
-	aux.box.y = y;
-	aux.box.w = aux.sp->GetWidth();
-	aux.box.h = aux.sp->GetHeight();
+void Cutscene::AddCutsceneObject(std::string sprite, int x, int y,bool mirror, float frameTime, int frameCount){
+	CutsceneObject* aux;
+	aux->sp = new Sprite(sprite, frameCount, frameTime, false, false);
+    aux->sp->Mirror(mirror);
+	aux->box.x = x;
+	aux->box.y = y;
+	aux->box.w = aux->sp->GetWidth();
+	aux->box.h = aux->sp->GetHeight();
 
-	return aux;
+	objs.emplace_back(*aux);
 }
 
 bool Cutscene::Next(){
