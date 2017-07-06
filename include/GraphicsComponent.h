@@ -2,6 +2,7 @@
 #define GRAPHICSCOMPONENT_H
 
 #include <string>
+#include <vector>
 
 #include "Vec2.h"
 #include "Sprite.h"

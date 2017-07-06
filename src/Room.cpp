@@ -212,6 +212,9 @@ void Room::CreateObjects(){
 			AddObject(new Turret(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
+		else if(objectData.at(i).id == 19){
+			
+		}
 		else if(objectData.at(i).id == 20)
         {
         	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
