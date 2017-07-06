@@ -47,7 +47,7 @@ void MainMenu::Update()
 		if (SelectedOptionIs("Lancelot"))
 		{
 			music.Stop();
-			Game::GetInstance().AddState(new Cutscene(0));
+			Game::GetInstance().AddState(new Cutscene(0, true));
 		}
 		if (SelectedOptionIs("Galahad"))
 		{

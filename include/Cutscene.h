@@ -23,10 +23,11 @@ private:
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 16;
 	std::string fontName;
+	bool textOnly;
 	bool Next();
 
 public:
-	Cutscene(int index);
+	Cutscene(int index, bool textOnly = false);
 	~Cutscene();
 	void LoadAssets();
 	void Update();
