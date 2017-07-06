@@ -52,6 +52,11 @@ void InGameItens::LoadAssets()
 	SetOption(1);
 	if (itens.size()!=0)
 		SetItemText(itens[0]);
+
+	blackOpacity.Open("menus/smallBlack.png",true);
+	blackOpacity.SetScaleX(2000);
+	blackOpacity.SetScaleY(2000);
+	blackOpacity.SetTransparency(0.5);
 }
 
 void InGameItens::SetItemText(ItensManager::itemType item)
@@ -160,10 +165,12 @@ void InGameItens::SetHotBarOption(int i)
 
 void InGameItens::Render()
 {
+	blackOpacity.Render(0,0);
 	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
 	bg.Render(bgXY);
 	Vec2 pos(27,101-96);
 	int i=0;
+	Vec2 offset(29,23);
 	for(auto option: menuOptions)
 	{
 		if (i%rowSize==0)
@@ -171,14 +178,14 @@ void InGameItens::Render()
 			pos.y += 96;
 			pos.x = 27;
 		}
-		option.sprite->Render(bgXY+pos);
+		option.sprite->Render(bgXY+pos+offset);
 		pos.x += 92;
 		i++;
 	}
 	pos = Vec2(27,373);
 	for(auto option: hotBarOptions)
 	{
-		option.sprite->Render(bgXY+pos);
+		option.sprite->Render(bgXY+pos+offset);
 		pos.x += 92;
 	}
 	itemTitle->Render(bgXY+Vec2(323,111));

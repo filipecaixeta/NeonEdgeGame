@@ -24,6 +24,7 @@ private:
 	std::vector<Option> hotBarOptions;
 	int currentHotBarOption;
 	bool isOnHotBar;
+	Sprite blackOpacity;
 };
 
 #endif // INGAMEITENS_H
