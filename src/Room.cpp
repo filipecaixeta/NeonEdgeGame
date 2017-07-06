@@ -224,9 +224,9 @@ void Room::CreateObjects(){
         }*/
 		else if(objectData.at(i).id == 22)
         {
-        	AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        	/*AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));
+        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));*/
         }
 		else if(objectData.at(i).id == 23)
         {
