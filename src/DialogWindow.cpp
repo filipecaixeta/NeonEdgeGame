@@ -3,14 +3,17 @@
 #include <iostream>
 
 DialogWindow::DialogWindow(int posX, int posY, std::string texto,std::string charName, std::string spriteRetrato){
-	fontName = "8bitOperatorPlus8-Regular.ttf";
+	fontName = "Sabo-Filled.ttf";
 	sp = Sprite("window.png");
-    face = Sprite(spriteRetrato.c_str(), 8, 80);
+    if(!spriteRetrato.empty())
+    	face = new Sprite(spriteRetrato.c_str(), 8, 80, false, true);
+    else
+    	face = nullptr;
 
 	box.x = posX;
 	box.y = posY;
-	box.w = face.GetWidth() + sp.GetWidth();
-	box.h = face.GetHeight();
+	box.w = face->GetWidth() + sp.GetWidth();
+	box.h = face->GetHeight();
 
 	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, sp.GetWidth()));
 	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
@@ -20,13 +23,15 @@ DialogWindow::DialogWindow(int posX, int posY, std::string texto,std::string cha
 
 void DialogWindow::Update(float dt)
 {
-    face.Update(dt);
+    face->Update(dt);
 }
 
 void DialogWindow::Render(int cameraX, int cameraY){
-	face.Render(box.x, box.y);
-	sp.Render(box.x + face.GetWidth(), box.y);
+	if(face != nullptr)
+		face->Render(box.x, box.y);
+	sp.Render(box.x + face->GetWidth(), box.y);
 	for(unsigned int i = 0; i < dialog.size(); i++)
-		dialog.at(i)->Render(box.x + 4 - cameraX, box.y + 4 - cameraY);
-    characterName->Render(box.x, box.y);
+		dialog.at(i)->Render(372, 547);
+    if(face!= nullptr)
+    	characterName->Render(367, 512);
 }

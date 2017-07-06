@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "Resources.h"
 #include "StageState.h"
+#include "Cutscene.h"
 #include "Text.h"
 #include <iostream>
 //#include <fstream>
@@ -46,7 +47,7 @@ void MainMenu::Update()
 		if (SelectedOptionIs("Lancelot"))
 		{
 			music.Stop();
-			Game::GetInstance().AddState(new StageState("Lancelot"));
+			Game::GetInstance().AddState(new Cutscene(0));
 		}
 		if (SelectedOptionIs("Galahad"))
 		{

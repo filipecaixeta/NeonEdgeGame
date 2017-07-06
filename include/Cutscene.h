@@ -17,13 +17,19 @@ struct CutsceneObject
 class Cutscene : public State{
 private:
 	std::vector<CutsceneObject> objs;
-	DialogWindow* textBox;
+	std::vector<DialogWindow*> textBox;
+	std::vector<SDL_Texture*> textArray;
+	std::vector<Sprite*> dialog;
+	SDL_Color fontColor = {255,255,255,255};
+	int fontSize = 16;
+	std::string fontName;
+	bool Next();
 
 public:
 	Cutscene(int index);
 	~Cutscene();
 	void LoadAssets();
-	void Update(float dt);
+	void Update();
 	void Render();
 	bool Is(std::string type);
 	CutsceneObject AddCutsceneObject(std::string sprite, int x, int y);

@@ -23,7 +23,7 @@ private:
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 24;
 	std::string fontName;
-    Sprite face;
+    Sprite* face;
 
 };
 
