@@ -15,7 +15,7 @@ void SceneObjects::Render()
 {
 	for(auto& obj: objs)
 		for(auto& pos: obj.second.positionVec)
-			obj.second.sp.Render(pos.x - Camera::GetInstance().pos.x, pos.y - Camera::GetInstance().pos.y);
+			obj.second.sp.Render(pos.x - Camera::GetInstance().pos.x, pos.y - Camera::GetInstance().pos.y - obj.second.sp.GetHeight());
 }
 
 void SceneObjects::Update()
@@ -67,7 +67,22 @@ void SceneObjects::LoadObjects(std::string file)
 		char name[40];
 		SDL_Point pos;
 		std::sscanf(line.c_str(),"%s %d,%d",name,&pos.x,&pos.y);
-		AddObject(name,pos);
+		if (objs.count(name)==0)
+		{
+			Obj obj;
+			std::string name2 = std::string("sceneObjs/")+std::string(name)+std::string(".png");
+			if (FILE *file = std::fopen((Resources::BASENAME_IMAGE+name2).c_str(), "r"))
+			{
+				fclose(file);
+				obj.sp.Open(name2);
+				obj.positionVec.push_back(pos);
+				objs.emplace(name,obj);
+			}
+		}
+		else
+		{
+			objs[name].positionVec.push_back(pos);
+		}
 	}
 	f.close();
 }

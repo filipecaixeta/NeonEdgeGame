@@ -134,7 +134,7 @@ void Room::ObjectCleanup()
 				Camera::GetInstance().Unfollow();
 			if(objectArray[i] == StageState::GetPlayer())
 				StageState::KillPlayer();
-			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY());
+			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 		}

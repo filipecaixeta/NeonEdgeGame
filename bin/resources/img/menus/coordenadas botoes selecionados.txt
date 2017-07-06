@@ -1,0 +1,9 @@
+botao maior - x: 417,5 px; y: 370,5px
+botao de baixo 1 - x: 410,5; y: 534
+botao de baixo 2 - x: 296,5; y: 530,5
+botao de baixo 3 - x: 166,5; y: 529
+
+botao de cima 1 - x: 413,5; y: 188
+botao de cima 2 - x: 285,5; y: 196
+botao de cima 3 - x: 164; y: 197
+
