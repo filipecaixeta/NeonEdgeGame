@@ -45,19 +45,19 @@ Cutscene::Cutscene(int index, bool textOnly){
         break;
 
         case 3:
-            AddCutsceneObject("galahad-sozinha.png",0,0);
+            AddCutsceneObject("galahad-sozinha.png",0,0,false);
             AddCutsceneObject("GalahadIdle.png",100,100,false);
             textBox.emplace_back(new DialogWindow(333,537,"The data is mine, now let me see… Wait, what? The logs date back to more than a year ago… They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action… by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements… If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
         break;
 
         case 4:
             AddCutsceneObject("GalahadIdle.png",100,100,false);
-            AddCutsceneObject("galahad-stage-3.png",0,0);
+            AddCutsceneObject("galahad-stage-3.png",0,0,false);
             textBox.emplace_back(new DialogWindow(333,537,"This is the place. I must find out what happened here.","Galahad","retrato_galahad.png"));
         break;
 
         case 5:
-            AddCutsceneObject("galahad-stage-end.png",0,0);
+            AddCutsceneObject("galahad-stage-end.png",0,0,false);
             AddCutsceneObject("GalahadIdle.png",200,100,false);
             textBox.emplace_back(new DialogWindow(333,537,"Great, now that i have taken care of the big guy I can hack the local mainframe and learn the truth.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(333,537,"...No...","Galahad","retrato_galahad.png"));
@@ -70,7 +70,7 @@ Cutscene::Cutscene(int index, bool textOnly){
         break;
 
         case 7:
-            AddCutsceneObject("lancelot-vs-arthur.png",0,0);
+            AddCutsceneObject("lancelot-vs-arthur.png",0,0,false);
             AddCutsceneObject("ArthurIdle.png",100,100,false);
             AddCutsceneObject("LancelotIdle.png",200,100,true);
             textBox.emplace_back(new DialogWindow(333,537,"YOUR HIGHNESS!","Lancelot","retrato_lancelot.png"));
