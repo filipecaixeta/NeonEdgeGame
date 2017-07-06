@@ -23,6 +23,7 @@ private:
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 16;
 	std::string fontName;
+	int index;
 	bool textOnly;
 	bool Next();
 
