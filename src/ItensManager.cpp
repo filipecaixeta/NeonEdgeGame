@@ -34,26 +34,30 @@ ItensManager::itemType ItensManager::GetItem(std::string name)
 void ItensManager::AddItem(int id)
 {
 	std::string imageName = "items.png";
-	int frameCount = 12;
+	int frameCount = 5;
 	std::string name = "";
 	std::string desc = "";
 	switch (id)
 	{
 		case 1:
-			name = "Healing Potion";
-			desc = "Provides health regeneration";
+			name = "Energy Potion 25";
+			desc = "";
 			break;
 		case 2:
-			name = "Arco";
-			desc = "Arco legal";
+			name = "Energy Potion 50";
+			desc = "";
 			break;
 		case 3:
-			name = "Vara de pesca";
-			desc = "Vara de pesca legal";
+			name = "Skill Coin";
+			desc = "";
 			break;
 		case 4:
-			name = "Coro";
-			desc = "Coro legal";
+			name = "Healing Potion 25";
+			desc = "Provides health regeneration by 25%";
+			break;
+		case 5:
+			name = "Healing Potion 50";
+			desc = "Provides health regeneration by 50%";
 			break;
 		default:
 			break;

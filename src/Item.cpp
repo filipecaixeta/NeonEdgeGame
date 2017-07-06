@@ -3,7 +3,7 @@
 #include "StageState.h"
 
 Item::Item(int id_, int x, int y):
-	sp(new Sprite("items.png",12)),
+	sp(new Sprite("items.png",5)),
 	dead(false),
 	id(id_-100)
 {
