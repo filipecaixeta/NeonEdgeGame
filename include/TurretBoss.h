@@ -7,16 +7,20 @@
 #include "TileMap.h"
 #include "TurretBossGraphicsComponent.h"
 
-enum TurretBossState{TIDLE,SPAWNING,SHOOTING};
+enum TurretBossState{tIDLE,tSPAWNING,tSHOOTING};
 
-class TurretBoss : public Character{
+class TurretBoss : public Character
+{
 public:
 	TurretBoss(int x, int y);
 	~TurretBoss();
+	void AddPiece(TurretPiece* piece);
+	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
-	void AddPiece(TurretPiece* piece);
+	void Render();
+
 private:
 
 	std::vector<TurretPiece*> pieces; 

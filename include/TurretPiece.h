@@ -9,10 +9,13 @@ public:
 	TurretPiece(Character* center, int x, int y, int type);
 	~TurretPiece();
 	void Shoot();
+	void NotifyObjectCollision(GameObject* other);
+	void Update(TileMap* world, float dt);
 
 private:
 	Character* center;
 	int type;
+	int refX, refY;
 };
 
 #endif

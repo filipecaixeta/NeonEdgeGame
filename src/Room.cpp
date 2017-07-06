@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "CeilingEnemy.h"
 #include "NotFredoStationary.h"
+#include "TurretBoss.h"
 #include "Turret.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
@@ -168,10 +169,7 @@ void Room::CreateObjects(){
 		{
 			ItensManager* itensManager = new ItensManager();
 			AddObjectAsFirst(new Lancelot(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
-			RemoveObject(objectArray[0]);
-			AddObjectAsFirst(new Lancelot(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+								   		  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
 		else if(objectData.at(i).id == 1)
 		{
@@ -185,7 +183,54 @@ void Room::CreateObjects(){
 		else if(objectData.at(i).id == 2)
 		{
 			AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
+								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
+		}
+		else if(objectData.at(i).id == 3)
+		{
+			TurretBoss* t;
+			TurretPiece* p;
+			AddObject(new TurretBoss(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+									 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			t = (TurretBoss*) objectArray.at(objectArray.size()-1);
+			AddObject(new TurretPiece(t, -50, -53, 4));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, -50, -163, 4));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, -50, -273, 4));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, -55, 2));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, -165, 2));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, -275, 2));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, 0, 1));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, -110, 1));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 0, -220, 1));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, -5, -358, 0));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 20, -53, 3));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 20, -163, 3));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
+			AddObject(new TurretPiece(t, 20, -273, 3));
+			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
+			t->AddPiece(p);
 		}
 		else if(objectData.at(i).id == 10)
 		{

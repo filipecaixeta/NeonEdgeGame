@@ -7,24 +7,29 @@ TurretPieceGraphicsComponent::TurretPieceGraphicsComponent(std::string baseName_
 {
 	switch(type){
 		case 0:
-			AddSprite(baseName, "Segment0", 9, 80);
-			sp = sprites["Segment0"];
-			surface = surfaces["Segment0"];
-		break;
-		case 1:
-			AddSprite(baseName, "Segment1", 2, 80);
-			sp = sprites["Segment1"];
-			surface = surfaces["Segment1"];
-		break;
-		case 2:
 			AddSprite(baseName, "Head", 13, 80);
 			sp = sprites["Head"];
 			surface = surfaces["Head"];
+		break;
+		case 1:
+			AddSprite(baseName, "Body1", 9, 80);
+			sp = sprites["Body1"];
+			surface = surfaces["Body1"];
+		break;
+		case 2:
+			AddSprite(baseName,"Body2", 2, 80);
+			sp = sprites["Body2"];
+			surface = surfaces["Body2"];
 		break;
 		case 3:
 			AddSprite(baseName, "GunFront", 1, 80);
 			sp = sprites["GunFront"];
 			surface = surfaces["GunFront"];
+		break;
+		case 4:
+			AddSprite(baseName, "GunBack", 1, 80);
+			sp = sprites["GunBack"];
+			surface = surfaces["GunBack"];
 		break;
 	}
 }

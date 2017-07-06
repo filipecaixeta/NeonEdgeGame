@@ -79,6 +79,11 @@ void GameObject::SolidCollision(GameObject* other)
 				}
 			}
 		}
+		if(y > other->box.y+other->box.h)
+		{
+			box.y = other->box.y+other->box.h+1;
+			c->physicsComponent.velocity.y = 0;
+		}
 		c->graphicsComponent->Update(this,0);
 	}
 }
