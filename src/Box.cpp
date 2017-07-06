@@ -86,7 +86,7 @@ void Box::NotifyObjectCollision(GameObject* other)
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Gallahad") || p->owner->Is("Player"))
+		if(p->GetOwner()->Is("Gallahad") || p->GetOwner()->Is("Player"))
 		{
 			if(!triggerCooldown.IsRunning())
 			{

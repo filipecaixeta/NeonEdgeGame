@@ -176,10 +176,11 @@ void Room::CreateObjects(){
 		else if(objectData.at(i).id == 1)
 		{
 			ItensManager* itensManager = new ItensManager();
-			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								   		  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
+								   		  objectArray.at(objectArray.size()-1)));
 		}
 		else if(objectData.at(i).id == 2)
 		{

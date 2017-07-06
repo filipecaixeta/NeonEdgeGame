@@ -14,7 +14,7 @@ class LancelotGraphicsComponent: public GraphicsComponent
 public:
 	LancelotGraphicsComponent(std::string baseName_);
 	~LancelotGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif // LANCELOTGRAPHICSCOMPONENT_H

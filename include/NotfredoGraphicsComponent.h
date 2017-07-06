@@ -14,7 +14,7 @@ class NotfredoGraphicsComponent: public GraphicsComponent
 public:
 	NotfredoGraphicsComponent(std::string baseName_);
 	~NotfredoGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif // NOTFREDOGRAPHICSCOMPONENT_H

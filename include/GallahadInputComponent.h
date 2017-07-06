@@ -9,7 +9,7 @@ public:
 	GallahadInputComponent();
 	void Update(Player* obj_, float dt_);
 	void Hide();
-	void Active();
+	void Toggle();
 };
 
 #endif // GALLAHADINPUTCOMPONENT_H

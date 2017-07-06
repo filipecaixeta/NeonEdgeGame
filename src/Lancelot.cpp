@@ -3,18 +3,15 @@
 #include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
-#include "Attack.h"
-#include "Melee.h"
 #include "Projectile.h"
 
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	Player(itemManager,x,y),
-	blocking(1000),
-	charges(0)
+	blocking(1000)
 {
+	name = "Lancelot";
 	inputComponent = new LancelotInputComponent();
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
-	name = "Lancelot";
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(0);
 }
@@ -26,6 +23,24 @@ Lancelot::~Lancelot()
 
 void Lancelot::Attack()
 {
+	if(combo == "Straight")
+	{
+		attacking.SetLimit(240);
+		attackCD.SetLimit(100);
+		Empower(1);
+	}
+	else if(combo == "Uppercut")
+	{
+		attacking.SetLimit(240);
+		attackCD.SetLimit(500);
+		Empower(2);
+	}
+	else if(combo == "Chop")
+	{
+		attacking.SetLimit(320);
+		attackCD.SetLimit(800);
+		Empower(3);
+	}
 	//Starts attack timer
 	attacking.Start();
 }
@@ -37,9 +52,9 @@ void Lancelot::Block()
 	clamp(energy,0,5);
 }
 
-void Lancelot::Charge()
+void Lancelot::Combo(std::string c)
 {
-	charges++;
+	combo = c;
 }
 
 bool Lancelot::Blocking()
@@ -47,19 +62,17 @@ bool Lancelot::Blocking()
 	return blocking.IsRunning();
 }
 
-int Lancelot::Charged()
+std::string Lancelot::WhichCombo()
 {
-	return charges;
+	return combo;
 }
 
 void Lancelot::UpdateTimers(float dt)
 {
-	attacking.SetLimit(60+(200*charges));
 	invincibilityTimer.Update(dt);
 	attacking.Update(dt);
 	if(attacking.GetElapsed() == 1)
 	{
-		charges = 0;
 		attacking.Reset();
 		attackCD.Start();
 	}

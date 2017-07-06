@@ -13,7 +13,7 @@ CeilingEnemyGraphicsComponent::~CeilingEnemyGraphicsComponent()
 
 }
 
-void CeilingEnemyGraphicsComponent::Update(Character* obj, float dt)
+void CeilingEnemyGraphicsComponent::Update(GameObject* obj, float dt)
 {
     UpdateSprite(obj, "Idle");
     sp->Update(dt);

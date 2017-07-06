@@ -14,7 +14,7 @@ class NotFredoStationaryGraphicsComponent: public GraphicsComponent
 public:
     NotFredoStationaryGraphicsComponent(std::string baseName_);
     ~NotFredoStationaryGraphicsComponent();
-    void Update(Character* obj, float dt);
+    void Update(GameObject* obj, float dt);
 };
 
 

@@ -14,7 +14,7 @@ DroneGraphicsComponent::~DroneGraphicsComponent()
 
 }
 
-void DroneGraphicsComponent::Update(Character* obj, float dt)
+void DroneGraphicsComponent::Update(GameObject* obj, float dt)
 {
 	Drone* l = (Drone*) obj;
 

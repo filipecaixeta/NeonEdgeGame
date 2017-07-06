@@ -21,14 +21,14 @@ GallahadGraphicsComponent::~GallahadGraphicsComponent()
 
 }
 
-void GallahadGraphicsComponent::Update(Character* obj, float dt)
+void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
 {
 	Gallahad* g = (Gallahad*) obj;
 
 	mirror = (obj->facing == GameObject::LEFT);
 	if(g->Shooting())
 	{
-		if(obj->physicsComponent.velocity.x != 0)
+		if(g->physicsComponent.velocity.x != 0)
 			UpdateSprite(obj, "RunningShot");
 		else if(obj->footing == GameObject::AIRBORNE)
 			UpdateSprite(obj, "JumpingShot");
@@ -43,7 +43,7 @@ void GallahadGraphicsComponent::Update(Character* obj, float dt)
 	{
 		UpdateSprite(obj, "Jumping");
 	}
-	else if(obj->physicsComponent.velocity.x == 0)
+	else if(g->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}

@@ -14,7 +14,7 @@ class ArthurGraphicsComponent: public GraphicsComponent
 public:
 	ArthurGraphicsComponent(std::string baseName_);
 	~ArthurGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif /*ARTHURGRAPHICSCOMPONENT_H*/

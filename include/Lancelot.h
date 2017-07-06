@@ -15,14 +15,14 @@ public:
 	~Lancelot();
 	void Attack();
 	void Block();
-	void Charge();
+	void Combo(std::string c);
 	bool Blocking();
-	int Charged();
+	std::string WhichCombo();
 	void UpdateTimers(float dt);
 
 private:
 	Timer blocking;
-	int charges;
+	std::string combo;
 };
 
 #endif /* LANCELOT_H_ */

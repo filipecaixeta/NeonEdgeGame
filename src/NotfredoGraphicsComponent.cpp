@@ -14,10 +14,11 @@ NotfredoGraphicsComponent::~NotfredoGraphicsComponent()
 {
 }
 
-void NotfredoGraphicsComponent::Update(Character* obj, float dt)
+void NotfredoGraphicsComponent::Update(GameObject* obj, float dt)
 {
+	Character* c = (Character*) obj;
 	mirror = (obj->facing == GameObject::LEFT);
-	if(obj->physicsComponent.velocity.x == 0)
+	if(c->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}

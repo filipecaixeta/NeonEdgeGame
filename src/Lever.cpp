@@ -97,7 +97,7 @@ void Lever::NotifyObjectCollision(GameObject* other)
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(p->owner->Is("Player"))
+		if(p->GetOwner()->Is("Player"))
 		{
 			if(!triggerCooldown.IsRunning())
 			{
@@ -118,7 +118,7 @@ void Lever::NotifyObjectCollision(GameObject* other)
 	if(other->Is("Drone"))
 	{
 		Drone* d = (Drone*) other;
-		if(d->GetActive())
+		if(d->Active())
 		{
 			if(!triggerCooldown.IsRunning())
 			{

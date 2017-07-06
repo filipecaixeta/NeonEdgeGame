@@ -14,7 +14,7 @@ class DroneGraphicsComponent: public GraphicsComponent
 public:
 	DroneGraphicsComponent(std::string baseName_);
 	~DroneGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif // DroneGRAPHICSCOMPONENT_H

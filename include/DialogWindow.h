@@ -6,7 +6,6 @@
 
 #include "Window.h"
 #include "Sprite.h"
-#include "Button.h"
 #include "Text.h"
 
 class DialogWindow: public Window{

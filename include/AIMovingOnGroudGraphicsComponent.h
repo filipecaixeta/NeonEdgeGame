@@ -14,7 +14,7 @@ class AIMovingOnGroudGraphicsComponent: public GraphicsComponent
 public:
 	AIMovingOnGroudGraphicsComponent(std::string baseName_);
 	~AIMovingOnGroudGraphicsComponent();
-	void Update(Character* obj, float dt);
+	void Update(GameObject* obj, float dt);
 };
 
 #endif // AIMOVINGONGROUDGRAPHICSCOMPONENT_H

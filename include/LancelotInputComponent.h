@@ -9,6 +9,7 @@ public:
 	LancelotInputComponent();
 	void Update(Player* obj_, float dt_);
 	void Block();
+	void Combo(std::string c);
 };
 
 #endif // LANCELOTINPUTCOMPONENT_H

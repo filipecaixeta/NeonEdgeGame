@@ -10,7 +10,7 @@ class CeilingEnemyGraphicsComponent: public GraphicsComponent
 public:
     CeilingEnemyGraphicsComponent(std::string baseName_);
     ~CeilingEnemyGraphicsComponent();
-    void Update(Character* obj,float dt);
+    void Update(GameObject* obj, float dt);
 
 };
 

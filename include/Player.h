@@ -15,6 +15,7 @@ class Player : public Character
 public:
 	Player(ItensManager* itemManager,int x, int y);
 	virtual ~Player();
+	virtual bool IsPlayer();
 	virtual int GetEnergy();
 	virtual void Crouch();
 	virtual void Stand();
@@ -25,10 +26,10 @@ public:
 	virtual void Update(TileMap* map,float dt);
 	virtual bool Is(std::string type);
 
+	enum {SkillBlocking3 = 0,SkillBlocking2,SkillBlocking1,Skill,SkillWeapon_1,SkillWeapon_2,SkillWeapon_3};
+
 	InputComponent* inputComponent;
 	ItensManager* itemManager;
-	enum {SkillBlocking3=0,SkillBlocking2,SkillBlocking1,Skill,SkillWeapon1,SkillWeapon2,SkillWeapon3};
-	enum {SkillDrone3=0,SkillDrone2,SkillDrone1,SkillStealth1=4,SkillStealth2,SkillStealth3};
 	bool skills[7];
 	int skillPoints;
 

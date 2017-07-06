@@ -9,8 +9,10 @@ LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"Jumping",8,80,true);
 	AddSprite(baseName,"Walled",1,0);
 	AddSprite(baseName,"Crouching",4,80,true);
-	AddSprite(baseName,"Blocking",6,80, true);
-	AddSprite(baseName,"Attacking",11,80);
+	AddSprite(baseName,"Blocking",6,80,true);
+	AddSprite(baseName,"AttackingStraight",3,80,true);
+	AddSprite(baseName,"AttackingUppercut",3,80,true);
+	AddSprite(baseName,"AttackingChop",4,80,true);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }
@@ -20,14 +22,14 @@ LancelotGraphicsComponent::~LancelotGraphicsComponent()
 
 }
 
-void LancelotGraphicsComponent::Update(Character* obj, float dt)
+void LancelotGraphicsComponent::Update(GameObject* obj, float dt)
 {
 	Lancelot* l = (Lancelot*) obj;
 
 	mirror = (obj->facing == GameObject::LEFT);
 	if(l->Attacking())
 	{
-		UpdateSprite(obj, "Attacking");
+		UpdateSprite(obj, "Attacking"+l->WhichCombo());
 		if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
 			obj->footing = GameObject::AIRBORNE;
 	}
@@ -52,7 +54,7 @@ void LancelotGraphicsComponent::Update(Character* obj, float dt)
 		UpdateSprite(obj, "Walled");
 		mirror = (obj->footing == GameObject::LEFT_WALLED);
 	}
-	else if(obj->physicsComponent.velocity.x == 0)
+	else if(l->physicsComponent.velocity.x == 0)
 	{
 		UpdateSprite(obj, "Idle");
 	}
