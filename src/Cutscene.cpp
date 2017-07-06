@@ -22,6 +22,16 @@ Cutscene::Cutscene(int index, bool textOnly){
 				dialog.emplace_back(new Sprite(textArray.at(i), 1, 0, true));
 			}
 		break;
+        case 1:
+            AddCutsceneObject("Introdução.png",0,0);
+            textBox.emplace_back(new DialogWindow(333,537,"Lancelot, I have an urgent task for you: the Empire Guard is reporting a rogue A.I. breakout in Crusallias City, Sector 7. I need you on-site to find the source and destroy it.","King Arthur","retrato_arthur.png"));
+            textBox.emplace_back(new DialogWindow(333,537,"W-What?! Crusallias is the biggest city on Castella! Were there casualties? Is the guard caring for the population?","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(333,537," It doesn’t matter, soldier. The source of the breakout is of utmost importance to the mission, we can’t let it stage any other attack against the empire.","King Arthur","retrato_arthur.png"));
+            textBox.emplace_back(new DialogWindow(333,537,"...Right. I am on my way, Your Highness.","Lancelot","retrato_lancelot.png"));
+        break;
+        case 2:
+
+        break;
 	}
 }
 
