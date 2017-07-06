@@ -27,6 +27,9 @@ public:
 
 	InputComponent* inputComponent;
 	ItensManager* itemManager;
+	enum {SkillBlocking3=0,SkillBlocking2,SkillBlocking1,Skill,SkillWeapon_1,SkillWeapon_2,SkillWeapon_3};
+	bool skills[7];
+	int skillPoints;
 
 protected:
 	int energy;

@@ -7,6 +7,8 @@ Player::Player(ItensManager* itemManager, int x, int y):
 	energy(5),
 	regenCD(500),
 	itemManager(itemManager),
+	skills({false,false,true,true,true,false,false}),
+	skillPoints(2),
 	crouching(false)
 {
 
