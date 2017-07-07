@@ -65,7 +65,7 @@ void GraphicsMenu::LoadAssets()
 		UpdateWindowModeSprite(	0, menuOptions2[2].sprite);
 	}
 
-	bg.Open("menus/BG_Back.png");
+	bg.Open("menus/BackgroundInicial2.png");
 	bgOptions.Open("menus/Screen-Menu-Neutro-Base.png");
 	selectedArrow.Open("menus/selected-arrows.png");
 	SetOption(1);
