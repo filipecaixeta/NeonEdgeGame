@@ -42,7 +42,7 @@ Game::Game(std::string title) {
 		exit(EXIT_FAILURE);
 	}
 
-	fps = 30;
+	fps = 60;
 	nextTime_ = 0;
 
     SDL_Point screenSize = GetFullScreenSize();
