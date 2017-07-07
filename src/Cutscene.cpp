@@ -48,7 +48,7 @@ Cutscene::Cutscene(int index, bool textOnly){
         case 3:
             AddCutsceneObject("galahad-sozinha.png",0,0,false);
             AddCutsceneObject("GalahadIdle.png",100,100,false);
-            textBox.emplace_back(new DialogWindow(59,514,"The data is mine, now let me see… Wait, what? The logs date back to more than a year ago… They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"The data is mine, now let me see... Wait, what? The logs date back to more than a year ago... They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
         break;
 
         case 4:
@@ -75,10 +75,10 @@ Cutscene::Cutscene(int index, bool textOnly){
             AddCutsceneObject("ArthurIdle.png",100,100,false);
             AddCutsceneObject("LancelotIdle.png",200,100,true);
             textBox.emplace_back(new DialogWindow(59,514,"YOUR HIGHNESS!","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"So, Lancelot, Galahad told you about her little discovery, I suppose? I’ve heard everything when I intercepted your communications channel just a moment ago.","King Arthur","retrato_arthur.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"W-what? you were spying on us? But if you already know what I’m talking about then I need an answer!","Lancelot","retrato_lancelot.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"The only answer you need, soldier, is that I don’t tolerate non-believers on my kingdom, doubting my righteousness as the king... Be it you, Galahad, or your predecessor.","King Arthur","retrato_arthur.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"So, you killed him.. I believed in you Arthur! I thought we were making a brighter future for everyone. Not feeding them lies! I don’t care if you are immortal, I will stop you!","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"So, Lancelot, Galahad told you about her little discovery, I suppose? Ive heard everything when I intercepted your communications channel just a moment ago.","King Arthur","retrato_arthur.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"W-what? you were spying on us? But if you already know what Im talking about then I need an answer!","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"The only answer you need, soldier, is that I dont tolerate non-believers on my kingdom, doubting my righteousness as the king... Be it you, Galahad, or your predecessor.","King Arthur","retrato_arthur.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"So, you killed him.. I believed in you Arthur! I thought we were making a brighter future for everyone. Not feeding them lies! I dont care if you are immortal, I will stop you!","Lancelot","retrato_lancelot.png"));
             textBox.emplace_back(new DialogWindow(59,514,"Danton, you dare to raise your blade against me and the whole kingdom will hunt you down, like the vermin you are! That other traitor, Galahad, is already being dealt with by Knight Mordred. You stand no chance.","King Arthur","retrato_arthur.png"));
             textBox.emplace_back(new DialogWindow(59,514,"En guarde...tyrant.","Lancelot","retrato_lancelot.png"));
         break;
