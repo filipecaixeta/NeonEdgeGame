@@ -48,7 +48,9 @@ Cutscene::Cutscene(int index, bool textOnly){
 
         case 3:
             AddCutsceneObject("CutsceneDialogo3.png",0,0,false);
-			textBox.emplace_back(new DialogWindow(58,514,"The data is mine, now let me see... Wait, what? The logs date back to more than a year ago... They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
+			textBox.emplace_back(new DialogWindow(58,514,"The data is mine, now let me see... Wait, what?","Galahad","retrato_galahad.png"));
+        	textBox.emplace_back(new DialogWindow(58,514,"The logs date back to more than a year ago... They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.?","Galahad","retrato_galahad.png"));
+        	textBox.emplace_back(new DialogWindow(58,514,"This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
         break;
 
         case 4:
