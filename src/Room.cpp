@@ -12,10 +12,13 @@
 
 #include "Character.h"
 #include "Player.h"
+#include "Lancelot.h"
+#include "Gallahad.h"
+#include "Drone.h"
 #include "CeilingEnemy.h"
-#include "NotFredoStationary.h"
-#include "TurretBoss.h"
 #include "Turret.h"
+#include "TurretBoss.h"
+#include "Arthur.h"
 
 #include "Interactive.h"
 #include "Door.h"
@@ -125,9 +128,9 @@ void Room::ObjectCollision()
 			{
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
-				if(objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
+				if(objectArray[i]->Is("Item") && objectArray[j]->IsPlayer())
 					dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-				else if(objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
+				else if(objectArray[j]->Is("Item") && objectArray[i]->IsPlayer())
 					dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
 			}
 		}
@@ -144,7 +147,7 @@ void Room::ObjectCleanup()
 				Camera::GetInstance().Unfollow();
 			if(objectArray[i] == StageState::GetPlayer())
 				StageState::KillPlayer();
-			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
+			sceneObjects.AddObjectAfter(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 		}
@@ -164,6 +167,7 @@ void Room::Render()
 	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	sceneObjects.Render();
 	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
+	sceneObjects.RenderAfter();
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		objectArray[i]->Render();
@@ -246,40 +250,16 @@ void Room::CreateObjects()
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
 			t->AddTurret(p);
 		}
-		else if(objectData.at(i).id == 10)
-		{
-			AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-                                    objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),GROUND));
-		}
-		else if(objectData.at(i).id == 12)
-        {
-            AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-                                   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),FLYING));
-        }
-		else if(objectData.at(i).id == 14)
+		else if(objectData.at(i).id == 14) // CeilingEnemy
         {
             AddObject(new CeilingEnemy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
                                        objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-		else if(objectData.at(i).id == 15)
-        {
-            AddObject(new NotFredoStationary(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-                                   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
-        }
-		else if(objectData.at(i).id == 16)
+		else if(objectData.at(i).id == 16) // Turret
 		{
 			AddObject(new Turret(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
-		else if(objectData.at(i).id == 19)
-		{
-			
-		}
-		else if(objectData.at(i).id == 20)
-        {
-        	AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
-        }
 		else if(objectData.at(i).id == 21) // Door
         {
         	AddObject(new Door(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
@@ -306,12 +286,6 @@ void Room::CreateObjects()
         {
         	AddObject(new BoxSpawner(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
-        }
-		else if(objectData.at(i).id == 41)
-        {
-			ItensManager* itensManager = new ItensManager();
-			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 		else if(objectData.at(i).id > 100) // Item
 		{

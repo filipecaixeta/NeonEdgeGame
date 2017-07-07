@@ -6,17 +6,6 @@
 #include <utility>
 
 #include "State.h"
-#include "Energy.h"
-#include "Life.h"
-
-#include "Box.h"
-#include "BoxSpawner.h"
-#include "Plattform.h"
-#include "Lancelot.h"
-#include "Gallahad.h"
-#include "Drone.h"
-#include "Notfredo.h"
-#include "Arthur.h"
 #include "Room.h"
 #include "Window.h"
 #include "LoadingBar.h"
@@ -36,13 +25,6 @@ private:
 	TileSet* background;
 	bool paused;
 	std::vector<std::unique_ptr<Window>> windowArray;
-	//std::unordered_map<SDL_Point, TileMap*> roomTable;
-	//Room*** roomInfo;
-	//int** roomArray;
-	//std::vector<int> roomOrder;
-	//std::vector<std::pair<int, int>> roomWay;
-	//std::vector<std::pair<int, int>>::iterator it;
-	//MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
 	int roomSizeX, roomSizeY, currentRoomX, currentRoomY;

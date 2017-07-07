@@ -20,7 +20,6 @@ StageState::StageState(std::string fase, std::string background):
 	tileSet(nullptr),
 	paused(false),
 	windowArray(),
-	//roomArray(nullptr),
 	healthBar(nullptr),
 	energyBar(nullptr),
 	inGameMenu(nullptr)
@@ -65,9 +64,6 @@ StageState::~StageState()
 {
 	player = nullptr;
 	delete currentRoom;
-	//currentRoom = nullptr;
-	//delete[] roomArray;
-	//delete tileSet;
 	music.Stop();
 	windowArray.clear();
 }
@@ -137,12 +133,6 @@ void StageState::Resume()
 void StageState::LoadAssets()
 {
 	music.Open("stageState.ogg");
-	/*bg.Open("LancelotIdle.png");
-	bg.Open("LancelotRunning.png");
-	bg.Open("Melee.png");
-	bg.Open("NotfredoRunning.png");
-	bg.Open("NotfredoIdle.png");
-	bg.Open("Tileset3D.png");*/
 	music.Play(-1);
 }
 
@@ -156,20 +146,6 @@ void StageState::HandleInput()
 			Pause();
 	}
 }
-
-/*void StageState::UpdateRoom()
-{
-	int x = (int)player->box.GetCenter().x/(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth());
-	int y = (int)player->box.GetCenter().y/(currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
-	if(currentRoom->GetPos().x != x || currentRoom->GetPos().y != y)
-	{
-		currentRoom->RemovePlayer();
-		currentRoom = roomInfo[x][y];
-		currentRoomX = x;
-		currentRoomY = y;
-		currentRoom->AddObjectAsFirst(player);
-	}
-}*/
 
 void StageState::UpdateGame()
 {
@@ -215,15 +191,7 @@ void StageState::Update()
 
 void StageState::Render() 
 {
-	/*for(int i = sizeX-1; i >= 0; i--)
-	{
-		for(int j = sizeY-1; j >= 0; j--)
-		{
-			if(i > currentRoomX - 1 || i < currentRoomX + 1)
-				if(j > currentRoomY - 1 || j < currentRoomY + 1)
-					roomInfo[i][j]->Render();
-		}
-	}*/
+
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
@@ -235,60 +203,6 @@ void StageState::Render()
 	if (inGameMenu!=nullptr)
 		inGameMenu->Render();
 }
-
-/*void StageState::CreateMap(int sizeX, int sizeY)
-{
-	std::pair<int, int> aux(0, 0);
-	srand(time(NULL));
-	algorithm = MapAlgorithm();
-
-	algorithm.RandomizeRoomOrder(&roomOrder);
-
-	roomArray = new int*[sizeX];
-	for(int i = 0; i < sizeX; i++){
-		roomArray[i] = new int[sizeY];
-	}
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-			roomArray[i][j] = -1;
-		}
-	}
-
-	roomInfo = new Room**[sizeX];
-	for(int i = 0; i < sizeX; i++){
-		roomInfo[i] = new Room*[sizeY];
-	}
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-			roomInfo[i][j] = nullptr;
-		}
-	}
-
-	algorithm.PopulateRoomArray(roomArray, &roomOrder, &aux, sizeX, sizeY);
-
-	for(int i = 0; i < sizeX; i++){
-		for(int j = 0; j < sizeY; j++){
-			std::cout << roomArray[i][j] << "\t";
-		}
-		std::cout << "\n";
-	}
-
-	MassLoad(sizeX, sizeY);
-}*/
-
-/*void StageState::MassLoad(int sizeX, int sizeY)
-{
-	for(int i = 0; i < sizeX; i++)
-	{
-		for(int j = 0; j < sizeY; j++)
-		{
-			roomInfo[i][j] = new Room(tileSet, roomArray[i][j], Vec2(i,j));
-		}
-		std::cout << "\n";
-	}
-}*/
 
 bool StageState::QuitRequested()
 {

@@ -20,6 +20,7 @@ Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	box.SetWH(graphicsComponent->GetSize());
 	drone = d;
 	active = true;
+	dieTimer = Timer(800);
 }
 
 Gallahad::~Gallahad()
@@ -100,4 +101,6 @@ void Gallahad::Update(TileMap* map, float dt)
 	if(OutOfBounds(map))
 		SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);
+
+	std::cerr << Is("Gallahad") <<std::endl;
 }

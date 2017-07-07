@@ -9,13 +9,13 @@
 Projectile::Projectile(GameObject* owner, Vec2 speed, int lifetime, int power, bool pierce)
 {
 	name = "Projectile";
-	Projectile::owner = owner;
+	ownerN = owner->name;
 	facing = owner->facing;
 	if(facing == LEFT)
 		speed.x *= -1;
 	physicsComponent = PhysicsComponent(true);
 	physicsComponent.velocity = speed;
-	graphicsComponent = new ProjectileGraphicsComponent(owner->name);
+	graphicsComponent = new ProjectileGraphicsComponent(ownerN);
 	Projectile::lifetime = Timer(lifetime);
 	Projectile::lifetime.Start();
 	Projectile::power = power;
@@ -39,7 +39,7 @@ bool Projectile::IsDead()
 {
 	if(!lifetime.IsRunning())
 	{
-		StageState::AddObject(new Animation(box.GetCenter().x, box.GetCenter().y,owner->name+"ProjectileEnd.png",8,80,true));
+		StageState::AddObject(new Animation(box.GetCenter().x, box.GetCenter().y,ownerN+"ProjectileEnd.png",8,80,true));
 	}
 	return (!lifetime.IsRunning());
 }
@@ -49,9 +49,9 @@ int Projectile::Power()
 	return power;
 }
 
-GameObject* Projectile::GetOwner()
+std::string Projectile::GetOwner()
 {
-	return owner;
+	return ownerN;
 }
 
 bool Projectile::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror)
@@ -71,12 +71,12 @@ void Projectile::NotifyTileCollision(int tile, Face face)
 
 void Projectile::NotifyObjectCollision(GameObject* other)
 {
-	if(other != owner)
+	if(!other->Is(ownerN))
 	{
 		if(other->Is("Projectile"))
 		{
 			Projectile* p = (Projectile*) other;
-			if(p->GetOwner() != owner)
+			if(p->GetOwner() != ownerN)
 			{	
 				if(!pierce)
 					lifetime.Stop();

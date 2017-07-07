@@ -1,6 +1,7 @@
 #include "Turret.h"
 #include "AIMovingOnGroudGraphicsComponent.h"
 #include "StageState.h"
+#include "Gallahad.h"
 #include "Projectile.h"
 
 Turret::Turret(int x, int y):
@@ -14,7 +15,7 @@ Turret::Turret(int x, int y):
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(300);
 	idle.Start();
-	Damage(5);
+	hitpoints = 2;
 }
 
 Turret::~Turret()

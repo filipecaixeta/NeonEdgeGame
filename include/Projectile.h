@@ -14,7 +14,7 @@ class Projectile : public GameObject
 private:
 	Timer lifetime = Timer();
 	int power = 1;
-	GameObject* owner = nullptr;
+	std::string ownerN;
 	bool pierce;
 
 public:
@@ -22,7 +22,7 @@ public:
 	~Projectile();
 	bool IsDead();
 	int Power();
-	GameObject* GetOwner();
+	std::string GetOwner();
 	bool GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror);
 	void NotifyTileCollision(int tile, Face face);
 	void NotifyObjectCollision(GameObject* other);

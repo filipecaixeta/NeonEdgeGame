@@ -1,6 +1,7 @@
 #include "CeilingEnemy.h"
 #include "StageState.h"
 #include "GraphicsComponent.h"
+#include "Gallahad.h"
 
 CeilingEnemy::CeilingEnemy(int x,int y):
     Character(x,y)
