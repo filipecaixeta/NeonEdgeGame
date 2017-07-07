@@ -71,7 +71,7 @@ void MainMenu::Update()
 void MainMenu::Render()
 {
 	int positionsY[5] = {370,431,498,564,631};
-	bg.Render(0,0);
+	bg.Render(CenterVertical(&bg));
 	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,431));
 	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 }

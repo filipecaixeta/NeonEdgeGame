@@ -20,13 +20,6 @@ class MenuState: public State
 		virtual bool SelectedOptionIs(std::string opt);
 		virtual State* get();
 
-		Vec2 CenterVertical(Sprite *sp);
-		Vec2 CenterVertical(int size);
-		Vec2 CenterVertical(Vec2 size);
-		Vec2 CenterHorizontal(Sprite* sp);
-		Vec2 CenterHorizontal(int size);
-		Vec2 CenterHorizontal(Vec2 size);
-
 		struct Option
 		{
 			std::string key;

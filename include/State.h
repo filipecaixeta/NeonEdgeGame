@@ -17,6 +17,13 @@ public:
 	virtual bool Is(std::string type) = 0;
 	virtual State* get();
 	virtual bool QuitRequested();
+
+	Vec2 CenterVertical(Sprite *sp);
+	Vec2 CenterVertical(int size);
+	Vec2 CenterVertical(Vec2 size);
+	Vec2 CenterHorizontal(Sprite* sp);
+	Vec2 CenterHorizontal(int size);
+	Vec2 CenterHorizontal(Vec2 size);
 };
 
 #endif /* STATE_H_ */

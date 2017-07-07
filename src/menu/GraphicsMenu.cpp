@@ -200,7 +200,7 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite)
 void GraphicsMenu::Render()
 {
 	int positionsY[3] = {260,409,557};
-	bg.Render(0,0);
+	bg.Render(CenterVertical(&bg));
 	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,135));
 	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 
