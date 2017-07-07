@@ -48,6 +48,8 @@ void InGameItens::LoadAssets()
 
 	std::string path = "menus/"+StageState::player->name;
 
+	selected = new Sprite(path+"temSelected.png");
+
 	bg.Open(path+"MenuItens.png");
 	bg.SetBlending(true);
 	SetOption(1);
@@ -154,14 +156,6 @@ void InGameItens::SetHotBarOption(int i)
 		currentHotBarOption = hotBarOptions.size()+i;
 	}
 	currentHotBarOption = currentHotBarOption%hotBarOptions.size();
-
-	for (unsigned int j=0; j<hotBarOptions.size(); j++)
-	{
-		hotBarOptions[j].sprite->SetScaleX(1.0);
-		hotBarOptions[j].sprite->SetScaleY(1.0);
-	}
-	hotBarOptions[currentHotBarOption].sprite->SetScaleX(1.1);
-	hotBarOptions[currentHotBarOption].sprite->SetScaleY(1.1);
 }
 
 void InGameItens::Render()
@@ -179,15 +173,21 @@ void InGameItens::Render()
 			pos.y += 96;
 			pos.x = 27;
 		}
+		if (!isOnHotBar && i==currentOption)
+			selected->Render(bgXY+pos+Vec2(2,2));
 		option.sprite->Render(bgXY+pos+offset);
 		pos.x += 92;
 		i++;
 	}
 	pos = Vec2(27,373);
+	i=0;
 	for(auto option: hotBarOptions)
 	{
 		option.sprite->Render(bgXY+pos+offset);
+		if (isOnHotBar && i==currentHotBarOption)
+			selected->Render(bgXY+pos+Vec2(2,2));
 		pos.x += 92;
+		i++;
 	}
 	itemTitle->Render(bgXY+Vec2(323,111));
 	itemText->Render(bgXY+Vec2(323,151));

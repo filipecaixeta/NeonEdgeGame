@@ -25,6 +25,8 @@ private:
 	int currentHotBarOption;
 	bool isOnHotBar;
 	Sprite blackOpacity;
+	Sprite* selected;
+	Vec2 currentPosition;
 };
 
 #endif // INGAMEITENS_H
