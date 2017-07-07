@@ -17,7 +17,7 @@ void SettingsMenu::LoadAssets()
 	menuOptions.push_back({"Controls",new Sprite("menus/controls-options-button.png"),true,0});
 	menuOptions.push_back({"Sound",new Sprite("menus/audio-options-button.png"),true,0});
 
-	bg.Open("menus/BG_Back.png");
+	bg.Open("menus/BackgroundInicial2.png");
 	bgOptions.Open("menus/Settings-Menu-Neutro-Base.png");
 
 	SetOption(1);
