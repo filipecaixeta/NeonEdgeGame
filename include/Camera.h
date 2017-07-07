@@ -19,6 +19,7 @@ public:
 	void Follow(GameObject* newFocus);
 	void Unfollow();
 	void Update(float dt);
+	void SetPos(Vec2 pos);
 	GameObject* GetFocus();
 	static Camera& GetInstance();
 };
