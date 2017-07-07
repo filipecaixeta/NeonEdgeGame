@@ -1,17 +1,11 @@
 #include "BoxSpawner.h"
-#include "Camera.h"
-#include "InputManager.h"
 #include "StageState.h"
-#include "Character.h"
-#include "Room.h"
 
 BoxSpawner::BoxSpawner(int x, int y)
 {
-	spawn = new Box(x, y);
-	StageState::AddObject(spawn);
 	name = "BoxSpawner";
-	BoxSpawner::x = x;
-	BoxSpawner::y = y;
+	box.SetXY(Vec2(x,y));
+	spawn = nullptr;
 }
 
 BoxSpawner::~BoxSpawner()
@@ -19,22 +13,17 @@ BoxSpawner::~BoxSpawner()
 
 }
 
-bool BoxSpawner::IsDead()
-{
-	return false;
-}
-
-void BoxSpawner::NotifyObjectCollision(GameObject* other)
-{
-
-}
-
 void BoxSpawner::Update(TileMap* map, float dt)
 {
-	if (spawn->GetHealth() == 1)
+	if(!spawn)
+	{
+		spawn = new Box(box.x,box.y);
+		StageState::AddObject(BoxSpawner::spawn);
+	}
+	if(spawn->GetHealth() == 1)
 	{
 		spawn->Kill();
-		spawn = new Box(x, y);
+		spawn = new Box(box.x,box.y);
 		StageState::AddObject(BoxSpawner::spawn);
 	}
 }

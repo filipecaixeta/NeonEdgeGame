@@ -1,5 +1,7 @@
 #include "ItensManager.h"
 #include "InputManager.h"
+#include "StageState.h"
+#include "Cutscene.h"
 
 ItensManager::ItensManager()
 {
@@ -99,6 +101,12 @@ void ItensManager::AddItem(int id)
 					break;
 				}
 			}
+	}
+	if(name == "Driver"){
+		if(StageState::stage == "naveGalahad"){
+			Game::GetInstance().GetCurrentState()->quitRequested = true;
+			Game::GetInstance().AddState(new Cutscene(3, false));
+		}
 	}
 }
 

@@ -10,6 +10,7 @@
 #include "ColisionFunctions.h"
 #include "Item.h"
 
+#include "Character.h"
 #include "Player.h"
 #include "CeilingEnemy.h"
 #include "NotFredoStationary.h"
@@ -18,8 +19,9 @@
 
 #include "Interactive.h"
 #include "Door.h"
-#include "Box.h"
 #include "PressurePlate.h"
+#include "Box.h"
+#include "BoxSpawner.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
 	sceneObjects("resources/map/objs/sceneObjects.txt")
@@ -288,9 +290,14 @@ void Room::CreateObjects()
         	AddObjectAsFirst(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         									   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
-		else if(objectData.at(i).id == 23)
+		else if(objectData.at(i).id == 23) // Box
         {
         	AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
+        else if(objectData.at(i).id == 24) // BoxSpawner
+        {
+        	AddObject(new BoxSpawner(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 		else if(objectData.at(i).id == 41)
