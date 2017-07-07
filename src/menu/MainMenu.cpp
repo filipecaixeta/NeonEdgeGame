@@ -63,6 +63,7 @@ void MainMenu::Update()
 		}
 		else if (SelectedOptionIs("Exit"))
 		{
+			exit(0);
 			quitRequested = true;
 		}
 	}

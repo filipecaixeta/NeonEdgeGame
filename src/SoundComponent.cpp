@@ -2,12 +2,15 @@
 
 SoundComponent::SoundComponent(std::string playerName)
 {
-	sounds.emplace("Bomb",Sound("Bomb.wav"));
-	sounds.emplace("Crouching",Sound("Crouching.wav"));
-	sounds.emplace("Jump",Sound("Jump.wav"));
-	sounds.emplace("Flying",Sound("DroneFlying.wav"));
-	sounds.emplace("Attack",Sound("LancelotAttacking.wav"));
-	sounds.emplace("Damage",Sound("LancelotDamage.wav"));
+
+//	sounds.emplace("Bomb",Sound("Bomb.wav"));
+	sounds.emplace("Crouching",Sound("Agachamento.ogg"));
+	sounds.emplace("Jump",Sound("Pulo.ogg"));
+	sounds.emplace("Flying",Sound("DroneVoando.wav"));
+	sounds.emplace("Attack",Sound(playerName+"Ataque.ogg"));
+	sounds.emplace("Damage",Sound(playerName+"Dano.wav"));
+	sounds.emplace("Die",Sound(playerName+"Morte.wav"));
+	sounds.emplace("Item",Sound("Item.ogg"));
 }
 
 void SoundComponent::Play(std::string soundName, int options)
@@ -32,6 +35,11 @@ void SoundComponent::Play(std::string soundName, int options)
 void SoundComponent::Bomb(int options)
 {
 	Play("Bomb",options);
+}
+
+void SoundComponent::Item(int options)
+{
+	Play("Item",options);
 }
 
 void SoundComponent::Crouching(int options)

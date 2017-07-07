@@ -32,7 +32,6 @@ public:
 
 	InputComponent* inputComponent;
 	ItensManager* itemManager;
-	SoundComponent *soundComponent;
 
 	bool skills[7];
 	int skillPoints;

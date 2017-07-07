@@ -61,6 +61,7 @@ void Lancelot::Damage(int damage)
 		}
 		else
 		{
+			soundComponent->Damage();
 			hitpoints -= (damage);
 		}
 		invincibilityTimer.Start();

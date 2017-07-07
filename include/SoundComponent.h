@@ -22,6 +22,7 @@ public:
 	void Die(int options=SOUND_PLAY_ONCE);
 	void Damage(int options=SOUND_PLAY_ONCE);
 	void Flying(int options=SOUND_REPEAT);
+	void Item(int options=SOUND_PLAY_ONCE);
 	void Play(std::string soundName, int options);
 
 	std::unordered_map<std::string,Sound> sounds;

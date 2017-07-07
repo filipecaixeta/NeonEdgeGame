@@ -6,6 +6,7 @@
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"
 #include "SaveComponent.h"
+#include "SoundComponent.h"
 
 class GraphicsComponent;
 
@@ -33,6 +34,7 @@ public:
 
 	PhysicsComponent physicsComponent;
 	GraphicsComponent* graphicsComponent;
+	SoundComponent *soundComponent;
 	SaveComponent saveComponent;
 
 protected:

@@ -10,6 +10,7 @@ Character::Character(int x,int y):
 	GameObject(),
 	physicsComponent(),
 	graphicsComponent(nullptr),
+	soundComponent(nullptr),
 	saveComponent(),
 	hitpoints(10),
 	power(1),
@@ -34,7 +35,11 @@ bool Character::IsDead()
 	if(hitpoints <= 0)
 	{
 		if(!dieTimer.IsRunning())
+		{
 			dieTimer.Start();
+			if (soundComponent)
+				soundComponent->Die();
+		}
 		if(!dieTimer.IsRunning() && dieTimer.GetElapsed() == 1)
 			isDead = true;
 	}

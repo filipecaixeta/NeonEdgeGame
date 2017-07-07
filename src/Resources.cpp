@@ -30,7 +30,7 @@ SDL_Texture* Resources::GetImage(std::string file,bool forceDuplicate=false)
 	}
 	if(imageTable.at(fileKey) == nullptr) {
 		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
+//		exit(EXIT_FAILURE);
 	}
 	return imageTable.at(fileKey);
 }

@@ -16,7 +16,10 @@ Item::Item(int id_, int x, int y):
 void Item::Eval(Player* player)
 {
 	if (player!=nullptr && player->itemManager!=nullptr)
+	{
 		player->itemManager->AddItem(id);
+		player->soundComponent->Item();
+	}
 }
 
 void Item::SetActive(bool b)
