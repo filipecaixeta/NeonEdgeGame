@@ -26,27 +26,27 @@ StageState::StageState(std::string fase, std::string background):
 {
 	this->background = new TileSet(7389, 1711, background, 0, 0);
 	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
-	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
+	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background,fase);
 
 	if(fase == "cidadeLancelot"){
 		this->background = new TileSet(7389, 1711, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
-		currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
+		currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background,fase);
 	}
 	else if(fase == "naveGalahad"){
 		this->background = new TileSet(1, 1, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
-		currentRoom = new Room(tileSet, 1, Vec2(0,0), this->background);
+		currentRoom = new Room(tileSet, 1, Vec2(0,0), this->background,fase);
 	}
 	else if(fase == "cidadeGalahad"){
 		this->background = new TileSet(7389, 1711, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
-		currentRoom = new Room(tileSet, 2, Vec2(0,0), this->background);
+		currentRoom = new Room(tileSet, 2, Vec2(0,0), this->background,fase);
 	}
 	else if(fase == "naveLancelot"){
 		this->background = new TileSet(1, 1, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
-		currentRoom = new Room(tileSet, 3, Vec2(0,0), this->background);
+		currentRoom = new Room(tileSet, 3, Vec2(0,0), this->background,fase);
 	}
 	Camera::GetInstance().SetPos(Vec2(player->box.x, player->box.y));
 	Camera::GetInstance().Follow(player);	
@@ -132,7 +132,7 @@ void StageState::Resume()
 
 void StageState::LoadAssets()
 {
-	music.Open("stageState.ogg");
+	music.Open(player->name+"BGB.ogg");
 	music.Play(-1);
 }
 

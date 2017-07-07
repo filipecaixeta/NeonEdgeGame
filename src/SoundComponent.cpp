@@ -2,8 +2,6 @@
 
 SoundComponent::SoundComponent(std::string playerName)
 {
-
-//	sounds.emplace("Bomb",Sound("Bomb.wav"));
 	sounds.emplace("Crouching",Sound("Agachamento.ogg"));
 	sounds.emplace("Jump",Sound("Pulo.ogg"));
 	sounds.emplace("Flying",Sound("DroneVoando.wav"));
