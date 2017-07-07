@@ -27,15 +27,15 @@ Cutscene::Cutscene(int index, bool textOnly){
         case 1:
             AddCutsceneObject("Introducao.png",25,0,false,100,8);
             textBox.emplace_back(new DialogWindow(59,514,"Lancelot, I have an urgent task for you: the Empire Guard is reporting a rogue A.I. breakout in Crusallias City, Sector 7. I need you on-site to find the source and destroy it.","King Arthur","retrato_arthur.png"));
-            textBox.emplace_back(new DialogWindow(59,514,"W-What?! Crusallias is the biggest city on Castella! Were there casualties? Is the guard caring for the population?","Lancelot","retrato_lancelot.png"));
+            textBox.emplace_back(new DialogWindow(59,514,"W-What?! Crusallias is the biggest city on Aragon! Were there casualties? Is the guard caring for the population?","Lancelot","retrato_lancelot.png"));
             textBox.emplace_back(new DialogWindow(59,514,"It doesnt matter, soldier. The source of the breakout is of utmost importance to the mission, we cant let it stage any other attack against the empire.","King Arthur","retrato_arthur.png"));
             textBox.emplace_back(new DialogWindow(59,514,"...Right. I am on my way, Your Highness.","Lancelot","retrato_lancelot.png"));
         break;
 
         case 2:
-            AddCutsceneObject("Conversa-com-galahad.png",0,0,false);
+            AddCutsceneObject("Cutscene1.png",0,0,false);
             AddCutsceneObject("LancelotIdle.png",0,0,false);
-            AddCutsceneObject("GalahadIdle.png",100,100,true);
+            AddCutsceneObject("GallahadIdle.png",100,100,true);
             textBox.emplace_back(new DialogWindow(59,514,"Knight Galahad? What are you doing here?","Lancelot","retrato_lancelot.png"));
             textBox.emplace_back(new DialogWindow(59,514,"Calm down, rookie. Im not here to steal your mission or anything. I have more important things to do, like warning you about what happened to these drones.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(59,514,"What do you mean? This better not be another one of your tricks.","Lancelot","retrato_lancelot.png"));
