@@ -1,6 +1,9 @@
 #include "Animation.h"
 #include "Camera.h"
 
+#include <cstdlib>
+#include <sys/time.h>
+
 Animation::Animation(float x, float y, std::string sprite, float frameCount, float frameTime, bool ends)
 {
 	name = "Animation";
@@ -11,6 +14,13 @@ Animation::Animation(float x, float y, std::string sprite, float frameCount, flo
 	endTimer = Timer(frameTime*frameCount);
 	if(ends)
 		endTimer.Start();
+	timeval t1;
+	gettimeofday(&t1, NULL);
+	srand(t1.tv_usec * t1.tv_sec);
+	if(rand()%2 == 0)
+		sp->Mirror(true);
+	else
+		sp->Mirror(false);
 }
 
 Animation::~Animation()

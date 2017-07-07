@@ -5,9 +5,8 @@
 #include "Character.h"
 #include "Timer.h"
 #include "TileMap.h"
-#include "TurretBossGraphicsComponent.h"
 
-enum TurretBossState{tIDLE,tSPAWNING,tSHOOTING};
+enum TurretBossState{tIDLE,tAIMING,tSHOOTING};
 
 class TurretBoss : public Character
 {
@@ -15,6 +14,7 @@ public:
 	TurretBoss(int x, int y);
 	~TurretBoss();
 	void AddPiece(TurretPiece* piece);
+	void AddTurret(TurretPiece* turret);
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void UpdateAI(float dt);
@@ -22,14 +22,16 @@ public:
 	void Render();
 
 private:
-
-	std::vector<TurretPiece*> pieces; 
-	Timer spawn;
-	Timer shoot;
-	Timer idle;
+	std::vector<TurretPiece*> pieces;
+	std::vector<TurretPiece*> turrets;
+	int turret1;
+	int turret2;
 	Rect radius;
-	TurretBossState state;
 	bool triggered;
+	TurretBossState state;
+	Timer idle;
+	Timer aim;
+	Timer shoot;
 };
 
 #endif

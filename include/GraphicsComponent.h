@@ -18,7 +18,7 @@ public:
 	virtual ~GraphicsComponent();
 	virtual void Update(GameObject* obj, float dt) = 0;
 	virtual void UpdateSprite(GameObject* obj, std::string sprite);
-	virtual void Render(Vec2 position);
+	virtual void Render(Vec2 position, float angle = 0);
 	virtual Vec2 GetSize();
 	virtual SDL_Surface*GetSurface();
 	virtual SDL_Rect GetClip();

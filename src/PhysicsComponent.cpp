@@ -33,7 +33,8 @@ void PhysicsComponent::Update(GameObject* obj, TileMap* world, float dt)
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::LEFT), GameObject::LEFT);
 	else
 		obj->NotifyTileCollision(TileCollision(obj, world, GameObject::RIGHT), GameObject::RIGHT);
-	WallCheck(obj, world);
+	if(obj->IsPlayer())
+		WallCheck(obj, world);
 
 	//Apply velocity in y
 	obj->box.y += velocity.y*dt;
@@ -77,7 +78,8 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 					{
 						box.x = tile.x+tile.w+2;
 						obj->box.x = box.x;
-						obj->footing = GameObject::LEFT_WALLED;
+						if(obj->IsPlayer())
+							obj->footing = GameObject::LEFT_WALLED;
 						return world->At(x,y,0);
 					}
 				}
@@ -87,7 +89,8 @@ int PhysicsComponent::TileCollision(GameObject* obj, TileMap* world, GameObject:
 					{
 						box.x = tile.x-box.w-2;
 						obj->box.x = box.x;
-						obj->footing = GameObject::RIGHT_WALLED;
+						if(obj->IsPlayer())
+							obj->footing = GameObject::RIGHT_WALLED;
 						return world->At(x,y,0);
 					}
 				}

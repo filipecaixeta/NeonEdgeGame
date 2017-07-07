@@ -15,7 +15,8 @@ Character::Character(int x,int y):
 	power(1),
 	invincibilityTimer(500),
 	attacking(200),
-	attackCD(500)
+	attackCD(500),
+	stunned(0)
 {
 	box.SetXY(Vec2(x,y));
 	facing = RIGHT;
@@ -32,8 +33,10 @@ bool Character::IsDead()
 {
 	if(hitpoints <= 0)
 	{
-		if (!dieTimer.IsRunning())
+		if(!dieTimer.IsRunning())
 			dieTimer.Start();
+		if(!dieTimer.IsRunning() && dieTimer.GetElapsed() == 1)
+			isDead = true;
 	}
 	return isDead;
 }
@@ -97,24 +100,24 @@ void Character::NotifyTileCollision(int tile, Face face)
 	{
 		Damage(1);
 	}
-	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
+	/*if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
 	{
 		if(physicsComponent.velocity.y >= 0.6)
 		{
 			physicsComponent.velocity.y = -0.5;
 		}
-	}
+	}*/
 }
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
 	if((!IsPlayer() || !other->IsPlayer()) && !other->Is("Projectile") &&
-		!other->Is("PressurePlate") && !other->Is("BoxSpawner"))
+		!other->Is("PressurePlate") && !other->Is("HandScanner") && !other->Is("BoxSpawner"))
 	{
 		if(other->Is("Door"))
 		{
 			Interactive* i = (Interactive*) other;
-			if(!i->Active())
+			if(!IsPlayer() || !i->Active())
 				SolidCollision(other);
 		}
 		else
@@ -126,9 +129,28 @@ void Character::NotifyObjectCollision(GameObject* other)
 	{
 		if(other->IsPlayer())
 		{
-			Player* c = (Player*) other;
-			if(c->Attacking())
-				Damage(c->Power());
+			Player* p = (Player*) other;
+			if(p->Attacking())
+			{
+				Damage(p->Power());
+				if(other->Is("Drone"))
+				{
+					if(!stunned.IsRunning())
+					{
+						Player* play = (Player*) StageState::GetPlayer();
+						if(play->skills[6])
+						{
+							stunned.SetLimit(2000);
+							stunned.Start();
+						}
+						else if(play->skills[5])
+						{
+							stunned.SetLimit(1000);
+							stunned.Start();
+						}
+					}
+				}
+			}
 		}
 		if(other->Is("Projectile"))
 		{
@@ -154,6 +176,7 @@ void Character::UpdateTimers(float dt)
 		attackCD.Start();
 	}
 	attackCD.Update(dt);
+	stunned.Update(dt);
 }
 
 bool Character::OutOfBounds(TileMap* map)

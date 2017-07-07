@@ -13,8 +13,8 @@ Player::Player(ItensManager* itemManager, int x, int y):
 	crouching(false),
 	crouchingEdge(true)
 {
-	hitpoints = MAX_HITPOINTS;
 	name = "Player";
+	hitpoints = MAX_HITPOINTS;
 }
 
 Player::~Player()
@@ -34,7 +34,7 @@ int Player::GetEnergy()
 
 void Player::Crouch()
 {
-	if (crouchingEdge)
+	if(crouchingEdge)
 	{
 		crouchingEdge = false;
 		soundComponent->Crouching();
@@ -129,9 +129,4 @@ void Player::Update(TileMap* map, float dt)
 	if(OutOfBounds(map))
 		SetPosition(Vec2(startingX,startingY));
 	graphicsComponent->Update(this,dt);
-}
-
-bool Player::Is(std::string type)
-{
-	return type=="Player";
 }

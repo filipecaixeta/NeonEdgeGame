@@ -1,5 +1,4 @@
 #include "TurretPieceGraphicsComponent.h"
-
 #include "TurretPiece.h"
 
 TurretPieceGraphicsComponent::TurretPieceGraphicsComponent(std::string baseName_, int type):
@@ -39,7 +38,7 @@ TurretPieceGraphicsComponent::~TurretPieceGraphicsComponent(){
 }
 
 void TurretPieceGraphicsComponent::Update(GameObject* obj, float dt){
-	mirror = (obj->facing == GameObject::LEFT);
+	mirror = (obj->facing == GameObject::RIGHT);
 
 	sp->Mirror(mirror);
 	sp->Update(dt);

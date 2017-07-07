@@ -23,9 +23,9 @@ GraphicsComponent::~GraphicsComponent()
 	surfaces.clear();
 }
 
-void GraphicsComponent::Render(Vec2 position)
+void GraphicsComponent::Render(Vec2 position, float angle)
 {
-	sp->Render(position);
+	sp->Render(position,angle);
 }
 
 Vec2 GraphicsComponent::GetSize()

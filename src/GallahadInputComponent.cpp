@@ -25,8 +25,6 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	Gallahad *g = (Gallahad*) obj_;
 	if(g->Active()) 
 	{
-		Camera::GetInstance().Follow(obj_);
-
 		if(input.IsKeyDown(MOVE_LEFT_KEY, true))
 			MoveLeft();
 		else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
@@ -81,10 +79,12 @@ void GallahadInputComponent::Toggle()
 	{
 		g->Activate(false);
 		g->GetDrone()->Activate(true);
+		Camera::GetInstance().Follow(g->GetDrone());
 	}
 	else
 	{
 		g->Activate(true);
 		g->GetDrone()->Activate(false);
+		Camera::GetInstance().Follow(g);
 	}
 }

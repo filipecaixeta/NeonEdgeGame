@@ -14,11 +14,17 @@ Drone::Drone(ItensManager* itemManager, int x, int y):
 	graphicsComponent = new DroneGraphicsComponent("Drone");
 	physicsComponent.SetKinetic(true);
 	box.SetWH(graphicsComponent->GetSize());
+	Empower(0);
 }
 
 Drone::~Drone()
 {
 
+}
+
+void Drone::Attack()
+{
+	attacking.Start();
 }
 
 void Drone::Activate(bool on)
@@ -33,32 +39,30 @@ bool Drone::Active()
 
 void Drone::UpdateTimers(float dt)
 {
-
+	Player::UpdateTimers(dt);
 }
 
 void Drone::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
-	if(StageState::GetPlayer() == nullptr)
+	if(StageState::GetPlayer())
 	{
-		isDead = true;
-		return;
-	}
-	inputComponent->Update(this,dt);
-	if(active == true)
-	{
-		physicsComponent.Update(this,map,dt);
-	}
-	else
-	{
-		facing = StageState::GetPlayer()->facing;
-		if(StageState::GetPlayer()->facing == LEFT)
-			box.x = StageState::GetPlayer()->box.x+StageState::GetPlayer()->box.w-box.w;
+		if(active == true)
+		{
+			inputComponent->Update(this,dt);
+			physicsComponent.Update(this,map,dt);
+		}
 		else
-			box.x = StageState::GetPlayer()->box.x;
-		box.y = StageState::GetPlayer()->box.y - 5;
+		{
+			facing = StageState::GetPlayer()->facing;
+			if(StageState::GetPlayer()->facing == LEFT)
+				box.x = StageState::GetPlayer()->box.x+StageState::GetPlayer()->box.w-box.w;
+			else
+				box.x = StageState::GetPlayer()->box.x;
+			box.y = StageState::GetPlayer()->box.y - 5;
+		}
+		if(OutOfBounds(map))
+			SetPosition(Vec2(269,544));
+		graphicsComponent->Update(this,dt);
 	}
-	if(OutOfBounds(map))
-		SetPosition(Vec2(269,544));
-	graphicsComponent->Update(this,dt);
 }

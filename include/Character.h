@@ -41,6 +41,7 @@ protected:
 	Timer invincibilityTimer;
 	Timer attacking;
 	Timer attackCD;
+	Timer stunned;
 	int startingX, startingY;
 };
 

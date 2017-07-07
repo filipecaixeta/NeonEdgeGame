@@ -13,6 +13,7 @@ class Drone : public Player
 public:
 	Drone(ItensManager* itemManager, int x, int y);
 	~Drone();
+	void Attack();
 	void Activate(bool on);
 	bool Active();
 	void UpdateTimers(float dt);

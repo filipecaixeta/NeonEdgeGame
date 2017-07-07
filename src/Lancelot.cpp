@@ -8,7 +8,7 @@
 #include "SoundComponent.h"
 
 #include <cstdlib>
-#include <ctime>
+#include <sys/time.h>
 
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	Player(itemManager,x,y),
@@ -21,7 +21,9 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(0);
-	srand(time(NULL));
+	timeval t1;
+	gettimeofday(&t1, NULL);
+	srand(t1.tv_usec * t1.tv_sec);
 }
 
 Lancelot::~Lancelot()

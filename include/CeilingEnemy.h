@@ -10,13 +10,12 @@ class CeilingEnemy : public Character
 {
 public:
     CeilingEnemy(int x,int y);
+    bool Attacking();
     void NotifyTileCollision(int tile, Face face);
     void Update(TileMap* world, float dt);
     void UpdateAI(float dt);
 
 private:
-    Timer rearm;
-    Timer timer;
     EnemyState state;
 
 };

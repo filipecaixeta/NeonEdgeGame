@@ -27,7 +27,6 @@ public:
 	virtual void NotifyObjectCollision(GameObject* other);
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
-	virtual bool Is(std::string type);
 
 	enum {SkillBlocking3 = 0,SkillBlocking2,SkillBlocking1,Skill,SkillWeapon_1,SkillWeapon_2,SkillWeapon_3};
 

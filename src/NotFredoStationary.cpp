@@ -14,7 +14,7 @@ NotFredoStationary::NotFredoStationary(int x, int y):
     radius(),
     idle(1500)
 {
-        graphicsComponent = new NotFredoStationaryGraphicsComponent("EnemyGallahad");
+    graphicsComponent = new NotFredoStationaryGraphicsComponent("EnemyGallahad");
 
     name = "Notfredo";
     box.SetWH(graphicsComponent->GetSize());

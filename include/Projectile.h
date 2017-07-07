@@ -13,7 +13,7 @@ class Projectile : public GameObject
 {
 private:
 	Timer lifetime = Timer();
-	int power = 0;
+	int power = 1;
 	GameObject* owner = nullptr;
 	bool pierce;
 

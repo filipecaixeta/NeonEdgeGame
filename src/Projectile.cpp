@@ -3,6 +3,9 @@
 #include "StageState.h"
 #include "Animation.h"
 
+#include <cmath>
+#include <math.h>
+
 Projectile::Projectile(GameObject* owner, Vec2 speed, int lifetime, int power, bool pierce)
 {
 	name = "Projectile";
@@ -62,15 +65,29 @@ bool Projectile::GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2
 
 void Projectile::NotifyTileCollision(int tile, Face face)
 {
-	if(!pierce && tile >= SOLID_TILE)
+	if(tile >= SOLID_TILE)
 		lifetime.Stop();
 }
 
 void Projectile::NotifyObjectCollision(GameObject* other)
 {
 	if(other != owner)
-		if(!pierce)
-			lifetime.Stop();
+	{
+		if(other->Is("Projectile"))
+		{
+			Projectile* p = (Projectile*) other;
+			if(p->GetOwner() != owner)
+			{	
+				if(!pierce)
+					lifetime.Stop();
+			}
+		}
+		else if(!other->Is("BoxSpawner"))
+		{
+			if(!pierce)
+				lifetime.Stop();
+		}
+	}
 }
 
 void Projectile::UpdateTimers(float dt)
@@ -87,5 +104,6 @@ void Projectile::Update(TileMap* world, float dt)
 
 void Projectile::Render()
 {
-	graphicsComponent->Render(Vec2(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y));
+	float angle = atan(physicsComponent.velocity.y/physicsComponent.velocity.x) * 180/M_PI;
+	graphicsComponent->Render(Vec2(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y), angle);
 }

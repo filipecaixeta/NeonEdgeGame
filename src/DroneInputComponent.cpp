@@ -30,5 +30,10 @@ void DroneInputComponent::Update(Player* obj_, float dt_)
 		obj->physicsComponent.velocity.y = 0;
 	clamp(obj->physicsComponent.velocity.y,-0.6f,0.6f);
 
+	if(input.IsKeyDown(ATTACK_KEY, true))
+	{
+		Attack();
+	}
+
 	ProcessItems();
 }

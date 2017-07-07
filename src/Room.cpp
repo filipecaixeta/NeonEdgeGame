@@ -20,6 +20,7 @@
 #include "Interactive.h"
 #include "Door.h"
 #include "PressurePlate.h"
+#include "HandScanner.h"
 #include "Box.h"
 #include "BoxSpawner.h"
 
@@ -205,15 +206,15 @@ void Room::CreateObjects()
 			AddObject(new TurretBoss(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 									 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 			t = (TurretBoss*) objectArray.at(objectArray.size()-1);
-			AddObject(new TurretPiece(t, -50, -53, 4));
+			AddObject(new TurretPiece(t, -60, -53, 4));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
-			AddObject(new TurretPiece(t, -50, -163, 4));
+			t->AddTurret(p);
+			AddObject(new TurretPiece(t, -60, -163, 4));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
-			AddObject(new TurretPiece(t, -50, -273, 4));
+			t->AddTurret(p);
+			AddObject(new TurretPiece(t, -60, -273, 4));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
+			t->AddTurret(p);
 			AddObject(new TurretPiece(t, 0, -55, 2));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
 			t->AddPiece(p);
@@ -235,15 +236,15 @@ void Room::CreateObjects()
 			AddObject(new TurretPiece(t, -5, -358, 0));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
 			t->AddPiece(p);
-			AddObject(new TurretPiece(t, 20, -53, 3));
+			AddObject(new TurretPiece(t, 25, -51, 3));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
-			AddObject(new TurretPiece(t, 20, -163, 3));
+			t->AddTurret(p);
+			AddObject(new TurretPiece(t, 25, -161, 3));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
-			AddObject(new TurretPiece(t, 20, -273, 3));
+			t->AddTurret(p);
+			AddObject(new TurretPiece(t, 25, -271, 3));
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
-			t->AddPiece(p);
+			t->AddTurret(p);
 		}
 		else if(objectData.at(i).id == 10)
 		{
@@ -290,12 +291,18 @@ void Room::CreateObjects()
         	AddObjectAsFirst(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         									   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
-		else if(objectData.at(i).id == 23) // Box
+        else if(objectData.at(i).id == 23) // HandScanner
+		{
+			Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
+			AddObjectAsFirst(new HandScanner(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+											   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
+        }
+		else if(objectData.at(i).id == 24) // Box
         {
         	AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
-        else if(objectData.at(i).id == 24) // BoxSpawner
+        else if(objectData.at(i).id == 25) // BoxSpawner
         {
         	AddObject(new BoxSpawner(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));

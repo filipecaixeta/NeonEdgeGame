@@ -1,7 +1,7 @@
 #include "Turret.h"
-
 #include "AIMovingOnGroudGraphicsComponent.h"
 #include "StageState.h"
+#include "Projectile.h"
 
 Turret::Turret(int x, int y):
 	Character(x,y),
@@ -9,8 +9,8 @@ Turret::Turret(int x, int y):
 	looking(1500),
 	idle(1500)
 {
-	graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
 	name = "Turret";
+	graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(0);
 
@@ -25,7 +25,9 @@ Turret::~Turret()
 void Turret::Attack()
 {
 	//Starts attack timer
-	attacking.Start();
+	attackCD.Start();
+	//Generates attack object
+	StageState::AddObject(new Projectile(this, Vec2(0.4, 0), 400, 1, false));
 }
 
 void Turret::NotifyTileCollision(int tile, GameObject::Face face)
@@ -42,17 +44,20 @@ void Turret::NotifyTileCollision(int tile, GameObject::Face face)
 void Turret::UpdateTimers(float dt)
 {
 	Character::UpdateTimers(dt);
-	if(looking.IsRunning())
+	if(!stunned.IsRunning())
 	{
-		looking.Update(dt);
-		if(!looking.IsRunning())
-			idle.Start();
-	}
-	else if(idle.IsRunning())
-	{
-		idle.Update(dt);
-		if(!idle.IsRunning())
-			looking.Start();
+		if(looking.IsRunning())
+		{
+			looking.Update(dt);
+			if(!looking.IsRunning())
+				idle.Start();
+		}
+		else if(idle.IsRunning())
+		{
+			idle.Update(dt);
+			if(!idle.IsRunning())
+				looking.Start();
+		}
 	}
 }
 
@@ -61,66 +66,73 @@ void Turret::UpdateAI(float dt)
 	radius = Rect(box.x-200, box.y-200, box.w+400, box.h+400);
 	if(StageState::GetPlayer())
 	{
-		Rect player = StageState::GetPlayer()->box;
-		bool visible = true;
-		if(StageState::GetPlayer()->Is("Player"))
+		if(!stunned.IsRunning())
 		{
-			Gallahad* p = (Gallahad*) StageState::GetPlayer();
-			if(p->Hiding())
+			Rect player = StageState::GetPlayer()->box;
+			bool visible = true;
+			if(StageState::GetPlayer()->Is("Gallahad"))
 			{
-				visible = false;
-			}
-		}
-		if(player.OverlapsWith(radius) && visible)
-		{
-			if(player.x < box.x )
-			{
-				physicsComponent.velocity.x -= 0.003*dt;
-				if(box.x - physicsComponent.velocity.x*dt < player.x)
+				Gallahad* g = (Gallahad*) StageState::GetPlayer();
+				if(g->Hiding())
 				{
-					box.x = player.x;
-					physicsComponent.velocity.x = 0;
+					visible = false;
 				}
-				facing = LEFT;
 			}
-			else
+			if(player.OverlapsWith(radius) && visible)
 			{
-				physicsComponent.velocity.x += 0.003*dt;
-				if(box.x + physicsComponent.velocity.x*dt > player.x)
+				if(player.x < box.x )
 				{
-					box.x = player.x;
-					physicsComponent.velocity.x = 0;
-				}
-				facing = RIGHT;
-			}
-			clamp(physicsComponent.velocity.x,-0.4f,0.4f);
-
-			if(!Attacking() && !Cooling())
-			{
-				Attack();
-			}
-		}
-		else if(looking.IsRunning() && looking.GetElapsed() == 0)
-		{
-			if(facing == LEFT)
-				physicsComponent.velocity.x = -0.2;
-			else
-				physicsComponent.velocity.x = 0.2;
-		}
-		else
-		{
-			if(idle.IsRunning() && idle.GetElapsed() == 0)
-			{
-				physicsComponent.velocity.x = 0;
-				if(facing == LEFT)
-				{
-					facing = RIGHT;
+					physicsComponent.velocity.x -= 0.003*dt;
+					if(box.x - physicsComponent.velocity.x*dt < player.x)
+					{
+						box.x = player.x;
+						physicsComponent.velocity.x = 0;
+					}
+					facing = LEFT;
 				}
 				else
 				{
-					facing = LEFT;
+					physicsComponent.velocity.x += 0.003*dt;
+					if(box.x + physicsComponent.velocity.x*dt > player.x)
+					{
+						box.x = player.x;
+						physicsComponent.velocity.x = 0;
+					}
+					facing = RIGHT;
+				}
+				clamp(physicsComponent.velocity.x,-0.4f,0.4f);
+
+				if(!Cooling())
+				{
+					Attack();
 				}
 			}
+			else if(looking.IsRunning() && looking.GetElapsed() == 0)
+			{
+				if(facing == LEFT)
+					physicsComponent.velocity.x = -0.2;
+				else
+					physicsComponent.velocity.x = 0.2;
+			}
+			else
+			{
+				if(idle.IsRunning() && idle.GetElapsed() == 0)
+				{
+					physicsComponent.velocity.x = 0;
+					if(facing == LEFT)
+					{
+						facing = RIGHT;
+					}
+					else
+					{
+						facing = LEFT;
+					}
+				}
+			}
+		}
+		else
+		{
+			physicsComponent.velocity.x = 0;
 		}
 	}
 }
