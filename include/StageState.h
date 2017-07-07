@@ -65,6 +65,7 @@ public:
 	static Player* player;
 	static std::string stage;
 	Sprite itemHotBarSp;
+	Sprite bek;
 };
 
 #endif /* STAGESTATE_H_ */
