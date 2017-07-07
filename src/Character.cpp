@@ -108,7 +108,8 @@ void Character::NotifyTileCollision(int tile, Face face)
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
-	if((!IsPlayer() || !other->IsPlayer()) && !other->Is("Projectile") && !other->Is("PressurePlate"))
+	if((!IsPlayer() || !other->IsPlayer()) && !other->Is("Projectile") &&
+		!other->Is("PressurePlate") && !other->Is("BoxSpawner"))
 	{
 		if(other->Is("Door"))
 		{
