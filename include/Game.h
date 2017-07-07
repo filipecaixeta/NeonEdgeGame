@@ -10,7 +10,6 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	State* storedState;
-	std::stack<State*> stateStack;
 	int frameStart = 0;
 	int dt = 0;
     SDL_Point screenSize;
@@ -28,6 +27,7 @@ public:
 
     Game(std::string title);
 	~Game();
+	std::stack<State*> stateStack;
 	static Game& GetInstance();
 	SDL_Renderer* GetRenderer();
 	State* GetCurrentState();
