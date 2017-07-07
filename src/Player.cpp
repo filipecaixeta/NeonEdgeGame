@@ -5,7 +5,6 @@ Player::Player(ItensManager* itemManager, int x, int y):
 	Character(x,y),
 	inputComponent(nullptr),
 	itemManager(itemManager),
-	soundComponent(nullptr),
 	skills({false,false,true,true,true,false,false}),
 	skillPoints(0),
 	energy(5),

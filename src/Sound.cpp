@@ -19,10 +19,14 @@ Sound::~Sound() {
 }
 
 void Sound::Open(std::string file) {
-	chunk = Resources::GetSound(file);
-	if(!IsOpen()) {
-		printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
+	if (FILE *f = std::fopen((Resources::BASENAME_SOUND+file).c_str(), "r"))
+	{
+		fclose(f);
+		chunk = Resources::GetSound(file);
+		if(!IsOpen()) {
+			printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -35,7 +39,10 @@ void Sound::Play(int times) {
 
 bool Sound::IsPlaying()
 {
-	return Mix_Playing(channel);
+	if (channel>=0)
+		return Mix_Playing(channel);
+	else
+		return false;
 }
 
 void Sound::Stop() {
