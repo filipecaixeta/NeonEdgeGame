@@ -32,12 +32,31 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	this->background = new TileSet(7389, 1711, background, 0, 0);
 	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
 	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
+
+	if(fase == "cidadeLancelot"){
+		this->background = new TileSet(7389, 1711, background, 0, 0);
+		tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
+		currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
+	}
+	else if(fase == "naveGalahad"){
+		this->background = new TileSet(1, 1, background, 0, 0);
+		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
+		currentRoom = new Room(tileSet, 1, Vec2(0,0), this->background);
+	}
+	else if(fase == "cidadeGalahad"){
+		this->background = new TileSet(7389, 1711, background, 0, 0);
+		tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
+		currentRoom = new Room(tileSet, 2, Vec2(0,0), this->background);
+	}
+	else if(fase == "naveLancelot"){
+		this->background = new TileSet(1, 1, background, 0, 0);
+		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
+		currentRoom = new Room(tileSet, 3, Vec2(0,0), this->background);
+	}
+
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
-
-	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
-	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
 
 	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
 										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
