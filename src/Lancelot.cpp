@@ -11,6 +11,7 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	Player(itemManager,x,y),
 	blocking(1000)
 {
+	dieTimer = Timer(250);
 	name = "Lancelot";
 	inputComponent = new LancelotInputComponent();
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
@@ -87,14 +88,6 @@ void Lancelot::UpdateTimers(float dt)
 		}
 	}
 
-	invincibilityTimer.Update(dt);
-	attacking.Update(dt);
-	if(attacking.GetElapsed() == 1)
-	{
-		attacking.Reset();
-		attackCD.Start();
-	}
-	attackCD.Update(dt);
-	regenCD.Update(dt);
+	Player::UpdateTimers(dt);
 	blocking.Update(dt);
 }

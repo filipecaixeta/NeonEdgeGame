@@ -13,6 +13,7 @@ LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"AttackingStraight",3,80,true);
 	AddSprite(baseName,"AttackingUppercut",3,80,true);
 	AddSprite(baseName,"AttackingChop",4,80,true);
+	AddSprite(baseName,"Dying",5,50);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }
@@ -61,6 +62,11 @@ void LancelotGraphicsComponent::Update(GameObject* obj, float dt)
 	else
 	{
 		UpdateSprite(obj, "Running");
+	}
+
+	if (obj->dieTimer.IsRunning())
+	{
+		UpdateSprite(obj, "Dying");
 	}
 
 	sp->Mirror(mirror);

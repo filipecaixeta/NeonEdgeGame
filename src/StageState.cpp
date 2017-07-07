@@ -241,7 +241,7 @@ void StageState::Render()
 		windowArray.at(i)->Render();
 	healthBar->Render(51,44);
 	energyBar->Render(51,44);
-	if (player->itemManager!=nullptr)
+	if (player!=nullptr && player->itemManager!=nullptr)
 		player->itemManager->Render();
 
 	if (inGameMenu!=nullptr)

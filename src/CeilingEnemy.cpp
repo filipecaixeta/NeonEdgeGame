@@ -25,7 +25,7 @@ void CeilingEnemy::Update(TileMap* world, float dt)
     if(OutOfBounds(world))
         SetPosition(Vec2(startingX,startingY));
     graphicsComponent->Update(this,dt);
-    if(this->box.OverlapsWith(StageState::GetPlayer()->box))
+	if(StageState::GetPlayer()!=nullptr && this->box.OverlapsWith(StageState::GetPlayer()->box))
     {
         Player* p = (Player*) StageState::GetPlayer();
         p->Damage(1);
@@ -48,7 +48,7 @@ void CeilingEnemy::NotifyTileCollision(int tile, Face face){
 
 void CeilingEnemy::UpdateAI(float dt)
 {
-    if(state == WAITING && StageState::GetPlayer()->box.GetCenter().x > this->box.x - 20 && StageState::GetPlayer()->box.GetCenter().x < this->box.x + box.w + 20 )
+	if(StageState::GetPlayer()!=nullptr && state == WAITING && StageState::GetPlayer()->box.GetCenter().x > this->box.x - 20 && StageState::GetPlayer()->box.GetCenter().x < this->box.x + box.w + 20 )
     {
         //std::cout << "entrou aqui0";
         state = ATTACKING;
