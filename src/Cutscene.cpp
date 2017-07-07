@@ -34,8 +34,8 @@ Cutscene::Cutscene(int index, bool textOnly){
 
         case 2:
             AddCutsceneObject("Cutscene1.png",0,0,false);
-            AddCutsceneObject("LancelotIdle.png",0,0,false);
-            AddCutsceneObject("GallahadIdle.png",100,100,true);
+            AddCutsceneObject("LancelotIdle.png",50,400,false,80,8);
+            AddCutsceneObject("GallahadIdle.png",400,400,true,80,8);
             textBox.emplace_back(new DialogWindow(59,514,"Knight Galahad? What are you doing here?","Lancelot","retrato_lancelot.png"));
             textBox.emplace_back(new DialogWindow(59,514,"Calm down, rookie. Im not here to steal your mission or anything. I have more important things to do, like warning you about what happened to these drones.","Galahad","retrato_galahad.png"));
             textBox.emplace_back(new DialogWindow(59,514,"What do you mean? This better not be another one of your tricks.","Lancelot","retrato_lancelot.png"));
@@ -109,6 +109,8 @@ void Cutscene::Update(){
 			if(textBox.empty()){
 				if(index == 1)
 					Game::GetInstance().AddState(new StageState("Lancelot"));
+				if(index == 2)
+					Game::GetInstance().AddState(new StageState("Lancelot", 10, 10, "background.png", "naveGalahad"));
 				quitRequested = true;
 			}
 		}
