@@ -3,3 +3,6 @@ poste1 600,2200
 poste2 800,2200
 poste2 1300,2200
 lixo1 1500,2136
+background 0,3520
+background 7439,3520
+background 14878,3520

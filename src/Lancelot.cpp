@@ -4,6 +4,8 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "Cutscene.h"
+#include "SoundComponent.h"
 
 #include <cstdlib>
 #include <ctime>
@@ -12,9 +14,11 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	Player(itemManager,x,y),
 	blocking(1000)
 {
+	dieTimer = Timer(250);
 	name = "Lancelot";
 	inputComponent = new LancelotInputComponent();
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
+	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(0);
 	srand(time(NULL));
@@ -65,6 +69,7 @@ void Lancelot::Attack()
 {
 	attacking.SetLimit(0);
 	attackCD.SetLimit(0);
+	soundComponent->Attack();
 	if(combo == "Straight")
 	{
 		attacking.SetLimit(240);
@@ -133,13 +138,18 @@ std::string Lancelot::WhichCombo()
 
 void Lancelot::UpdateTimers(float dt)
 {
-	invincibilityTimer.Update(dt);
-	attacking.Update(dt);
-	if(attacking.GetElapsed() == 1)
-	{
-		attacking.Reset();
-		attackCD.Start();
+	Rect checkStateTrasition;
+	if(StageState::stage == "cidadeLancelot"){
+		checkStateTrasition.x = 18504;
+		checkStateTrasition.y = 2369;
+		checkStateTrasition.w = 112;
+		checkStateTrasition.h = 180;
+
+		if(box.OverlapsWith(checkStateTrasition) == true){
+			Game::GetInstance().GetCurrentState()->quitRequested = true;
+			Game::GetInstance().AddState(new Cutscene(2, false));
+
+		}
 	}
-	attackCD.Update(dt);
-	regenCD.Update(dt);
+	Player::UpdateTimers(dt);
 }

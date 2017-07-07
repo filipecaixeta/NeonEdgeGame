@@ -158,8 +158,8 @@ void Room::Update(float dt)
 void Room::Render()
 {
 	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
-	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	sceneObjects.Render();
+	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		objectArray[i]->Render();

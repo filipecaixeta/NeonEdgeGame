@@ -47,7 +47,9 @@ void InputComponent::StayStill()
 void InputComponent::Crouch(bool c)
 {
 	if (c == true)
+	{
 		obj->Crouch();
+	}
 	else
 		obj->Stand();
 }

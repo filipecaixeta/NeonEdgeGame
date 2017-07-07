@@ -6,6 +6,7 @@
 #include "TileMap.h"
 #include "InputComponent.h"
 #include "ItensManager.h"
+#include "SoundComponent.h"
 
 class InputComponent;
 class ItensManager;
@@ -30,6 +31,8 @@ public:
 
 	InputComponent* inputComponent;
 	ItensManager* itemManager;
+	SoundComponent *soundComponent;
+
 	bool skills[7];
 	int skillPoints;
 
@@ -37,6 +40,7 @@ protected:
 	int energy;
 	Timer regenCD;
 	bool crouching;
+	bool crouchingEdge;
 };
 
 #endif /* PLAYER_H_ */

@@ -6,6 +6,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "SoundComponent.h"
 
 Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	Player(itemManager,x,y),
@@ -15,6 +16,7 @@ Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	name = "Gallahad";
 	inputComponent = new GallahadInputComponent();
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
+	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
 	drone = d;
 	active = true;

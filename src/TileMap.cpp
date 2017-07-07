@@ -71,9 +71,9 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 			if(origem == false)
 				tileSet->Render(At(i, j, layer), i*tileWidth - cameraX,
 								j*tileHeight - cameraY);
-			else
-				tileSet->Render(At(i, j, layer), i*tileWidth - cameraX,
-								j*tileHeight + position.y - tileHeight - cameraY);
+//			else
+//				tileSet->Render(At(i, j, layer), i*tileWidth - cameraX,
+//								j*tileHeight + 1500 - cameraY);
 		}
 	}
 

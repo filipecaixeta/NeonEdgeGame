@@ -11,8 +11,8 @@ std::unordered_map<std::string, TTF_Font*> Resources::fontTable = std::unordered
 
 std::string Resources::BASENAME = "resources/";
 std::string Resources::BASENAME_IMAGE = "resources/img/";
-std::string Resources::BASENAME_MUSIC = "resources/audio/";
-std::string Resources::BASENAME_SOUND = "resources/audio/";
+std::string Resources::BASENAME_MUSIC = "resources/audio/music/";
+std::string Resources::BASENAME_SOUND = "resources/audio/sound/";
 std::string Resources::BASENAME_FONT = "resources/font/";
 
 SDL_Texture* Resources::GetImage(std::string file,bool forceDuplicate=false)

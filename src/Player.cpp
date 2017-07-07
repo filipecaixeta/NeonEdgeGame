@@ -5,11 +5,13 @@ Player::Player(ItensManager* itemManager, int x, int y):
 	Character(x,y),
 	inputComponent(nullptr),
 	itemManager(itemManager),
+	soundComponent(nullptr),
 	skills({false,false,true,true,true,false,false}),
 	skillPoints(2),
 	energy(5),
 	regenCD(500),
-	crouching(false)
+	crouching(false),
+	crouchingEdge(true)
 {
 	name = "Player";
 }
@@ -31,12 +33,18 @@ int Player::GetEnergy()
 
 void Player::Crouch()
 {
+	if (crouchingEdge)
+	{
+		crouchingEdge = false;
+		soundComponent->Crouching();
+	}
 	crouching = true;
 }
 
 void Player::Stand()
 {
 	crouching = false;
+	crouchingEdge = true;
 }
 
 bool Player::Crouching()

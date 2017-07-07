@@ -19,6 +19,7 @@ public:
 	Vec2 GetWH();
 	void SetWH(Vec2 v);
 	Vec2 GetCenter();
+	Vec2 GetBottomLeft();
 	bool IsInside(Vec2 dot);
 	Rect GetOverlap(const Rect& r);
 	bool OverlapsWith(const Rect& r);
