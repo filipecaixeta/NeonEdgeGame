@@ -43,7 +43,7 @@ void SettingsMenu::Update()
 void SettingsMenu::Render()
 {
 	int positionsY[3] = {374,441,507};
-	bg.Render(0,0);
+	bg.Render(CenterVertical(&bg));
 	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,249));
 	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 }
