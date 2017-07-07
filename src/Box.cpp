@@ -43,7 +43,7 @@ void Box::Trigger()
 
 void Box::NotifyObjectCollision(GameObject* other)
 {
-	if(other->IsPlayer() && !other->Is("Drone"))
+	if(other->IsPlayer())
 	{
 		Character* c = (Character*) other;
 		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h > box.y) && (other->facing == RIGHT))
