@@ -41,37 +41,37 @@ void Camera::Update(float dt) {
 			pos.x -= speed.x*dt;
 		if(InputManager::GetInstance().IsKeyDown(RIGHT_ARROW_KEY))
 			pos.x += speed.x*dt;
-    }
-    else{
-        int w, h;
-        SDL_Point s = Game::GetInstance().GetScreenSize();
-        w=s.x;
-        h=s.y;
-        if(pos.x > focus->box.GetCenter().x-w/2)
-        {
-            if(pos.x-speed.x*dt < focus->box.GetCenter().x-w/2)
-				pos.x = focus->box.GetCenter().x-w/2;
+	}
+	else{
+		int w, h;
+		SDL_Point s = Game::GetInstance().GetScreenSize();
+		w=s.x;
+		h=s.y;
+		if(pos.x > focus->box.GetBottomLeft().x-w/2)
+		{
+			if(pos.x-speed.x*dt < focus->box.GetBottomLeft().x-w/2)
+				pos.x = focus->box.GetBottomLeft().x-w/2;
 			else
 				pos.x -= speed.x*dt;
-        }
-        else
-        {
-			if(pos.x+speed.x*dt > focus->box.GetCenter().x-w/2)
-				pos.x = focus->box.GetCenter().x-w/2;
+		}
+		else
+		{
+			if(pos.x+speed.x*dt > focus->box.GetBottomLeft().x-w/2)
+				pos.x = focus->box.GetBottomLeft().x-w/2;
 			else
 				pos.x += speed.x*dt;
 		}
-        if(pos.y > focus->box.GetCenter().y-h/2)
-        {
-			if(pos.y-speed.y*dt < focus->box.GetCenter().y-h/2)
-				pos.y = focus->box.GetCenter().y-h/2;
+		if(pos.y > focus->box.GetBottomLeft().y-h/2)
+		{
+			if(pos.y-speed.y*dt < focus->box.GetBottomLeft().y-h/2)
+				pos.y = focus->box.GetBottomLeft().y-h/2;
 			else
 				pos.y -= speed.y*dt;
-        }
-        else
-        {
-			if(pos.y+speed.y*dt > focus->box.GetCenter().y-h/2)
-				pos.y = focus->box.GetCenter().y-h/2;
+		}
+		else
+		{
+			if(pos.y+speed.y*dt > focus->box.GetBottomLeft().y-h/2)
+				pos.y = focus->box.GetBottomLeft().y-h/2;
 			else
 				pos.y += speed.y*dt;
 		}

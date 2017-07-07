@@ -2,12 +2,14 @@
 #include <cstdio>
 #include <cstdlib>
 
-Sound::Sound() {
+Sound::Sound()
+{
 	chunk = nullptr;
 	channel = -1;
 }
 
-Sound::Sound(std::string file) {
+Sound::Sound(std::string file)
+{
 	chunk = nullptr;
 	Open(file);
 }
@@ -25,7 +27,15 @@ void Sound::Open(std::string file) {
 }
 
 void Sound::Play(int times) {
-	channel = Mix_PlayChannel(-1, chunk, times);
+	if (IsOpen())
+	{
+		channel = Mix_PlayChannel(-1, chunk, times);
+	}
+}
+
+bool Sound::IsPlaying()
+{
+	return Mix_Playing(channel);
 }
 
 void Sound::Stop() {

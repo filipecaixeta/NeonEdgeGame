@@ -16,6 +16,7 @@ public:
 	void Play(int times);
 	void Stop();
 	bool IsOpen();
+	bool IsPlaying();
 };
 
 #endif /* SOUND_H_ */

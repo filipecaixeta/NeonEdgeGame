@@ -48,6 +48,11 @@ Vec2 Rect::GetCenter()
 	return Vec2(x+w/2, y+h/2);
 }
 
+Vec2 Rect::GetBottomLeft()
+{
+	return Vec2(x,y+h);
+}
+
 bool Rect::IsInside(Vec2 dot)
 {
 	return((dot.x > x) && (dot.x < x+w) && (dot.y > y) && (dot.y < y+h));

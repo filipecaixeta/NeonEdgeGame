@@ -5,6 +5,7 @@
 #include "Rect.h"
 #include "Projectile.h"
 #include "Cutscene.h"
+#include "SoundComponent.h"
 
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	Player(itemManager,x,y),
@@ -13,6 +14,7 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	name = "Lancelot";
 	inputComponent = new LancelotInputComponent();
 	graphicsComponent = new LancelotGraphicsComponent("Lancelot");
+	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
 	attackCD.SetLimit(0);
 }
@@ -24,6 +26,7 @@ Lancelot::~Lancelot()
 
 void Lancelot::Attack()
 {
+	soundComponent->Attack();
 	if(combo == "Straight")
 	{
 		attacking.SetLimit(240);
