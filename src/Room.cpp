@@ -144,7 +144,7 @@ void Room::ObjectCleanup()
 				Camera::GetInstance().Unfollow();
 			if(objectArray[i] == StageState::GetPlayer())
 				StageState::KillPlayer();
-			sceneObjects.AddObject(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
+			sceneObjects.AddObjectAfter(objectArray[i]->name,objectArray[i]->box.GetXY()+Vec2(0,objectArray[i]->box.h));
 			delete objectArray[i];
 			objectArray.erase(objectArray.begin()+i);
 		}
@@ -164,6 +164,7 @@ void Room::Render()
 	backgroundMap->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 	sceneObjects.Render();
 	map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
+	sceneObjects.RenderAfter();
 	for(unsigned i = 0; i < objectArray.size(); i++)
 	{
 		objectArray[i]->Render();

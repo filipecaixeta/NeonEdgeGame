@@ -27,7 +27,7 @@ void Turret::Attack()
 	//Starts attack timer
 	attackCD.Start();
 	//Generates attack object
-//	StageState::AddObject(new Projectile(this, Vec2(0.4, 0), 400, 1, false));
+	StageState::AddObject(new Projectile(this, Vec2(0.4, 0), 400, 1, false));
 }
 
 void Turret::NotifyTileCollision(int tile, GameObject::Face face)

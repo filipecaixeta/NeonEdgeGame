@@ -18,12 +18,15 @@ class SceneObjects
 public:
 	SceneObjects(std::string fileName);
 	void Render();
+	void RenderAfter();
 	void Update();
 	void LoadObjects(std::string file);
 	void AddObject(std::string name, Vec2 pos);
 	void AddObject(std::string name, SDL_Point pos);
+	void AddObjectAfter(std::string name, Vec2 pos);
 	std::unordered_map<std::string,Obj> objs;
+	std::unordered_map<std::string,bool> objsAfter;
 	std::string fileName;
-};
 
+};
 #endif // SCENEOBJECTS_H
