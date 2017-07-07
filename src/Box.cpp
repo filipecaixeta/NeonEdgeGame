@@ -70,18 +70,7 @@ void Box::NotifyObjectCollision(GameObject* other)
 	}
 	if(other->Is("Door"))
 	{
-		Door* d = (Door*) other;
-		if(d->hard)
-		{
-			if(box.x < other->box.x)
-			{
-				box.x -= 10;
-			}
-			else
-			{
-				box.x += 10;
-			}
-		}
+
 	}
 	if(other->Is("Projectile"))
 	{

@@ -1,7 +1,7 @@
 #include "Projectile.h"
 #include "Camera.h"
-#include "Sprite.h"
-#include "Timer.h"
+#include "StageState.h"
+#include "Animation.h"
 
 Projectile::Projectile(GameObject* owner, Vec2 speed, int lifetime, int power, bool pierce)
 {
@@ -34,6 +34,10 @@ Projectile::~Projectile()
 
 bool Projectile::IsDead()
 {
+	if(!lifetime.IsRunning())
+	{
+		StageState::AddObject(new Animation(box.GetCenter().x, box.GetCenter().y,owner->name+"ProjectileEnd.png",8,80,true));
+	}
 	return (!lifetime.IsRunning());
 }
 
@@ -64,7 +68,7 @@ void Projectile::NotifyTileCollision(int tile, Face face)
 
 void Projectile::NotifyObjectCollision(GameObject* other)
 {
-	if(!other->Is(owner->name))
+	if(other != owner)
 		if(!pierce)
 			lifetime.Stop();
 }

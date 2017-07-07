@@ -9,10 +9,16 @@
 #include "StageState.h"
 #include "ColisionFunctions.h"
 #include "Item.h"
+
+#include "Player.h"
 #include "CeilingEnemy.h"
 #include "NotFredoStationary.h"
 #include "TurretBoss.h"
 #include "Turret.h"
+
+#include "Interactive.h"
+#include "Door.h"
+#include "PressurePlate.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
 	sceneObjects("resources/map/objs/sceneObjects.txt")
@@ -115,12 +121,11 @@ void Room::ObjectCollision()
 			{
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
-				if (objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
+				if(objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
 					dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-				else if (objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
+				else if(objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
 					dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
 			}
-//			std::cout << ColisionFunctions::PixelPerfectColision(objectArray[i],objectArray[j]) << std::endl;
 		}
 	}
 }
@@ -162,16 +167,19 @@ void Room::Render()
 	//map->RenderLayer(0,Camera::GetInstance().pos.x,Camera::GetInstance().pos.y);
 }
 
-void Room::CreateObjects(){
+void Room::CreateObjects()
+{
 	for(unsigned int i = 0; i < objectData.size(); i++)
 	{
-		if(objectData.at(i).id == 0)
+		if(objectData.at(i).id == 0) // Lancelot
 		{
 			ItensManager* itensManager = new ItensManager();
 			AddObjectAsFirst(new Lancelot(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   		  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+			Player* p = (Player*) objectArray[0];
+			StageState::SetPlayer(p);
 		}
-		else if(objectData.at(i).id == 1)
+		else if(objectData.at(i).id == 1) // Gallahad
 		{
 			ItensManager* itensManager = new ItensManager();
 			AddObject(new Drone(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
@@ -179,13 +187,15 @@ void Room::CreateObjects(){
 			AddObjectAsFirst(new Gallahad(itensManager,objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
 								   		  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
 								   		  objectArray.at(objectArray.size()-1)));
+			Player* p = (Player*) objectArray[0];
+			StageState::SetPlayer(p);
 		}
-		else if(objectData.at(i).id == 2)
+		else if(objectData.at(i).id == 2) // Arthur
 		{
-			AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
+			AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        						 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
-		else if(objectData.at(i).id == 3)
+		else if(objectData.at(i).id == 3) // TurretBoss
 		{
 			TurretBoss* t;
 			TurretPiece* p;
@@ -255,27 +265,27 @@ void Room::CreateObjects(){
 		else if(objectData.at(i).id == 16)
 		{
 			AddObject(new Turret(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-								   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
 		}
-		else if(objectData.at(i).id == 19){
+		else if(objectData.at(i).id == 19)
+		{
 			
 		}
 		else if(objectData.at(i).id == 20)
         {
-        	AddObject(new Arthur(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        						 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        	AddObject(new Energy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+								 objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), "Energy.png", 4, 120));
         }
-		/*else if(objectData.at(i).id == 21)
+		else if(objectData.at(i).id == 21) // Door
         {
-        	AddObject(new Lever(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        						map, "Lever.png", objectData.at(i).v));
-        }*/
-		else if(objectData.at(i).id == 22)
+        	AddObject(new Door(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+							   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
+		else if(objectData.at(i).id == 22) // PressurePlate
         {
-        	/*AddObject(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        								map, "PressurePlateOn.png", "PressurePlateOff.png", objectData.at(i).v));*/
+        	Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
+        	AddObjectAsFirst(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
 		else if(objectData.at(i).id == 23)
         {
@@ -305,7 +315,7 @@ void Room::LoadObjects(std::string file){
 		std::cerr<< "f.open: unable to open file: " << file.c_str();
 		return;
 	}
-	for (std::string line; std::getline(f, line); )
+	for(std::string line; std::getline(f, line); )
 	{
 		char delimiter;
 		int n;
@@ -320,20 +330,19 @@ void Room::LoadObjects(std::string file){
 		ss >> n;
 		ss >> delimiter;
 
-		for(int i = 0; i<n; i++)
+		if(n > 20)
 		{
-			int temp;
-			data.v.push_back(std::vector<int>());
-			ss >> temp;
+			ObjectData newData;
+			
+			newData.id = n;
+			ss >> newData.x;
 			ss >> delimiter;
-			data.v[i].push_back(temp);
-			ss >> temp;
+			ss >> newData.y;
 			ss >> delimiter;
-			data.v[i].push_back(temp);
-			ss >> temp;
-			ss >> delimiter;
-			data.v[i].push_back(temp);
+
+			objectData.push_back(newData);
 		}
+
 		objectData.push_back(data);
 	}
 }

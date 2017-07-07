@@ -8,6 +8,7 @@ GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"Idle",8,80);
 	AddSprite(baseName,"Running",8,80);
 	AddSprite(baseName,"Crouching",4,80,true);
+	AddSprite(baseName,"Active",4,80,true);
 	AddSprite(baseName,"Jumping",8,80,true);
 	AddSprite(baseName,"Shot",4,80, true);
 	AddSprite(baseName,"RunningShot",8,80);
@@ -34,10 +35,20 @@ void GallahadGraphicsComponent::Update(GameObject* obj, float dt)
 			UpdateSprite(obj, "JumpingShot");
 		else
 			UpdateSprite(obj, "Shot");
+		if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
+			obj->footing = GameObject::AIRBORNE;
 	}
 	else if(g->Crouching())
 	{
 		UpdateSprite(obj, "Crouching");
+		if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
+			obj->footing = GameObject::AIRBORNE;
+	}
+	else if(!g->Active())
+	{
+		UpdateSprite(obj, "Active");
+		if(obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED)
+			obj->footing = GameObject::AIRBORNE;
 	}
 	else if(obj->footing == GameObject::AIRBORNE)
 	{

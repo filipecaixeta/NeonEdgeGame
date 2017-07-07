@@ -5,7 +5,7 @@
 ProjectileGraphicsComponent::ProjectileGraphicsComponent(std::string baseName_):
 	GraphicsComponent(baseName_)
 {
-	AddSprite(baseName,"Projectile",4,60);
+	AddSprite(baseName,"Projectile",4,80);
 	sp = sprites["Projectile"];
 	surface = surfaces["Projectile"];
 }

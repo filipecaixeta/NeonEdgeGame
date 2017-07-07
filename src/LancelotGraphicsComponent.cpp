@@ -13,6 +13,9 @@ LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseName_):
 	AddSprite(baseName,"AttackingStraight",3,80,true);
 	AddSprite(baseName,"AttackingUppercut",3,80,true);
 	AddSprite(baseName,"AttackingChop",4,80,true);
+	AddSprite(baseName,"AttackingSpear",3,80,true);
+	AddSprite(baseName,"AttackingSword",3,80,true);
+	AddSprite(baseName,"AttackingAxe",4,80,true);
 	sp = sprites["Idle"];
 	surface = surfaces["Idle"];
 }

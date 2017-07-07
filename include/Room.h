@@ -17,7 +17,6 @@ struct ObjectData
 	int id;
 	int x;
 	int y;
-	std::vector<std::vector<int>> v = std::vector<std::vector<int>>();
 };
 
 class Room

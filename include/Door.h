@@ -1,30 +1,19 @@
 #ifndef DOOR_H_
 #define DOOR_H_
 
-#include "GameObject.h"
-#include "Sprite.h"
-#include "Timer.h"
-#include <vector>
+#include "Interactive.h"
 
-class Door : public GameObject
+class Door : public Interactive
 {
 private:
-	
-	bool locked;
-	bool dead;
+	bool open;
 
-	
 public:
-
-	Sprite sp;
-	bool hard;
-
-	Door(int x, int y, std::string sprite, bool locked);
+	Door(int x, int y);
 	~Door();
-	bool IsDead();
-	void NotifyObjectCollision(GameObject* other);
-	void Update(TileMap* map, float dt);
+	void Trigger();
+	void Update(TileMap* world, float dt);
 	void Render();
 };
 
-#endif 
+#endif  

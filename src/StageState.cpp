@@ -31,12 +31,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	this->background = new TileSet(7389, 1711, background, 0, 0);
 	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
 	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
-	//CreateMap(sizeX,sizeY);
-	/*if(mode == "Lancelot")
-		player = new Lancelot(133, 131);
-	else if(mode == "Gallahad")
-		player = new Gallahad(269, 544);*/
-	player = (Player*) currentRoom->GetFirst();
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;
@@ -44,29 +38,8 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	//bg->SetScaleX(currentRoom->GetMap()->GetWidth() * currentRoom->GetMap()->GetTileWidth()/bg->GetWidth());
 	//bg->SetScaleY(currentRoom->GetMap()->GetHeight() * currentRoom->GetMap()->GetTileHeight()/bg->GetHeight());
 
-	AddObject(new BoxSpawner(140, 576));
-
-	AddObject(new Life(400, 576, "window.png"));
-
-	AddObject(new Door(100, 576, "Melee.png", false));
-
-	//AddObject(new Door(2800, 1170, "Melee.png", true));
-
-	int a[10][3] = {{1780,576,3},{2200,576,3},{2200,1076,3},{2200,576,3},{2500,1000,3},{1780,300,3},{2200,970,3},{2000,1070,3},{2200,1140,3},{2200,576,3}};
-
-//	Plattform* plattform = new Plattform(2200, 1170, "window.png", a);
-
-	AddObject(new Plattform(2400, 576, "window.png", a));
-/*
-	std::vector<Plattform*> plot;
-
-	plot.emplace_back(plattform);
-
-	AddObject(new Lever(2600, 1120, "Lever.png", plot));*/
-
 	Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
 										currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
-
 	CreateBars(player->name);
 }
 
@@ -88,6 +61,11 @@ Room* StageState::GetCurrentRoom(){
 GameObject* StageState::GetPlayer()
 {
 	return player;
+}
+
+void StageState::SetPlayer(Player* ptr)
+{
+	player = ptr;
 }
 
 void StageState::KillPlayer()

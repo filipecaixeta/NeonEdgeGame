@@ -1,22 +1,12 @@
 #include "Door.h"
-#include "Animation.h"
 #include "Camera.h"
-#include "InputManager.h"
 #include "StageState.h"
-#include "Character.h"
-#include "Room.h"
-#include <unordered_map>
-#include <string>
 
-Door::Door(int x, int y, std::string sprite, bool locked)
+Door::Door(int x, int y):
+	Interactive(x,y,"Door")
 {
 	name = "Door";
-	sp = Sprite(sprite);
-	Vec2 size = sp.GetSize();
-	box.SetXY(Vec2(x,y));
-	box.SetWH(size);
-	hard = true;
-	Door::locked = locked;
+	open = false;
 }
 
 Door::~Door()
@@ -24,12 +14,38 @@ Door::~Door()
 
 }
 
-bool Door::IsDead()
+void Door::Trigger()
 {
-	return dead;
+	if(Active())
+		Off();
+	else
+		On();
 }
 
-void Door::NotifyObjectCollision(GameObject* other)
+void Door::Update(TileMap* map, float dt)
+{
+	open = false;
+	if(Active())
+	{
+		Rect radius = Rect(box.x-100, box.y-100, box.w+200, box.h+200);
+		GameObject* player = StageState::GetPlayer();
+		if(radius.OverlapsWith(player->box))
+		{
+			open = true;
+		}
+	}
+	graphicsComponent->Update(this,dt);
+}
+
+void Door::Render()
+{
+	if(!open || !Active())
+	{
+		graphicsComponent->Render(GetPosition()-Camera::GetInstance().pos);
+	}
+}
+
+/*void Door::NotifyObjectCollision(GameObject* other)
 {
 	if(other->Is("Player"))
 	{
@@ -52,14 +68,4 @@ void Door::NotifyObjectCollision(GameObject* other)
 			dead = true;
 		}
 	}
-}
-
-void Door::Update(TileMap* map, float dt)
-{
-
-}
-
-void Door::Render()
-{
-	sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
-}
+}*/
