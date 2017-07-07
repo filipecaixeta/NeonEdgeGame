@@ -64,7 +64,7 @@ public:
 	State* inGameMenu;
 	static Player* player;
 	static std::string stage;
-	Sprite bg;
+	Sprite itemHotBarSp;
 };
 
 #endif /* STAGESTATE_H_ */

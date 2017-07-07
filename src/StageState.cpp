@@ -58,6 +58,7 @@ StageState::StageState(std::string fase, std::string background):
 	CreateBars(player->name);
 
 	stage = fase;
+	itemHotBarSp.Open("menus/"+player->name+"itemhotbar.png");
 }
 
 StageState::~StageState()
@@ -197,6 +198,7 @@ void StageState::Render()
 		windowArray.at(i)->Render();
 	healthBar->Render(51,44);
 	energyBar->Render(51,44);
+	itemHotBarSp.Render(20,629);
 	if (player!=nullptr && player->itemManager!=nullptr)
 		player->itemManager->Render();
 
