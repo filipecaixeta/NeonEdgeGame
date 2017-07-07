@@ -104,6 +104,7 @@ void ItensManager::AddItem(int id)
 	}
 	if(name == "Driver"){
 		if(StageState::stage == "naveGalahad"){
+			Game::GetInstance().RemoveState();
 			Game::GetInstance().GetCurrentState()->quitRequested = true;
 			Game::GetInstance().AddState(new Cutscene(3, false));
 		}

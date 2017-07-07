@@ -91,7 +91,7 @@ void Player::NotifyObjectCollision(GameObject* other)
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(!p->GetOwner()->IsPlayer())
+		if(!(p->GetOwner() == "Gallahad"))
 			Damage(p->Power());
 	}
 	if(other->Is("Energy"))

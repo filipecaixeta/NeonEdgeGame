@@ -108,9 +108,15 @@ void Cutscene::Update(){
 			textBox.erase(textBox.begin());
 			if(textBox.empty()){
 				if(index == 1)
-					Game::GetInstance().AddState(new StageState("Lancelot"));
+				{
+					//Game::GetInstance().RemoveState();
+					Game::GetInstance().AddState(new StageState("cidadeLancelot"));
+				}
 				if(index == 2)
-					Game::GetInstance().AddState(new StageState("Lancelot", 10, 10, "background.png", "naveGalahad"));
+				{
+					//Game::GetInstance().RemoveState();
+					Game::GetInstance().AddState(new StageState("naveGalahad"));
+				}
 				quitRequested = true;
 			}
 		}
@@ -118,7 +124,10 @@ void Cutscene::Update(){
 			dialog.erase(dialog.begin());
 			if(dialog.empty()){
 				if(index == 0)
+				{
+					//Game::GetInstance().RemoveState();
 					Game::GetInstance().AddState(new Cutscene(1, false));
+				}
 				quitRequested = true;
 			}
 		}

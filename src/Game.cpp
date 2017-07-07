@@ -229,7 +229,7 @@ void Game::Run() {
 		else if(storedState->QuitRequested())
 		{
 			RemoveState();
-			if (stateStack.size()==0)
+			if(stateStack.size()==0)
 				break;
 			storedState = stateStack.top();
 		}

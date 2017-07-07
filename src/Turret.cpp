@@ -1,6 +1,7 @@
 #include "Turret.h"
 #include "AIMovingOnGroudGraphicsComponent.h"
 #include "StageState.h"
+#include "Gallahad.h"
 #include "Projectile.h"
 
 Turret::Turret(int x, int y):
@@ -12,9 +13,9 @@ Turret::Turret(int x, int y):
 	name = "Turret";
 	graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
 	box.SetWH(graphicsComponent->GetSize());
-	attackCD.SetLimit(0);
-	hitpoints = 2;
+	attackCD.SetLimit(300);
 	idle.Start();
+	hitpoints = 2;
 }
 
 Turret::~Turret()
@@ -32,13 +33,13 @@ void Turret::Attack()
 
 void Turret::NotifyTileCollision(int tile, GameObject::Face face)
 {
-	if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
+	/*if(tile >= SOLID_TILE && (face == LEFT || face == RIGHT))
 	{
 		if(physicsComponent.velocity.y >= 0.6)
 		{
 			physicsComponent.velocity.y = -0.5;
 		}
-	}
+	}*/
 }
 
 void Turret::UpdateTimers(float dt)

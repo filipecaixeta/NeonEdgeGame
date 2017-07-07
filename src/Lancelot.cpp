@@ -143,15 +143,14 @@ void Lancelot::UpdateTimers(float dt)
 {
 	Rect checkStateTrasition;
 	if(StageState::stage == "cidadeLancelot"){
-		checkStateTrasition.x = 18504;
-		checkStateTrasition.y = 2369;
+		checkStateTrasition.x = 600; //18504;
+		checkStateTrasition.y = 1950;//2369;
 		checkStateTrasition.w = 112;
 		checkStateTrasition.h = 180;
 
 		if(box.OverlapsWith(checkStateTrasition) == true){
 			Game::GetInstance().GetCurrentState()->quitRequested = true;
 			Game::GetInstance().AddState(new Cutscene(2, false));
-
 		}
 	}
 	Player::UpdateTimers(dt);
