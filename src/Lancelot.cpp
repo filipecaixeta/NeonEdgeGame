@@ -28,7 +28,8 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 
 Lancelot::~Lancelot()
 {
-
+	Game::GetInstance().GetCurrentState()->quitRequested = true;
+	Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
 void Lancelot::Damage(int damage)
@@ -153,7 +154,7 @@ void Lancelot::UpdateTimers(float dt)
 			Game::GetInstance().AddState(new Cutscene(2, false));
 		}
 	}
-	if(StageState::stage == "naveLancelot" && !done){	
+	/*if(StageState::stage == "naveLancelot" && !done){	
 		checkStateTrasition.x = 12556;
 		checkStateTrasition.y = 3072;
 		checkStateTrasition.w = 108;
@@ -163,6 +164,6 @@ void Lancelot::UpdateTimers(float dt)
 			Game::GetInstance().AddState(new Cutscene(7, false));
 			done = true;
 		}
-	}
+	}*/
 	Player::UpdateTimers(dt);
 }

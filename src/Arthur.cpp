@@ -1,5 +1,5 @@
 #include "Arthur.h"
-
+#include "Cutscene.h"
 #include "StageState.h"
 
 Arthur::Arthur(int x, int y):
@@ -14,10 +14,17 @@ Arthur::Arthur(int x, int y):
 	box.SetWH(graphicsComponent->GetSize());
 	state = IDLE;
 	triggered = false;
+	Damage(9);
 }
 
 Arthur::~Arthur(){
-	
+	Game::GetInstance().GetCurrentState()->quitRequested = true;
+	Game::GetInstance().AddState(new Cutscene(7, false));
+}
+
+void Arthur::NotifyObjectCollision(GameObject* other)
+{
+	Character::NotifyObjectCollision(other);
 }
 
 void Arthur::UpdateAI(float dt){

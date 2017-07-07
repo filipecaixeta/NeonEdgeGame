@@ -101,7 +101,7 @@ void Turret::UpdateAI(float dt)
 					}
 					facing = RIGHT;
 				}
-				clamp(physicsComponent.velocity.x,-0.4f,0.4f);
+				clamp(physicsComponent.velocity.x,-0.3f,0.3f);
 
 				if(!Cooling())
 				{

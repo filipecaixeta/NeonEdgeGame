@@ -15,6 +15,7 @@
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Drone.h"
+#include "Notfredo.h"
 #include "CeilingEnemy.h"
 #include "Turret.h"
 #include "TurretBoss.h"
@@ -251,6 +252,12 @@ void Room::CreateObjects()
 			p = (TurretPiece*) objectArray.at(objectArray.size()-1);
 			t->AddTurret(p);
 		}
+		else if(objectData.at(i).id == 12) // Notfredo
+        {
+            AddObject(new Notfredo(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+                                   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
+                                   GROUND));
+        }
 		else if(objectData.at(i).id == 14) // CeilingEnemy
         {
             AddObject(new CeilingEnemy(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),

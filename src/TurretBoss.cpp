@@ -21,7 +21,7 @@ TurretBoss::TurretBoss(int x, int y):
 	pieces = std::vector<TurretPiece*>();
 	turrets = std::vector<TurretPiece*>();
 	facing = LEFT;
-	Damage(-20);
+	Damage(5);
 	triggered = false;
 	state = tIDLE;
 	physicsComponent.SetKinetic(true);
