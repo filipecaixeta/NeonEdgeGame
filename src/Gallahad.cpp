@@ -26,7 +26,8 @@ Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 
 Gallahad::~Gallahad()
 {
-
+	Game::GetInstance().GetCurrentState()->quitRequested = true;
+	Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
 void Gallahad::Attack()

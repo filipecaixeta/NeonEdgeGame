@@ -28,7 +28,8 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 
 Lancelot::~Lancelot()
 {
-
+	Game::GetInstance().GetCurrentState()->quitRequested = true;
+	Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
 void Lancelot::Damage(int damage)

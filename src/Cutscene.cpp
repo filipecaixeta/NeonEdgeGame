@@ -1,6 +1,7 @@
 #include "Cutscene.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "menu/MainMenu.h"
 #include <iostream>
 
 Cutscene::Cutscene(int index, bool textOnly){
@@ -67,7 +68,7 @@ Cutscene::Cutscene(int index, bool textOnly){
 			textBox.emplace_back(new DialogWindow(58,514,"What...no... I will only believe if i hear it from the king himself.","Lancelot","retrato_lancelot.png"));
         break;
 
-        case 7:
+        /*case 7:
             AddCutsceneObject("CutsceneDialogo3.png",0,0,false);
 			textBox.emplace_back(new DialogWindow(58,514,"YOUR HIGHNESS!","Lancelot","retrato_lancelot.png"));
 			textBox.emplace_back(new DialogWindow(58,514,"So, Lancelot, Galahad told you about her little discovery, I suppose? Ive heard everything when I intercepted your communications channel just a moment ago.","King Arthur","retrato_arthur.png"));
@@ -76,6 +77,10 @@ Cutscene::Cutscene(int index, bool textOnly){
 			textBox.emplace_back(new DialogWindow(58,514,"So, you killed him.. I believed in you Arthur! I thought we were making a brighter future for everyone. Not feeding them lies! I dont care if you are immortal, I will stop you!","Lancelot","retrato_lancelot.png"));
 			textBox.emplace_back(new DialogWindow(58,514,"Danton, you dare to raise your blade against me and the whole kingdom will hunt you down, like the vermin you are! That other traitor, Galahad, is already being dealt with by Knight Mordred. You stand no chance.","King Arthur","retrato_arthur.png"));
 			textBox.emplace_back(new DialogWindow(58,514,"En guarde...tyrant.","Lancelot","retrato_lancelot.png"));
+        break;*/
+        case 7:
+        	AddCutsceneObject("Gameoverscreen.png",0,0,false);
+        	textBox.emplace_back(new DialogWindow(-5000,-5000,""," ","retrato_lancelot.png"));
         break;
 	}
 }
@@ -124,6 +129,10 @@ void Cutscene::Update(){
 				if(index == 6)
 				{
 					Game::GetInstance().AddState(new StageState("naveLancelot"));
+				}
+				if(index == 7)
+				{
+					Game::GetInstance().AddState(new MainMenu());
 				}
 				quitRequested = true;
 			}
