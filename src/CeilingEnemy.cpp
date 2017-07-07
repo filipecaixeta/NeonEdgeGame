@@ -39,20 +39,32 @@ void CeilingEnemy::UpdateAI(float dt)
     {
         if(!stunned.IsRunning())
         {
-            if(state == WAITING && StageState::GetPlayer()->box.GetCenter().x > this->box.x - 25 &&
-               StageState::GetPlayer()->box.GetCenter().x < this->box.x + box.w + 25)
+            bool visible = true;
+            if(StageState::GetPlayer()->Is("Gallahad"))
             {
-                state = ATTACKING;
+                Gallahad* g = (Gallahad*) StageState::GetPlayer();
+                if(g->Hiding())
+                {
+                    visible = false;
+                }
             }
-            else if(state == ATTACKING)
+            if(visible)
             {
-                physicsComponent.velocity.y += 0.006*dt;
-                clamp(physicsComponent.velocity.y,-0.4f,0.4f);
-            }
-            else if(state == REARMING)
-            {
-                physicsComponent.velocity.y -= 0.012*dt;
-                clamp(physicsComponent.velocity.y,-0.2f,0.2f);
+                if(state == WAITING && StageState::GetPlayer()->box.GetCenter().x > this->box.x - 25 &&
+                   StageState::GetPlayer()->box.GetCenter().x < this->box.x + box.w + 25)
+                {
+                    state = ATTACKING;
+                }
+                else if(state == ATTACKING)
+                {
+                    physicsComponent.velocity.y += 0.006*dt;
+                    clamp(physicsComponent.velocity.y,-0.4f,0.4f);
+                }
+                else if(state == REARMING)
+                {
+                    physicsComponent.velocity.y -= 0.012*dt;
+                    clamp(physicsComponent.velocity.y,-0.2f,0.2f);
+                }
             }
         }
         else

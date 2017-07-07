@@ -141,8 +141,8 @@ std::string Lancelot::WhichCombo()
 void Lancelot::UpdateTimers(float dt)
 {
 	Rect checkStateTrasition;
-	if(StageState::stage == "cidadeLancelot"){
-		checkStateTrasition.x = 18504;
+	if(StageState::stage == "Lancelot"){
+		checkStateTrasition.x = 6504; //18504;
 		checkStateTrasition.y = 2369;
 		checkStateTrasition.w = 112;
 		checkStateTrasition.h = 180;
@@ -150,7 +150,6 @@ void Lancelot::UpdateTimers(float dt)
 		if(box.OverlapsWith(checkStateTrasition) == true){
 			Game::GetInstance().GetCurrentState()->quitRequested = true;
 			Game::GetInstance().AddState(new Cutscene(2, false));
-
 		}
 	}
 	Player::UpdateTimers(dt);

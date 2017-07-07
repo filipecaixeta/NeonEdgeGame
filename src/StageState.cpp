@@ -15,9 +15,8 @@ std::string StageState::stage = "";
 Player* StageState::player = nullptr;
 Room* StageState::currentRoom = nullptr;
 
-StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string background, std::string fase):
+StageState::StageState(std::string fase, std::string background):
 	State(),
-	mode(mode_),
 	tileSet(nullptr),
 	paused(false),
 	windowArray(),
@@ -26,9 +25,6 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 	energyBar(nullptr),
 	inGameMenu(nullptr)
 {
-	this->sizeX = sizeX;
-	this->sizeY = sizeY;
-
 	this->background = new TileSet(7389, 1711, background, 0, 0);
 	tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
 	currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background);
@@ -152,11 +148,6 @@ void StageState::LoadAssets()
 
 void StageState::HandleInput()
 {
-	if(InputManager::GetInstance().KeyPress(SDLK_ESCAPE))
-	{
-		quitRequested = true;
-	}
-
 	if(InputManager::GetInstance().KeyPress(SDLK_RETURN))
 	{
 		if(paused)
@@ -214,7 +205,7 @@ void StageState::Update()
 		if(inGameMenu != nullptr)
 		{
 			inGameMenu->Update();
-			if(inGameMenu->QuitRequested()==true)
+			if(inGameMenu->QuitRequested() == true)
 				Resume();
 		}
 		else

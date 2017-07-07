@@ -32,7 +32,6 @@ class StageState : public State
 private:
 	static Room* currentRoom;
 
-	std::string mode;
 	TileSet* tileSet;
 	TileSet* background;
 	bool paused;
@@ -46,7 +45,7 @@ private:
 	//MapAlgorithm algorithm;
 	LoadingBar *healthBar;
 	LoadingBar *energyBar;
-	int sizeX, sizeY, roomSizeX, roomSizeY, currentRoomX, currentRoomY;
+	int roomSizeX, roomSizeY, currentRoomX, currentRoomY;
 
 	void HandleInput();
 	//void UpdateRoom();
@@ -54,7 +53,7 @@ private:
 	void CleanUpdateBars();
 
 public:
-	StageState(std::string mode_, int sizeX = 10, int sizeY = 10, std::string background = "background.png", std::string fase = "cidadeLancelot");
+	StageState(std::string fase = "cidadeLancelot", std::string background = "background.png");
 	~StageState();
 
 	static GameObject* GetPlayer();
