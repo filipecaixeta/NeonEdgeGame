@@ -13,6 +13,7 @@ public:
 	Arthur(int x, int y);
 	~Arthur();
 	void UpdateTimers(float dt);
+	void NotifyObjectCollision(GameObject* other);
 	void UpdateAI(float dt);
 	void Update(TileMap* world, float dt);
 	void Attack();

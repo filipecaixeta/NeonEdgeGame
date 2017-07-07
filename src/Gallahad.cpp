@@ -90,7 +90,7 @@ Drone* Gallahad::GetDrone()
 
 void Gallahad::UpdateTimers(float dt)
 {
-	Rect checkStateTrasition;
+	/*Rect checkStateTrasition;
 	if(StageState::stage == "cidadeGalahad" && !done){	
 		checkStateTrasition.x = 18565;
 		checkStateTrasition.y = 769;
@@ -102,7 +102,7 @@ void Gallahad::UpdateTimers(float dt)
 			Game::GetInstance().AddState(new Cutscene(4, false));
 			done = true;
 		}
-	}
+	}*/
 	Player::UpdateTimers(dt);
 	hiding.Update(dt);
 }

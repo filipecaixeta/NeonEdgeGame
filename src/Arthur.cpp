@@ -14,10 +14,16 @@ Arthur::Arthur(int x, int y):
 	box.SetWH(graphicsComponent->GetSize());
 	state = IDLE;
 	triggered = false;
+	Damage(9);
 }
 
 Arthur::~Arthur(){
 	
+}
+
+void Arthur::NotifyObjectCollision(GameObject* other)
+{
+	Character::NotifyObjectCollision(other);
 }
 
 void Arthur::UpdateAI(float dt){
