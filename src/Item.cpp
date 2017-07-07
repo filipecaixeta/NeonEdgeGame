@@ -15,7 +15,7 @@ Item::Item(int id_, int x, int y):
 
 void Item::Eval(Player* player)
 {
-	if (player->itemManager!=nullptr)
+	if (player!=nullptr && player->itemManager!=nullptr)
 		player->itemManager->AddItem(id);
 }
 
@@ -41,7 +41,7 @@ bool Item::IsDead()
 
 void Item::NotifyObjectCollision(GameObject* other)
 {
-	if (other->Is("Player"))
+	if (other->IsPlayer())
 		dead = true;
 }
 

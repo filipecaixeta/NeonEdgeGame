@@ -125,9 +125,9 @@ void Room::ObjectCollision()
 			{
 				objectArray[i]->NotifyObjectCollision(objectArray[j]);
 				objectArray[j]->NotifyObjectCollision(objectArray[i]);
-				if(objectArray[i]->Is("Item") && objectArray[j]->Is("Player"))
+				if(objectArray[i]->Is("Item") && objectArray[j]->IsPlayer())
 					dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-				else if(objectArray[j]->Is("Item") && objectArray[i]->Is("Player"))
+				else if(objectArray[j]->Is("Item") && objectArray[i]->IsPlayer())
 					dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
 			}
 		}
