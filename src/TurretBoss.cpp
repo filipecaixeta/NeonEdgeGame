@@ -1,5 +1,6 @@
 #include "TurretBoss.h"
 #include "StageState.h"
+#include "Cutscene.h"
 
 #include <cmath>
 #include <math.h>
@@ -40,6 +41,8 @@ TurretBoss::~TurretBoss()
 	{
 		turrets[i]->Kill();
 	}
+	Game::GetInstance().GetCurrentState()->quitRequested = true;
+	Game::GetInstance().AddState(new Cutscene(5, false));
 }
 
 void TurretBoss::AddPiece(TurretPiece* piece)

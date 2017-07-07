@@ -6,6 +6,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "Cutscene.h"
 #include "SoundComponent.h"
 
 Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
@@ -89,6 +90,19 @@ Drone* Gallahad::GetDrone()
 
 void Gallahad::UpdateTimers(float dt)
 {
+	Rect checkStateTrasition;
+	if(StageState::stage == "cidadeGalahad" && !done){	
+		checkStateTrasition.x = 18565;
+		checkStateTrasition.y = 769;
+		checkStateTrasition.w = 116;
+		checkStateTrasition.h = 181;
+
+		if(box.OverlapsWith(checkStateTrasition) == true){
+			Game::GetInstance().GetCurrentState()->quitRequested = true;
+			Game::GetInstance().AddState(new Cutscene(4, false));
+			done = true;
+		}
+	}
 	Player::UpdateTimers(dt);
 	hiding.Update(dt);
 }

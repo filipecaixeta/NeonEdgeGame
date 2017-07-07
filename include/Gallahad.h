@@ -31,6 +31,7 @@ private:
 	Timer hiding;
 	bool shooting;
 	bool active;
+	bool done = false;
 };
 
 #endif /* GALLAHAD_H_ */

@@ -25,6 +25,7 @@ public:
 private:
 	bool blocking;
 	std::string combo;
+	bool done = false;
 };
 
 #endif /* LANCELOT_H_ */

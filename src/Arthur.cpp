@@ -17,7 +17,7 @@ Arthur::Arthur(int x, int y):
 }
 
 Arthur::~Arthur(){
-
+	
 }
 
 void Arthur::UpdateAI(float dt){
