@@ -23,6 +23,7 @@
 #include "Interactive.h"
 #include "Door.h"
 #include "PressurePlate.h"
+#include "PressurePlateOneTime.h"
 #include "HandScanner.h"
 #include "Box.h"
 #include "BoxSpawner.h"
@@ -286,6 +287,12 @@ void Room::CreateObjects()
         {
         	AddObject(new BoxSpawner(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
         					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
+        }
+        else if(objectData.at(i).id == 26) // PressurePlateOneTime
+        {
+        	Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
+        	AddObjectAsFirst(new PressurePlateOneTime(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        									   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
 		else if(objectData.at(i).id > 100) // Item
 		{

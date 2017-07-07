@@ -46,20 +46,20 @@ Cutscene::Cutscene(int index, bool textOnly){
         break;
 
         case 3:
-            AddCutsceneObject("galahad-sozinha.png",0,0,false);
-			AddCutsceneObject("GalahadIdle.png",75,100,false);
+            AddCutsceneObject("CutsceneDialogo3.png",0,0,false);
+			AddCutsceneObject("GallahadIdle.png",75,100,false);
 			textBox.emplace_back(new DialogWindow(58,514,"The data is mine, now let me see... Wait, what? The logs date back to more than a year ago... They talk about an inaccessible area in Crusallias, and the former Knight Lancelot being killed in action... by a rogue A.I.? This is worse than I imagined, I must investigate the area and call for reinforcements... If someone is behind this, it means Danton... heck, the whole continent should be in danger.","Galahad","retrato_galahad.png"));
         break;
 
         case 4:
-			AddCutsceneObject("GalahadIdle.png",75,100,false);
-            AddCutsceneObject("galahad-stage-3.png",0,0,false);
+        	AddCutsceneObject("CutsceneDialogo2.png",0,0,false);
+			AddCutsceneObject("GallahadIdle.png",75,100,false);
 			textBox.emplace_back(new DialogWindow(58,514,"This is the place. I must find out what happened here.","Galahad","retrato_galahad.png"));
         break;
 
         case 5:
-            AddCutsceneObject("galahad-stage-end.png",0,0,false);
-			AddCutsceneObject("GalahadIdle.png",175,100,false);
+            AddCutsceneObject("CutsceneDialogo2.png",0,0,false);
+			AddCutsceneObject("GallahadIdle.png",175,100,false);
 			textBox.emplace_back(new DialogWindow(58,514,"Great, now that i have taken care of the big guy I can hack the local mainframe and learn the truth.","Galahad","retrato_galahad.png"));
 			textBox.emplace_back(new DialogWindow(58,514,"...No...","Galahad","retrato_galahad.png"));
 			textBox.emplace_back(new DialogWindow(58,514,"I must tell Lancelot about this. The A.I. were ordered to kill by the king himself, It seems like the data I found on the station was true... Arthur sent his knight to die.","Galahad","retrato_galahad.png"));
@@ -71,7 +71,7 @@ Cutscene::Cutscene(int index, bool textOnly){
         break;
 
         case 7:
-            AddCutsceneObject("lancelot-vs-arthur.png",0,0,false);
+            AddCutsceneObject("CutsceneDialogo3.png",0,0,false);
 			AddCutsceneObject("ArthurIdle.png",75,100,false);
 			AddCutsceneObject("LancelotIdle.png",175,100,true);
 			textBox.emplace_back(new DialogWindow(58,514,"YOUR HIGHNESS!","Lancelot","retrato_lancelot.png"));
@@ -116,6 +116,27 @@ void Cutscene::Update(){
 				{
 					//Game::GetInstance().RemoveState();
 					Game::GetInstance().AddState(new StageState("naveGalahad"));
+				}
+				if(index == 3)
+				{
+					//Game::GetInstance().RemoveState();
+					Game::GetInstance().AddState(new StageState("cidadeGalahad"));
+				}
+				if(index == 4)
+				{
+
+				}
+				if(index == 5)
+				{
+					Game::GetInstance().AddState(new Cutscene(6, false));
+				}
+				if(index == 6)
+				{
+					Game::GetInstance().AddState(new StageState("naveLancelot"));
+				}
+				if(index == 7)
+				{
+					
 				}
 				quitRequested = true;
 			}

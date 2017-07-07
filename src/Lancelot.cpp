@@ -142,8 +142,8 @@ void Lancelot::UpdateTimers(float dt)
 {
 	Rect checkStateTrasition;
 	if(StageState::stage == "cidadeLancelot"){
-		checkStateTrasition.x = 600; //18504;
-		checkStateTrasition.y = 1950;//2369;
+		checkStateTrasition.x = 18504;
+		checkStateTrasition.y = 2369;
 		checkStateTrasition.w = 112;
 		checkStateTrasition.h = 180;
 

@@ -21,7 +21,7 @@ void LancelotInputComponent::Update(Player* obj_, float dt_)
 	else
 		StayStill();
 	if(obj->Crouching())
-		clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
+		clamp(obj->physicsComponent.velocity.x,-1.6f,1.6f);
 	else
 		clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);
 
