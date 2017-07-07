@@ -39,7 +39,7 @@ void Drone::UpdateTimers(float dt)
 void Drone::Update(TileMap* map, float dt)
 {
 	UpdateTimers(dt);
-	if (StageState::GetPlayer() == nullptr)
+	if(StageState::GetPlayer() == nullptr)
 	{
 		isDead = true;
 		return;

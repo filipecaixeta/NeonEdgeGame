@@ -10,7 +10,7 @@
 
 Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	Player(itemManager,x,y),
-	hiding(1500),
+	hiding(500),
 	shooting(false)
 {
 	name = "Gallahad";
@@ -18,8 +18,7 @@ Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
 	graphicsComponent = new GallahadGraphicsComponent("Gallahad");
 	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
-	drone = d;//new Drone(itemManager, x, y);
-	//StageState::AddObject(drone);
+	drone = d;
 	active = true;
 }
 
@@ -33,11 +32,19 @@ void Gallahad::Attack()
 	//Starts attack timer
 	attackCD.Start();
 	//Generates attack object
-	StageState::AddObject(new Projectile(this, Vec2(0.8, 0), 800, 1, false));
+	StageState::AddObject(new Projectile(this, Vec2(0.8, 0), 1200, 1, false));
 }
 
 void Gallahad::Hide()
 {
+	if(skills[0])
+		hiding.SetLimit(2000);
+	else if(skills[1])
+		hiding.SetLimit(1500);
+	else if(skills[2])
+		hiding.SetLimit(1000);
+	else
+		hiding.SetLimit(500);
 	hiding.Start();
 	energy -= 1;
 	clamp(energy,0,5);

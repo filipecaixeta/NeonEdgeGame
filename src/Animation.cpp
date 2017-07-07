@@ -3,6 +3,7 @@
 
 Animation::Animation(float x, float y, std::string sprite, float frameCount, float frameTime, bool ends)
 {
+	name = "Animation";
 	sp = new Sprite(sprite, frameCount, frameTime);
 	box = Rect(x - sp->GetWidth()/2, y - sp->GetHeight()/2, sp->GetWidth(), sp->GetHeight());
 	timeLimit = 0;
@@ -22,7 +23,7 @@ bool Animation::IsDead()
 	return (oneTimeOnly && !endTimer.IsRunning());
 }
 
-void Animation::Update(float dt)
+void Animation::Update(TileMap* world, float dt)
 {
 	sp->Update(dt);
 	endTimer.Update(dt);

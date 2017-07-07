@@ -3,6 +3,7 @@
 #include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
+#include "Interactive.h"
 #include "Projectile.h"
 
 Character::Character(int x,int y):
@@ -29,7 +30,7 @@ Character::~Character()
 
 bool Character::IsDead()
 {
-	if (hitpoints<=0)
+	if(hitpoints <= 0)
 	{
 		if (!dieTimer.IsRunning())
 			dieTimer.Start();
@@ -107,9 +108,18 @@ void Character::NotifyTileCollision(int tile, Face face)
 
 void Character::NotifyObjectCollision(GameObject* other)
 {
-	if(!IsPlayer() || !other->IsPlayer())
+	if((!IsPlayer() || !other->IsPlayer()) && !other->Is("Projectile") && !other->Is("PressurePlate"))
 	{
-		SolidCollision(other);
+		if(other->Is("Door"))
+		{
+			Interactive* i = (Interactive*) other;
+			if(!i->Active())
+				SolidCollision(other);
+		}
+		else
+		{
+			SolidCollision(other);
+		}
 	}
 	if(!IsPlayer())
 	{
@@ -126,17 +136,6 @@ void Character::NotifyObjectCollision(GameObject* other)
 			{
 				Damage(p->Power());
 			}
-		}
-	}
-	if(other->Is("Door"))
-	{
-		if(box.x < other->box.x - 1)
-		{
-			SetPosition(Vec2(other->box.x-box.w-1,box.y));
-		}
-		else
-		{
-			SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
 		}
 	}
 	/*if(other->Is("Box") || other->Is("Plattform"))

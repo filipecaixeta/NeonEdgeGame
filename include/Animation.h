@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Timer.h"
+#include "TileMap.h"
 
 class Animation : public GameObject
 {
@@ -17,7 +18,7 @@ public:
 	Animation(float x, float y, std::string sprite, float frameCount, float frameTime, bool ends);
 	~Animation();
 	bool IsDead();
-	void Update(float dt);
+	void Update(TileMap* world, float dt);
 	void Render();
 	
 };

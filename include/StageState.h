@@ -8,12 +8,10 @@
 #include "State.h"
 #include "Energy.h"
 #include "Life.h"
-#include "Lever.h"
-#include "PressurePlate.h"
+
 #include "Box.h"
 #include "BoxSpawner.h"
 #include "Plattform.h"
-#include "Door.h"
 #include "Lancelot.h"
 #include "Gallahad.h"
 #include "Drone.h"
@@ -60,6 +58,7 @@ public:
 	~StageState();
 
 	static GameObject* GetPlayer();
+	static void SetPlayer(Player* ptr);
 	static void KillPlayer();
 	static void AddObject(GameObject* ptr);
 	static void AddObjectAsFirst(GameObject* ptr);
