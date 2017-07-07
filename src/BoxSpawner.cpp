@@ -7,7 +7,7 @@
 
 BoxSpawner::BoxSpawner(int x, int y)
 {
-	spawn = new Box(x, y, "window.png");
+	spawn = new Box(x, y);
 	StageState::AddObject(spawn);
 	name = "BoxSpawner";
 	BoxSpawner::x = x;
@@ -31,10 +31,10 @@ void BoxSpawner::NotifyObjectCollision(GameObject* other)
 
 void BoxSpawner::Update(TileMap* map, float dt)
 {
-	if (spawn->hitpoints == 1)
+	if (spawn->GetHealth() == 1)
 	{
-		spawn->hitpoints = 0;
-		spawn = new Box(x, y, "window.png");
+		spawn->Kill();
+		spawn = new Box(x, y);
 		StageState::AddObject(BoxSpawner::spawn);
 	}
 }

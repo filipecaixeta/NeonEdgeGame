@@ -1,20 +1,15 @@
 #include "Box.h"
 #include "Camera.h"
-#include "InputManager.h"
 #include "StageState.h"
 #include "Character.h"
 #include "Projectile.h"
-#include "Room.h"
 
-Box::Box(int x, int y, std::string sprite)
+Box::Box(int x, int y):
+	Interactive(x,y,"Box")
 {
 	name = "Box";
-	sp = Sprite(sprite);
-	Vec2 size = sp.GetSize();
-	box.SetXY(Vec2(x,y));
-	box.SetWH(size);
-	hitpoints = 4;
-	triggerCooldown = Timer(1000);
+	hitpoints = 5;
+	invincibilityTimer = Timer(500);
 }
 
 Box::~Box()
@@ -22,85 +17,68 @@ Box::~Box()
 
 }
 
-bool Box::IsDead()
+int Box::GetHealth()
 {
-	return hitpoints<1;
+	return hitpoints;
 }
 
-void Box::Trigger(TileMap* map)
+void Box::Kill()
 {
-	hitpoints -= 1;
+	hitpoints = 0;
+}
+
+bool Box::IsDead()
+{
+	return (hitpoints < 1);
+}
+
+void Box::Trigger()
+{
+	if(!invincibilityTimer.IsRunning())
+	{
+		hitpoints -= 1;
+		invincibilityTimer.Start();
+	}
 }
 
 void Box::NotifyObjectCollision(GameObject* other)
 {
-	if(other->Is("Player") && !other->Is("Drone"))
+	if(other->IsPlayer() && !other->Is("Drone"))
 	{
 		Character* c = (Character*) other;
-		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y) && (other->facing == RIGHT))
+		if((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h > box.y) && (other->facing == RIGHT))
 		{
 			box.x += 5;
+			physicsComponent.TileFix(this,StageState::GetCurrentRoom()->GetMap(),RIGHT);
 		}
-		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h>box.y) && (other->facing == LEFT))
+		else if((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) && (other->box.y+other->box.h > box.y) && (other->facing == LEFT))
 		{
 			box.x -= 5;
+			physicsComponent.TileFix(this,StageState::GetCurrentRoom()->GetMap(),LEFT);
 		}
 		if(c->Attacking())
 		{
-			if(!triggerCooldown.IsRunning())
-			{
-				triggerCooldown.Start();
-			}
+			Trigger();
 		}
-	}
-	if(other->Is("Drone"))
-	{
-		if(other->box.x < box.x && other->box.y > box.y)
-		{
-			box.x += 10;
-		}
-		if(other->box.x > box.x && other->box.y > box.y)
-		{
-			box.x -= 10;
-		}
-		if(other->box.y < box.y)
-		{
-			other->box.y -= 10;
-		}
-	}
-	if(other->Is("Door"))
-	{
-
 	}
 	if(other->Is("Projectile"))
 	{
 		Projectile* p = (Projectile*) other;
-		if(p->GetOwner()->Is("Gallahad") || p->GetOwner()->Is("Player"))
+		if(p->GetOwner()->IsPlayer())
 		{
-			if(!triggerCooldown.IsRunning())
-			{
-				triggerCooldown.Start();
-			}			
+			Trigger();		
 		}
 	}
 }
 
 void Box::UpdateTimers(float dt)
 {
-	triggerCooldown.Update(dt);
+	invincibilityTimer.Update(dt);
 }
 
 void Box::Update(TileMap* map, float dt)
 {
-	physicsComponent.Update(this,map,dt);
-	if(triggerCooldown.IsRunning() && triggerCooldown.GetElapsed() == 0)
-	{
-		Trigger(map);
-	}
 	UpdateTimers(dt);
-}
-
-void Box::Render()
-{
-	sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+	physicsComponent.Update(this,map,dt);
+	Interactive::Update(map,dt);
 }
