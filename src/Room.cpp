@@ -28,8 +28,8 @@
 #include "Box.h"
 #include "BoxSpawner.h"
 
-Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
-	sceneObjects("resources/map/objs/sceneObjects.txt")
+Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background,std::string mapName):
+	sceneObjects("resources/map/objs/"+mapName+"sceneObjects.txt")
 {
 	std::stringstream ss;
 	Room::index = index;

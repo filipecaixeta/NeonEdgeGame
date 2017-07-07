@@ -8,6 +8,7 @@
 SceneObjects::SceneObjects(std::string fileName):
 	fileName(fileName)
 {
+	std::cerr << fileName <<std::endl;
 	LoadObjects(this->fileName);
 }
 
@@ -33,7 +34,7 @@ void SceneObjects::RenderAfter()
 
 void SceneObjects::Update()
 {
-//	LoadObjects(fileName);
+	LoadObjects(fileName);
 }
 
 void SceneObjects::AddObject(std::string name, Vec2 pos)

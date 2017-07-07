@@ -22,7 +22,7 @@ struct ObjectData
 class Room
 {
 public:
-	Room(TileSet* tileSet, int index, Vec2 position, TileSet* background);
+	Room(TileSet* tileSet, int index, Vec2 position, TileSet* background,std::string mapName);
 	~Room();
 	void AddObject(GameObject* ptr);
 	void AddObjectAsFirst(GameObject* ptr);
