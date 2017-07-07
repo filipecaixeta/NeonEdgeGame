@@ -141,7 +141,7 @@ bool Cutscene::Is(std::string type){
 }
 
 void Cutscene::AddCutsceneObject(std::string sprite, int x, int y,bool mirror, float frameTime, int frameCount){
-	CutsceneObject* aux;
+	CutsceneObject* aux = new CutsceneObject();
 	aux->sp = new Sprite(sprite, frameCount, frameTime, false, false);
     aux->sp->Mirror(mirror);
 	aux->box.x = x;
