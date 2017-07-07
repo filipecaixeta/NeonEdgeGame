@@ -53,7 +53,13 @@ StageState::StageState(std::string mode_, int sizeX, int sizeY, std::string back
 		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
 		currentRoom = new Room(tileSet, 3, Vec2(0,0), this->background);
 	}
-
+	//CreateMap(sizeX,sizeY);
+	/*if(mode == "Lancelot")
+		player = new Lancelot(133, 131);
+	else if(mode == "Gallahad")
+		player = new Gallahad(269, 544);*/
+	player = (Player*) currentRoom->GetFirst();
+	Camera::GetInstance().SetPos(Vec2(player->box.x, player->box.y));
 	Camera::GetInstance().Follow(player);	
 	currentRoomX = 0;
 	currentRoomY = 0;

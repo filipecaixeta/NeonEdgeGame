@@ -89,3 +89,7 @@ Camera& Camera::GetInstance() {
 		instance = new Camera();
 	return *instance;
 }
+
+void Camera::SetPos(Vec2 pos){
+	this->pos = pos;
+}
