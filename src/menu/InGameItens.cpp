@@ -46,8 +46,9 @@ void InGameItens::LoadAssets()
 		}
 	}
 
+	std::string path = "menus/"+StageState::player->name;
 
-	bg.Open("menus/MenuItensGalahad.png");
+	bg.Open(path+"MenuItens.png");
 	bg.SetBlending(true);
 	SetOption(1);
 	if (itens.size()!=0)

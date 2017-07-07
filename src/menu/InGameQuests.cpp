@@ -31,8 +31,15 @@ void InGameQuests::LoadAssets()
 		menuOptions.push_back({q.first,new Sprite(text,1,0,true),true,0});
 	}
 
-	bg.Open("menus/MenuQuestGalahad.png");
+	std::string path = "menus/"+StageState::player->name;
+
+	bg.Open(path+"MenuQuest.png");
 	bg.SetBlending(true);
+
+	blackOpacity.Open("menus/smallBlack.png",true);
+	blackOpacity.SetScaleX(2000);
+	blackOpacity.SetScaleY(2000);
+	blackOpacity.SetTransparency(0.5);
 
 	SetOption(1);
 }
@@ -54,6 +61,7 @@ void InGameQuests::SetQuestText(std::string questName)
 
 void InGameQuests::Render()
 {
+	blackOpacity.Render(0,0);
 	int offset = 50;
 	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
 	bg.Render(bgXY);

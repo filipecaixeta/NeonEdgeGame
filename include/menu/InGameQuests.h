@@ -21,7 +21,7 @@ private:
 	std::unordered_map<std::string,std::string> quests;
 	Sprite *questTitle;
 	Sprite *questText;
-
+	Sprite blackOpacity;
 };
 
 #endif // INGAMEQUESTS_H
