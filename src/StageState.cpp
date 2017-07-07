@@ -37,6 +37,7 @@ StageState::StageState(std::string fase, std::string background):
 		this->background = new TileSet(1, 1, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
 		currentRoom = new Room(tileSet, 1, Vec2(0,0), this->background,fase);
+		bek.Open("SpaceBG.png");
 	}
 	else if(fase == "cidadeGalahad"){
 		this->background = new TileSet(7389, 1711, background, 0, 0);
@@ -47,6 +48,7 @@ StageState::StageState(std::string fase, std::string background):
 		this->background = new TileSet(1, 1, background, 0, 0);
 		tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
 		currentRoom = new Room(tileSet, 3, Vec2(0,0), this->background,fase);
+		bek.Open("SpaceBG.png");
 	}
 	Camera::GetInstance().SetPos(Vec2(player->box.x, player->box.y));
 	Camera::GetInstance().Follow(player);	
@@ -58,6 +60,7 @@ StageState::StageState(std::string fase, std::string background):
 	CreateBars(player->name);
 
 	stage = fase;
+	itemHotBarSp.Open("menus/"+player->name+"itemhotbar.png");
 }
 
 StageState::~StageState()
@@ -192,11 +195,13 @@ void StageState::Update()
 void StageState::Render() 
 {
 
+	bek.Render(0,0);
 	currentRoom->Render();
 	for(unsigned int i = 0; i < windowArray.size(); i++)
 		windowArray.at(i)->Render();
 	healthBar->Render(51,44);
 	energyBar->Render(51,44);
+	itemHotBarSp.Render(20,629);
 	if (player!=nullptr && player->itemManager!=nullptr)
 		player->itemManager->Render();
 
