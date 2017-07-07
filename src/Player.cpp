@@ -7,12 +7,13 @@ Player::Player(ItensManager* itemManager, int x, int y):
 	itemManager(itemManager),
 	soundComponent(nullptr),
 	skills({false,false,true,true,true,false,false}),
-	skillPoints(2),
+	skillPoints(0),
 	energy(5),
 	regenCD(500),
 	crouching(false),
 	crouchingEdge(true)
 {
+	hitpoints = MAX_HITPOINTS;
 	name = "Player";
 }
 
@@ -54,10 +55,28 @@ bool Player::Crouching()
 
 void Player::EvalItem(std::string itemName)
 {
-	if (itemName == "Healing Potion")
+	if (itemName == "Healing Potion 25")
 	{
-		hitpoints += 5;
-		clamp(hitpoints,0,10);
+		hitpoints += MAX_HITPOINTS*0.5;
+		clamp(hitpoints,0,MAX_HITPOINTS);
+	}
+	if (itemName == "Healing Potion 50")
+	{
+		hitpoints += MAX_HITPOINTS*0.5;
+		clamp(hitpoints,0,MAX_HITPOINTS);
+	}
+	if (itemName == "Energy Potion 25")
+	{
+		energy += 2;
+		clamp(energy,0,5);
+	}
+	if (itemName == "Energy Potion 50")
+	{
+		energy += 5;
+		clamp(energy,0,5);
+	}
+	if (itemName == "Skill Coin"){
+		skillPoints++;
 	}
 }
 

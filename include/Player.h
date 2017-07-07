@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#define MAX_HITPOINTS 10
+
 #include "Character.h"
 #include "Timer.h"
 #include "TileMap.h"
