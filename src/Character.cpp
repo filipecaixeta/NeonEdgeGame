@@ -138,61 +138,6 @@ void Character::NotifyObjectCollision(GameObject* other)
 			}
 		}
 	}
-	/*if(other->Is("Box") || other->Is("Plattform"))
-	{
-		if(physicsComponent.velocity.x < 0 && footing == GROUNDED)
-		{
-			if(box.x < other->box.x+other->box.w && box.x+box.w > other->box.x+other->box.w)
-			{
-				SetPosition(Vec2(other->box.x+other->box.w+1,box.y));
-			}
-		}
-		else if(physicsComponent.velocity.x > 0 && footing == GROUNDED)
-		{
-			if(box.x+box.w > other->box.x && box.x < other->box.x)
-			{
-				SetPosition(Vec2(other->box.x-box.w-1,box.y));
-			}
-		}
-		else if(footing != GROUNDED && box.x+box.w - 40 > other->box.x)
-		{
-			if(box.y+box.h > other->box.y && box.y < other->box.y)
-			{
-				SetPosition(Vec2(box.x,other->box.y-box.h-1));
-				if(lastFooting != GROUNDED)
-					lastFooting = footing;
-				footing = GROUNDED;
-				if(other->Is("Plattform"))
-				{
-					Plattform* p = (Plattform*) other;
-					if(p->on)
-					{
-						if(p->box.x - p->route[p->cycleCount][0] > 10 || p->box.x - p->route[p->cycleCount][0] < - 10 || p->box.y - p->route[p->cycleCount][1] > 10 || p->box.y - p->route[p->cycleCount][1] < - 10 )
-						{
-								if(p->box.y != p->route[p->cycleCount][1])
-								{
-									box.x += p->route[p->cycleCount][2]*(p->route[p->cycleCount][0]-p->box.x)/abs(((p->route[p->cycleCount][1])-p->box.y));
-								}
-								else if(p->box.x < p->route[p->cycleCount][0])
-								{
-									box.x +=p->route[p->cycleCount][2];
-								}	
-								else
-								{
-									box.x -= p->route[p->cycleCount][2];	
-								}
-						}
-						else
-						{
-							box.x += p->box.x - p->route[p->cycleCount][0];
-							box.y += p->box.y - p->route[p->cycleCount][1];
-						}	
-					}
-				}
-			}
-		}
-		graphicsComponent->Update(this,0);
-	}*/
 }
 
 void Character::UpdateTimers(float dt)

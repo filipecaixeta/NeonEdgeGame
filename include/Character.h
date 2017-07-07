@@ -27,9 +27,9 @@ public:
 	virtual void NotifyTileCollision(int tile, Face face);
 	virtual void NotifyObjectCollision(GameObject* other);
 	virtual void UpdateTimers(float dt);
+	virtual bool OutOfBounds(TileMap* map);
 	virtual void Update(TileMap* map,float dt);
 	virtual void Render();
-	virtual bool OutOfBounds(TileMap* map);
 
 	PhysicsComponent physicsComponent;
 	GraphicsComponent* graphicsComponent;

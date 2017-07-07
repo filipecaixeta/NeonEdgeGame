@@ -1,33 +1,30 @@
 #ifndef BOX_H_
 #define BOX_H_
 
-#include "GameObject.h"
+#include "Interactive.h"
 #include "Sprite.h"
 #include "Timer.h"
 #include "PhysicsComponent.h"
 
-#include <vector>
-
-class Box : public GameObject
+class Box : public Interactive
 {
 private:
-	Sprite sp;
-	Timer triggerCooldown;	
+	int hitpoints;
+	Timer invincibilityTimer;
 
 public:
 
-		int hitpoints;
-
-	PhysicsComponent physicsComponent;
-
-	Box(int x, int y, std::string sprite);
+	Box(int x, int y);
 	~Box();
+	int GetHealth();
+	void Kill();
 	bool IsDead();
-	void Trigger(TileMap* map);
+	void Trigger();
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
-	void Render();
+
+	PhysicsComponent physicsComponent;
 };
 
 #endif 

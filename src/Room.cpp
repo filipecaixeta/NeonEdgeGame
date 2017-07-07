@@ -18,6 +18,7 @@
 
 #include "Interactive.h"
 #include "Door.h"
+#include "Box.h"
 #include "PressurePlate.h"
 
 Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background):
@@ -285,13 +286,12 @@ void Room::CreateObjects()
         {
         	Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
         	AddObjectAsFirst(new PressurePlate(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        								objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
+        									   objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
 		else if(objectData.at(i).id == 23)
         {
-        	/*AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
-        						objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight(),
-        						map, "Lever.png"));*/
+        	AddObject(new Box(objectData.at(i).x + position.x * map->GetWidth() * map->GetTileWidth(),
+        					  objectData.at(i).y + position.y * map->GetHeight() * map->GetTileHeight()));
         }
 		else if(objectData.at(i).id == 41)
         {
