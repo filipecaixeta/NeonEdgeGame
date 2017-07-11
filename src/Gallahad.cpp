@@ -34,6 +34,7 @@ void Gallahad::Attack()
 {
 	//Starts attack timer
 	attackCD.Start();
+	soundComponent->Attack();
 	//Generates attack object
 	StageState::AddObject(new Projectile(this, Vec2(0.8, 0), 1200, 1, false));
 }
