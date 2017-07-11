@@ -52,7 +52,7 @@ void MainMenu::Update()
 		if (SelectedOptionIs("Galahad"))
 		{
 			music.Stop();
-			Game::GetInstance().AddState(new StageState("naveLancelot"));
+			Game::GetInstance().AddState(new StageState("cidadeGalahad"));
 		}
 		else if (SelectedOptionIs("Load"))
 		{

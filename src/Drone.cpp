@@ -11,8 +11,9 @@ Drone::Drone(ItensManager* itemManager, int x, int y):
 {
 	name = "Drone";
 	inputComponent = new DroneInputComponent();
-	graphicsComponent = new DroneGraphicsComponent("Drone");
 	physicsComponent.SetKinetic(true);
+	graphicsComponent = new DroneGraphicsComponent("Drone");
+	soundComponent = new SoundComponent(name);
 	box.SetWH(graphicsComponent->GetSize());
 	Empower(0);
 }
