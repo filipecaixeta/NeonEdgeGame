@@ -1,4 +1,3 @@
-# Neon Edge
 <p align="center"> 
 <img src="https://github.com/filipecaixeta/NeonEdgeGame/raw/master/bin/resources/img/Logo.png">
 </p>
@@ -20,7 +19,7 @@ Neon Edge is a 2D puzzle platforming game with a focus on exploration and a stor
 * In-game menu: Enter
 * Item hotbar: j,k,l
 
-## Screenshots
+### Screenshots
 ![screenshot](https://github.com/filipecaixeta/NeonEdgeGame/raw/master/doc/Screenshot1.png)
 ![screenshot](https://github.com/filipecaixeta/NeonEdgeGame/raw/master/doc/Screenshot2.jpg)
 ![screenshot](https://github.com/filipecaixeta/NeonEdgeGame/raw/master/doc/Screenshot3.png)
@@ -28,6 +27,10 @@ Neon Edge is a 2D puzzle platforming game with a focus on exploration and a stor
 ![screenshot](https://github.com/filipecaixeta/NeonEdgeGame/raw/master/doc/Screenshot5.png)
 ![screenshot](https://github.com/filipecaixeta/NeonEdgeGame/raw/master/doc/Screenshot6.png)
 
+### Gameplay
+
+[![Video](https://img.youtube.com/vi/SAR9iYzi9bI/0.jpg)](https://www.youtube.com/watch?v=SAR9iYzi9bI)
+[![Video](https://img.youtube.com/vi/ZYs-syuzw3I/0.jpg)](https://www.youtube.com/watch?v=ZYs-syuzw3I)
 
 ### Creators
 #### Programing
