@@ -2,63 +2,51 @@
 
 #include "Timer.h"
 
-Timer::Timer()
-{
-
+Timer::Timer() {
 }
 
-Timer::Timer(float limit)
-{
-	Timer::limit = limit;
+Timer::Timer(float limit) {
+    Timer::limit = limit;
 }
 
-Timer::~Timer()
-{
-
+Timer::~Timer() {
 }
 
-void Timer::Start()
-{
-	time = 0;
+void Timer::Start() {
+    time = 0;
     running = true;
 }
 
-void Timer::Stop()
-{
+void Timer::Stop() {
     running = false;
 }
 
-void Timer::Reset()
-{
+void Timer::Reset() {
     time = 0;
     running = false;
 }
 
-void Timer::Update(float dt)
-{
-    if(running)
-    {
+void Timer::Update(float dt) {
+    if (running) {
         time += dt;
-        if (time >= limit)
+        if (time >= limit) {
             running = false;
+        }
     }
 }
 
-void Timer::SetLimit(float l)
-{
+void Timer::SetLimit(float l) {
     limit = l;
 }
 
-bool Timer::IsRunning()
-{
+bool Timer::IsRunning() {
     return running;
 }
 
-float Timer::GetElapsed()
-{
-    return std::min(1.0f,time/limit);
+float Timer::GetElapsed() {
+    return std::min(1.0f, time/limit);
 }
 
-float Timer::GetTime(){
+float Timer::GetTime() {
     return time;
 }
