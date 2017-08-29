@@ -1,64 +1,67 @@
-#include <iostream>
+// Copyright 2017 Neon Edge Game
 
+#include <iostream>
+#include <cstdio>
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "menu/MainMenu.h"
 #include "Resources.h"
-#include <cstdio>
 
 Game* Game::instance = nullptr;
 
 Game::Game(std::string title) {
-	if(instance) {
-		printf("Multiple Instances\n");
-		exit(EXIT_FAILURE);
-	}else{
-		instance = this;
-	}
+    if (instance) {
+        printf("Multiple Instances\n");
+        exit(EXIT_FAILURE);
+    } else {
+        instance = this;
+    }
 
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-		printf("SDL_Init failed\n");
-		exit(EXIT_FAILURE);
-	}
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+        printf("SDL_Init failed\n");
+        exit(EXIT_FAILURE);
+    }
 
-	if(!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF)) {
-		printf("IMG_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF )) {
+        printf("IMG_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
-	if(!Mix_Init(MIX_INIT_OGG)) {
-		printf("Mix_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    if (!Mix_Init(MIX_INIT_OGG)) {
+        printf("Mix_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
-	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)) {
-		printf("Mix_OpenAudio failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)) {
+        printf("Mix_OpenAudio failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
-	if(TTF_Init()) {
-		printf("TTF_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    if (TTF_Init()) {
+        printf("TTF_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
-	fps = 60;
-	nextTime_ = 0;
+    fps = 60;
+    nextTime_ = 0;
 
     SDL_Point screenSize = GetFullScreenSize();
 
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenSize.x, screenSize.y, flags);
-	if(!window) {
-		printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+    SDL_WINDOWPOS_CENTERED, screenSize.x, screenSize.y, flags);
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if(!renderer) {
-		printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    if (!window) {
+        printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
     // Antialiasing
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
@@ -68,170 +71,160 @@ Game::Game(std::string title) {
     SetScreenSize(screenSize);
     setFullScreen(false);
 
-	storedState = nullptr;
-	AddState(new MainMenu());
+    storedState = nullptr;
+    AddState(new MainMenu());
 }
 
 Game::~Game() {
-	storedState = nullptr;
-	for(unsigned i = 0; i < stateStack.size(); i++) {
-			delete stateStack.top();
-			stateStack.pop();
-	}
-	Resources::ClearImages();
-	Resources::ClearMusics();
-	Resources::ClearSounds();
-	Resources::ClearFonts();
-	Camera::GetInstance().~Camera();
-	InputManager::GetInstance().~InputManager();
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	TTF_Quit();
-	Mix_CloseAudio();
-	Mix_Quit();
-	IMG_Quit();
-	SDL_Quit();
+    storedState = nullptr;
+    for (unsigned i = 0; i < stateStack.size(); i++) {
+        delete stateStack.top();
+        stateStack.pop();
+    }
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
+    Resources::ClearFonts();
+    Camera::GetInstance().~Camera();
+    InputManager::GetInstance().~InputManager();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    TTF_Quit();
+    Mix_CloseAudio();
+    Mix_Quit();
+    IMG_Quit();
+    SDL_Quit();
 }
 
 Game& Game::GetInstance() {
-	return *instance;
+    return *instance;
 }
 
 SDL_Renderer* Game::GetRenderer() {
-	return renderer;
+    return renderer;
 }
 
 State* Game::GetCurrentState() {
-	return storedState;
+    return storedState;
 }
 
-void Game::UpdateState()
-{
-	storedState = stateStack.top();
-	storedState->LoadAssets();
+void Game::UpdateState() {
+    storedState = stateStack.top();
+    storedState->LoadAssets();
 }
 
-void Game::LoadConfigurations()
-{
-	//Load Game::screenSize
-	//Load Game::fps
-	//Load Game::fullScreenMode
-	//Load inputmanager::translationTable
+void Game::LoadConfigurations() {
+    /*
+        Load Game::screenSize
+        Load Game::fps
+        Load Game::fullScreenMode
+        Load inputmanager::translationTable
+    */
 }
 
-void Game::SaveConfigurations()
-{
-	//Save Game::screenSize
-	//Save Game::fps
-	//Save Game::fullScreenMode
-	//Save inputmanager::translationTable
+void Game::SaveConfigurations() {
+    /*
+        Save Game::screenSize
+        Save Game::fps
+        Save Game::fullScreenMode
+        Save inputmanager::translationTable
+    */
 }
 
 void Game::AddState(State* state) {
-	stateStack.emplace(state);
+    stateStack.emplace(state);
 }
 
 void Game::RemoveState() {
-	stateStack.pop();
-	delete storedState;
+    stateStack.pop();
+    delete storedState;
 }
 
 void Game::CalculateDeltaTime() {
-	dt = SDL_GetTicks() - frameStart;
+    dt = SDL_GetTicks() - frameStart;
     frameStart = frameStart + dt;
 }
 
-SDL_Point Game::GetFullScreenSize()
-{
+SDL_Point Game::GetFullScreenSize() {
     SDL_Rect r;
-    if (SDL_GetDisplayBounds(0, &r) != 0)
-    {
+    if (SDL_GetDisplayBounds(0, &r) != 0) {
         return res4x3;
     }
-    if (((float)r.w/(float)r.h)>=2.3)
-    {
+    if (((float)r.w/(float)r.h)>=2.3) {
         // 21x9
         return res21x9;
     }
-    else if (((float)r.w/(float)r.h)>=1.6)
-    {
+    else if (((float)r.w / (float)r.h) >= 1.6) {
         // 16x9 16x10
         return res16x9;
-    }
-    else
-    {
+    } else {
         // 4x3 5x4 3x2
         return res4x3;
     }
 }
 
-SDL_Point Game::GetScreenSize()
-{
+SDL_Point Game::GetScreenSize() {
     return screenSize;
 }
 
-void Game::setFullScreen(bool b)
-{
+void Game::setFullScreen(bool b) {
     fullScreen = b;
-    SDL_SetWindowFullscreen(window,(fullScreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
+    SDL_SetWindowFullscreen(window, (fullScreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
 }
 
-bool Game::isFullScreen()
-{
+bool Game::isFullScreen() {
     return fullScreen;
 }
 
-void Game::SetScreenSize(SDL_Point size)
-{
+void Game::SetScreenSize(SDL_Point size) {
     screenSize = size;
-	SDL_SetWindowSize(window,size.x,size.y);
+    SDL_SetWindowSize(window,size.x,size.y);
     SDL_RenderSetLogicalSize(renderer, size.x, size.y);
 }
 
 int Game::GetDeltaTime() {
-	return dt;
+    return dt;
 }
 
-Uint32 Game::timeLeft()
-{
-	Uint32 now;
-	now = SDL_GetTicks();
-	if(nextTime_ <= now)
-		return 0;
-	else
-		return nextTime_ - now;
+Uint32 Game::timeLeft() {
+    Uint32 now;
+    now = SDL_GetTicks();
+    if (nextTime_ <= now) {
+        return 0;
+    } else {
+        return nextTime_ - now;
+    }
 }
 
 void Game::Run() {
-	storedState = stateStack.top();
-	storedState->LoadAssets();
-	nextTime_ = SDL_GetTicks() + 1000.0/fps;
-	while(!InputManager::GetInstance().QuitRequested()) {
-		while(storedState->QuitRequested() == false &&
-			  InputManager::GetInstance().QuitRequested() == false &&
-			  storedState == stateStack.top())
-		{
-			CalculateDeltaTime();
-			if(SDL_RenderClear(renderer))
-				printf("SDL_RenderClear failed: %s\n", SDL_GetError());
-			InputManager::GetInstance().Update();
-			storedState->Update();
-			storedState->Render();
-			SDL_RenderPresent(renderer);
+    storedState = stateStack.top();
+    storedState->LoadAssets();
+    nextTime_ = SDL_GetTicks() + 1000.0 / fps;
+    while (!InputManager::GetInstance().QuitRequested()) {
+        while (storedState->QuitRequested() == false &&
+            InputManager::GetInstance().QuitRequested() == false &&
+            storedState == stateStack.top()) {
+            CalculateDeltaTime();
 
-			SDL_Delay(timeLeft());
-			nextTime_ += 1000/fps;
-		}
-		if (storedState != stateStack.top())
-		{
-			UpdateState();
-		}
-		else if(storedState->QuitRequested())
-		{
-			RemoveState();
-			if(stateStack.size()==0)
-				break;
-			storedState = stateStack.top();
-		}
-	}
+            if (SDL_RenderClear(renderer)) {
+                printf("SDL_RenderClear failed: %s\n", SDL_GetError());
+            }
+            InputManager::GetInstance().Update();
+            storedState->Update();
+            storedState->Render();
+            SDL_RenderPresent(renderer);
+
+            SDL_Delay(timeLeft());
+            nextTime_ += 1000 / fps;
+        }
+        if (storedState != stateStack.top()) {
+            UpdateState();
+        } else if (storedState->QuitRequested()) {
+            RemoveState();
+            if (stateStack.size() == 0) {
+                break;
+            }
+            storedState = stateStack.top();
+        }
+    }
 }
