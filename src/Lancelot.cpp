@@ -1,3 +1,5 @@
+// Copyright 2017 Neon Edge Game
+
 #include "Lancelot.h"
 #include "Camera.h"
 #include "StageState.h"
@@ -6,14 +8,12 @@
 #include "Projectile.h"
 #include "Cutscene.h"
 #include "SoundComponent.h"
-
 #include <cstdlib>
 #include <sys/time.h>
 
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
-	Player(itemManager,x,y),
-	blocking(1000)
-{
+	Player(itemManager, x, y),
+	blocking(1000) {
 	dieTimer = Timer(250);
 	name = "Lancelot";
 	inputComponent = new LancelotInputComponent();
@@ -26,42 +26,36 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
 	srand(t1.tv_usec * t1.tv_sec);
 }
 
-Lancelot::~Lancelot()
-{
+Lancelot::~Lancelot() {
 	Game::GetInstance().GetCurrentState()->quitRequested = true;
 	Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
-void Lancelot::Damage(int damage)
-{
-	if(!invincibilityTimer.IsRunning())
-	{
-		if(blocking)
-		{
+void Lancelot::Damage(int damage) {
+	if (!invincibilityTimer.IsRunning()) {
+		if (blocking) {
 			int n = rand()%100 + 1;
-			if(skills[0])
-			{
-				if(n < 61)
+			if (skills[0]) {
+				if (n < 61) {
 					energy -= 1;
+                }
 			}
-			else if(skills[1])
-			{
-				if(n < 76)
+			else if (skills[1]) {
+				if (n < 76) {
 					energy -= 1;
+                }
 			}
-			else if(skills[2])
-			{
-				if(n < 91)
+			else if (skills[2]) {
+				if (n < 91){
 					energy -= 1;
+                }
 			}
-			else
-			{
+			else {
 				energy -= 1;
 			}
-			clamp(energy,0,5);
+			clamp(energy, 0, 5);
 		}
-		else
-		{
+		else {
 			soundComponent->Damage();
 			hitpoints -= (damage);
 		}
@@ -69,92 +63,79 @@ void Lancelot::Damage(int damage)
 	}
 }
 
-void Lancelot::Attack()
-{
+void Lancelot::Attack() {
 	attacking.SetLimit(0);
 	attackCD.SetLimit(0);
 	soundComponent->Attack();
-	if(combo == "Straight")
-	{
+	if (combo == "Straight") {
 		attacking.SetLimit(240);
 		attackCD.SetLimit(100);
 		Empower(1);
 	}
-	else if(combo == "Uppercut")
-	{
+	else if (combo == "Uppercut") {
 		attacking.SetLimit(240);
 		attackCD.SetLimit(400);
 		Empower(2);
 	}
-	else if(combo == "Chop")
-	{
+	else if (combo == "Chop") {
 		attacking.SetLimit(320);
 		attackCD.SetLimit(800);
 		Empower(3);
 	}
-	else if(combo == "Spear")
-	{
+	else if (combo == "Spear") {
 		attacking.SetLimit(240);
 		attackCD.SetLimit(100);
 		Empower(2);
 	}
-	else if(combo == "Sword")
-	{
+	else if (combo == "Sword") {
 		attacking.SetLimit(240);
 		attackCD.SetLimit(400);
 		Empower(3);
 	}
-	else if(combo == "Axe")
-	{
+	else if (combo == "Axe") {
 		attacking.SetLimit(320);
 		attackCD.SetLimit(800);
 		Empower(5);
-	}	
-	//Starts attack timer
+	}
+	// Starts attack timer
 	attacking.Start();
 }
 
-void Lancelot::Block()
-{
+void Lancelot::Block() {
 	blocking = true;
-	clamp(physicsComponent.velocity.x,-0.2f,0.2f);
+	clamp(physicsComponent.velocity.x, -0.2f, 0.2f);
 }
 
-void Lancelot::Stop()
-{
+void Lancelot::Stop() {
 	blocking = false;
 }
 
-void Lancelot::Combo(std::string c)
-{
+void Lancelot::Combo(std::string c) {
 	combo = c;
 }
 
-bool Lancelot::Blocking()
-{
+bool Lancelot::Blocking() {
 	return blocking;
 }
 
-std::string Lancelot::WhichCombo()
-{
+std::string Lancelot::WhichCombo() {
 	return combo;
 }
 
-void Lancelot::UpdateTimers(float dt)
-{
+void Lancelot::UpdateTimers(float dt) {
 	Rect checkStateTrasition;
-	if(StageState::stage == "cidadeLancelot"){
+	if (StageState::stage == "cidadeLancelot") {
 		checkStateTrasition.x = 18504;
 		checkStateTrasition.y = 2369;
 		checkStateTrasition.w = 112;
 		checkStateTrasition.h = 180;
 
-		if(box.OverlapsWith(checkStateTrasition) == true){
+		if (box.OverlapsWith(checkStateTrasition) == true) {
 			Game::GetInstance().GetCurrentState()->quitRequested = true;
 			Game::GetInstance().AddState(new Cutscene(2, false));
 		}
 	}
-	/*if(StageState::stage == "naveLancelot" && !done){	
+	/*if(StageState::stage == "naveLancelot" && !done){
 		checkStateTrasition.x = 12556;
 		checkStateTrasition.y = 3072;
 		checkStateTrasition.w = 108;
