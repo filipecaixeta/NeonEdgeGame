@@ -38,7 +38,7 @@ void Gallahad::Attack() {
 }
 
 void Gallahad::Hide() {
-    if (skills[0]i) {
+    if (skills[0]) {
         hiding.SetLimit(2000);
     }
     else if (skills[1]) {

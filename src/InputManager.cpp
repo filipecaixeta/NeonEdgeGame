@@ -13,6 +13,9 @@ InputManager::InputManager():
 	mouseUpdate{0},
 	translationTable{SDLK_SPACE, SDLK_e, SDLK_q, SDLK_a, SDLK_d, SDLK_s,
      SDLK_w, SDLK_s, SDLK_z, SDLK_j, SDLK_k, SDLK_l}
+{
+
+}
 
 InputManager::~InputManager() {
 }
