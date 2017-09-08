@@ -6,24 +6,24 @@
 #define clamp(N, L, U) N = std::max(L, std::min(N, U))
 #endif
 
-inline void ColisionFunctions::GetSurfaceData(SDL_Surface *surface, int &x, int &y, int &row_size,
+inline void ColisionFunctions::GetSurfaceData(SDL_Surface *surface, int &x, int &y, int &rowSize,
                                               Uint32 **pixels, SDL_PixelFormat **format) {
     SDL_LockSurface(surface);
     x = surface->w;
     y = surface->h;
     *pixels = (Uint32 *)surface->pixels;
     *format = surface->format;
-    row_size = surface->pitch/sizeof(unsigned int);
+    rowSize = surface->pitch/sizeof(unsigned int);
 }
 
 void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
     int x = 0;
     int y = 0;
-    int row_size = 0;
+    int rowSize = 0;
     Uint32* pixels;
     SDL_PixelFormat *format;
 
-    ColisionFunctions::GetSurfaceData(surface, x, y, row_size, &pixels, &format);
+    ColisionFunctions::GetSurfaceData(surface, x, y, rowSize, &pixels, &format);
 
     Uint32 colorW = SDL_MapRGBA(format, 255, 0, 0, 255);
     Uint32 colorB = SDL_MapRGBA(format, 0, 0, 0, 0);
@@ -34,13 +34,13 @@ void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
             Uint8 g;
             Uint8 b;
             Uint8 a;
-            int pixel_position = j * row_size + i;
-            SDL_GetRGBA(pixels[pixel_position], format, &r, &g, &b, &a);
+            int pixelPosition = j * rowSize + i;
+            SDL_GetRGBA(pixels[pixelPosition], format, &r, &g, &b, &a);
 
             if (a > 100) {
-                pixels[pixel_position] = colorW;
+                pixels[pixelPosition] = colorW;
             } else {
-                pixels[pixel_position] = colorB;
+                pixels[pixelPosition] = colorB;
             }
         }
     }
@@ -52,19 +52,19 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
                                             bool mirror1, SDL_Surface *surface2, SDL_Rect clipRect2,
                                             Vec2 pos2, bool mirror2) {
     int colision = 0;
-    int x_size1 = 0;
-    int y_size1 = 0;
-    int row_size1 = 0;
+    int xSize1 = 0;
+    int ySize1 = 0;
+    int rowSize1 = 0;
     Uint32* pixels1;
     SDL_PixelFormat *format1;
-    ColisionFunctions::GetSurfaceData(surface1, x_size1, y_size1, row_size1, &pixels1, &format1);
+    ColisionFunctions::GetSurfaceData(surface1, xSize1, ySize1, rowSize1, &pixels1, &format1);
 
-    int x_size2 = 0;
-    int y_size2 = 0;
-    int row_size2 = 0;
+    int xSize2 = 0;
+    int ySize2 = 0;
+    int rowSize2 = 0;
     Uint32* pixels2;
     SDL_PixelFormat *format2;
-    ColisionFunctions::GetSurfaceData(surface2, x_size2, y_size2, row_size2, &pixels2, &format2);
+    ColisionFunctions::GetSurfaceData(surface2, xSize2, ySize2, rowSize2, &pixels2, &format2);
 
     int WA = clipRect1.w;
     int X0A = std::round(pos1.x);
@@ -78,83 +78,83 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
     int HB = clipRect2.h;
     int Y0B = std::round(pos2.y);
     int Y1B = Y0B + HB;
-    int i1_min = 0;
-    int i2_min = 0;
-    int i1_max = 0;
-    int i2_max = 0;
-    int j1_min = 0;
-    int j2_min = 0;
-    int j1_max = 0;
-    int j2_max = 0;
+    int i1Min = 0;
+    int i2Min = 0;
+    int i1Max = 0;
+    int i2Max = 0;
+    int j1Min = 0;
+    int j2Min = 0;
+    int j1Max = 0;
+    int j2Max = 0;
 
     if (X0A < X0B) {
-        i1_min = X0B - X0A + clipRect1.x;
-        i2_min = clipRect2.x;
+        i1Min = X0B - X0A + clipRect1.x;
+        i2Min = clipRect2.x;
     } else {
-        i1_min = clipRect1.x;
-        i2_min = X0A - X0B + clipRect2.x;
+        i1Min = clipRect1.x;
+        i2Min = X0A - X0B + clipRect2.x;
     }
 
     if (X1A < X1B) {
-        i1_max = WA - 1 + clipRect1.x;
-        i2_max = X1A - X0B - 1 + clipRect2.x;
+        i1Max = WA - 1 + clipRect1.x;
+        i2Max = X1A - X0B - 1 + clipRect2.x;
     } else {
-        i1_max = X1B - X0A - 1 + clipRect1.x;
-        i2_max = WB - 1 + clipRect2.x;
+        i1Max = X1B - X0A - 1 + clipRect1.x;
+        i2Max = WB - 1 + clipRect2.x;
     }
 
     if (Y0A < Y0B) {
-        j1_min = (Y0B - Y0A + clipRect1.y) * row_size1;
-        j2_min = clipRect2.y * row_size2;
+        j1Min = (Y0B - Y0A + clipRect1.y) * rowSize1;
+        j2Min = clipRect2.y * rowSize2;
     } else {
-        j1_min = clipRect1.y * row_size1;
-        j2_min = (Y0A - Y0B + clipRect2.y) * row_size2;
+        j1Min = clipRect1.y * rowSize1;
+        j2Min = (Y0A - Y0B + clipRect2.y) * rowSize2;
     }
 
     if (Y1A < Y1B) {
-        j1_max = (HA - 1 + clipRect1.y) * row_size1;
-        j2_max = (Y1A - Y0B - 1 + clipRect2.y) * row_size2;
+        j1Max = (HA - 1 + clipRect1.y) * rowSize1;
+        j2Max = (Y1A - Y0B - 1 + clipRect2.y) * rowSize2;
     } else {
-        j1_max = (Y1B - Y0A - 1 + clipRect1.y) * row_size1;;
-        j2_max = (HB - 1 + clipRect2.y) * row_size2;
+        j1Max = (Y1B - Y0A - 1 + clipRect1.y) * rowSize1;;
+        j2Max = (HB - 1 + clipRect2.y) * rowSize2;
     }
 
-    if (i1_min > i1_max || i2_min > i2_max) {
+    if (i1Min > i1Max || i2Min > i2Max) {
         return 0;
     }
 
-    if (j1_min > j1_max || j2_min > j2_max) {
+    if (j1Min > j1Max || j2Min > j2Max) {
         return 0;
     }
 
-    int w1_size = i1_max + i1_min;
-    int w2_size = i2_max + i2_min;
+    int w1Size = i1Max + i1Min;
+    int w2Size = i2Max + i2Min;
 
-    for (int j1 = j1_min, j2 = j2_min; j1 <= j1_max ; j1 += row_size1, j2 += row_size2) {
-        for (int i1 = i1_min, i2 = i2_min; i1 <= i1_max; i1++, i2++) {
+    for (int j1 = j1Min, j2 = j2Min; j1 <= j1Max ; j1 += rowSize1, j2 += rowSize2) {
+        for (int i1 = i1Min, i2 = i2Min; i1 <= i1Max; i1++, i2++) {
             Uint8 r1;
             Uint8 g1;
             Uint8 b1;
             Uint8 a1;
-            int pixel_position1 = 0;
+            int pixelPosition1 = 0;
             if (mirror1) {
-                pixel_position1 = j1 + w1_size - i1;
+                pixelPosition1 = j1 + w1Size - i1;
             } else {
-                pixel_position1 = j1 + i1;
+                pixelPosition1 = j1 + i1;
             }
-            SDL_GetRGBA(pixels1[pixel_position1], format1, &r1, &g1, &b1, &a1);
+            SDL_GetRGBA(pixels1[pixelPosition1], format1, &r1, &g1, &b1, &a1);
 
             Uint8 r2;
             Uint8 g2;
             Uint8 b2;
             Uint8 a2;
-            int pixel_position2 = 0;
+            int pixelPosition2 = 0;
             if (mirror2) {
-                pixel_position2 = j2 + w2_size - i2;
+                pixelPosition2 = j2 + w2Size - i2;
             } else {
-                pixel_position2 = j2 + i2;
+                pixelPosition2 = j2 + i2;
             }
-            SDL_GetRGBA(pixels2[pixel_position2], format2, &r2, &g2, &b2, &a2);
+            SDL_GetRGBA(pixels2[pixelPosition2], format2, &r2, &g2, &b2, &a2);
 
             if (a1 > 200 && a2 > 200) {
                 colision++;
