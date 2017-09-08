@@ -1,4 +1,10 @@
-// Copyright 2013 Thomas Park.
+/*
+  Copyright 2017 Neon Edge Game
+  File Name: DroneInputComponent.cpp
+  Header File Name: DroneInputComponent.h
+  Class Name: DroneInputComponent
+  Objective: Class responsible for moving the doors of the game.
+*/
 
 #include "DroneInputComponent.h"
 #include "InputManager.h"
@@ -6,36 +12,54 @@
 
 #define clamp(N, L, U) N = std::max(L, std::min(N, U))
 
+/*
+  Function Objective: Constructor method.
+  param: No parameters.
+  return: No return.
+*/
 DroneInputComponent::DroneInputComponent() {
 }
 
-void DroneInputComponent::Update(Player *obj_, float dt_) {
-    InputComponent::Update(obj_, dt_);
+/*
+  Function Objective: Responsible for the detection of the key pressed and movement of the drone.
+  param: obj (player information) and delayTime (drone moviment time).
+  return: No return.
+*/
+void DroneInputComponent::Update(Player *obj, float delayTime) {
+
+    // Updates the drone moviment.
+    InputComponent::Update(obj, delayTime);
+
+    // Receives the keyboard inputs (movement).
     InputManager &input = InputManager::GetInstance();
 
+    // Checks which key was pressed.
     if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
-        MoveLeft();
+        MoveLeft(); // Moves drone to the left
     } else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
-        MoveRight();
+        MoveRight(); // Moves drone to the right
     } else {
-        obj->physicsComponent.velocity.x = 0;
+        obj->physicsComponent.velocity.x = 0; // Makes the drone stand still.
     }
 
+    // Sets maximum drone speed on x  axis.
     clamp(obj->physicsComponent.velocity.x, -0.6f, 0.6f);
 
+    // Checks which key was pressed.
     if (input.IsKeyDown(MOVE_UP_KEY, true)) {
-        MoveUp();
+        MoveUp(); // Moves the drone up.
     } else if (input.IsKeyDown(MOVE_DOWN_KEY, true)) {
-        MoveDown();
+        MoveDown(); //  Moves the drone down.
     } else {
-        obj->physicsComponent.velocity.y = 0;
+        obj->physicsComponent.velocity.y = 0; // Makes the drone stand still.
     }
 
+    // Sets maximum drone speed on y  axis.
     clamp(obj->physicsComponent.velocity.y, -0.6f, 0.6f);
 
+    // Checks if the drone's attack button has been pressed.
     if (input.IsKeyDown(ATTACK_KEY, true)) {
-        Attack();
+        Attack(); // Get the drone to attack.
     }
-
     ProcessItems();
 }
