@@ -71,14 +71,14 @@ void Turret::UpdateAI(float dt) {
                     }
                     facing = LEFT;
                 } else {
-                    physicsComponent.velocity.x += 0.003*dt;
+                    physicsComponent.velocity.x += 0.003 * dt;
                     if (box.x + physicsComponent.velocity.x * dt > player.x) {
                         box.x = player.x;
                         physicsComponent.velocity.x = 0;
                     }
 										facing = RIGHT;
                 }
-                clamp(physicsComponent.velocity.x,-0.3f,0.3f);
+                clamp(physicsComponent.velocity.x, -0.3f, 0.3f);
 
                 if (!Cooling()) {
                     Attack();

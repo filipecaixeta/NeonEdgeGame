@@ -4,7 +4,7 @@
 #include "Camera.h"
 
 Energy::Energy(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
-                float lifetime, bool dies) {
+               float lifetime, bool dies) {
     name = "Energy";
     sp = Sprite(sprite, frameCount, frameTime);
     Vec2 size = sp.GetSize();

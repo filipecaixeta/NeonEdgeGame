@@ -17,7 +17,7 @@ void InputManager::Update() {
     SDL_Event event;
     SDL_GetMouseState(&mouseX, &mouseY);
     if (updateCounter < 100) {
-        updateCounter + +;
+        updateCounter++;
     } else {
         updateCounter = 0;
     }

@@ -47,7 +47,7 @@ void GameObject::SolidCollision(GameObject* other) {
             c->physicsComponent.velocity.y = 0.6;
             if (lastFooting != GROUNDED) {
                 lastFooting = footing;
-						}
+            }
             footing = GROUNDED;
         } else {
             if (c->physicsComponent.velocity.x < 0) {

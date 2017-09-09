@@ -1,3 +1,5 @@
+// Copyright 2017 Neon Edge Game.
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -25,7 +27,7 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
     if (fase == "cidadeLancelot") {
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
-        currentRoom = new Room(tileSet, 0, Vec2(0,0), this->background,fase);
+        currentRoom = new Room(tileSet, 0, Vec2(0, 0), this->background, fase);
 		} else if (fase == "naveGalahad") {
         this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
@@ -110,7 +112,7 @@ void StageState::Resume() {
     if (inGameMenu != nullptr) {
         delete inGameMenu;
         inGameMenu = nullptr;
-		}
+    }
 }
 
 void StageState::LoadAssets() {
@@ -125,7 +127,7 @@ void StageState::HandleInput() {
         } else {
             Pause();
         }
-		}
+    }
 }
 
 void StageState::UpdateGame() {
@@ -137,12 +139,12 @@ void StageState::UpdateGame() {
 
 void StageState::CleanUpdateBars() {
     if (player) {
-        healthBar->SetPercentage(player->GetHealth()/10.0);
-        energyBar->SetPercentage(player->GetEnergy()/5.0);
+        healthBar->SetPercentage(player->GetHealth() / 10.0);
+        energyBar->SetPercentage(player->GetEnergy() / 5.0);
     } else {
         healthBar->SetPercentage(0);
         energyBar->SetPercentage(0);
-		}
+    }
 }
 
 void StageState::Update() {
@@ -162,14 +164,14 @@ void StageState::Update() {
 }
 
 void StageState::Render() {
-    bek.Render(0,0);
+    bek.Render(0, 0);
     currentRoom->Render();
     for (unsigned int i = 0; i < windowArray.size(); i++) {
         windowArray.at(i)->Render();
 		}
-    healthBar->Render(51,44);
-    energyBar->Render(51,44);
-    itemHotBarSp.Render(20,629);
+    healthBar->Render(51, 44);
+    energyBar->Render(51, 44);
+    itemHotBarSp.Render(20, 629);
 
     if (player != nullptr && player->itemManager != nullptr) {
         player->itemManager->Render();
