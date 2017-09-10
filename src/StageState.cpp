@@ -28,17 +28,17 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
         currentRoom = new Room(tileSet, 0, Vec2(0, 0), this->background, fase);
-		} else if (fase == "naveGalahad") {
+        } else if (fase == "naveGalahad") {
         this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 1, Vec2(0, 0), this->background, fase);
         bek.Open("SpaceBG.png");
-		} else if (fase == "cidadeGalahad") {
+        } else if (fase == "cidadeGalahad") {
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
         currentRoom = new Room(tileSet, 2, Vec2(0, 0), this->background, fase);
-		} else if (fase == "naveLancelot") {
-				this->background = new TileSet(1, 1, background, 0, 0);
+        } else if (fase == "naveLancelot") {
+                this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 3, Vec2(0, 0), this->background, fase);
         bek.Open("SpaceBG.png");
@@ -103,7 +103,7 @@ void StageState::RemoveWindow(Window* ptr) {
 
 void StageState::Pause() {
     paused = true;
-    inGameMenu = new inGamePause(this);
+    inGameMenu = new InGamePause(this);
     inGameMenu->LoadAssets();
 }
 
@@ -156,8 +156,8 @@ void StageState::Update() {
             inGameMenu->Update();
             if (inGameMenu->QuitRequested() == true) {
                 Resume();
-				    }
-		    } else {
+                    }
+            } else {
             std::cerr << "ERRO: Menu in-game nao existe" << std::endl;
         }
     }
@@ -168,7 +168,7 @@ void StageState::Render() {
     currentRoom->Render();
     for (unsigned int i = 0; i < windowArray.size(); i++) {
         windowArray.at(i)->Render();
-		}
+        }
     healthBar->Render(51, 44);
     energyBar->Render(51, 44);
     itemHotBarSp.Render(20, 629);
