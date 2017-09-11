@@ -1,8 +1,9 @@
 <p align="center"> 
 <img src="https://github.com/filipecaixeta/NeonEdgeGame/raw/master/bin/resources/img/Logo.png">
 </p>
+ 
 
-Neon Edge is a 2D puzzle platforming game with a focus on exploration and a story set in the dystopic future, where King Arthur, who was granted immortality after claiming Excalibur in his time, has brought peace to all of Europe. A new age of technological advancement and prosperity is ushered, with the new Knights of Round Table, an elite squad of soldiers who were chosen to take their positions as well as their names, aiding the king in keeping the peace, which is currently threatened by a Rogue A.I breakout. Knights Galahad and Lancelot take upon the task of dealing with the robots, as well as discovering how their attacks came to be.
+Neon Edge is a 2D puzzle platforming game with a focus on exploration and a story set in the dystopic future, where King Arthur, who was granted immortality after claiming Excalibur (The ulysses sword) in his time, has brought peace to all of Europe. A new age of technological advancement and prosperity is ushered, with the new Knights of Round Table, an elite squad of soldiers who were chosen to take their positions as well as their names, aiding the king in keeping the peace, which is currently threatened by a Rogue A.I breakout. Knights Galahad and Lancelot take upon the task of dealing with the evil ulysses' robots, as well as discovering how their attacks came to be ultra powerfull.
 
 ### Controls
 
