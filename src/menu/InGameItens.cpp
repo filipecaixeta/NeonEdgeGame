@@ -98,21 +98,22 @@ void InGameItens::Update() {
             isOnHotBar = !isOnHotBar;
         }
 
-            hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
-            hotBarOptions[currentHotBarOption].sprite = menuOptions[currentOption].sprite;
-            itensManager->hotItens[currentHotBarOption] = menuOptions[currentOption].key;
+        hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
+        hotBarOptions[currentHotBarOption].sprite = menuOptions[currentOption].sprite;
+        itensManager->hotItens[currentHotBarOption] = menuOptions[currentOption].key;
 
-            for (int i = 0; i < hotBarOptions.size(); i++) {
-                if (i == currentHotBarOption) {
-                    continue;
-
-                if (hotBarOptions[currentHotBarOption].key == hotBarOptions[i].key) {
-                    hotBarOptions[i].sprite = new Sprite();
-                    hotBarOptions[i].selectable = false;
-                    hotBarOptions[i].key = "";
-                    itensManager->hotItens[i] = "";
-                }
+        for (int i = 0; i < hotBarOptions.size(); i++) {
+            if (i == currentHotBarOption) {
+                continue;
             }
+
+            if (hotBarOptions[currentHotBarOption].key == hotBarOptions[i].key) {
+                hotBarOptions[i].sprite = new Sprite();
+                hotBarOptions[i].selectable = false;
+                hotBarOptions[i].key = "";
+                itensManager->hotItens[i] = "";
+            }
+        }
     } else {
         if (InputManager::GetInstance().KeyPress(SDLK_UP)) {
             if (currentOption - rowSize <= menuOptions.size()) {
