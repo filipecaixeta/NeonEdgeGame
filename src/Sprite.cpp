@@ -1,3 +1,11 @@
+/*
+  Copyright 2017 Neon Edge Game
+  File Name: Sprite.cpp
+  Header File Name: Sprite.h
+  Class Name: Sprite
+  Objective: manages the sprites.
+ */
+
 #include <math.h>
 #include <cstdio>
 #include <cstdlib>
@@ -42,6 +50,12 @@ Sprite::~Sprite() {
     texture = nullptr;
 }
 
+/*
+  Function Objective: load sprite from file.
+  param: none.
+  return: none.
+ */
+
 void Sprite::Open(std::string file, bool enableAlpha) {
     texture = Resources::GetImage(file, enableAlpha);
     if (!IsOpen()) {
@@ -54,6 +68,12 @@ void Sprite::Open(std::string file, bool enableAlpha) {
         SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
     }
 }
+
+/*
+  Function Objective: update sprite frames.
+  param: none.
+  return: none.
+ */
 
 void Sprite::Update(float dt) {
     timeElapsed += dt;
@@ -68,6 +88,12 @@ void Sprite::Update(float dt) {
     }
 }
 
+/*
+  Function Objective: render sprite texture.
+  param: none.
+  return: none.
+ */
+
 void Sprite::Render(int x, int y, float angle) {
     dstRect.w = clipRect.w*scaleX;
     dstRect.h = clipRect.h*scaleY;
@@ -79,9 +105,21 @@ void Sprite::Render(int x, int y, float angle) {
     }
 }
 
+/*
+  Function Objective: render sprite screen position.
+  param: none.
+  return: none.
+ */
+
 void Sprite::Render(Vec2 pos, float angle) {
     Render(pos.x, pos.y, angle);
 }
+
+/*
+  Function Objective: set clip position in sprite.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.x = x;
@@ -90,17 +128,41 @@ void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.h = h;
 }
 
+/*
+  Function Objective: get clip from sprite.
+  param: none.
+  return: none.
+ */
+
 SDL_Rect Sprite::GetClip() {
     return clipRect;
 }
+
+/*
+  Function Objective: set scale in sprite.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetScaleX(float scale) {
     scaleX = scale;
 }
 
+/*
+  Function Objective: set scale y in sprite
+  param: none.
+  return: none.
+ */
+
 void Sprite::SetScaleY(float scale) {
     scaleY = scale;
 }
+
+/*
+  Function Objective: set transparency in sprite.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetTransparency(float a) {
     //a = (0.0, 1.0)
@@ -108,27 +170,63 @@ void Sprite::SetTransparency(float a) {
     SDL_SetTextureAlphaMod(texture, (unsigned short int)(255*a));
 }
 
+/*
+  Function Objective: set frame in sprite.
+  param: none.
+  return: none.
+ */
+
 void Sprite::SetFrame(int frame) {
     currentFrame = frame;
     SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
+
+/*
+  Function Objective: set frame normalized in sprite.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetFrameNormalized(float f) {
     //f = (0.0, 1.0)
     SetFrame(round(f*(frameCount-1)+1));
 }
 
+/*
+  Function Objective: set frame count in sprite.
+  param: none.
+  return: none.
+ */
+
 void Sprite::SetFrameCount(int frameCount) {
     Sprite::frameCount = frameCount;
 }
+
+/*
+  Function Objective: set frame time in sprite.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetFrameTime(float frameTime) {
     Sprite::frameTime = frameTime;
 }
 
+/*
+  Function Objective: set bleeding texture.
+  param: none.
+  return: none.
+ */
+
 void Sprite::SetBlending(bool b) {
     SDL_SetTextureBlendMode(texture, b ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 }
+
+/*
+  Function Objective: set texture with current frame.
+  param: none.
+  return: none.
+ */
 
 void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     if (destroyTexture) {
@@ -140,33 +238,80 @@ void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
+/*
+  Function Objective: flip sprite.
+  param: none.
+  return: none.
+ */
+
 void Sprite::Mirror(bool m) {
     flipHorizontal = m ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 }
+
+/*
+  Function Objective: get width redimensioned.
+  param: none.
+  return: none.
+ */
 
 int Sprite::GetWidth() {
     return width/frameCount*((scaleX-1)*0.5+1);
 }
 
+/*
+  Function Objective: get height redimensioned.
+  param: none.
+  return: none.
+ */
+
 int Sprite::GetHeight() {
     return height*((scaleY-1)*0.5+1);
 }
+
+/*
+  Function Objective: get size, width and height.
+  param: none.
+  return: none.
+ */
 
 Vec2 Sprite::GetSize() {
     return Vec2(GetWidth(), GetHeight());
 }
 
+/*
+  Function Objective: get frame count.
+  param: none.
+  return: none.
+ */
+
 int Sprite::GetFrameCount() {
     return frameCount;
 }
+/*
+  Function Objective: check loop with boolean.
+  param: none.
+  return: none.
+ */
 
 bool Sprite::Loops() {
     return !loops;
 }
 
+/*
+  Function Objective: flip horizontal sprite.
+  param: none.
+  return: none.
+ */
+
 bool Sprite::GetMirror() {
     return flipHorizontal==SDL_FLIP_HORIZONTAL;
 }
+
+/*
+  Function Objective: check if texture is open.
+  param: none.
+  return: none.
+ */
 
 bool Sprite::IsOpen() {
     return (!texture) ? false : true;
