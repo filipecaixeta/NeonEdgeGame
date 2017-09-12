@@ -142,8 +142,9 @@ void GraphicsMenu::Update() {
 }
 
 /*
-  Function Objective: updates screen size of game.
-  param: none.
+  Function Objective: sets game screen size.
+  param: int options - selected game screen size option.
+  param: Sprite sprite.
   return: none.
 */
 void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
@@ -162,7 +163,8 @@ void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
 
 /*
   Function Objective: updates windows mode of game.
-  param: none.
+  param: int option - selected game window mode option.
+  param: Sprint sprint.
   return: none.
 */
 void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
@@ -178,7 +180,8 @@ void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
 
 /*
   Function Objective: updates fps of game.
-  param: none.
+  param: int option - selected game fps option.
+  param: Sprint sprint.
   return: none.
 */
 void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
