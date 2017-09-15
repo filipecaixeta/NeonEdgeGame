@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: DroneInputComponent.cpp
-  Header File Name: DroneInputComponent.h
-  Class Name: DroneInputComponent
-  Objective: Class responsible for moving the doors of the game.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: DroneInputComponent.cpp
+    Header File Name: DroneInputComponent.h
+    Class Name: DroneInputComponent
+    Objective: Classe responsável pelo movimento do drone  no jogo.
+
 */
 
 #include "DroneInputComponent.h"
@@ -12,18 +13,21 @@
 
 #define clamp(N, L, U) N = std::max(L, std::min(N, U))
 
-/*
-  Function Objective: Constructor method.
-  param: No parameters.
-  return: No return.
+/**
+    Objective: Constructor method.
+    @param - No parameters.
+    @return - No return.
+
 */
 DroneInputComponent::DroneInputComponent() {
 }
 
-/*
-  Function Objective: Responsible for the detection of the key pressed and movement of the drone.
-  param: obj (player information) and delayTime (drone moviment time).
-  return: No return.
+/**
+    Objective: Responsible for the detection of the key pressed and movement of the drone.
+    @param obj - Player information.
+    @param delayTime - Drone moviment time.
+    @return - No return.
+
 */
 void DroneInputComponent::Update(Player *obj, float delayTime) {
 

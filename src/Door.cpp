@@ -1,19 +1,22 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: Door.cpp
-  Header File Name: Door.h
-  Class Name: Door
-  Objective: Class responsible for moving the doors of the game.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: Door.cpp
+    Header File Name: Door.h
+    Class Name: Door
+    Objective: Class responsible for moving the doors of the game.
+
 */
 
 #include "Door.h"
 #include "Camera.h"
 #include "StageState.h"
 
-/*
-  Function Objective: Constructor method that defines the initial port parameters.
-  param: Initial position of the door (x, y).
-  return: No return.
+/**
+    Objective: Constructor method that defines the initial port parameters.
+    @param int x - Initial position of the door on the x axis.
+    @param int y - Initial position of the door on the y axis.
+    @return - No return.
+
 */
 Door::Door(int x, int y):
   Interactive(x,y,"Door") {
@@ -21,18 +24,20 @@ Door::Door(int x, int y):
     open = false;  // Initializes of the door closed.
 }
 
-/*
-  Function Objective: Destructor method that frees memory used by the class.
-  param: No parameters.
-  return: No return.
+/**
+    Objective: Destructor method that frees memory used by the class.
+    @param - No parameters.
+    @return - No return.
+
 */
 Door::~Door() {
 }
 
-/*
-  Function Objective: Turned on or off the door led according to the state of your enable.
-  param: string playerName refers to the first part of the audio file name.
-  return: No return.
+/**
+    Objective: Turned on or off the door led according to the state of your enable.
+    @param - No parameters.
+    @return - No return.
+
 */
 void Door::Trigger() {
 
@@ -44,13 +49,13 @@ void Door::Trigger() {
     }
 }
 
-/*
-  Function Objective: Define door movement.
-  param: .
-  return: No return.
+/**
+    Function Objective: Define door movement.
+    @param TileMap* map - Game Map.
+    @return: No return.
+
 */
 void Door::Update(TileMap* map, float delayTime) {
-
     open = false; // Closes the door
 
     // Checks if the port is enabled.
@@ -66,10 +71,11 @@ void Door::Update(TileMap* map, float delayTime) {
     graphicsComponent->Update(this,delayTime);
 }
 
-/*
-  Function Objective: Draws the door on the map.
-  param: No parameters.
-  return: No return.
+/**
+    Objective: Draws the door on the map.
+    @param - No parameters.
+    @return - No return.
+
 */
 void Door::Render() {
 
