@@ -1,19 +1,21 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: Sound.cpp
-  Header File Name: Sound.h
-  Class Name: Sound
-  Objective: class responsible for opening audio files.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: Sound.cpp
+    Header File Name: Sound.h
+    Class Name: Sound
+    Objective: class responsible for opening audio files.
+
 */
 
 #include "Sound.h"
 #include <cstdio>
 #include <cstdlib>
 
-/*
-  Function Objective: Construction method.
-  param: No parameters.
-  return: No return.
+/**
+    Objective: Construction method.
+    @param - No parameters.
+    @return - No return.
+
 */
 Sound::Sound() {
     // Initializes variables.
@@ -21,29 +23,32 @@ Sound::Sound() {
     channel = -1;
 }
 
-/*
-  Function Objective: Construction method (overwrite).
-  param: Receives a string with the audio name to open.
-  return: No return.
+/**
+    Objective: Construction method (overwrite).
+    @param - Receives a string with the audio name to open.
+    @return - No return.
+
 */
 Sound::Sound(std::string file) {
     chunk = nullptr; // Initializes pointer pointing to null to facilitate debugging.
     Open(file);  // Opens audio file.
 }
 
-/*
-  Function Objective: Destructor method.
-  param: No parameter.
-  return: No return.
+/**
+    Objective: Destructor method.
+    @param - No parameter.
+    @return - No return.
+
 */
 Sound::~Sound() {
     chunk = nullptr;
 }
 
-/*
-  Function Objective: Test the audio opening of the game.
-  param: No parameter.
-  return: No return.
+/**
+    Objective: Test the audio opening of the game.
+    @param - No parameter.
+    @return - No return.
+
 */
 void Sound::Open(std::string file) {
     // Checks if file opening worked.
@@ -59,10 +64,11 @@ void Sound::Open(std::string file) {
     }
 }
 
-/*
-  Function Objective: Determines the audio that should be started, its runtime and channel.
-  param: Audio runtime.
-  return: No return.
+/**
+    Objective: Determines the audio that should be started, its runtime and channel.
+    @param - Audio runtime.
+    @return - No return.
+
 */
 void Sound::Play(int times) {
   if (IsOpen()) {
@@ -70,10 +76,11 @@ void Sound::Play(int times) {
   }
 }
 
-/*
-  Function Objective: Checks channel usage for sound effect execution.
-  param: No parameter.
-  return: Returns true for audio being executed and false if there is no running execution on the channel.
+/**
+    Objective: Checks channel usage for sound effect execution.
+    @param - No parameter.
+    @return - Returns true for audio being executed and false if there is no running execution on the channel.
+
 */
 bool Sound::IsPlaying() {
     // Checks if it has an audio effect running.
@@ -84,19 +91,21 @@ bool Sound::IsPlaying() {
     }
 }
 
-/*
-  Function Objective: Stop running channel.
-  param: No parameter.
-  return: No return.
+/**
+    Objective: Stop running channel.
+    @param - No parameter.
+    @return - No return.
+
 */
 void Sound::Stop() {
     Mix_HaltChannel(channel);
 }
 
-/*
-  Function Objective: Checks pointer to audio file.
-  param: No parameter.
-  return: Returns true for pointer to non-null audio file and false to null.
+/**
+    Objective: Checks pointer to audio file.
+    @param - No parameter.
+    @return - Returns true for pointer to non-null audio file and false to null.
+
 */
 bool Sound::IsOpen() {
     // Checks whether the pointer to the audio points to null.

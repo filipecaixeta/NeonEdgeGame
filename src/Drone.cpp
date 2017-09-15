@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: Drone.cpp
-  Header File Name: Drone.h
-  Class Name: Drone
-  Objective: Define behavior and drone actions.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: Drone.cpp
+    Header File Name: Drone.h
+    Class Name: Drone
+    Objective: Define behavior and drone actions.
+
 */
 
 #include "Drone.h"
@@ -13,6 +14,13 @@
 #include "Rect.h"
 #include "Projectile.h"
 
+/**
+    Objective: Constructor method. Initializes the drone components.
+    @param int x - Position of the drone on the x axis.
+    @param int y - Position of the drone on the y axis.
+    @return - No return.
+
+*/
 Drone::Drone(ItensManager* itemManager, int x, int y): Player(itemManager, x, y), active(false) {
     name = "Drone"; // Sets the drone name
     inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in relation to the character.
@@ -23,55 +31,62 @@ Drone::Drone(ItensManager* itemManager, int x, int y): Player(itemManager, x, y)
     Empower(0);
 }
 
-/*
-  Function Objective: Destructive method. It deallocates memory used by the class.
-  param: No parameter.
-  return: No return.
+/**
+    Objective: Destructive method. It deallocates memory used by the class.
+    @param - No parameter.
+    @return - No return.
+
 */
 Drone::~Drone() {
 }
 
-/*
-  Function Objective: Generate/start drone attack.
-  param: No parameter.
-  return: No return.
+/**
+    Objective: Generate/start drone attack.
+    @param - No parameter.
+    @return - No return.
+
 */
 void Drone::Attack() {
     attacking.Start();
 }
 
-/*
-  Function Objective: Activate the drone (control over the drone).
-  param: Boolean (on) informs drone state (enabled or disabled).
-  return: No return.
+/**
+    Objective: Activate the drone (control over the drone).
+    @param - Boolean (on) informs drone state (enabled or disabled).
+    @return - No return.
+
 */
 void Drone::Activate(bool on) {
     active = on;
 }
 
-/*
-  Function Objective: Inform drone activation status.
-  param: No parameter.
-  return: State of the drone.
+/**
+    Objective: Inform drone activation status.
+    @param - No parameter.
+    @return - State of the drone.
+
 */
 bool Drone::Active() {
     return active;
 
 }
 
-/*
-  Function Objective: Sets the duration of the drone's attack.
-  param: Float (delayTime) duration of the attack.
-  return: No return.
+/**
+    Objective: Sets the duration of the drone's attack.
+    @param - Float (delayTime) duration of the attack.
+    @return - No return.
+
 */
 void Drone::UpdateTimers(float delayTime) {
     Player::UpdateTimers(delayTime);
 }
 
-/*
-  Function Objective: Updates position of objects and draws them on the screen.
-  param: Pointer to character position and drone on map and duration of actions.
-  return: No return.
+/**
+    Objective: Updates position of objects and draws them on the screen.
+    @param - Pointer to character position.
+    @param - Drone on map and duration of actions.
+    @return - No return.
+
 */
 void Drone::Update(TileMap *map, float delayTime) {
     UpdateTimers(delayTime); // Defines time parameters for modifying drone behavior.
