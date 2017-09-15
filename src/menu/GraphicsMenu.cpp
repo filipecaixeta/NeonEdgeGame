@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: GraphicsMenu.cpp
-  Header File Name: GraphicsMenu.h
-  Class Name: GraphicsMenu
-  Objective: manages the menu graphics.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: GraphicsMenu.cpp
+    Header File Name: GraphicsMenu.h
+    Class Name: GraphicsMenu
+    Objective: manages the menu graphics.
+
 */
 
 #include "menu/GraphicsMenu.h"
@@ -14,10 +15,11 @@
 GraphicsMenu::GraphicsMenu(): MenuState() {
 }
 
-/*
-  Function Objective: sets graphic game.
-  param: none.
-  return: none.
+/**
+    Objective: sets graphic game.
+    @param none.
+    @return none.
+
 */
 void GraphicsMenu::LoadAssets() {
     menuOptions.push_back({"Resolution", new Sprite("menus/resolution-button.png"), true, 0});
@@ -68,10 +70,11 @@ void GraphicsMenu::LoadAssets() {
     SetOption(1);
 }
 
-/*
-  Function Objective: sets game screen configurations.
-  param: none.
-  return: none.
+/**
+    Objective: sets game screen configurations.
+    @param none.
+    @return none.
+
 */
 void GraphicsMenu::Update() {
     MenuState::Update();
@@ -141,11 +144,12 @@ void GraphicsMenu::Update() {
     }
 }
 
-/*
-  Function Objective: sets game screen size.
-  param: int options - selected game screen size option.
-  param: Sprite sprite.
-  return: none.
+/**
+    Objective: sets game screen size.
+    @param int options - selected game screen size option.
+    @param Sprite sprite.
+    @return none.
+
 */
 void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
     // Sets screen size.
@@ -161,11 +165,12 @@ void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
     }
 }
 
-/*
-  Function Objective: updates windows mode of game.
-  param: int option - selected game window mode option.
-  param: Sprint sprint.
-  return: none.
+/**
+    Objective: updates windows mode of game.
+    @param int option - selected game window mode option.
+    @param Sprint sprint.
+    @return none.
+
 */
 void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
     // Sets windows mode.
@@ -178,11 +183,12 @@ void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
     }
 }
 
-/*
-  Function Objective: updates fps of game.
-  param: int option - selected game fps option.
-  param: Sprint sprint.
-  return: none.
+/**
+    Objective: updates fps of game.
+    @param int option - selected game fps option.
+    @param Sprint sprint.
+    @return none.
+
 */
 void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
     // Sets fps.
@@ -198,10 +204,11 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
     }
 }
 
-/*
-  Function Objective: renders menu screen position.
-  param: none.
-  return: none.
+/**
+    Objective: renders menu screen position.
+    @param none.
+    @return none.
+
 */
 void GraphicsMenu::Render() {
     int positionsY[3] = {260, 409, 557};

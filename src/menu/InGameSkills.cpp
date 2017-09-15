@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: InGameSkills.cpp
-  Header File Name: InGameSkills.h
-  Class Name: InGameSkills
-  Objective: manages skills character.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: InGameSkills.cpp
+    Header File Name: InGameSkills.h
+    Class Name: InGameSkills
+    Objective: manages skills character.
+
 */
 
 #include "menu/InGameSkills.h"
@@ -18,10 +19,11 @@ InGameSkills::~InGameSkills() {
     menuOptions.clear();
 }
 
-/*
-  Function Objective: loads skills options.
-  param: none.
-  return: none.
+/**
+    Objective: loads skills options.
+    @param none.
+    @return none.
+
 */
 void InGameSkills::LoadAssets() {
     std::string path = "menus/" + StageState::player->name;
@@ -49,10 +51,11 @@ void InGameSkills::LoadAssets() {
     SetOption(4);
 }
 
-/*
-  Function Objective: Updates selected menu skill option.
-  param: none.
-  return: none.
+/**
+    Objective: Updates selected menu skill option.
+    @param none.
+    @return none.
+
 */
 void InGameSkills::Update() {
     MenuState::Update();
@@ -74,10 +77,11 @@ void InGameSkills::Update() {
     }
 }
 
-/*
-  Function Objective: gets skills.
-  param: int skillNumber - skill number.
-  return: none.
+/**
+    Objective: gets skills.
+    @param int skillNumber - skill number.
+    @return none.
+
 */
 void InGameSkills::GetSkill(int skillNumber) {
     if (StageState::player->skillPoints <= 0) {
@@ -88,10 +92,11 @@ void InGameSkills::GetSkill(int skillNumber) {
     menuOptions[currentOption].current = true;
 }
 
-/*
-  Function Objective: render skills positions.
-  param: none.
-  return: none.
+/**
+    Objective: render skills positions.
+    @param none.
+    @return none.
+
 */
 void InGameSkills::Render() {
     blackOpacity.Render(0, 0);

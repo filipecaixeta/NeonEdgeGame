@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: InGameItens.cpp
-  Header File Name: InGameItens.h
-  Class Name: InGameItens
-  Objective: manages the menu itens.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: InGameItens.cpp
+    Header File Name: InGameItens.h
+    Class Name: InGameItens
+    Objective: manages the menu itens.
+
 */
 
 #include <cstdio>
@@ -23,10 +24,11 @@ InGameItens::~InGameItens() {
     hotBarOptions.clear();
 }
 
-/*
-  Function Objective: loads menu itens.
-  param: none.
-  return: none.
+/**
+    Objective: loads menu itens.
+    @param none.
+    @return none.
+
 */
 void InGameItens::LoadAssets() {
     itens = itensManager->GetActiveItems();
@@ -60,10 +62,11 @@ void InGameItens::LoadAssets() {
     blackOpacity.SetTransparency(0.5);
 }
 
-/*
-  Function Objective: sets item content.
-  param: none.
-  return: none.
+/**
+    Objective: sets item content.
+    @param none.
+    @return none.
+
 */
 void InGameItens::SetItemText(ItensManager::itemType item) {
     SDL_Texture *text;
@@ -73,10 +76,11 @@ void InGameItens::SetItemText(ItensManager::itemType item) {
     itemText->SetTexture(text, true);
 }
 
-/*
-  Function Objective: updates menu itens.
-  param: none.
-  return: none.
+/**
+    Objective: updates menu itens.
+    @param none.
+    @return none.
+
 */
 void InGameItens::Update() {
     // Verifies quit request.
@@ -142,10 +146,11 @@ void InGameItens::Update() {
     }
 }
 
-/*
-  Function Objective: selects item.
-  param: none.
-  return: none.
+/**
+    Objective: selects item.
+    @param none.
+    @return none.
+
 */
 void InGameItens::SetOption(int i) {
     MenuState::SetOption(i);
@@ -154,10 +159,11 @@ void InGameItens::SetOption(int i) {
     }
 }
 
-/*
-  Function Objective: sets item hot bar option.
-  param: none.
-  return: none.
+/**
+    Objective: sets item hot bar option.
+    @param none.
+    @return none.
+
 */
 void InGameItens::SetHotBarOption(int i) {
     if (!hotBarOptions.size()) {
@@ -171,10 +177,11 @@ void InGameItens::SetHotBarOption(int i) {
     currentHotBarOption = currentHotBarOption % hotBarOptions.size();
 }
 
-/*
-  Function Objective: render menu itens position.
-  param: none.
-  return: none.
+/**
+    Objective: render menu itens position.
+    @param none.
+    @return none.
+
 */
 void InGameItens::Render() {
     blackOpacity.Render(0, 0);

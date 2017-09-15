@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: ControlsMenu.cpp
-  Header File Name: ControlsMenu.h
-  Class Name: ControlsMenu
-  Objective: manages the menu controls.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: ControlsMenu.cpp
+    Header File Name: ControlsMenu.h
+    Class Name: ControlsMenu
+    Objective: manages the menu controls.
+
 */
 
 #include "menu/ControlsMenu.h"
@@ -14,10 +15,11 @@
 ControlsMenu::ControlsMenu(): MenuState(), replaceKey(false) {
 }
 
-/*
-  Function Objective: loads the menu.
-  param: none.
-  return: none.
+/**
+    Objective: loads the menu.
+    @param none.
+    @return none.
+
 */
 void ControlsMenu::LoadAssets() {
     Sprite *marker = new Sprite("menus/marker.png");  // Create menu option icon.
@@ -71,10 +73,11 @@ void ControlsMenu::LoadAssets() {
     */
 }
 
-/*
-  Function Objective: turns key into buff.
-  param: c - numerical representation of a key.
-  return: buff - key string.
+/**
+    Objective: turns key into buff.
+    @param c - numerical representation of a key.
+    @return buff - key string.
+
 */
 std::string ControlsMenu::CreateKeyString(int c) {
     char buff[10];
@@ -96,10 +99,11 @@ std::string ControlsMenu::CreateKeyString(int c) {
     return buff;
 }
 
-/*
-  Function Objective: updates the chosen menu option.
-  param: none.
-  return: none.
+/**
+    Objective: updates the chosen menu option.
+    @param none.
+    @return none.
+
 */
 void ControlsMenu::Update() {
     // Selects the menu option
@@ -157,10 +161,11 @@ void ControlsMenu::Update() {
     }
 }
 
-/*
-  Function Objective: renders menu position.
-  param: none.
-  return: none.
+/**
+    Objective: renders menu position.
+    @param none.
+    @return none.
+
 */
 void ControlsMenu::Render() {
     int positionsY[4] = {431, 498, 564, 631};

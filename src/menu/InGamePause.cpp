@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: InGamePause.cpp
-  Header File Name: InGamePause.h
-  Class Name: InGamePause
-  Objective: manages games pause options.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: InGamePause.cpp
+    Header File Name: InGamePause.h
+    Class Name: InGamePause
+    Objective: manages games pause options.
+
 */
 
 #include "menu/InGamePause.h"
@@ -18,10 +19,11 @@
 InGamePause::InGamePause(StageState *stageState_): MenuState(), stageState(stageState_) {
 }
 
-/*
-  Function Objective: loads menu options.
-  param: none.
-  return: none.
+/**
+    Objective: loads menu options.
+    @param none.
+    @return none.
+
 */
 void InGamePause::LoadAssets() {
     SDL_Texture *text;
@@ -37,10 +39,11 @@ void InGamePause::LoadAssets() {
     SetOption(1);
 }
 
-/*
-  Function Objective: updates to selected menu option.
-  param: none.
-  return: none.
+/**
+    Objective: updates to selected menu option.
+    @param none.
+    @return none.
+
 */
 void InGamePause::Update() {
     MenuState::Update();
@@ -64,10 +67,11 @@ void InGamePause::Update() {
     }
 }
 
-/*
-  Function Objective: render menu options position.
-  param: none.
-  return: none.
+/**
+    Objective: render menu options position.
+    @param none.
+    @return none.
+
 */
 void InGamePause::Render() {
     int positionsY[5] = {381, 447, 514, 581, 648};
