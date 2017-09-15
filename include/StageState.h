@@ -19,53 +19,54 @@ class ItensManager;
 class StageState : public State
 {
 private:
-	static Room* currentRoom;
+    static Room* currentRoom;
 
-	TileSet* tileSet;
-	TileSet* background;
-	bool paused;
-	std::vector<std::unique_ptr<Window>> windowArray;
-	LoadingBar *healthBar;
-	LoadingBar *energyBar;
-	int roomSizeX, roomSizeY, currentRoomX, currentRoomY;
+    TileSet* tileSet;
+    TileSet* background;
+    bool paused;
+    std::vector<std::unique_ptr<Window>> windowArray;
+    LoadingBar *healthBar;
+    LoadingBar *energyBar;
+    int roomSizeX, roomSizeY, currentRoomX, currentRoomY;
 
-	void HandleInput();
-	//void UpdateRoom();
-	void UpdateGame();
-	void CleanUpdateBars();
+    void HandleInput();
+    //void UpdateRoom();
+    void UpdateGame();
+    void CleanUpdateBars();
 
 public:
-	StageState(std::string fase = "cidadeLancelot", std::string background = "background.png");
-	~StageState();
+    StageState(std::string fase = "cidadeLancelot", std::string background = "background.png");
+    ~StageState();
 
-	static GameObject* GetPlayer();
-	static void SetPlayer(Player* ptr);
-	static void KillPlayer();
-	static void AddObject(GameObject* ptr);
-	static void AddObjectAsFirst(GameObject* ptr);
-	static void RemoveObject(GameObject* ptr);
-	static Room* GetCurrentRoom();
-	static std::string GetFase();
-	void AddWindow(Window* ptr);
-	void RemoveWindow(Window* ptr);
+    static GameObject* GetPlayer();
+    static void SetPlayer(Player* ptr);
+    static void KillPlayer();
+    static void AddObject(GameObject* ptr);
+    static void AddObjectAsFirst(GameObject* ptr);
+    static void RemoveObject(GameObject* ptr);
+    static Room* GetCurrentRoom();
+    static std::string GetFase();
+    void AddWindow(Window* ptr);
+    void RemoveWindow(Window* ptr);
 
-	void Pause();
-	void Resume();
-	void LoadAssets();
-	void Update();
-	void Render();
-	bool QuitRequested();
-	bool Is(std::string type);
-	StageState* get();
-	void CreateBars(std::string playerName);
-	//void CreateMap(int sizeX, int sizeY);
-	//void MassLoad(int sizeX, int sizeY);
+    void Pause();
+    void Resume();
+    void LoadAssets();
+    void Update();
+    void Render();
+    bool QuitRequested();
+    bool Is(std::string type);
+    StageState* get();
+    void CreateBars(std::string playerName);
+    //void CreateMap(int sizeX, int sizeY);
+    //void MassLoad(int sizeX, int sizeY);
 
-	State* inGameMenu;
-	static Player* player;
-	static std::string stage;
-	Sprite itemHotBarSp;
-	Sprite bek;
+    State* inGameMenu;
+    State* inGamePause;
+    static Player* player;
+    static std::string stage;
+    Sprite itemHotBarSp;
+    Sprite bek;
 };
 
 #endif /* STAGESTATE_H_ */
