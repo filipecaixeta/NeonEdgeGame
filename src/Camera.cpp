@@ -1,9 +1,10 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: Camera.cpp
-  Header File Name: Camera.h
-  Class Name: Camera
-  Objective: The purpose of this class is to control the game camera features.
+/**
+   Copyright 2017 Neon Edge Game
+   File Name: Camera.cpp
+   Header File Name: Camera.h
+   Class Name: Camera
+   Objective: The purpose of this class is to control the game camera features.
+
 */
 
 #include <iostream>
@@ -18,10 +19,11 @@
 
 Camera* Camera::instance = nullptr; // Starts pointer pointing to nullptr to improve debugging.
 
-/*
-  Function Objective: The function of this method is to move the camera according to the position of the player.
-  param: It does not receive parameters.
-  return: Does not return.
+/**
+    Objective: The function of this method is to move the camera according to the position of the player.
+    @param - It does not receive parameters.
+    @return - Does not return.
+
 */
 Camera::Camera():
     maxPos(999999.0f, 999999.0f){
@@ -30,37 +32,41 @@ Camera::Camera():
     speed = Vec2(1, 1); // Sets camera drive speed.
 }
 
-/*
-  Function Objective: Method used to destroy camera type objects.
-  param: It does not receive parameters.
-  return: Does not return.
+/**
+    Objective: Method used to destroy camera type objects.
+    @param - It does not receive parameters.
+    @return - Does not return.
+
 */
 Camera::~Camera() {
     focus = nullptr;
 }
 
-/*
-  Function Objective: Function responsible for setting the new camera focus.
-  param: Values ​​referring to the new focus position.
-  return: Does not return.
+/**
+    Objective: Function responsible for setting the new camera focus.
+    @param GameObject * newFocus - Values ​​referring to the new focus position.
+    @return - Does not return.
+
 */
 void Camera::Follow(GameObject* newFocus) {
     focus = newFocus; // Sets the new focus of the camera.
 }
 
-/*
-  Function Objective: It points variable responsible for the focus to null, causing the screen to stop following the main character.
-  param: It does not receive parameters.
-  return: Does not return.
+/**
+    Objective: It points variable responsible for the focus to null, causing the screen to stop following the main character.
+    @param - It does not receive parameters.
+    @return - Does not return.
+
 */
 void Camera::Unfollow() {
     focus = nullptr;
 }
 
-/*
-  Function Objective: Sets the speed of movement of the screen according to the movement of the character.
-  param: Float value that defines the delay of the focus change of the camera.
-  return: Does not return.
+/**
+    Objective: Sets the speed of movement of the screen according to the movement of the character.
+    @param float screenDelay - Float value that defines the delay of the focus change of the camera.
+    @return - Does not return.
+
 */
 void Camera::Update(float screenDelay) {
     // Checks and regulates camera focus.
@@ -123,19 +129,21 @@ void Camera::Update(float screenDelay) {
     }
 }
 
-/*
-  Function Objective: Inform the pointer data related to camera focus.
-  param: It does not receive parameters.
-  return: Information regarding the camera's current focus.
+/**
+    Objective: Inform the pointer data related to camera focus.
+    @param - It does not receive parameters.
+    @return focus - Information regarding the camera's current focus.
+
 */
 GameObject* Camera::GetFocus() {
     return focus;
 }
 
-/*
-  Function Objective: Checks if the camera has been correctly created.
-  param: It does not receive parameters.
-  return: Returns pointer referring to camera information.
+/**
+    Objective: Checks if the camera has been correctly created.
+    @param - It does not receive parameters.
+    @return - Returns pointer referring to camera information.
+
 */
 Camera& Camera::GetInstance() {
     // Checks if the camera has been positioned correctly.
@@ -145,10 +153,11 @@ Camera& Camera::GetInstance() {
     return *instance;
 }
 
-/*
-  Function Objective: Sets camera position.
-  param: Vec2 pos, Calculated value for camera positioning.
-  return: Does not return.
+/**
+    Objective: Sets camera position.
+    @param Vec2 pos - Calculated value for camera positioning.
+    @return - Does not return.
+
 */
 void Camera::SetPos(Vec2 pos){
     this->pos = pos;
