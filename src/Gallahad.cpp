@@ -1,4 +1,4 @@
-/*
+/**
     Copyright 2017 Neon Edge Game
     File Name: Gallahad.cpp
     Header File Name: Gallahad.h
@@ -16,10 +16,10 @@
 #include "Cutscene.h"
 #include "SoundComponent.h"
 
-/*
-    Function Objective: Constructor of the class Gallahad.
-    param: No parameter.
-    return: Instance to Gallahad.
+/**
+    Objective: Constructor of the class Gallahad.
+    @param None.
+    @return Instance to the class Gallahad.
 */
 Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
     Player(itemManager, x, y),
@@ -35,20 +35,20 @@ Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
     dieTimer = Timer(800);
 }
 
-/*
-    Function Objective: Destructor of the class Gallahad.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Destructor of the class Gallahad.
+    @param None.
+    @return None.
 */
 Gallahad::~Gallahad() {
     Game::GetInstance().GetCurrentState()->quitRequested = true;
     Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
-/*
-    Function Objective: Manages the attack action of the character.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Manages the attack action of the character.
+    @param None.
+    @return None.
 */
 void Gallahad::Attack() {
     // Starts attack timer
@@ -58,10 +58,10 @@ void Gallahad::Attack() {
     StageState::AddObject(new Projectile(this, Vec2(0.8, 0), 1200, 1, false));
 }
 
-/*
-    Function Objective: Set the time and start the hiding action based on a variable (skills).
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Set the time and start the hiding action based on a variable (skills).
+    @param None.
+    @return None.
 */
 void Gallahad::Hide() {
     if (skills[0]) {
@@ -78,37 +78,37 @@ void Gallahad::Hide() {
     clamp(energy, 0, 5);
 }
 
-/*
-    Function Objective: Activate the shooting action.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Activate the shooting action.
+    @param None.
+    @return None.
 */
 void Gallahad::Shoot() {
     shooting = true;
 }
 
-/*
-    Function Objective: Desactivate the shooting action.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Desactivate the shooting action.
+    @param None.
+    @return None.
 */
 void Gallahad::Hold() {
     shooting = false;
 }
 
-/*
-    Function Objective: See the state of the hiding action.
-    param: No parameter.
-    return: Return true if the character is hiding.
+/**
+    Objective: See the state of the hiding action.
+    @param None.
+    @return bool hiding.IsRunning() - Return true if the character is hiding.
 */
 bool Gallahad::Hiding() {
     return hiding.IsRunning();
 }
 
-/*
-    Function Objective: See the state of the shooting action.
-    param: No parameter.
-    return: Return true if the character is shooting.
+/**
+    Objective: See the state of the shooting action.
+    @param None.
+    @return bool shooting - Return true if the character is shooting.
 */
 bool Gallahad::Shooting() {
     return shooting;
@@ -118,10 +118,10 @@ void Gallahad::Activate(bool on) {
     active = on;
 }
 
-/*
-    Function Objective: Get the "active" value.
-    param: No parameter.
-    return: Returns the value of the local variable "active".
+/**
+    Objective: Get the "active" value.
+    @param None.
+    @return bool active - Returns the value of the local variable "active".
 */
 bool Gallahad::Active() {
     return active;
@@ -132,10 +132,10 @@ Drone* Gallahad::GetDrone() {
     return d;
 }
 
-/*
-    Function Objective: Updates the time of the character's hiding.
-    param: float dt: the amount of time the character will hide.
-    return: No return.
+/**
+    Objective: Updates the time of the character's hiding.
+    @param float dt - the amount of time the character will hide.
+    @return None.
 */
 void Gallahad::UpdateTimers(float dt) {
     /*Rect checkStateTrasition;

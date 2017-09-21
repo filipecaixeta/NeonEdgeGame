@@ -1,4 +1,4 @@
-/*
+/**
     Copyright 2017 Neon Edge Game
     File Name: Player.cpp
     Header File Name: Player.h
@@ -9,11 +9,12 @@
 #include "Player.h"
 #include "Projectile.h"
 
-/*
-    Function Objective: Constructor of the class Player.
-    param: ItensManager* itemManager, int x, inty: (x,y) are coordinates for the position of
-        the player.
-    return: Instance to Player.
+/**
+    Objective: Constructor of the class Player.
+    @param ItensManager* itemManager
+    @param int x - Coordinate of the player.
+    @param int y - Coordinate of the player.
+    @return Instance to the class Player.
 */
 Player::Player(ItensManager* itemManager, int x, int y):
     Character(x,y),
@@ -37,37 +38,37 @@ Player::Player(ItensManager* itemManager, int x, int y):
     hitpoints = MAX_HITPOINTS; //Sets the hitpoints of the player to 10.
 }
 
-/*
-    Function Objective: Destructor of the class Player.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Destructor of the class Player.
+    @param None.
+    @return None.
 */
 Player::~Player() {
 
 }
 
-/*
-    Function Objective: Checks if is a player.
-    param: No parameter.
-    return: Resturns TRUE.
+/**
+    Objective: Checks if is a player.
+    @param None.
+    @return bool - Returns TRUE.
 */
 bool Player::IsPlayer() {
     return true;
 }
 
-/*
-    Function Objective: Gets the energy of player.
-    param: No parameter.
-    return: Returns the amount of energy.
+/**
+    Objective: Gets the energy of player.
+    @param None.
+    @return int energy - Returns the amount of energy of the player.
 */
 int Player::GetEnergy() {
     return energy;
 }
 
-/*
-    Function Objective: Perform the action of crouch.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Performs the action of crouch.
+    @param: None.
+    @return: None.
 */
 void Player::Crouch() {
     if (crouchingEdge) {
@@ -77,29 +78,29 @@ void Player::Crouch() {
     crouching = true;
 }
 
-/*
-    Function Objective: Perform the action of stand.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Performs the action of stand.
+    @param None.
+    @return None.
 */
 void Player::Stand() {
     crouching = false;
     crouchingEdge = true;
 }
 
-/*
-    Function Objective: Checks if the player is crouching or not.
-    param: No parameter.
-    return: Return true if the player is crouching.
+/**
+    Objective: Checks if the player is crouching or not.
+    @param None.
+    @return bool crouching - Return true if the player is crouching.
 */
 bool Player::Crouching() {
     return crouching;
 }
 
-/*
-    Function Objective: Performs an action due to an item used by the player.
-    param: string itemName: The name of the item.
-    return: No return.
+/**
+    Objective: Performs an action due to an item used by the player.
+    @param string itemName - The name of the item.
+    @return None.
 */
 void Player::EvalItem(std::string itemName) {
     if (itemName == "Healing Potion 25") {
@@ -123,10 +124,10 @@ void Player::EvalItem(std::string itemName) {
     }
 }
 
-/*
-    Function Objective: Manages the reactions of other objects in collision with the player.
-    param: GameObject* other: The object that is in collision with the player.
-    return: No return.
+/**
+    Objective: Manages the reactions of other objects in collision with the player.
+    @param GameObject* other - The object that is in collision with the player.
+    @return None.
 */
 void Player::NotifyObjectCollision(GameObject* other) {
     Character::NotifyObjectCollision(other);
@@ -156,10 +157,10 @@ void Player::NotifyObjectCollision(GameObject* other) {
     }
 }
 
-/*
-    Function Objective: Updates the time of the cool down regeneration.
-    param: float dt: the amount of time to cool down the regeneration.
-    return: No return.
+/**
+    Objective: Updates the time of the cool down regeneration.
+    @param float dt - the amount of time to cool down the regeneration.
+    @return None.
 */
 void Player::UpdateTimers(float dt) {
     Character::UpdateTimers(dt);

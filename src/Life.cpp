@@ -1,4 +1,4 @@
-/*
+/**
     Copyright 2017 Neon Edge Game
     File Name: Life.cpp
     Header File Name: Life.h
@@ -9,11 +9,17 @@
 #include "Life.h"
 #include "Camera.h"
 
-/*
-    Function Objective: Constructor of the class Life.
-    param: int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
-                                                float lifetime, bool dies.
-    return: Instance to Life.
+/**
+    Objective: Constructor of the class Life.
+    @param int x - Coordinate of the Life.
+    @param int y - Coordinate of the Life.
+    @param string sprite
+    @param float frameCount
+    @param float frameTime
+    @param bool loops
+    @param float lifetime
+    @param bool dies
+    @return: Instance to the class Life.
 */
 Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
                                             float lifetime, bool dies) {
@@ -28,28 +34,28 @@ Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, 
     Life::dies = dies;
 }
 
-/*
-    Function Objective: Destructor of the class Life.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Destructor of the class Life.
+    @param None.
+    @return None.
 */
 Life::~Life() {
 
 }
 
-/*
-    Function Objective: Checks an character is dead.
-    param: No parameter.
-    return: Returns true if is dead.
+/**
+    Objective: Checks an character is dead.
+    @param None.
+    @return bool dead - Returns true if is dead.
 */
 bool Life::IsDead() {
     return dead;
 }
 
-/*
-    Function Objective: Sets the variable dead to true if the characters Gallahad or Lancelot dies.
-    param: GameObject* other: the character (Gallahad or Lancelot).
-    return: No return.
+/**
+    Objective: Sets the variable dead to true if the characters Gallahad or Lancelot dies.
+    @param GameObject* other - The character (Gallahad or Lancelot).
+    @return None.
 */
 void Life::NotifyObjectCollision(GameObject* other) {
     if (other->Is("Gallahad") || other->Is("Lancelot")) {

@@ -1,4 +1,4 @@
-/*
+/**
     Copyright 2017 Neon Edge Game
     File Name: Box.cpp
     Header File Name: Box.h
@@ -12,10 +12,11 @@
 #include "Character.h"
 #include "Projectile.h"
 
-/*
-    Function Objective: Constructor of the class Box.
-    param: int x, int y: coordinates of the box.
-    return: Instance to Box.
+/**
+    Objective: Constructor of the class Box.
+    @param int x - Coordinate of the Box
+    @param int y - Coordinate of the Box.
+    @return Instance to the class Box.
 */
 Box::Box(int x, int y):
     Interactive(x,y,"Box") {
@@ -24,45 +25,45 @@ Box::Box(int x, int y):
         invincibilityTimer = Timer(500);
 }
 
-/*
-    Function Objective: Destructor of the class Lancelot.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Destructor of the class Lancelot.
+    @param None.
+    @return None.
 */
 Box::~Box() {
 }
 
-/*
-    Function Objective: Get the box hitpoints.
-    param: No parameter.
-    return: Returns the amount of hitpoints of the box.
+/**
+    Objective: Get the box hitpoints.
+    @param None.
+    @return int hitpoints - Returns the amount of health of the box.
 */
 int Box::GetHealth() {
     return hitpoints;
 }
 
-/*
-    Function Objective: Sets the hitpoints of the box to 0.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Sets the hitpoints of the box to 0.
+    @param None.
+    @return None.
 */
 void Box::Kill() {
     hitpoints = 0;
 }
 
-/*
-    Function Objective: Checks if the box is dead.
-    param: No parameter.
-    return: Return true if the hitpoints of the box is below 1.
+/**
+    Objective: Checks if the box is dead.
+    @param None.
+    @return bool (hitpoints < 1) - Return true if the hitpoints of the box is below 1.
 */
 bool Box::IsDead() {
     return (hitpoints < 1);
 }
 
-/*
-    Function Objective: Triggers the invincibility of the box.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Triggers the invincibility of the box.
+    @param: None.
+    @return: None.
 */
 void Box::Trigger() {
     if (!invincibilityTimer.IsRunning()) {
@@ -71,10 +72,10 @@ void Box::Trigger() {
     }
 }
 
-/*
-    Function Objective: Manages the reactions of the box in a collision with another object.
-    param: GameObject* other: the object that is in collision.
-    return: No return.
+/**
+    Objective: Manages the reactions of the box in a collision with another object.
+    @param GameObject* other - The object that is in collision.
+    @return None.
 */
 void Box::NotifyObjectCollision(GameObject* other) {
     if (other->IsPlayer()) {
@@ -106,10 +107,10 @@ void Box::NotifyObjectCollision(GameObject* other) {
     }
 }
 
-/*
-    Function Objective: Updates the time of the box's invincibility.
-    param: float dt: the amount of time the box will be invincible.
-    return: No return.
+/**
+    Objective: Updates the time of the box's invincibility.
+    @param float dt - The amount of time that the Box will be invincible.
+    @return None.
 */
 void Box::UpdateTimers(float dt) {
     invincibilityTimer.Update(dt);

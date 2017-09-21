@@ -1,4 +1,4 @@
-/*
+/**
     Copyright 2017 Neon Edge Game
     File Name: Lancelot.cpp
     Header File Name: Lancelot.h
@@ -17,10 +17,10 @@
 #include <cstdlib>
 #include <sys/time.h>
 
-/*
-    Function Objective: Constructor of the class Lancelot.
-    param: No parameter.
-    return: Instance to Lancelot.
+/**
+    Objective: Constructor of the class Lancelot.
+    @param None.
+    @return Instance of the class Lancelot.
 */
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     Player(itemManager, x, y),
@@ -37,21 +37,21 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     srand(t1.tv_usec * t1.tv_sec);
 }
 
-/*
-    Function Objective: Destructor of the class Lancelot.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Destructor of the class Lancelot.
+    @param None.
+    @return None.
 */
 Lancelot::~Lancelot() {
     Game::GetInstance().GetCurrentState()->quitRequested = true;
     Game::GetInstance().AddState(new Cutscene(7, false));
 }
 
-/*
-    Function Objective: Decrease the energy or the hitpoints based on the blocking,
-        invincibilityTimer and skills variables.
-    param: int damage: the amount of damage.
-    return: No return.
+/**
+    Objective: Decrease the energy or the hitpoints based on the blocking, invincibilityTimer and
+        skills variables.
+    @param int damage - The amount of damage done to the character.
+    @return None.
 */
 void Lancelot::Damage(int damage) {
     if (!invincibilityTimer.IsRunning()) {
@@ -81,10 +81,10 @@ void Lancelot::Damage(int damage) {
     }
 }
 
-/*
-    Function Objective: Manage the attacking action of the character based on the variable (combo).
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Manage the attacking action of the character based on the variable (combo).
+    @param None.
+    @return None.
 */
 void Lancelot::Attack() {
     attacking.SetLimit(0);
@@ -119,47 +119,47 @@ void Lancelot::Attack() {
     attacking.Start();
 }
 
-/*
-    Function Objective: Activate the block action.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Activate the block action.
+    @param: None.
+    @return: None.
 */
 void Lancelot::Block() {
     blocking = true;
     clamp(physicsComponent.velocity.x, -0.2f, 0.2f);
 }
 
-/*
-    Function Objective: Desactivate the block action.
-    param: No parameter.
-    return: No return.
+/**
+    Objective: Desactivate the block action.
+    @param: None.
+    @return: None.
 */
 void Lancelot::Stop() {
     blocking = false;
 }
 
-/*
-    Function Objective: Set the local variable (combo) value.
-    param: string c: the combo used by the character.
-    return: No return.
+/**
+    Objective: Set the local variable (combo) value.
+    @param: string c - The combo used by the character.
+    @return: None.
 */
 void Lancelot::Combo(std::string c) {
     combo = c;
 }
 
-/*
-    Function Objective: Manages the state of an action of the character.
-    param: No parameter.
-    return: Return true if the character is blocking.
+/**
+    Objective: Manages the state of an action of the character.
+    @param None.
+    @return bool blocking - Return true if the character is blocking.
 */
 bool Lancelot::Blocking() {
     return blocking;
 }
 
-/*
-    Function Objective: Get the value of the local variable (combo).
-    param: No parameter.
-    return: Return which combo the character is using.
+/**
+    Objective: Get the value of the local variable (combo).
+    @param None.
+    @return string combo - Return which combo the character is using.
 */
 std::string Lancelot::WhichCombo() {
     return combo;
