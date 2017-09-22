@@ -1,5 +1,5 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2013 Thomas Park
     File Name: Door.cpp
     Header File Name: Door.h
     Class Name: Door
@@ -15,7 +15,7 @@
     Objective: Constructor method that defines the initial port parameters.
     @param int x - Initial position of the door on the x axis.
     @param int y - Initial position of the door on the y axis.
-    @return - No return.
+    @return - none.
 
 */
 Door::Door(int x, int y):
@@ -27,7 +27,7 @@ Door::Door(int x, int y):
 /**
     Objective: Destructor method that frees memory used by the class.
     @param - No parameters.
-    @return - No return.
+    @return - none.
 
 */
 Door::~Door() {
@@ -36,7 +36,7 @@ Door::~Door() {
 /**
     Objective: Turned on or off the door led according to the state of your enable.
     @param - No parameters.
-    @return - No return.
+    @return - none.
 
 */
 void Door::Trigger() {
@@ -52,7 +52,7 @@ void Door::Trigger() {
 /**
     Function Objective: Define door movement.
     @param TileMap* map - Game Map.
-    @return: No return.
+    @return: none.
 
 */
 void Door::Update(TileMap* map, float delayTime) {
@@ -74,7 +74,7 @@ void Door::Update(TileMap* map, float delayTime) {
 /**
     Objective: Draws the door on the map.
     @param - No parameters.
-    @return - No return.
+    @return - none.
 
 */
 void Door::Render() {

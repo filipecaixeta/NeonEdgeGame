@@ -1,5 +1,5 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2013 Thomas Park
     File Name: DroneInputComponent.cpp
     Header File Name: DroneInputComponent.h
     Class Name: DroneInputComponent
@@ -16,7 +16,7 @@
 /**
     Objective: Constructor method.
     @param - No parameters.
-    @return - No return.
+    @return - none.
 
 */
 DroneInputComponent::DroneInputComponent() {
@@ -26,7 +26,7 @@ DroneInputComponent::DroneInputComponent() {
     Objective: Responsible for the detection of the key pressed and movement of the drone.
     @param obj - Player information.
     @param delayTime - Drone moviment time.
-    @return - No return.
+    @return - none.
 
 */
 void DroneInputComponent::Update(Player *obj, float delayTime) {
@@ -53,7 +53,7 @@ void DroneInputComponent::Update(Player *obj, float delayTime) {
     if (input.IsKeyDown(MOVE_UP_KEY, true)) {
         MoveUp(); // Moves the drone up.
     } else if (input.IsKeyDown(MOVE_DOWN_KEY, true)) {
-        MoveDown(); //  Moves the drone down.
+        MoveDown(); // Moves the drone down.
     } else {
         obj->physicsComponent.velocity.y = 0; // Makes the drone stand still.
     }

@@ -1,5 +1,5 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2017 Neon Edge
     File Name: Drone.cpp
     Header File Name: Drone.h
     Class Name: Drone
@@ -18,7 +18,7 @@
     Objective: Constructor method. Initializes the drone components.
     @param int x - Position of the drone on the x axis.
     @param int y - Position of the drone on the y axis.
-    @return - No return.
+    @return - none.
 
 */
 Drone::Drone(ItensManager* itemManager, int x, int y): Player(itemManager, x, y), active(false) {
@@ -34,7 +34,7 @@ Drone::Drone(ItensManager* itemManager, int x, int y): Player(itemManager, x, y)
 /**
     Objective: Destructive method. It deallocates memory used by the class.
     @param - No parameter.
-    @return - No return.
+    @return - none.
 
 */
 Drone::~Drone() {
@@ -43,7 +43,7 @@ Drone::~Drone() {
 /**
     Objective: Generate/start drone attack.
     @param - No parameter.
-    @return - No return.
+    @return - none.
 
 */
 void Drone::Attack() {
@@ -53,7 +53,7 @@ void Drone::Attack() {
 /**
     Objective: Activate the drone (control over the drone).
     @param - Boolean (on) informs drone state (enabled or disabled).
-    @return - No return.
+    @return - none.
 
 */
 void Drone::Activate(bool on) {
@@ -74,7 +74,7 @@ bool Drone::Active() {
 /**
     Objective: Sets the duration of the drone's attack.
     @param - Float (delayTime) duration of the attack.
-    @return - No return.
+    @return - none.
 
 */
 void Drone::UpdateTimers(float delayTime) {
@@ -85,7 +85,7 @@ void Drone::UpdateTimers(float delayTime) {
     Objective: Updates position of objects and draws them on the screen.
     @param - Pointer to character position.
     @param - Drone on map and duration of actions.
-    @return - No return.
+    @return - none.
 
 */
 void Drone::Update(TileMap *map, float delayTime) {

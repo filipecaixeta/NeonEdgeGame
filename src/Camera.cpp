@@ -1,5 +1,5 @@
 /**
-   Copyright 2017 Neon Edge Game
+   Copyright (c) 2013 Thomas Park
    File Name: Camera.cpp
    Header File Name: Camera.h
    Class Name: Camera
@@ -22,7 +22,7 @@ Camera* Camera::instance = nullptr; // Starts pointer pointing to nullptr to imp
 /**
     Objective: The function of this method is to move the camera according to the position of the player.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 Camera::Camera():
@@ -35,7 +35,7 @@ Camera::Camera():
 /**
     Objective: Method used to destroy camera type objects.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 Camera::~Camera() {
@@ -45,7 +45,7 @@ Camera::~Camera() {
 /**
     Objective: Function responsible for setting the new camera focus.
     @param GameObject * newFocus - Values ​​referring to the new focus position.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Follow(GameObject* newFocus) {
@@ -55,7 +55,7 @@ void Camera::Follow(GameObject* newFocus) {
 /**
     Objective: It points variable responsible for the focus to null, causing the screen to stop following the main character.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Unfollow() {
@@ -65,7 +65,7 @@ void Camera::Unfollow() {
 /**
     Objective: Sets the speed of movement of the screen according to the movement of the character.
     @param float screenDelay - Float value that defines the delay of the focus change of the camera.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Update(float screenDelay) {
@@ -159,7 +159,7 @@ Camera& Camera::GetInstance() {
 /**
     Objective: Sets camera position.
     @param Vec2 pos - Calculated value for camera positioning.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::SetPos(Vec2 pos){

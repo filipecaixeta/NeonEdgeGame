@@ -1,5 +1,5 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2013 Thomas Park
     File Name: Sound.cpp
     Header File Name: Sound.h
     Class Name: Sound
@@ -14,7 +14,7 @@
 /**
     Objective: Construction method.
     @param - No parameters.
-    @return - No return.
+    @return - none.
 
 */
 Sound::Sound() {
@@ -26,7 +26,7 @@ Sound::Sound() {
 /**
     Objective: Construction method (overwrite).
     @param - Receives a string with the audio name to open.
-    @return - No return.
+    @return - none.
 
 */
 Sound::Sound(std::string file) {
@@ -37,7 +37,7 @@ Sound::Sound(std::string file) {
 /**
     Objective: Destructor method.
     @param - No parameter.
-    @return - No return.
+    @return - none.
 
 */
 Sound::~Sound() {
@@ -47,7 +47,7 @@ Sound::~Sound() {
 /**
     Objective: Test the audio opening of the game.
     @param - No parameter.
-    @return - No return.
+    @return - none.
 
 */
 void Sound::Open(std::string file) {
@@ -67,7 +67,7 @@ void Sound::Open(std::string file) {
 /**
     Objective: Determines the audio that should be started, its runtime and channel.
     @param - Audio runtime.
-    @return - No return.
+    @return - none.
 
 */
 void Sound::Play(int times) {
@@ -94,7 +94,7 @@ bool Sound::IsPlaying() {
 /**
     Objective: Stop running channel.
     @param - No parameter.
-    @return - No return.
+    @return - none.
 
 */
 void Sound::Stop() {
