@@ -1,5 +1,5 @@
 /**
-   Copyright 2017 Neon Edge Game
+   Copyright (c) 2017 Neon Edge
    File Name: Camera.cpp
    Header File Name: Camera.h
    Class Name: Camera
@@ -22,20 +22,20 @@ Camera* Camera::instance = nullptr; // Starts pointer pointing to nullptr to imp
 /**
     Objective: The function of this method is to move the camera according to the position of the player.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 Camera::Camera():
     maxPos(999999.0f, 999999.0f){
     focus = nullptr; // Starts pointer pointing to nullptr to improve debugging.
     pos = Vec2(); // Sets camera start position.
-    speed = Vec2(1, 1); // Sets camera drive speed.
+    speed = Vec2(1, 1); // Sets camera speed.
 }
 
 /**
     Objective: Method used to destroy camera type objects.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 Camera::~Camera() {
@@ -45,7 +45,7 @@ Camera::~Camera() {
 /**
     Objective: Function responsible for setting the new camera focus.
     @param GameObject * newFocus - Values ​​referring to the new focus position.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Follow(GameObject* newFocus) {
@@ -55,7 +55,7 @@ void Camera::Follow(GameObject* newFocus) {
 /**
     Objective: It points variable responsible for the focus to null, causing the screen to stop following the main character.
     @param - It does not receive parameters.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Unfollow() {
@@ -65,7 +65,7 @@ void Camera::Unfollow() {
 /**
     Objective: Sets the speed of movement of the screen according to the movement of the character.
     @param float screenDelay - Float value that defines the delay of the focus change of the camera.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::Update(float screenDelay) {
@@ -92,14 +92,16 @@ void Camera::Update(float screenDelay) {
             pos.x += speed.x * screenDelay;
         }
     } else {
-            // Sets camera positioning.
+
             int w = 0; // Starts the camera width value.
             int h = 0; // Starts the camera height value.
             SDL_Point s = Game::GetInstance().GetScreenSize();
             w = s.x;
             h = s.y;
-            if (pos.x > focus->box.GetBottomLeft().x-w / 2) {
-                if (pos.x-speed.x * screenDelay < focus->box.GetBottomLeft().x-w / 2) {
+
+            // Sets the movement of the camera according to the focus (character position).
+            if (pos.x > focus->box.GetBottomLeft().x - w / 2) {
+                if (pos.x - speed.x * screenDelay < focus->box.GetBottomLeft().x-w / 2) {
                     pos.x = focus->box.GetBottomLeft().x - w / 2;
                 } else {
                     pos.x -= speed.x * screenDelay;
@@ -146,6 +148,7 @@ GameObject* Camera::GetFocus() {
 
 */
 Camera& Camera::GetInstance() {
+
     // Checks if the camera has been positioned correctly.
     if (instance == nullptr) {
         instance = new Camera();
@@ -156,9 +159,9 @@ Camera& Camera::GetInstance() {
 /**
     Objective: Sets camera position.
     @param Vec2 pos - Calculated value for camera positioning.
-    @return - Does not return.
+    @return - none.
 
 */
 void Camera::SetPos(Vec2 pos){
-    this->pos = pos;
+    this->pos = pos; // Sets position the camera.
 }
