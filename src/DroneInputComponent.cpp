@@ -3,7 +3,7 @@
     File Name: DroneInputComponent.cpp
     Header File Name: DroneInputComponent.h
     Class Name: DroneInputComponent
-    Objective: Classe responsável pelo movimento do drone  no jogo.
+    Objective: Class responsible for the movement of the drone in the game.
 
 */
 
