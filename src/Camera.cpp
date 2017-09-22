@@ -1,5 +1,5 @@
 /**
-   Copyright (c) 2013 Thomas Park
+   Copyright (c) 2017 Neon Edge
    File Name: Camera.cpp
    Header File Name: Camera.h
    Class Name: Camera
