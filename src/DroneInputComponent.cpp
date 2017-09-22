@@ -1,5 +1,5 @@
 /**
-    Copyright (c) 2013 Thomas Park
+    Copyright (c) 2017 Neon Edge
     File Name: DroneInputComponent.cpp
     Header File Name: DroneInputComponent.h
     Class Name: DroneInputComponent
