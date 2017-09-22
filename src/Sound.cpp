@@ -3,7 +3,7 @@
     File Name: Sound.cpp
     Header File Name: Sound.h
     Class Name: Sound
-    Objective: class responsible for opening audio files.
+    Objective: Class responsible for opening audio files.
 
 */
 

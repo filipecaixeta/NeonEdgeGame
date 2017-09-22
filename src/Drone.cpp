@@ -3,7 +3,7 @@
     File Name: Drone.cpp
     Header File Name: Drone.h
     Class Name: Drone
-    Objective: Define behavior and drone actions.
+    Objective: Class responsible for drone movement and actions.
 
 */
 
@@ -67,7 +67,7 @@ void Drone::Activate(bool on) {
 
 */
 bool Drone::Active() {
-    return active;
+    return active; 
 
 }
 
