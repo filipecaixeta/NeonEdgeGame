@@ -1,9 +1,9 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2017 Neon Edge Game
     File Name: Lancelot.cpp
     Header File Name: Lancelot.h
     Class Name: Lancelot
-    Objective: Define the behavior and actions of the character Lancelot.
+    Objective: define the behavior and actions of the character Lancelot.
 */
 
 #include "Lancelot.h"
@@ -18,29 +18,29 @@
 #include <sys/time.h>
 
 /**
-    Objective: Constructor of the class Lancelot.
-    @param None.
-    @return Instance of the class Lancelot.
+    Objective: constructor of the class Lancelot.
+    @param none.
+    @return instance of the class Lancelot.
 */
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
-    Player(itemManager, x, y),
+    Player(itemManager, x, y),  // Extends the object Player.
     blocking(1000) {
     dieTimer = Timer(250);
     name = "Lancelot";
     inputComponent = new LancelotInputComponent();
     graphicsComponent = new LancelotGraphicsComponent("Lancelot");
     soundComponent = new SoundComponent(name);
-    box.SetWH(graphicsComponent->GetSize());
-    attackCD.SetLimit(0);
+    box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
+    attackCD.SetLimit(0);  // Default limit cool down attack.
     timeval t1;
     gettimeofday(&t1, NULL);
     srand(t1.tv_usec * t1.tv_sec);
 }
 
 /**
-    Objective: Destructor of the class Lancelot.
-    @param None.
-    @return None.
+    Objective: destructor of the class Lancelot.
+    @param none.
+    @return none.
 */
 Lancelot::~Lancelot() {
     Game::GetInstance().GetCurrentState()->quitRequested = true;
@@ -48,24 +48,23 @@ Lancelot::~Lancelot() {
 }
 
 /**
-    Objective: Decrease the energy or the hitpoints based on the blocking, invincibilityTimer and
-        skills variables.
-    @param int damage - The amount of damage done to the character.
-    @return None.
+    Objective: decrease the energy or the hitpoints based on some variables.
+    @param int damage - the amount of damage done to the character.
+    @return none.
 */
 void Lancelot::Damage(int damage) {
     if (!invincibilityTimer.IsRunning()) {
         if (blocking) {
-            int n = rand()%100 + 1;
-            if (skills[0]) {
+            int n = rand()%100 + 1;  // Random number of 1 to 100.
+            if (skills[0]) {  // SkillBlocking3
                 if (n < 61) {
                     energy -= 1;
                 }
-            } else if (skills[1]) {
+            } else if (skills[1]) {  // SkillBlocking2
                 if (n < 76) {
                     energy -= 1;
                 }
-            } else if (skills[2]) {
+            } else if (skills[2]) {  // SkillBlocking1
                 if (n < 91){
                     energy -= 1;
                 }
@@ -82,9 +81,9 @@ void Lancelot::Damage(int damage) {
 }
 
 /**
-    Objective: Manage the attacking action of the character based on the variable (combo).
-    @param None.
-    @return None.
+    Objective: manage the attacking action of the character based on the variable (combo).
+    @param none.
+    @return none.
 */
 void Lancelot::Attack() {
     attacking.SetLimit(0);
@@ -115,14 +114,13 @@ void Lancelot::Attack() {
         attackCD.SetLimit(800);
         Empower(5);
     }
-    // Starts attack timer
-    attacking.Start();
+    attacking.Start();  // Starts attack timer.
 }
 
 /**
-    Objective: Activate the block action.
-    @param: None.
-    @return: None.
+    Objective: activate the block action.
+    @param: none.
+    @return: none.
 */
 void Lancelot::Block() {
     blocking = true;
@@ -130,36 +128,36 @@ void Lancelot::Block() {
 }
 
 /**
-    Objective: Desactivate the block action.
-    @param: None.
-    @return: None.
+    Objective: desactivate the block action.
+    @param: none.
+    @return: none.
 */
 void Lancelot::Stop() {
     blocking = false;
 }
 
 /**
-    Objective: Set the local variable (combo) value.
-    @param: string c - The combo used by the character.
-    @return: None.
+    Objective: set the local variable (combo) value.
+    @param: string c - the combo used by the character.
+    @return: none.
 */
 void Lancelot::Combo(std::string c) {
     combo = c;
 }
 
 /**
-    Objective: Manages the state of an action of the character.
-    @param None.
-    @return bool blocking - Return true if the character is blocking.
+    Objective: manages the state of an action of the character.
+    @param none.
+    @return bool blocking - return true if the character is blocking.
 */
 bool Lancelot::Blocking() {
     return blocking;
 }
 
 /**
-    Objective: Get the value of the local variable (combo).
-    @param None.
-    @return string combo - Return which combo the character is using.
+    Objective: get the value of the local variable (combo).
+    @param none.
+    @return string combo - return which combo the character is using.
 */
 std::string Lancelot::WhichCombo() {
     return combo;
