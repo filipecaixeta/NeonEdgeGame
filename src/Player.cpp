@@ -1,23 +1,23 @@
 /**
-    Copyright 2017 Neon Edge Game
+    Copyright (c) 2017 Neon Edge Game
     File Name: Player.cpp
     Header File Name: Player.h
     Class Name: Player
-    Objective: Manages the behavior of some aspects of the player.
+    Objective: manages the behavior of some aspects of the player.
 */
 
 #include "Player.h"
 #include "Projectile.h"
 
 /**
-    Objective: Constructor of the class Player.
+    Objective: constructor of the class Player.
     @param ItensManager* itemManager
-    @param int x - Coordinate of the player.
-    @param int y - Coordinate of the player.
-    @return Instance to the class Player.
+    @param int x - coordinate of the player.
+    @param int y - coordinate of the player.
+    @return Player - instance of the class Player.
 */
 Player::Player(ItensManager* itemManager, int x, int y):
-    Character(x,y),
+    Character(x,y),  // Player's positions in the screen.
     inputComponent(nullptr),
     itemManager(itemManager),
     skills( {
@@ -27,61 +27,61 @@ Player::Player(ItensManager* itemManager, int x, int y):
                 true,
                 false,
                 false
-     }
-                 ),
+    } ),  // Sets the default enabled skills.
     skillPoints(0),
-    energy(5),
-    regenCD(500),
-    crouching(false),
+    energy(5),  // Sets the energy of the player to 5.
+    regenCD(500),  // The time of the cool down regeneration in miliseconds.
+    crouching(false),  // Default state: standing.
     crouchingEdge(true) {
-    name = "Player"; //Sets the Player's name.
-    hitpoints = MAX_HITPOINTS; //Sets the hitpoints of the player to 10.
+    name = "Player";  // Sets the Player's name.
+    hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
 }
 
 /**
-    Objective: Destructor of the class Player.
-    @param None.
-    @return None.
+    Objective: destructor of the class Player.
+    @param none.
+    @return none.
 */
 Player::~Player() {
 
 }
 
 /**
-    Objective: Checks if is a player.
-    @param None.
-    @return bool - Returns TRUE.
+    Objective: checks if is a player.
+    @param none.
+    @return bool - returns TRUE.
 */
 bool Player::IsPlayer() {
     return true;
 }
 
 /**
-    Objective: Gets the energy of player.
-    @param None.
-    @return int energy - Returns the amount of energy of the player.
+    Objective: gets the energy of player.
+    @param none.
+    @return int energy - returns the amount of energy of the player.
 */
 int Player::GetEnergy() {
     return energy;
 }
 
 /**
-    Objective: Performs the action of crouch.
-    @param: None.
-    @return: None.
+    Objective: performs the action of crouch.
+    @param: none.
+    @return: none.
 */
 void Player::Crouch() {
     if (crouchingEdge) {
         crouchingEdge = false;
-        soundComponent->Crouching();
+        soundComponent->Crouching();  // Performs the crouching sound in case that the player is
+                                      // standing.
     }
     crouching = true;
 }
 
 /**
-    Objective: Performs the action of stand.
-    @param None.
-    @return None.
+    Objective: performs the action of stand.
+    @param none.
+    @return none.
 */
 void Player::Stand() {
     crouching = false;
@@ -89,58 +89,66 @@ void Player::Stand() {
 }
 
 /**
-    Objective: Checks if the player is crouching or not.
-    @param None.
-    @return bool crouching - Return true if the player is crouching.
+    Objective: checks if the player is crouching or not.
+    @param none.
+    @return bool crouching - return true if the player is crouching.
 */
 bool Player::Crouching() {
     return crouching;
 }
 
 /**
-    Objective: Performs an action due to an item used by the player.
-    @param string itemName - The name of the item.
-    @return None.
+    Objective: performs an action due to an item used by the player.
+    @param string itemName - the name of the item.
+    @return none.
 */
 void Player::EvalItem(std::string itemName) {
+    // Heals the hitpoints of the player by 25% of the total.
     if (itemName == "Healing Potion 25") {
-        hitpoints += MAX_HITPOINTS*0.5;
+        hitpoints += MAX_HITPOINTS*0.25;
         clamp(hitpoints, 0, MAX_HITPOINTS);
     }
+    // Heals the hitpoints of the player by 50% of the total.
     if (itemName == "Healing Potion 50") {
         hitpoints += MAX_HITPOINTS*0.5;
         clamp(hitpoints, 0, MAX_HITPOINTS);
     }
+    // Adds 2 energy points.
     if (itemName == "Energy Potion 25") {
         energy += 2;
         clamp(energy, 0, 5);
     }
+    // Adds 5 energy points.
     if (itemName == "Energy Potion 50") {
         energy += 5;
         clamp(energy, 0, 5);
     }
+    // Adds 1 point to the skills.
     if (itemName == "Skill Coin") {
         skillPoints++;
     }
 }
 
 /**
-    Objective: Manages the reactions of other objects in collision with the player.
-    @param GameObject* other - The object that is in collision with the player.
-    @return None.
+    Objective: manages the reactions of other objects in collision with the player.
+    @param GameObject* other - the object that is in collision with the player.
+    @return none.
 */
 void Player::NotifyObjectCollision(GameObject* other) {
     Character::NotifyObjectCollision(other);
+    // The player gets damaged if the object is attacking.
     if (other->IsCharacter() && !other->IsPlayer()) {
         Character* c = (Character*) other;
-        if (c->Attacking())
+        if (c->Attacking()) {
             Damage(c->Power());
+        }
     }
     if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
         if (!(p->GetOwner() == "Gallahad"))
             Damage(p->Power());
     }
+    // Restores some energy of the player.
     if (other->Is("Energy")) {
         if (crouching && !regenCD.IsRunning()) {
             regenCD.Start();
@@ -148,6 +156,7 @@ void Player::NotifyObjectCollision(GameObject* other) {
             clamp(energy, 0, 5);
         }
     }
+    // Restores some hitpoints of the player.
     if (other->Is("Life")) {
         if (crouching && !regenCD.IsRunning()) {
             regenCD.Start();
@@ -158,9 +167,9 @@ void Player::NotifyObjectCollision(GameObject* other) {
 }
 
 /**
-    Objective: Updates the time of the cool down regeneration.
+    Objective: updates the time of the cool down regeneration.
     @param float dt - the amount of time to cool down the regeneration.
-    @return None.
+    @return none.
 */
 void Player::UpdateTimers(float dt) {
     Character::UpdateTimers(dt);
