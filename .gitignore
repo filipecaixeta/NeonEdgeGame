@@ -10,3 +10,4 @@ CMakeCache.txt
 *.cbp
 Makefile
 savefile.txt
+\.DS_Store
