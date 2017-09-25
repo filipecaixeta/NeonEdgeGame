@@ -1,5 +1,5 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game.
   File Name: Turret.cpp
   Header File Name: Turret.h
   Class Name: Turret
@@ -15,16 +15,16 @@
 
 /**
     Objective: Constructor of the class Turret.
-    @param int x - Size in x of the Turret.
-    @param int y - Size in y of the Turret.
+    @param int x - Initial position of the Turret in X
+    @param int y - Initial position of the Turret in Y.
     @return instance of Turret.
 
 */
 Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(1500) {
     name = "Turret";
-    graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
+    graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret"); // Instances the graphics, adding the sprites.
     box.SetWH(graphicsComponent->GetSize());
-    attackCD.SetLimit(300);
+    attackCD.SetLimit(300); // Defines the time between each attack, in nanoseconds.
     idle.Start();
     hitpoints = 2;
 }
@@ -70,11 +70,13 @@ void Turret::UpdateTimers(float dt) {
     if (!stunned.IsRunning()) {
         if (looking.IsRunning()) {
             looking.Update(dt);
+            // If 'looking' state is not running, 'idle' state starts.
             if (!looking.IsRunning()) {
                 idle.Start();
 						}
         } else if (idle.IsRunning()) {
             idle.Update(dt);
+            // If 'idle' state is not running, 'looking' state starts.
             if (!idle.IsRunning()) {
                 looking.Start();
 						}
@@ -102,7 +104,7 @@ void Turret::UpdateAI(float dt) {
                     visible = false;
                 }
             }
-            // Does not allow the Turret to track the player instantly.
+            // Does not allow the Turret follow the player instantly.
             if (player.OverlapsWith(radius) && visible) {
                 if (player.x < box.x ) {
                     physicsComponent.velocity.x -= 0.003 * dt; // Sets the speed at x of the Turret less than the velocity at x of the player
@@ -110,7 +112,7 @@ void Turret::UpdateAI(float dt) {
                         box.x = player.x;
                         physicsComponent.velocity.x = 0;
                     }
-                    facing = LEFT; //
+                    facing = LEFT;
                 } else {
                     physicsComponent.velocity.x += 0.003 * dt;
                     if (box.x + physicsComponent.velocity.x * dt > player.x) {
@@ -168,6 +170,7 @@ void Turret::Update(TileMap* world, float dt) {
     Objective: Returns the Turret type. A turret is a Enemy.
     @param string type - Type of the turret (enemy or player).
     @return string type.
+
 */
 bool Turret::Is(std::string type) {
     return (type == "Enemy");
