@@ -1,5 +1,5 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game
   File Name: Notfredo.cpp
   Header File Name: Notfredo.h
   Class Name: Notfredo
@@ -47,7 +47,7 @@ Notfredo::Notfredo(int x, int y, Type type): Character(x, y), radius(), looking(
     }
 	  name = "Notfredo";
 	  box.SetWH(graphicsComponent->GetSize());
-    attacking.SetLimit(360);
+    attacking.SetLimit(360); // Defines the time between each attack, in nanoseconds.
 	  idle.Start(); // Starts the Notfredo status as 'idle'.
     this->type = type;
     Damage(5);
