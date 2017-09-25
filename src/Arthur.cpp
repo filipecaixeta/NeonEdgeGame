@@ -70,20 +70,20 @@ void Arthur::UpdateAI(float dt) {
                     // If 'idle' state is not running, this block changes the state of Arthur according to the position of the Player.
                     if (!idle.IsRunning()) {
                         if (box.x - player.x > 400) {
-                            dash.Start();
+                            dash.Start(); // Starts the 'dash' to left if the distance between the player and Arthur is greater than 400.
                             state = DASHINGLEFT;
                         } else if (box.x - player.x > 100) {
-                            punch.Start();
+                            punch.Start();  // Starts the 'punch' state if the distance between the player and Arthur is greater than 100.
                             state = PUNCHING;
                         } else {
-                            slash.Start();
+                            slash.Start();  // Starts the 'slash' state if the distance between the player and Arthur is less than 100.
                             state = SLASHING;
                         }
                     }
                 }
                 if (player.x > box.x) {
                     facing = RIGHT;
-                    // Repeats the behaviors of the last block commented, but when 'facing' is RIGHT.
+                    // If 'idle' state is not running, this block changes the state of Arthur according to the position of the Player.
                     if (!idle.IsRunning()) {
                         if (player.x - box.x > 400) {
                             dash.Start();
