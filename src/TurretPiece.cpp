@@ -1,9 +1,10 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game
   File Name: TurretPiece.cpp
   Header File Name: TurretPiece.h
   Class Name: TurretPiece
-  Objective: Defines the behavior and actions of a piece of the TurretBoss.
+  Objective: Defines the behavior and actions of a piece of the TurretPiece.
+
 */
 
 #include <cmath>
@@ -16,12 +17,13 @@
 #include "Projectile.h"
 
 /**
-    Objective: Constructor of the class TurretPiece.
+    Objective: Constructor of the class TurretPiece, instance the object and defines the initial attibutes.
     @param Character *center.
-    @param int x - Size in x of the TurretPiece.
-    @param int y - Size in y of the TurretPiece.
-    @param int type.
-    @return instance of TurretPiece
+    @param int x - Initial position of the TurretPiece in X
+    @param int y - Initial position of the TurretPiece in Y.
+    @param int type - Type of TurretPiece from 0 to 4: 0 - Head | 1 - Body1 | 2 - Body2. | 3 - Front Gun | 4 - Back Gun.
+    @return instance of TurretPiece.
+
 */
 TurretPiece::TurretPiece(Character* center, int x, int y, int type):
     Character(0, 0) {
@@ -32,24 +34,31 @@ TurretPiece::TurretPiece(Character* center, int x, int y, int type):
         refX = x;
         refY = y;
         physicsComponent.SetKinetic(true);
-        graphicsComponent = new TurretPieceGraphicsComponent("TurretBoss", type);
+        graphicsComponent = new TurretPieceGraphicsComponent("TurretBoss", type); // Instances the graphics, adding the sprites.
         Vec2 size = graphicsComponent->GetSize();
         box.SetXY(Vec2(center->box.GetCenter().x + refX - (size.x / 2), center->box.GetCenter().y + refY - (size.y / 2)));
         box.SetWH(size);
         rotation = 0;
 }
 
+/**
+    Objective: Destructor of the class TurretPiece.
+    @param none.
+    @return none.
+
+*/
 TurretPiece::~TurretPiece() {
 }
 
 /**
-    Objective: Defines the behavior of shoot of the TurretPiece.
+    Objective: Defines the velocity of projectile of the TurretPiece.
     @param none.
-    @return void.
+    @return none.
+
 */
 void TurretPiece::Shoot() {
     if (type > 2) {
-        float Vx = cos(rotation * M_PI / 180) * 0.6;
+        float Vx = cos(rotation * M_PI / 180) * 0.6; // The value 0.6 is to let the velocity of the projectile by 60%.
         float Vy = sin(rotation * M_PI / 180) * 0.6;
         StageState::AddObject(new Projectile(this, Vec2(Vx, -Vy), 1200, 1, true));
     }
@@ -57,7 +66,8 @@ void TurretPiece::Shoot() {
 
 /** Objective: Changes the rotation of the TurretPiece to the angle necessary.
     @param float angle - angle of the shoot.
-    @return void.
+    @return none.
+
 */
 void TurretPiece::Rotate(float angle) {
     rotation = angle;
@@ -66,14 +76,16 @@ void TurretPiece::Rotate(float angle) {
 /** Objective: Returns the value of the rotation of the TurretPiece.
     @param none.
     @return float rotation.
+
 */
 float TurretPiece::Rotation() {
     return rotation;
 }
 
-/** Objective: Returns the type of the TurretPiece.
+/** Objective: Returns the type of the TurretPiece.  A type of the TurretPiece is its position on Turret, and varies of 0 to 4.
     @param none.
     @return int type - type of the TurretPiece.
+
 */
 int TurretPiece::Type() {
     return type;
@@ -81,7 +93,8 @@ int TurretPiece::Type() {
 
 /** Objective: Changes the state of the TurretPiece (alive or not).
     @param none.
-    @return void.
+    @return none.
+
 */
 void TurretPiece::Kill() {
     isDead = true;
@@ -89,9 +102,11 @@ void TurretPiece::Kill() {
 
 /** Objective: Manages the reactions of the box in a collision with another object.
     @param GameObject* other - the object that is in collision.
-    @return void.
+    @return none.
+
 */
 void TurretPiece::NotifyObjectCollision(GameObject* other) {
+    // Defines the damage received by the type 0 TurretPiece (head of the tower) when there is a collision with the player in state of attack.
     if (type == 0) {
         if (other->IsPlayer()) {
             Player* c = (Player*) other;
@@ -99,6 +114,7 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
                 center->Damage(c->Power());
             }
         }
+        // Defines the damage received by the type 0 TurretPiece (head of the tower) when there is a collision with the Projectile.
         if (other->Is("Projectile")) {
             Projectile* p = (Projectile*) other;
             if (p->GetOwner() == "Gallahad") {
@@ -111,8 +127,9 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
 /**
     Objective: Function responsible to update TurretPiece GameObject, but overloaded with the object 'world'.
     @param TileMap* world.
-    @param float dt.
-    @return void.
+    @param float dt - The amount of time the TurretPiece updates its graphics.
+    @return none.
+
 */
 void TurretPiece::Update(TileMap* world, float dt) {
     Vec2 size = graphicsComponent->GetSize();
@@ -122,7 +139,8 @@ void TurretPiece::Update(TileMap* world, float dt) {
 
 /** Objective: Draws the TurretPiece on the map.
     @param none.
-    @return void.
+    @return none.
+
 */
 void TurretPiece::Render() {
     graphicsComponent->Render(GetPosition() - Camera::GetInstance().pos, rotation);
