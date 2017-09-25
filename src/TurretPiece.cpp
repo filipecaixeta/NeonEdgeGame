@@ -1,5 +1,5 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game
   File Name: TurretPiece.cpp
   Header File Name: TurretPiece.h
   Class Name: TurretPiece
@@ -17,10 +17,10 @@
 #include "Projectile.h"
 
 /**
-    Objective: Constructor of the class TurretPiece.
+    Objective: Constructor of the class TurretPiece, instance the object and defines the initial attibutes.
     @param Character *center.
-    @param int x - Size in x of the TurretPiece.
-    @param int y - Size in y of the TurretPiece.
+    @param int x - Initial position of the TurretPiece in X
+    @param int y - Initial position of the TurretPiece in Y.
     @param int type - Type of TurretPiece from 0 to 4: 0 - Head | 1 - Body1 | 2 - Body2. | 3 - Front Gun | 4 - Back Gun.
     @return instance of TurretPiece.
 
@@ -34,7 +34,7 @@ TurretPiece::TurretPiece(Character* center, int x, int y, int type):
         refX = x;
         refY = y;
         physicsComponent.SetKinetic(true);
-        graphicsComponent = new TurretPieceGraphicsComponent("TurretBoss", type);
+        graphicsComponent = new TurretPieceGraphicsComponent("TurretBoss", type); // Instances the graphics, adding the sprites.
         Vec2 size = graphicsComponent->GetSize();
         box.SetXY(Vec2(center->box.GetCenter().x + refX - (size.x / 2), center->box.GetCenter().y + refY - (size.y / 2)));
         box.SetWH(size);

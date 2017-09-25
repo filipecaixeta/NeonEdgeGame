@@ -1,5 +1,5 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game
   File Name: TurretBoss.cpp
   Header File Name: TurretBoss.h
   Class Name: TurretBoss
@@ -18,8 +18,8 @@
 
 /**
     Objective: Constructor of the classe Turret Boss.
-    @param int x - Size in x of the TurretBoss.
-    @param int y - Size in y of the TurretBoss.
+    @param int x - Initial position of the TurretBoss in X
+    @param int y - Initial position of the TurretBoss in Y.
     @return instance of TurretBoss.
 
 */
