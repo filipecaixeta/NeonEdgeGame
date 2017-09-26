@@ -16,7 +16,7 @@ class ItensManager;
 class Player : public Character
 {
 public:
-	Player(ItensManager* itemManager,int x, int y);
+	Player(ItensManager* itemManager, int x, int y);
 	virtual ~Player();
 	virtual bool IsPlayer();
 	virtual int GetEnergy();
@@ -28,7 +28,8 @@ public:
 	virtual void UpdateTimers(float dt);
 	virtual void Update(TileMap* map,float dt);
 
-	enum {SkillBlocking3 = 0,SkillBlocking2,SkillBlocking1,Skill,SkillWeapon_1,SkillWeapon_2,SkillWeapon_3};
+	enum {SkillBlocking3 = 0, SkillBlocking2, SkillBlocking1, Skill, SkillWeapon_1, SkillWeapon_2,
+		SkillWeapon_3};  // The skills options of the player.
 
 	InputComponent* inputComponent;
 	ItensManager* itemManager;

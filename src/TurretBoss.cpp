@@ -1,9 +1,10 @@
 /**
-  Copyright 2017 Neon Edge Game
+  Copyright (c) 2017 Neon Edge Game
   File Name: TurretBoss.cpp
   Header File Name: TurretBoss.h
   Class Name: TurretBoss
   Objective: Defines the characteristics and behaviors of the TurretBoss.
+
 */
 
 #include <cmath>
@@ -17,15 +18,12 @@
 
 /**
     Objective: Constructor of the classe Turret Boss.
-    @param int x - Size in x of the TurretBoss.
-    @param int y - Size in x of the TurretBoss.
+    @param int x - Initial position of the TurretBoss in X
+    @param int y - Initial position of the TurretBoss in Y.
     @return instance of TurretBoss.
+
 */
-TurretBoss::TurretBoss(int x, int y):
-    Character(x, y),
-    idle(1000),
-    aim(3000),
-    shoot(300) {
+TurretBoss::TurretBoss(int x, int y): Character(x, y), idle(1000), aim(3000), shoot(300) {
     name = "TurretBoss";
     box.x = x;
     box.y = y;
@@ -36,7 +34,7 @@ TurretBoss::TurretBoss(int x, int y):
     facing = LEFT; // Sets left to 'facing', initialing the TurretBoss facing to left.
     Damage(5);
     triggered = false;
-    state = tIDLE;
+    state = tIDLE; // The initial state of the TurretBoss is 'idle'.
     physicsComponent.SetKinetic(true);
     physicsComponent.velocity.y = 0; // Velocity in y is zero why the TurretBoss is fixed.
     timeval t1;
@@ -45,9 +43,10 @@ TurretBoss::TurretBoss(int x, int y):
 }
 
 /**
-    Objective: Destructor of the class TurretBoss, destructing and releasing memory turret per turret.
+    Objective: Destructor of the class TurretBoss, destructing and releasing memory piece per piece.
     @param none.
     @return none.
+
 */
 TurretBoss::~TurretBoss() {
     for (unsigned i = 0; i < pieces.size(); i++) {
@@ -63,7 +62,8 @@ TurretBoss::~TurretBoss() {
 /**
     Objective: Adds turret piece on the TurretBoss.
     @param TurretPiece* piece - piece of the type TurretPiece for add in the final of TurretBoss.
-    @return void.
+    @return none.
+
 */
 void TurretBoss::AddPiece(TurretPiece* piece) {
     pieces.emplace_back(piece);
@@ -72,7 +72,8 @@ void TurretBoss::AddPiece(TurretPiece* piece) {
 /**
     Objective: Adds a turret piece on the TurretBoss.
     @param TurretPiece* turret - piece of the type TurretPiece for add in the final of TurretBoss.
-    @return void.
+    @return none.
+
 */
 void TurretBoss::AddTurret(TurretPiece* turret) {
     turrets.emplace_back(turret); // Adds a turret piece on the final of vector turret.
@@ -81,15 +82,17 @@ void TurretBoss::AddTurret(TurretPiece* turret) {
 /**
     Objective: none.
     @param GameObject* other.
-    @return void.
+    @return none.
+
 */
 void TurretBoss::NotifyObjectCollision(GameObject* other) {
 }
 
 /**
     Objective: Updates the AI of the TurretBoss, from a radius.
-    @param float dt.
-    @return void.
+    @param float dt - The amount of time the TurretBoss updates its graphics.
+    @return none.
+
 */
 void TurretBoss::UpdateAI(float dt) {
     // Defines the radius of vision of the TurretBoss as a rectangle.
@@ -106,7 +109,7 @@ void TurretBoss::UpdateAI(float dt) {
                 if (!idle.IsRunning()) {
                     aim.Start();
                     state = tAIMING;
-                    // Sets differents random numbers to turret1 and turret2.
+                    // Sets differents random and differents numbers to turret1 and turret2.
                     turret1 = rand() % 6;
                     turret2 = rand() % 6;
                     while (turret2 == turret1) {
@@ -162,7 +165,7 @@ void TurretBoss::UpdateAI(float dt) {
             if (state == tSHOOTING) {
                 turrets[turret1]->Shoot();
                 turrets[turret2]->Shoot();
-                // If the turret isnt shooting the actual state is 'idle'.
+                // If the turret isnt shooting, the actual state is 'idle'.
                 if (!shoot.IsRunning()) {
                     idle.Start();
                     state = tIDLE;
@@ -174,8 +177,9 @@ void TurretBoss::UpdateAI(float dt) {
 
 /**
     Objective: Function responsible to update the Timer of the behaviors of the TurretBoss.
-    @param float dt - The amount of time the Turret Boss stay in 'idle' state, 'aim' state or 'shoot' state.
-    @return void.
+    @param float dt - The amount of time the TurretBoss stay in a state (idle, shooting, or aim).
+    @return none.
+
 */
 void TurretBoss::UpdateTimers(float dt) {
     Character::UpdateTimers(dt);
@@ -188,8 +192,9 @@ void TurretBoss::UpdateTimers(float dt) {
 /**
     Objective: Function responsible to update TurretBoss GameObject, but overloaded with the world object.
     @param TileMap* world.
-    @param float dt.
-    @return void.
+    @param float dt - Time the tower updates its timers, in nanoseconds.
+    @return none.
+
 */
 void TurretBoss::Update(TileMap* world, float dt) {
     UpdateTimers(dt);
@@ -204,7 +209,8 @@ void TurretBoss::Update(TileMap* world, float dt) {
 /**
     Objective: none.
     @param none.
-    @return void.
+    @return none.
+
 */
 void TurretBoss::Render() {
 }
