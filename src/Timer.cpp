@@ -1,9 +1,9 @@
-/*
-  Copyright 2017 Neon Edge Game
-  File Name: Timer.cpp
-  Header File Name: Timer.h
-  Class Name: Timer
-  Objective: manages the timers.
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: Timer.cpp
+    Header File Name: Timer.h
+    Class Name: Timer
+    Objective: manages the timers.
 */
 
 #include <algorithm>
@@ -20,88 +20,88 @@ Timer::~Timer() {
 }
 
 /*
-  Function Objective: start timer.
-  param: none.
-  return: none.
-*/
+    Objective: start timer.
+    @param: none.
+    @return: none.
 
+*/
 void Timer::Start() {
     time = 0;
     running = true;
 }
 
 /*
-  Function Objective: stop timer.
-  param: none.
-  return: none.
-*/
+    Objective: stop timer.
+    @param: none.
+    @return: none.
 
+*/
 void Timer::Stop() {
     running = false;
 }
 
 /*
-  Function Objective: reset timer.
-  param: none.
-  return: none.
-*/
+    Objective: reset timer.
+    @param: none.
+    @return: none.
 
+*/
 void Timer::Reset() {
     time = 0;
     running = false;
 }
 
 /*
-  Function Objective: update timer.
-  param: none.
-  return: none.
-*/
+    Objective: update timer.
+    @param: float dt.
+    @return: none.
 
+*/
 void Timer::Update(float dt) {
-    if (running) {
+    if (running) { // check if is running
         time += dt;
-        if (time >= limit) {
+        if (time >= limit) { // check if time >= limit
             running = false;
         }
     }
 }
 
 /*
-  Function Objective: set timer limite.
-  param: none.
-  return: none.
-*/
+    Objective: set timer limite.
+    @param: float 1.
+    @return: none.
 
+*/
 void Timer::SetLimit(float l) {
     limit = l;
 }
 
 /*
-  Function Objective: check if timer is running.
-  param: none.
-  return: none.
-*/
+    @Objective: check if timer is running.
+    @param: none.
+    @return: bool running.
 
+*/
 bool Timer::IsRunning() {
     return running;
 }
 
 /*
-  Function Objective: get timer remaining.
-  param: none.
-  return: none.
-*/
+    Objective: get timer remaining.
+    @param: none.
+    @return: float time remainig.
 
+*/
 float Timer::GetElapsed() {
     return std::min(1.0f, time/limit);
 }
 
 /*
-  Function Objective: get timer.
-  param: none.
-  return: none.
-*/
+    Objective: get timer.
+    @param: none.
+    @return: float time.
 
+*/
 float Timer::GetTime() {
     return time;
 }
