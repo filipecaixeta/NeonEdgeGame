@@ -19,7 +19,7 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	if(input.KeyPress(ACTIVE_KEY, true))
 	{
 		Toggle();
-		//Camera::GetInstance().Follow(); PEGAR PONTEIRO PARA O DRONE
+		//Camera::GetInstance().CreateFocus(); PEGAR PONTEIRO PARA O DRONE
 	}
 
 	Gallahad *g = (Gallahad*) obj_;
@@ -79,12 +79,12 @@ void GallahadInputComponent::Toggle()
 	{
 		g->Activate(false);
 		g->GetDrone()->Activate(true);
-		Camera::GetInstance().Follow(g->GetDrone());
+		Camera::CheckInstance().CreateFocus(g->GetDrone());
 	}
 	else
 	{
 		g->Activate(true);
 		g->GetDrone()->Activate(false);
-		Camera::GetInstance().Follow(g);
+		Camera::CheckInstance().CreateFocus(g);
 	}
 }

@@ -236,8 +236,8 @@ void Room::ObjectCleanup() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         if (objectArray[i]->IsDead()) { // Check if Object is dead.
             // Unfocus the object.
-            if (objectArray[i] == Camera::GetInstance().GetFocus()) {
-                Camera::GetInstance().Unfollow();
+            if (objectArray[i] == Camera::CheckInstance().GetFocus()) {
+                Camera::CheckInstance().StopFocus();
             }
             // Kill player if he leave the screem
             if (objectArray[i] == StageState::GetPlayer()) {
@@ -270,9 +270,9 @@ void Room::Update(float dt) {
 */
  
 void Room::Render() {
-    backgroundMap->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+    backgroundMap->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
     sceneObjects.Render();
-    map->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
+    map->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
     sceneObjects.RenderAfter();
     for(unsigned i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Render();

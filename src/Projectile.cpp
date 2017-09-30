@@ -103,7 +103,7 @@ void Projectile::Update(TileMap* world, float dt) {
 
 void Projectile::Render() {
 	float angle = atan(physicsComponent.velocity.y/physicsComponent.velocity.x) * 180/M_PI;
-	graphicsComponent->Render(Vec2(box.x - Camera::GetInstance().pos.x,
-								   box.y - Camera::GetInstance().pos.y),
+	graphicsComponent->Render(Vec2(box.x - Camera::CheckInstance().screenPosition.x,
+								   box.y - Camera::CheckInstance().screenPosition.y),
 							  angle);
 }

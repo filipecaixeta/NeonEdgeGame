@@ -143,5 +143,5 @@ void TurretPiece::Update(TileMap* world, float dt) {
 
 */
 void TurretPiece::Render() {
-    graphicsComponent->Render(GetPosition() - Camera::GetInstance().pos, rotation);
+    graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition, rotation);
 }

@@ -44,12 +44,12 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         bek.Open("SpaceBG.png");
     }
 
-    Camera::GetInstance().SetPos(Vec2(player->box.x, player->box.y));
-    Camera::GetInstance().Follow(player);
+    Camera::CheckInstance().SetPosition(Vec2(player->box.x, player->box.y));
+    Camera::CheckInstance().CreateFocus(player);
     currentRoomX = 0;
     currentRoomY = 0;
 
-    Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
+    Camera::CheckInstance().maxScreenPosition = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
                                    currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
     CreateBars(player->name);
 
@@ -134,7 +134,7 @@ void StageState::UpdateGame() {
     // UpdateRoom();
     currentRoom->Update(Game::GetInstance().GetDeltaTime());
     CleanUpdateBars();
-    Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
+    Camera::CheckInstance().FocusUpdate(Game::GetInstance().GetDeltaTime());
 }
 
 void StageState::CleanUpdateBars() {

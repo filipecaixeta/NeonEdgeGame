@@ -123,7 +123,7 @@ Game::~Game() {
     Resources::ClearFonts();
 
     //Call destructor of Camera and InputManager
-    Camera::GetInstance().~Camera();
+    Camera::CheckInstance().~Camera();
     InputManager::GetInstance().~InputManager();
 
     //Shutdown libraries.

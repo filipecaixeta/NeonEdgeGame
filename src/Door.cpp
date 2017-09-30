@@ -81,6 +81,6 @@ void Door::Render() {
 
     // Checks whether the door is closed or inactive.
     if (!open || !Active()) {
-        graphicsComponent->Render(GetPosition() - Camera::GetInstance().pos); // Renders port on screen.
+        graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition); // Renders port on screen.
     }
 }

@@ -163,5 +163,5 @@ void Character::Update(TileMap *map, float dt) {
 }
 
 void Character::Render() {
-    graphicsComponent->Render(GetPosition() - Camera::GetInstance().pos);
+    graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition);
 }
