@@ -72,7 +72,7 @@ int Player::GetEnergy() {
 void Player::Crouch() {
     if (crouchingEdge) {
         crouchingEdge = false;
-        soundComponent->Crouching();  // Performs the crouching sound in case that the player is
+        soundComponent->SoundCrouching();  // Performs the crouching sound in case that the player is
                                       // standing.
     }
     crouching = true;

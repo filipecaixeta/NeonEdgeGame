@@ -26,7 +26,7 @@ bool Character::IsDead() {
         if (!dieTimer.IsRunning()) {
             dieTimer.Start();
             if (soundComponent) {
-                soundComponent->Die();
+                soundComponent->SoundDie();
             }
         }
         if (!dieTimer.IsRunning() && dieTimer.GetElapsed() == 1) {

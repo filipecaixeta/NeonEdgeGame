@@ -73,7 +73,7 @@ void Lancelot::Damage(int damage) {
             }
             clamp(energy, 0, 5);
         } else {
-            soundComponent->Damage();
+            soundComponent->SoundDamage();
             hitpoints -= (damage);
         }
         invincibilityTimer.Start();
@@ -88,7 +88,7 @@ void Lancelot::Damage(int damage) {
 void Lancelot::Attack() {
     attacking.SetLimit(0);
     attackCD.SetLimit(0);
-    soundComponent->Attack();
+    soundComponent->SoundAttack();
     if (combo == "Straight") {
         attacking.SetLimit(240);
         attackCD.SetLimit(100);

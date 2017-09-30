@@ -33,7 +33,7 @@ Item::Item(int id_, int x, int y): sp(new Sprite("items.png", 6)), dead(false), 
 void Item::Eval(Player *player) {
     if (player != nullptr && player->itemManager != nullptr) {
         player->itemManager->AddItem(id);
-        player->soundComponent->Item();
+        player->soundComponent->SoundItem();
     }
 }
 

@@ -60,7 +60,11 @@ void Sound::Open(std::string file) {
             if (!IsOpen()) {
                 printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
                 exit(EXIT_FAILURE);
+            } else {
+                // It does nothing.
             }
+    } else {
+          // It does nothing.
     }
 }
 
@@ -70,9 +74,11 @@ void Sound::Open(std::string file) {
     @return - none.
 
 */
-void Sound::Play(int times) {
+void Sound::SoundPlay(int times) {
   if (IsOpen()) {
       channel = Mix_PlayChannel(-1, chunk, times);
+  } else {
+      // It does nothing.
   }
 }
 
@@ -83,12 +89,15 @@ void Sound::Play(int times) {
 
 */
 bool Sound::IsPlaying() {
+    bool isPlaying = false; // Initiates the "tapping" state as false.
+
     // Checks if it has an audio effect running.
     if (channel >= 0) {
-        return Mix_Playing(channel);
+        isPlaying = Mix_Playing(channel);
     } else {
-        return false;
+        // It does nothing.
     }
+    return isPlaying;
 }
 
 /**
@@ -97,7 +106,7 @@ bool Sound::IsPlaying() {
     @return - none.
 
 */
-void Sound::Stop() {
+void Sound::SoundStop() {
     Mix_HaltChannel(channel);
 }
 
@@ -108,10 +117,13 @@ void Sound::Stop() {
 
 */
 bool Sound::IsOpen() {
-    // Checks whether the pointer to the audio points to null.
-    if (!chunk){
-        return false;
+    bool statusSoundOpen = false; // Starts audio state as false (closed).
+
+    // Checks if the audio pointer is valid.
+    if (chunk){
+        statusSoundOpen = true;
     } else {
-        return true;
+        // It does nothing.
     }
+    return statusSoundOpen;
 }

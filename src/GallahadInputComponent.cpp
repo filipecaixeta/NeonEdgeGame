@@ -78,13 +78,13 @@ void GallahadInputComponent::Toggle()
 	if(g->Active())
 	{
 		g->Activate(false);
-		g->GetDrone()->Activate(true);
+		g->GetDrone()->DroneActivate(true);
 		Camera::CheckInstance().CreateFocus(g->GetDrone());
 	}
 	else
 	{
 		g->Activate(true);
-		g->GetDrone()->Activate(false);
+		g->GetDrone()->DroneActivate(false);
 		Camera::CheckInstance().CreateFocus(g);
 	}
 }

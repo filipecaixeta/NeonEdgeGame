@@ -54,7 +54,7 @@ void InputComponent::Attack() {
 void InputComponent::Jump() {
 	// Ground Jump
 	if (obj->footing == GameObject::GROUNDED) {
-		obj->soundComponent->Jump();
+		obj->soundComponent->SoundJump();
 		obj->physicsComponent.velocity.y = -1.0;
 	}
 	// Wall-Jump from a wall to the left
