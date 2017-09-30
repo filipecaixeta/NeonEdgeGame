@@ -6,13 +6,13 @@
 class Door : public Interactive
 {
 private:
-	bool open;
+	bool doorOpen;
 
 public:
-	Door(int x, int y);
+	Door(int doorPositionX, int doorPositionY);
 	~Door();
 	void Trigger();
-	void Update(TileMap* world, float dt);
+	void Update(TileMap* worldMap, float delayTime);
 	void Render();
 };
 

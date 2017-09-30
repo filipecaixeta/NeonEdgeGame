@@ -13,15 +13,15 @@
 
 /**
     Objective: Constructor method that defines the initial port parameters.
-    @param int x - Initial position of the door on the x axis.
-    @param int y - Initial position of the door on the y axis.
+    @param int doorPositionX  - Initial position of the door on the x axis.
+    @param int doorPositionY - Initial position of the door on the y axis.
     @return - none.
 
 */
-Door::Door(int x, int y):
-  Interactive(x,y,"Door") {
+Door::Door(int doorPositionX, int doorPositionY):
+  Interactive(doorPositionX, doorPositionY,"Door") {
     name = "Door"; // Defines name of the door.
-    open = false;  // Initializes of the door closed.
+    doorOpen = false;  // Initializes of the door closed.
 }
 
 /**
@@ -51,24 +51,29 @@ void Door::Trigger() {
 
 /**
     Function Objective: Define door movement.
-    @param TileMap* map - Game Map.
+    @param TileMap* worldMap - Game Map.
+    @param float delayTime -  Trigger to update the game screen.
     @return: none.
 
 */
-void Door::Update(TileMap* map, float delayTime) {
-    open = false; // Closes the door
+void Door::Update(TileMap* worldMap, float delayTime) {
+    doorOpen = false; // Closes the door
 
     // Checks if the port is enabled.
     if (Active()) {
-        Rect radius = Rect(box.x-100, box.y-100, box.w+200, box.h+200); // Sets door opening movement.
+        Rect doorMovementRadius = Rect(box.x - 100, box.y - 100, box.w + 200, box.h + 200); // Sets door opening movement.
         GameObject* player = StageState::GetPlayer();
 
         // Checks if the door activation button are pressed.
-        if (radius.OverlapsWith(player->box)) {
-            open = true; // Opens the door
+        if (doorMovementRadius.OverlapsWith(player->box)) {
+            doorOpen = true; // Opens the door
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
-    graphicsComponent->Update(this,delayTime);
+    graphicsComponent->Update(this, delayTime); // Updates game screen.
 }
 
 /**
@@ -80,7 +85,9 @@ void Door::Update(TileMap* map, float delayTime) {
 void Door::Render() {
 
     // Checks whether the door is closed or inactive.
-    if (!open || !Active()) {
+    if (!doorOpen || !Active()) {
         graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition); // Renders port on screen.
+    } else {
+        // It does nothing.
     }
 }

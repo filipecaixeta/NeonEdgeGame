@@ -64,6 +64,8 @@ void DroneInputComponent::Update(Player *obj, float delayTime) {
     // Checks if the drone's attack button has been pressed.
     if (input.IsKeyDown(ATTACK_KEY, true)) {
         Attack(); // Get the drone to attack.
+    } else {
+        // It does nothing.
     }
     ProcessItems();
 }
