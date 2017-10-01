@@ -9,7 +9,7 @@
 class Box : public Interactive
 {
 private:
-	int hitpoints;
+	int hitPoints;
 	Timer invincibilityTimer;
 
 public:
@@ -19,7 +19,7 @@ public:
 	int GetHealth();
 	void Kill();
 	bool IsDead();
-	void Trigger();
+	void StartInvincibility();
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
@@ -27,4 +27,4 @@ public:
 	PhysicsComponent physicsComponent;
 };
 
-#endif 
+#endif

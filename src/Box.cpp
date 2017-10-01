@@ -26,7 +26,7 @@ Box::Box(int x, int y):
 }
 
 /**
-    Objective: destructor of the class Lancelot.
+    Objective: destructor of the class Box.
     @param none.
     @return none.
 */
@@ -39,7 +39,7 @@ Box::~Box() {
     @return int hitpoints - returns the amount of health of the box.
 */
 int Box::GetHealth() {
-    return hitpoints;
+    return hitPoints;
 }
 
 /**
@@ -48,7 +48,7 @@ int Box::GetHealth() {
     @return none.
 */
 void Box::Kill() {
-    hitpoints = 0;
+    hitPoints = 0;
 }
 
 /**
@@ -57,7 +57,7 @@ void Box::Kill() {
     @return bool (hitpoints < 1) - return true if the hitpoints of the box is below 1.
 */
 bool Box::IsDead() {
-    return (hitpoints < 1);
+    return (hitPoints < 1);
 }
 
 /**
@@ -65,10 +65,12 @@ bool Box::IsDead() {
     @param: none.
     @return: none.
 */
-void Box::Trigger() {
+void Box::StartInvincibility() {
     if (!invincibilityTimer.IsRunning()) {
-        hitpoints -= 1;
+        hitPoints -= 1;
         invincibilityTimer.Start();
+    } else {
+        // It does nothing.
     }
 }
 
@@ -95,16 +97,26 @@ void Box::NotifyObjectCollision(GameObject* other) {
                     box.x -= 5;  // Move the position to left in 5 meters.
                     physicsComponent.TileFix(this,
                     StageState::GetCurrentRoom()->GetMap(), LEFT);
+        } else {
+            // It does nothing.
         }
         if (c->Attacking()) {
-            Trigger();
+            StartInvincibility();
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
     if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
         if (p->GetOwner() == "Gallahad") {
-            Trigger();
+            StartInvincibility();
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
 }
 
