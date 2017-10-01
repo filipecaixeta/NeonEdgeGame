@@ -80,18 +80,18 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
 void LancelotInputComponent::Block() {
     Lancelot *l = (Lancelot*) obj;
     if (l->GetEnergy() > 0) {
-        l->Block();
+        l->StartBlock();
     } else {
-        l->Stop();
+        l->StopBlock();
     }
 }
 
 void LancelotInputComponent::Stop() {
     Lancelot *l = (Lancelot*) obj;
-    l->Stop();
+    l->StopBlock();
 }
 
 void LancelotInputComponent::Combo(std::string c) {
     Lancelot *l = (Lancelot*) obj;
-    l->Combo(c);
+    l->SetCombo(c);
 }

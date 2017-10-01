@@ -67,13 +67,13 @@ void LancelotGraphicsComponent::Update(GameObject *obj, float dt) {
     if (l->Attacking()) {
         // If character is attacking, it verifies how the character is attacking
         // and it settes sprite action to respective action.
-        UpdateSprite(obj, "Attacking" + l->WhichCombo());
+        UpdateSprite(obj, "Attacking" + l->GetCombo());
         // It verifies is character feet are in wall.
         if (obj->footing == GameObject::LEFT_WALLED || obj->footing == GameObject::RIGHT_WALLED) {
             // If yes, it updates character feet status to airborne.
             obj->footing = GameObject::AIRBORNE;
         }
-    } else if (l->Blocking()) {
+    } else if (l->IsBlocking()) {
         // Else if character is blocking, character sprite action is updated to blocking.
         UpdateSprite(obj, "Blocking");
         // It verifies is character feet are in wall.
