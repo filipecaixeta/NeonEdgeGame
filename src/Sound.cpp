@@ -10,6 +10,7 @@
 #include "Sound.h"
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 
 /**
     Objective: Construction method.

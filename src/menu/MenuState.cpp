@@ -1,5 +1,5 @@
-#include <menu/MenuState.h>
-#include <InputManager.h>
+#include "menu/MenuState.h"
+#include "InputManager.h"
 
 MenuState::MenuState():
 	menuOptions(),

@@ -1,8 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
-#include <Vec2.h>
+#include "Vec2.h"
 #include <string>
-#include <LoadingBar.h>
+#include "LoadingBar.h"
 
 class Input
 {
