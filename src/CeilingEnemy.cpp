@@ -68,7 +68,7 @@ void CeilingEnemy::UpdateAI(float dt) {
             bool visible = true;
             if (StageState::GetPlayer()->Is("Gallahad")) {
                 Gallahad* g = (Gallahad*) StageState::GetPlayer();
-                if (g->Hiding()) {
+                if (g->IsHiding()) {
                     visible = false;
                 }
             }

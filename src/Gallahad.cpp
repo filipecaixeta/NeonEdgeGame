@@ -21,16 +21,16 @@
     @param none.
     @return instance of the class Gallahad.
 */
-Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* d):
+Gallahad::Gallahad(ItensManager* itemManager, int x, int y, GameObject* setDrone):
     Player(itemManager, x, y),  // Extends the object Player.
-    hiding(500),
-    shooting(false) {
+    isHiding(500),
+    isShooting(false) {
     name = "Gallahad";
     inputComponent = new GallahadInputComponent();
     graphicsComponent = new GallahadGraphicsComponent("Gallahad");
     soundComponent = new SoundComponent(name);
     box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
-    drone = d;
+    drone = setDrone;
     active = true;
     dieTimer = Timer(800);
 }
@@ -63,17 +63,17 @@ void Gallahad::Attack() {
     @param none.
     @return none.
 */
-void Gallahad::Hide() {
+void Gallahad::StartHiding() {
     if (skills[0]) {  // SkillBlocking3
-        hiding.SetLimit(2000);
+        isHiding.SetLimit(2000);
     } else if (skills[1]) {  // SkillBlocking2
-        hiding.SetLimit(1500);
+        isHiding.SetLimit(1500);
     } else if (skills[2]) {  // SkillBlocking1
-        hiding.SetLimit(1000);
+        isHiding.SetLimit(1000);
     } else {
-        hiding.SetLimit(500);
+        isHiding.SetLimit(500);
     }
-    hiding.Start();
+    isHiding.Start();
     energy -= 1;
     clamp(energy, 0, 5);
 }
@@ -83,8 +83,8 @@ void Gallahad::Hide() {
     @param none.
     @return none.
 */
-void Gallahad::Shoot() {
-    shooting = true;
+void Gallahad::StartShooting() {
+    isShooting = true;
 }
 
 /**
@@ -92,8 +92,8 @@ void Gallahad::Shoot() {
     @param none.
     @return none.
 */
-void Gallahad::Hold() {
-    shooting = false;
+void Gallahad::StopShooting() {
+    isShooting = false;
 }
 
 /**
@@ -101,8 +101,8 @@ void Gallahad::Hold() {
     @param none.
     @return bool hiding.IsRunning() - return true if the character is hiding.
 */
-bool Gallahad::Hiding() {
-    return hiding.IsRunning();
+bool Gallahad::IsHiding() {
+    return isHiding.IsRunning();
 }
 
 /**
@@ -110,8 +110,8 @@ bool Gallahad::Hiding() {
     @param none.
     @return bool shooting - return true if the character is shooting.
 */
-bool Gallahad::Shooting() {
-    return shooting;
+bool Gallahad::IsShooting() {
+    return isShooting;
 }
 
 void Gallahad::Activate(bool on) {
@@ -152,7 +152,7 @@ void Gallahad::UpdateTimers(float dt) {
         }
     }*/
     Player::UpdateTimers(dt);
-    hiding.Update(dt);
+    isHiding.Update(dt);
 }
 
 void Gallahad::Update(TileMap* map, float dt) {
@@ -161,6 +161,8 @@ void Gallahad::Update(TileMap* map, float dt) {
     physicsComponent.Update(this, map, dt);
     if (OutOfBounds(map)) {
         SetPosition(Vec2(startingX, startingY));
+    } else {
+        // It does nothing.
     }
     graphicsComponent->Update(this, dt);
     std::cerr << Is("Gallahad") <<std::endl;

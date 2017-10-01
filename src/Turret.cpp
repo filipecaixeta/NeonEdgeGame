@@ -100,7 +100,7 @@ void Turret::UpdateAI(float dt) {
             //  If the player is the galahad and if it is invisible, the visibility is false and the Turret does not attack.
             if (StageState::GetPlayer()->Is("Gallahad")) {
                 Gallahad* g = (Gallahad*) StageState::GetPlayer();
-                if (g->Hiding()) {
+                if (g->IsHiding()) {
                     visible = false;
                 }
             }
