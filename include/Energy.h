@@ -8,20 +8,20 @@
 class Energy : public GameObject
 {
 private:
-	Sprite sp;
+	Sprite sprite;
 	Timer endTimer;
 	bool loops;
 	bool dies;
 	bool dead = false;
 
 public:
-	Energy(int x, int y, std::string sprite, float frameCount = 1, float frameTime = 0,
+	Energy(int x_axis_position, int y_axis_position, std::string sprite, float frameCount = 1, float frameTime = 0,
 		   bool loops = true, float lifetime = 0, bool dies = false);
 	~Energy();
 	bool IsDead();
-	void NotifyObjectCollision(GameObject* other);
-	void UpdateTimers(float dt);
-	void Update(TileMap* world, float dt);
+	void NotifyObjectCollision(GameObject* collapsed_object);
+	void UpdateTimers(float deltaTime);
+	void Update(TileMap* world, float deltaTime);
 	void Render();
 };
 

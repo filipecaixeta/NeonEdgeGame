@@ -12,8 +12,8 @@
 
 /**
     Objective: it constructs energy object.
-    @param int x - value to base.
-    @param int y - value to height.
+    @param int x_axis_position - value to base.
+    @param int y_axis_position - value to height.
     @param string sprite - .
     @param float frameCount - value of frame count.
     @param float frameTime - value of frame time.
@@ -23,12 +23,12 @@
     @return none.
 
 */
-Energy::Energy(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
+Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite, float frameCount, float frameTime, bool loops,
                float lifetime, bool dies) {
     name = "Energy";
-    sp = Sprite(sprite, frameCount, frameTime);
-    Vec2 size = sp.GetSize();
-    box = Rect(x, y, size.x, size.y);
+    sprite = Sprite(str_sprite, frameCount, frameTime);
+    Vec2 size = sprite.GetSize();
+    box = Rect(x_axis_position, y_axis_position, size.x, size.y);
     endTimer = Timer(lifetime);
     if (loops) {
         endTimer.Start();
@@ -74,28 +74,28 @@ void Energy::NotifyObjectCollision(GameObject *other) {
 
 /**
     Objective: it updates end timer of character.
-    @param float dt - amount of time.
+    @param float deltaTime - amount of time.
     @return none.
 
 */
-void Energy::UpdateTimers(float dt) {
-    endTimer.Update(dt);  // It updates end timer with value passed.
+void Energy::UpdateTimers(float deltaTime) {
+    endTimer.Update(deltaTime);  // It updates end timer with value passed.
 }
 
 /**
     Objective: it updates times of game.
     @param TileMap *world.
-    @param float dt - amount of time.
+    @param float deltaTime - amount of time.
     @return none.
 
 */
-void Energy::Update(TileMap *world, float dt) {
-    UpdateTimers(dt);  // It updates end timer of character with value passed.
+void Energy::Update(TileMap *world, float deltaTime) {
+    UpdateTimers(deltaTime);  // It updates end timer of character with value passed.
     // It verifies character state life.
     if (!loops && !endTimer.IsRunning()) {
         dead = true;
     }
-    sp.Update(dt);  // It updates elapsed time of the sprite with value passed, dt.
+    sprite.Update(deltaTime);  // It updates elapsed time of the sprite with value passed, deltaTime.
 }
 
 /**
@@ -105,5 +105,5 @@ void Energy::Update(TileMap *world, float dt) {
 
 */
 void Energy::Render() {
-    sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+    sprite.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
 }
