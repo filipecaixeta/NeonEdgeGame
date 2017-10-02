@@ -121,7 +121,7 @@ void Notfredo::UpdateAI(float dt) {
             // If the character is 'Gallahad' and he uses the ability to hide, the visibility is 'false', not to be seen.
             if (StageState::GetPlayer()->Is("Gallahad")) {
                 Gallahad* p = (Gallahad*) StageState::GetPlayer();
-                if (p->Hiding()) {
+                if (p->IsHiding()) {
                     visible = false;
                 }
             }

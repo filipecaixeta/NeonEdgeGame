@@ -1,4 +1,3 @@
-
 /**
     Copyright (c) 2017 Neon Edge
     File Name: StageState.cpp
@@ -59,12 +58,14 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         bek.Open("SpaceBG.png");
     }
 
+
     Camera::CheckInstance().SetPosition(Vec2(player->box.x, player->box.y)); // Sets the box position in x and y of the player.
     Camera::CheckInstance().CreateFocus(player); // Initializes putting the player to be the focus of camera.
     currentRoomX = 0; // Set the default position of the current room in X.
     currentRoomY = 0; // Set the default position of the current room in Y.
 
     Camera::CheckInstance().maxScreenPosition = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
+
                                    currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
     CreateBars(player->name);
 

@@ -21,7 +21,7 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
         StayStill();
     }
 
-    if (obj->Crouching()) {
+    if (obj->IsCrouching()) {
         clamp(obj->physicsComponent.velocity.x, -0.2f, 0.2f);
     } else {
         clamp(obj->physicsComponent.velocity.x, -0.4f, 0.4f);
@@ -80,18 +80,18 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
 void LancelotInputComponent::Block() {
     Lancelot *l = (Lancelot*) obj;
     if (l->GetEnergy() > 0) {
-        l->Block();
+        l->StartBlock();
     } else {
-        l->Stop();
+        l->StopBlock();
     }
 }
 
 void LancelotInputComponent::Stop() {
     Lancelot *l = (Lancelot*) obj;
-    l->Stop();
+    l->StopBlock();
 }
 
 void LancelotInputComponent::Combo(std::string c) {
     Lancelot *l = (Lancelot*) obj;
-    l->Combo(c);
+    l->SetCombo(c);
 }

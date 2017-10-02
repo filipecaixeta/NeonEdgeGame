@@ -88,3 +88,4 @@ void Animation::Render() {
 	sp->Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }
 
+

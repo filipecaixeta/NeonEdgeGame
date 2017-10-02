@@ -22,7 +22,7 @@ public:
 	virtual int GetEnergy();
 	virtual void Crouch();
 	virtual void Stand();
-	virtual bool Crouching();
+	virtual bool IsCrouching();
 	virtual void EvalItem(std::string itemName);
 	virtual void NotifyObjectCollision(GameObject* other);
 	virtual void UpdateTimers(float dt);
@@ -40,8 +40,8 @@ public:
 protected:
 	int energy;
 	Timer regenCD;
-	bool crouching;
-	bool crouchingEdge;
+	bool isCrouching;
+	bool isStading;
 };
 
 #endif /* PLAYER_H_ */

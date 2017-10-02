@@ -9,7 +9,7 @@
 class Box : public Interactive
 {
 private:
-	int hitpoints;
+	int hitPoints;
 	Timer invincibilityTimer;
 
 public:
@@ -27,4 +27,4 @@ public:
 	PhysicsComponent physicsComponent;
 };
 
-#endif 
+#endif
