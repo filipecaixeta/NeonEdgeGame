@@ -3,7 +3,6 @@
 
 #include <unordered_map>
 #include <string>
-
 #include "Sound.h"
 
 #define SOUND_STOP 1
@@ -11,8 +10,7 @@
 #define SOUND_REPEAT 4
 #define SOUND_PLAY_ONCE 8
 
-class SoundComponent
-{
+class SoundComponent {
 public:
 	SoundComponent(std::string playerName);
 	void SoundBomb(int options=SOUND_PLAY_ONCE);

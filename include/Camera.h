@@ -6,7 +6,6 @@
 class Camera {
 private:
 	GameObject* cameraFocus;
-
 	static Camera* instance;
 
 	Camera();

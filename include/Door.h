@@ -3,8 +3,7 @@
 
 #include "Interactive.h"
 
-class Door : public Interactive
-{
+class Door : public Interactive {
 private:
 	bool doorOpen;
 
