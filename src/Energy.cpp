@@ -32,7 +32,9 @@ Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite,
     endTimer = Timer(lifetime);
     if (loops) {
         endTimer.Start();
-    }
+    } else {
+		// Do nothing
+	}
     Energy::loops = loops;
     Energy::dies = dies;
 }
@@ -68,8 +70,12 @@ void Energy::NotifyObjectCollision(GameObject *other) {
         // It verifies if character is dead.
         if (dies) {
             dead = true;
-        }
-    }
+        } else {
+			// Do nothing
+		}
+    } else {
+		// Do nothing
+	}
 }
 
 /**
@@ -94,7 +100,9 @@ void Energy::Update(TileMap *world, float deltaTime) {
     // It verifies character state life.
     if (!loops && !endTimer.IsRunning()) {
         dead = true;
-    }
+    } else {
+		// Do nothing
+	}
     sprite.Update(deltaTime);  // It updates elapsed time of the sprite with value passed, deltaTime.
 }
 
