@@ -59,12 +59,12 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         bek.Open("SpaceBG.png");
     }
 
-    Camera::GetInstance().SetPos(Vec2(player->box.x, player->box.y)); // Sets the box position in x and y of the player.
-    Camera::GetInstance().Follow(player); // Initializes putting the player to be the focus of camera.
+    Camera::CheckInstance().SetPosition(Vec2(player->box.x, player->box.y)); // Sets the box position in x and y of the player.
+    Camera::CheckInstance().CreateFocus(player); // Initializes putting the player to be the focus of camera.
     currentRoomX = 0; // Set the default position of the current room in X.
     currentRoomY = 0; // Set the default position of the current room in Y.
 
-    Camera::GetInstance().maxPos = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
+    Camera::CheckInstance().maxScreenPosition = Vec2(currentRoom->GetMap()->GetWidth()*currentRoom->GetMap()->GetTileWidth(),
                                    currentRoom->GetMap()->GetHeight()*currentRoom->GetMap()->GetTileHeight());
     CreateBars(player->name);
 
@@ -245,7 +245,7 @@ void StageState::UpdateGame() {
     // UpdateRoom();
     currentRoom->Update(Game::GetInstance().GetDeltaTime());
     CleanUpdateBars();
-    Camera::GetInstance().Update(Game::GetInstance().GetDeltaTime());
+    Camera::CheckInstance().FocusUpdate(Game::GetInstance().GetDeltaTime());
 }
 
 /**

@@ -17,7 +17,7 @@ public:
 	~Camera();
 	void CreateFocus(GameObject* newFocus);
 	void StopFocus();
-	void FocusUpdate(float dt);
+	void FocusUpdate(float delayTime);
 	void SetPosition(Vec2 screenPosition);
 	GameObject* GetFocus();
 	static Camera& CheckInstance();
