@@ -31,7 +31,7 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 			MoveRight();
 		else
 			StayStill();
-		if(obj_->Crouching())
+		if(obj_->IsCrouching())
 			clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
 		else
 			clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);

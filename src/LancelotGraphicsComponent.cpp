@@ -81,7 +81,7 @@ void LancelotGraphicsComponent::Update(GameObject *obj, float dt) {
             // If yes, it updates character feet status to airborne.
             obj->footing = GameObject::AIRBORNE;
         }
-    } else if (l->Crouching()) {
+    } else if (l->IsCrouching()) {
         // Else if character is crouching, character sprite action is updated to crouching.
         UpdateSprite(obj, "Crouching");
         // It verifies is character feet are in wall.

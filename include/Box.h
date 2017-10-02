@@ -19,7 +19,7 @@ public:
 	int GetHealth();
 	void Kill();
 	bool IsDead();
-	void StartInvincibility();
+	void Trigger();
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);

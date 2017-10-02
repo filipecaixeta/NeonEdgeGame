@@ -79,7 +79,7 @@ void GallahadGraphicsComponent::Update(GameObject *obj, float dt) {
             // If yes, it updates character feet status to airborne.
             obj->footing = GameObject::AIRBORNE;
         }
-    } else if (g->Crouching()) {
+    } else if (g->IsCrouching()) {
         // Else if character is crouching, character sprite action is updated to crouching.
         UpdateSprite(obj, "Crouching");
         // It verifies is character feet are in wall.

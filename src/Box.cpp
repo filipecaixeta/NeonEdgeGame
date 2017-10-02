@@ -21,7 +21,7 @@
 Box::Box(int x, int y):
     Interactive(x, y, "Box") {
         name = "Box";  // Sets the Box's name.
-        hitpoints = 5;
+        hitPoints = 5;
         invincibilityTimer = Timer(500);
 }
 
@@ -65,7 +65,7 @@ bool Box::IsDead() {
     @param: none.
     @return: none.
 */
-void Box::StartInvincibility() {
+void Box::Trigger() {
     if (!invincibilityTimer.IsRunning()) {
         hitPoints -= 1;
         invincibilityTimer.Start();
@@ -101,7 +101,7 @@ void Box::NotifyObjectCollision(GameObject* other) {
             // It does nothing.
         }
         if (c->Attacking()) {
-            StartInvincibility();
+            Trigger();
         } else {
             // It does nothing.
         }
@@ -111,7 +111,7 @@ void Box::NotifyObjectCollision(GameObject* other) {
     if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
         if (p->GetOwner() == "Gallahad") {
-            StartInvincibility();
+            Trigger();
         } else {
             // It does nothing.
         }
