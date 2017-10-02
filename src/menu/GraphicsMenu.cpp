@@ -35,7 +35,9 @@ void GraphicsMenu::LoadAssets() {
     } else if (screenSize.x == 1792) {
         menuOptions2[0].current = 2;
         UpdateScreenSizeSprite(2, menuOptions2[0].sprite);
-    }
+    } else {
+		// Do nothing
+	}
 
     menuOptions.push_back({"FPS", new Sprite("menus/framerate-button.png"), true, 0});
     menuOptions2.push_back({"FPS", new Sprite(), true, 0});
@@ -50,18 +52,20 @@ void GraphicsMenu::LoadAssets() {
     } else if (framesPerSecond == 480) {
         menuOptions2[1].current = 2;
         UpdateFPSSprite(2, menuOptions2[1].sprite);
-    }
+    } else {
+		// Do nothing
+	}
 
     menuOptions.push_back({"WindowMode", new Sprite("menus/window-mode-button.png"), true, 0});
     menuOptions2.push_back({"WindowMode", new Sprite(), true, 0});
     bool fullScreem = Game::GetInstance().isFullScreen();  // Fullscreen.
     // Verifies windows mode to sets.
-    if (fullScreem) {
-        menuOptions2[2].current = 1;
-        UpdateWindowModeSprite(1, menuOptions2[2].sprite);
-    } else {
+    if (!fullScreem) {
         menuOptions2[2].current = 0;
         UpdateWindowModeSprite(0, menuOptions2[2].sprite);
+    } else {
+        menuOptions2[2].current = 1;
+        UpdateWindowModeSprite(1, menuOptions2[2].sprite);
     }
 
     bg.Open("menus/BackgroundInicial2.png");  // Loads the second menu background image.
@@ -92,7 +96,9 @@ void GraphicsMenu::Update() {
             menuOptions2[currentOption].current = (menuOptions2[currentOption].current + rl) % 3;
             if (menuOptions2[currentOption].current < 0) {
                 menuOptions2[currentOption].current = 2;
-            }
+            } else {
+				// Do nothing
+			}
 
             if (menuOptions2[currentOption].current == 0) {
                 Game::GetInstance().SetScreenSize(Game::GetInstance().resolution_4x3);
@@ -100,35 +106,47 @@ void GraphicsMenu::Update() {
                 Game::GetInstance().SetScreenSize(Game::GetInstance().resolution_16x9);
             } else if (menuOptions2[currentOption].current == 2) {
                 Game::GetInstance().SetScreenSize(Game::GetInstance().resolution_21x9);
-            }
+            } else {
+				// Do nothing
+			}
 
             UpdateScreenSizeSprite(menuOptions2[currentOption].current,
                                    menuOptions2[currentOption].sprite);
-        }
+        } else {
+			// Do nothing
+		}
 
         // Verifies selected windows mode.
         if (menuOptions[currentOption].key == "WindowMode") {
             menuOptions2[currentOption].current = (menuOptions2[currentOption].current + rl) % 2;
             if (menuOptions2[currentOption].current < 0) {
                 menuOptions2[currentOption].current = 1;
-            }
+            } else {
+				// Do nothing
+			}
 
             if (menuOptions2[currentOption].current == 0) {
                 Game::GetInstance().setFullScreen(false);
             } else if (menuOptions2[currentOption].current == 1) {
                 Game::GetInstance().setFullScreen(true);
-            }
+            } else {
+				// Do nothing
+			}
 
             UpdateWindowModeSprite(menuOptions2[currentOption].current,
                                    menuOptions2[currentOption].sprite);
-        }
+        } else {
+			// Do nothing
+		}
 
         // Verifies selected fps.
         if (menuOptions[currentOption].key == "FPS") {
             menuOptions2[currentOption].current = (menuOptions2[currentOption].current + rl) % 3;
             if (menuOptions2[currentOption].current < 0) {
                 menuOptions2[currentOption].current = 2;
-            }
+            } else {
+				// Do nothing
+			}
 
             if (menuOptions2[currentOption].current == 0) {
                 Game::GetInstance().framesPerSecond = 30;
@@ -136,12 +154,18 @@ void GraphicsMenu::Update() {
                 Game::GetInstance().framesPerSecond = 60;
             } else if (menuOptions2[currentOption].current == 2) {
                 Game::GetInstance().framesPerSecond = 480;
-            }
+            } else {
+				// Do nothing
+			}
 
             UpdateFPSSprite(menuOptions2[currentOption].current,
                             menuOptions2[currentOption].sprite);
-        }
-    }
+        } else {
+			// Do nothing
+		}
+    } else {
+		// Do nothing
+	}
 }
 
 /**
@@ -162,7 +186,9 @@ void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
     } else if (option == 2) {
         SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1792x768 21:9");
         sprite->SetTexture(text, true);
-    }
+    } else {
+		// Do nothing
+	}
 }
 
 /**
@@ -180,7 +206,9 @@ void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
     } else if (option == 1) {
         SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Full Screen");
         sprite->SetTexture(text, true);
-    }
+    } else {
+		// Do nothing
+	}
 }
 
 /**
@@ -201,7 +229,9 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
     } else if (option == 2) {
         SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "480fps");
         sprite->SetTexture(text, true);
-    }
+    } else {
+		// Do nothing
+	}
 }
 
 /**
