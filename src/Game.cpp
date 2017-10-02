@@ -36,31 +36,41 @@ Game::Game(std::string title) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
         printf("SDL_Init failed\n");
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     //Try to Initiate libraries of image formats.
     if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF )) {
         printf("IMG_Init failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     //Try to Initiate SDL_MIX.
     if (!Mix_Init(MIX_INIT_OGG)) {
         printf("Mix_Init failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     //Try to open a chanell for the SDL_Mixing librarie.
     if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)) {
         printf("Mix_OpenAudio failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     //Try to init ttf library.
     if (TTF_Init()) {
         printf("TTF_Init failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     nextTime_ = 0;// Variable to get a time step.
 
@@ -76,7 +86,9 @@ Game::Game(std::string title) {
     if (!window) {
         printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);//Create render and set the type of it.
 
@@ -84,7 +96,9 @@ Game::Game(std::string title) {
     if (!renderer) {
         printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
+    } else {
+		// Do nothing
+	}
 
     //Configure the Antialiasing.
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
@@ -251,7 +265,9 @@ SDL_Point Game::GetFullScreenSize() {
     SDL_Rect r;
     if (SDL_GetDisplayBounds(0, &r) != 0) {
         return resolution_4x3;
-    }
+    } else {
+		// Do nothing
+	}
     if (((float)r.w / (float)r.h) >= 2.3) {
         // 21x9
         return resolution_21x9;
@@ -355,7 +371,9 @@ void Game::Run() {
             //Clear the render screen.
             if (SDL_RenderClear(renderer)) {
                 printf("SDL_RenderClear failed: %s\n", SDL_GetError());
-            }
+            } else {
+				// Do nothing
+			}
             InputManager::GetInstance().Update();//Get all inputs.
 
             //Update the scene and re-draw screen.
@@ -375,7 +393,9 @@ void Game::Run() {
             RemoveState();
             if (stateStack.size() == 0) {
                 break;
-            }
+            } else {
+				// Do nothing
+			}
             storedState = stateStack.top();
         }
     }
