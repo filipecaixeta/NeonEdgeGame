@@ -12,7 +12,7 @@ class Drone : public Player {
 public:
 	Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY);
 	~Drone();
-	void DroneAttack();
+	void Attack();
 	void DroneActivate(bool on);
 	bool isActive();
 	void UpdateTimers(float dt);

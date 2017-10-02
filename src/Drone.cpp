@@ -48,7 +48,7 @@ Drone::~Drone() {
     @return - none.
 
 */
-void Drone::DroneAttack() {
+void Drone::Attack() {
     attacking.Start();
 }
 
