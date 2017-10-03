@@ -21,7 +21,7 @@ public:
 	Projectile(GameObject* owner, Vec2 speed, int lifetime, int power, bool pierce = false);
 	~Projectile();
 	bool IsDead();
-	int CharacterPower();
+	int Power();
 	std::string GetOwner();
 	bool GetColisionData(SDL_Surface** surface_,SDL_Rect &clipRect_,Vec2 &pos_, bool &mirror);
 	void NotifyTileCollision(int tile, Face face);

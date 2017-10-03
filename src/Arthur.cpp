@@ -188,9 +188,9 @@ void Arthur::UpdateTimers(float dt) {
     punch.Update(dt);
     if (attacking.GetElapsed() == 1) {
         attacking.Reset();
-        coolDownAttack.Start();
+        attackCD.Start();
     }
-    coolDownAttack.Update(dt);
+    attackCD.Update(dt);
 }
 
 /**

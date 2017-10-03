@@ -31,7 +31,7 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     graphicsComponent = new LancelotGraphicsComponent("Lancelot");
     soundComponent = new SoundComponent(name);
     box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
-    coolDownAttack.SetLimit(0);  // Default limit cool down attack.
+    attackCD.SetLimit(0);  // Default limit cool down attack.
     timeval t1;
     gettimeofday(&t1, NULL);
     srand(t1.tv_usec * t1.tv_sec);
@@ -74,7 +74,7 @@ void Lancelot::Damage(int damage) {
             clamp(energy, 0, 5);
         } else {
             soundComponent->Damage();
-            characterHealthPoints -= (damage);
+            hitpoints -= (damage);
         }
         invincibilityTimer.Start();
     }
@@ -87,31 +87,31 @@ void Lancelot::Damage(int damage) {
 */
 void Lancelot::Attack() {
     attacking.SetLimit(0);
-    coolDownAttack.SetLimit(0);
+    attackCD.SetLimit(0);
     soundComponent->Attack();
     if (combo == "Straight") {
         attacking.SetLimit(240);
-        coolDownAttack.SetLimit(100);
+        attackCD.SetLimit(100);
         Empower(1);
     } else if (combo == "Uppercut") {
         attacking.SetLimit(240);
-        coolDownAttack.SetLimit(400);
+        attackCD.SetLimit(400);
         Empower(2);
     } else if (combo == "Chop") {
         attacking.SetLimit(320);
-        coolDownAttack.SetLimit(800);
+        attackCD.SetLimit(800);
         Empower(3);
     } else if (combo == "Spear") {
         attacking.SetLimit(240);
-        coolDownAttack.SetLimit(100);
+        attackCD.SetLimit(100);
         Empower(2);
     } else if (combo == "Sword") {
         attacking.SetLimit(240);
-        coolDownAttack.SetLimit(400);
+        attackCD.SetLimit(400);
         Empower(3);
     } else if (combo == "Axe") {
         attacking.SetLimit(320);
-        coolDownAttack.SetLimit(800);
+        attackCD.SetLimit(800);
         Empower(5);
     }
     attacking.Start();  // Starts attack timer.

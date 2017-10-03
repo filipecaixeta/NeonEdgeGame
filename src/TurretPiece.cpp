@@ -111,14 +111,14 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
         if (other->IsPlayer()) {
             Player* c = (Player*) other;
             if (c->Attacking()) {
-                center->Damage(c->CharacterPower());
+                center->Damage(c->Power());
             }
         }
         // Defines the damage received by the type 0 TurretPiece (head of the tower) when there is a collision with the Projectile.
         if (other->Is("Projectile")) {
             Projectile* p = (Projectile*) other;
             if (p->GetOwner() == "Gallahad") {
-                center->Damage(p->CharacterPower());
+                center->Damage(p->Power());
             }
         }
     }
