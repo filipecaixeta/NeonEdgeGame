@@ -8,15 +8,15 @@
 class Life : public GameObject
 {
 private:
-	Sprite sp;
+	Sprite lifeSprite;
 	Timer endTimer;
 	bool loops;
 	bool dies;
-	bool dead = false;
+	bool isDead = false;
 
 public:
 	Life(int x, int y, std::string sprite, float frameCount = 1, float frameTime = 0,
-		   bool loops = true, float lifetime = 0, bool dies = false);
+		   bool loops = true, float lifeTime = 0, bool dies = false);
 	~Life();
 	bool IsDead();
 	void NotifyObjectCollision(GameObject* other);

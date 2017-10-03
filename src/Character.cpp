@@ -26,7 +26,7 @@ bool Character::IsDead() {
         if (!dieTimer.IsRunning()) {
             dieTimer.Start();
             if (soundComponent) {
-                soundComponent->Die();
+                soundComponent->SoundDie();
             }
         }
         if (!dieTimer.IsRunning() && dieTimer.GetElapsed() == 1) {
@@ -163,5 +163,5 @@ void Character::Update(TileMap *map, float dt) {
 }
 
 void Character::Render() {
-    graphicsComponent->Render(GetPosition() - Camera::GetInstance().pos);
+    graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition);
 }

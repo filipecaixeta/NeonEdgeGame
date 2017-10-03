@@ -67,5 +67,5 @@ void Interactive::Update(TileMap* map, float dt)
 
 void Interactive::Render()
 {
-	graphicsComponent->Render(GetPosition()-Camera::GetInstance().pos);
+	graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition);
 }

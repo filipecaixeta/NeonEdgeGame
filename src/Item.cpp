@@ -33,7 +33,7 @@ Item::Item(int id_, int x, int y): sp(new Sprite("items.png", 6)), dead(false), 
 void Item::Eval(Player *player) {
     if (player != nullptr && player->itemManager != nullptr) {
         player->itemManager->AddItem(id);
-        player->soundComponent->Item();
+        player->soundComponent->SoundItem();
     }
 }
 
@@ -105,5 +105,5 @@ void Item::Update(TileMap *map, float dt) {
 
 */
 void Item::Render() {
-    sp->Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+    sp->Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

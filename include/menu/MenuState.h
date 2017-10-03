@@ -1,7 +1,7 @@
 #ifndef MENUSTATE_H
 #define MENUSTATE_H
-#include <Game.h>
-#include <Sprite.h>
+#include "Game.h"
+#include "Sprite.h"
 #include <string>
 #include <cstdio>
 #include <cstdlib>

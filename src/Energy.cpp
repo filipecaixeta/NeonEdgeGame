@@ -105,5 +105,5 @@ void Energy::Update(TileMap *world, float dt) {
 
 */
 void Energy::Render() {
-    sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+    sp.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

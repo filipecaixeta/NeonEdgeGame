@@ -17,20 +17,23 @@
     @param float frameCount
     @param float frameTime
     @param bool loops
-    @param float lifetime
+    @param float lifeTime
     @param bool dies
     @return instance of the class Life.
 */
 Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
-                                            float lifetime, bool dies) {
+                                            float lifeTime, bool dies) {
     name = "Life";  // Sets the Life's name.
-    sp = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
-    Vec2 size = sp.GetSize();  // Gets the size of the object Life.
+    lifeSprite = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
+    Vec2 size = lifeSprite.GetSize();  // Gets the size of the object Life.
     box = Rect(x, y, size.x, size.y);  // The position in the screen that the object can be
                                        // collided.
-    endTimer = Timer(lifetime);
-    if(loops)
+    endTimer = Timer(lifeTime);
+    if (loops) {
         endTimer.Start();
+    } else {
+        // It does nothing.
+    }
     Life::loops = loops;
     Life::dies = dies;  // Manages the action of being collided by the player.
 }
@@ -50,7 +53,7 @@ Life::~Life() {
     @return bool dead - returns true if is dead.
 */
 bool Life::IsDead() {
-    return dead;
+    return isDead;
 }
 
 /**
@@ -62,8 +65,12 @@ void Life::NotifyObjectCollision(GameObject* other) {
     if (other->Is("Gallahad") || other->Is("Lancelot")) {
         // Destroy the object if the player collides with it.
         if (dies) {
-            dead = true;
+            isDead = true;
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
 }
 
@@ -74,11 +81,14 @@ void Life::UpdateTimers(float dt) {
 void Life::Update(TileMap* world, float dt) {
     UpdateTimers(dt);
     if (!loops && !endTimer.IsRunning()) {
-        dead = true;
+        isDead = true;
+    } else {
+        // It does nothing.
     }
-    sp.Update(dt);
+    lifeSprite.Update(dt);
 }
 
 void Life::Render() {
-    sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+
+    lifeSprite.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

@@ -8,19 +8,18 @@
 #include "DroneGraphicsComponent.h"
 
 
-class Drone : public Player
-{
+class Drone : public Player {
 public:
-	Drone(ItensManager* itemManager, int x, int y);
+	Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY);
 	~Drone();
 	void Attack();
-	void Activate(bool on);
-	bool Active();
+	void DroneActivate(bool on);
+	bool isActive();
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
 
 private:
-	bool active;
+	bool droneActive;
 };
 
 #endif /* DRONE_H_ */

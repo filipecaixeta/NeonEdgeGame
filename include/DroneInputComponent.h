@@ -3,8 +3,7 @@
 
 #include "InputComponent.h"
 
-class DroneInputComponent: public InputComponent
-{
+class DroneInputComponent: public InputComponent {
 public:
 	DroneInputComponent();
 	void Update(Player* obj_, float dt_);

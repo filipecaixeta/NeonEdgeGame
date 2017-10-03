@@ -12,14 +12,14 @@
 class Gallahad : public Player
 {
 public:
-	Gallahad(ItensManager* itemManager, int x, int y, GameObject* d);
+	Gallahad(ItensManager* itemManager, int x, int y, GameObject* setDrone);
 	~Gallahad();
 	void Attack();
-	void Hide();
-	void Shoot();
-	void Hold();
-	bool Hiding();
-	bool Shooting();
+	void StartHiding();
+	void StartShooting();
+	void StopShooting();
+	bool IsHiding();
+	bool IsShooting();
 	void Activate(bool on);
 	bool Active();
 	Drone* GetDrone();
@@ -28,8 +28,8 @@ public:
 
 private:
 	GameObject* drone;
-	Timer hiding;
-	bool shooting;
+	Timer isHiding;
+	bool isShooting;
 	bool active;
 	bool done = false;
 };

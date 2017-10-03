@@ -61,7 +61,7 @@ void GallahadGraphicsComponent::Update(GameObject *obj, float dt) {
     // It verifies if character is going to left and it is setted.
     mirror = (obj->facing == GameObject::LEFT);
     // It verifies action of character to update sprite.
-    if (g->Shooting()) {
+    if (g->IsShooting()) {
         // If character is shooting, it verifies how the character is shooting.
         if (g->physicsComponent.velocity.x != 0) {
             // If character speed is non-zero, character sprite action is updated to running shot.
@@ -79,7 +79,7 @@ void GallahadGraphicsComponent::Update(GameObject *obj, float dt) {
             // If yes, it updates character feet status to airborne.
             obj->footing = GameObject::AIRBORNE;
         }
-    } else if (g->Crouching()) {
+    } else if (g->IsCrouching()) {
         // Else if character is crouching, character sprite action is updated to crouching.
         UpdateSprite(obj, "Crouching");
         // It verifies is character feet are in wall.
@@ -107,7 +107,7 @@ void GallahadGraphicsComponent::Update(GameObject *obj, float dt) {
     }
 
     // It verifies if the character is using transparency power.
-    if (g->Hiding()) {
+    if (g->IsHiding()) {
         // If yes, changes transparency to 30 percent.
         sp->SetTransparency(0.3);
     } else {

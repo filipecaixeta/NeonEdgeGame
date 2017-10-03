@@ -19,11 +19,11 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 	if(input.KeyPress(ACTIVE_KEY, true))
 	{
 		Toggle();
-		//Camera::GetInstance().Follow(); PEGAR PONTEIRO PARA O DRONE
+		//Camera::GetInstance().CreateFocus(); PEGAR PONTEIRO PARA O DRONE
 	}
 
 	Gallahad *g = (Gallahad*) obj_;
-	if(g->Active()) 
+	if(g->Active())
 	{
 		if(input.IsKeyDown(MOVE_LEFT_KEY, true))
 			MoveLeft();
@@ -31,11 +31,11 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 			MoveRight();
 		else
 			StayStill();
-		if(obj_->Crouching())
+		if(obj_->IsCrouching())
 			clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
 		else
 			clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);
-		
+
 		if(input.IsKeyDown(CROUCH_KEY, true))
 			Crouch(true);
 		else
@@ -44,13 +44,13 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 		if(input.IsKeyDown(ATTACK_KEY, true))
 		{
 			Gallahad* g = (Gallahad*) obj_;
-			g->Shoot();
+			g->StartShooting();
 			Attack();
 		}
 		else
 		{
 			Gallahad* g = (Gallahad*) obj_;
-			g->Hold();
+			g->StopShooting();
 		}
 
 		if(input.KeyPress(SPECIAL_KEY, true))
@@ -66,9 +66,9 @@ void GallahadInputComponent::Update(Player* obj_, float dt_)
 void GallahadInputComponent::Hide()
 {
 	Gallahad *g = (Gallahad*)obj;
-	if(g->GetEnergy() > 0 && !g->Hiding())
+	if(g->GetEnergy() > 0 && !g->IsHiding())
 	{
-		g->Hide();
+		g->StartHiding();
 	}
 }
 
@@ -78,13 +78,13 @@ void GallahadInputComponent::Toggle()
 	if(g->Active())
 	{
 		g->Activate(false);
-		g->GetDrone()->Activate(true);
-		Camera::GetInstance().Follow(g->GetDrone());
+		g->GetDrone()->DroneActivate(true);
+		Camera::CheckInstance().CreateFocus(g->GetDrone());
 	}
 	else
 	{
 		g->Activate(true);
-		g->GetDrone()->Activate(false);
-		Camera::GetInstance().Follow(g);
+		g->GetDrone()->DroneActivate(false);
+		Camera::CheckInstance().CreateFocus(g);
 	}
 }

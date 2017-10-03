@@ -16,12 +16,14 @@
 
 /**
     Objective: Constructor method. Initializes the drone components.
-    @param int x - Position of the drone on the x axis.
-    @param int y - Position of the drone on the y axis.
+    @param int dronePositionX- Position of the drone on the x axis.
+    @param int dronePositionY - Position of the drone on the y axis.
+    @param int dronePositionX - Position of the character on the x axis.
+    @param int dronePositionY - Position of the character on the Y axis.
     @return - none.
 
 */
-Drone::Drone(ItensManager* itemManager, int x, int y): Player(itemManager, x, y), active(false) {
+Drone::Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY): Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
     name = "Drone"; // Sets the drone name
     inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in relation to the character.
     physicsComponent.SetKinetic(true); // Disables gravity for the drone.
@@ -52,12 +54,12 @@ void Drone::Attack() {
 
 /**
     Objective: Activate the drone (control over the drone).
-    @param - Boolean (on) informs drone state (enabled or disabled).
+    @param - Boolean (turnOnDrone) informs drone state (enabled or disabled).
     @return - none.
 
 */
-void Drone::Activate(bool on) {
-    active = on;
+void Drone::DroneActivate(bool turnOnDrone) {
+    droneActive = turnOnDrone;
 }
 
 /**
@@ -66,9 +68,8 @@ void Drone::Activate(bool on) {
     @return - State of the drone.
 
 */
-bool Drone::Active() {
-    return active; 
-
+bool Drone::isActive() {
+    return droneActive; 
 }
 
 /**
@@ -88,14 +89,14 @@ void Drone::UpdateTimers(float delayTime) {
     @return - none.
 
 */
-void Drone::Update(TileMap *map, float delayTime) {
+void Drone::Update(TileMap* map, float delayTime) {
     UpdateTimers(delayTime); // Defines time parameters for modifying drone behavior.
 
     // Checks if the player is other than null.
     if (StageState::GetPlayer()) {
 
         // Checks whether the drone is active.
-        if (active == true) {
+        if (droneActive == true) {
             inputComponent->Update(this, delayTime); // Updates drone position according to input.
             physicsComponent.Update(this, map, delayTime); // Moves the drone on the screen.
         } else {
@@ -103,7 +104,7 @@ void Drone::Update(TileMap *map, float delayTime) {
 
             // Checks which direction (left or right) the character has turned.
             if (StageState::GetPlayer()->facing == LEFT) {
-                box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w-box.w; // Makes the drone turn to the left when the character turns to that position.
+                box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Makes the drone turn to the left when the character turns to that position.
             } else {
                 box.x = StageState::GetPlayer()->box.x; // Makes the drone turn to the right when the character turns to that position.
             }
@@ -113,8 +114,12 @@ void Drone::Update(TileMap *map, float delayTime) {
         // Checks if the drone is outside the screen boundaries.
         if (OutOfBounds(map)) {
             SetPosition(Vec2(269, 544)); // Resets the drone's position.
+        } else {
+             // It does nothing.
         }
 
         graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to your movement.
+    } else {
+         // It does nothing.
     }
 }

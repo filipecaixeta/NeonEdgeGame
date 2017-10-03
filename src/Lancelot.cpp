@@ -24,7 +24,7 @@
 */
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     Player(itemManager, x, y),  // Extends the object Player.
-    blocking(1000) {
+    isBlocking(1000) {
     dieTimer = Timer(250);
     name = "Lancelot";
     inputComponent = new LancelotInputComponent();
@@ -54,29 +54,37 @@ Lancelot::~Lancelot() {
 */
 void Lancelot::Damage(int damage) {
     if (!invincibilityTimer.IsRunning()) {
-        if (blocking) {
+        if (isBlocking) {
             int n = rand()%100 + 1;  // Random number of 1 to 100.
             if (skills[0]) {  // SkillBlocking3
                 if (n < 61) {
                     energy -= 1;
+                } else {
+                    // It does nothing.
                 }
             } else if (skills[1]) {  // SkillBlocking2
                 if (n < 76) {
                     energy -= 1;
+                } else {
+                    // It does nothing.
                 }
             } else if (skills[2]) {  // SkillBlocking1
                 if (n < 91){
                     energy -= 1;
+                } else {
+                    // It does nothing.
                 }
             } else {
                 energy -= 1;
             }
             clamp(energy, 0, 5);
         } else {
-            soundComponent->Damage();
+            soundComponent->SoundDamage();
             hitpoints -= (damage);
         }
         invincibilityTimer.Start();
+    } else {
+        // It does nothing.
     }
 }
 
@@ -88,7 +96,7 @@ void Lancelot::Damage(int damage) {
 void Lancelot::Attack() {
     attacking.SetLimit(0);
     attackCD.SetLimit(0);
-    soundComponent->Attack();
+    soundComponent->SoundAttack();
     if (combo == "Straight") {
         attacking.SetLimit(240);
         attackCD.SetLimit(100);
@@ -113,6 +121,8 @@ void Lancelot::Attack() {
         attacking.SetLimit(320);
         attackCD.SetLimit(800);
         Empower(5);
+    } else {
+        // It does nothing.
     }
     attacking.Start();  // Starts attack timer.
 }
@@ -122,8 +132,8 @@ void Lancelot::Attack() {
     @param: none.
     @return: none.
 */
-void Lancelot::Block() {
-    blocking = true;
+void Lancelot::StartBlock() {
+    isBlocking = true;
     clamp(physicsComponent.velocity.x, -0.2f, 0.2f);
 }
 
@@ -132,8 +142,8 @@ void Lancelot::Block() {
     @param: none.
     @return: none.
 */
-void Lancelot::Stop() {
-    blocking = false;
+void Lancelot::StopBlock() {
+    isBlocking = false;
 }
 
 /**
@@ -141,8 +151,8 @@ void Lancelot::Stop() {
     @param: string c - the combo used by the character.
     @return: none.
 */
-void Lancelot::Combo(std::string c) {
-    combo = c;
+void Lancelot::SetCombo(std::string setCombo) {
+    combo = setCombo;
 }
 
 /**
@@ -150,8 +160,8 @@ void Lancelot::Combo(std::string c) {
     @param none.
     @return bool blocking - return true if the character is blocking.
 */
-bool Lancelot::Blocking() {
-    return blocking;
+bool Lancelot::IsBlocking() {
+    return isBlocking;
 }
 
 /**
@@ -159,7 +169,7 @@ bool Lancelot::Blocking() {
     @param none.
     @return string combo - return which combo the character is using.
 */
-std::string Lancelot::WhichCombo() {
+std::string Lancelot::GetCombo() {
     return combo;
 }
 
@@ -174,7 +184,11 @@ void Lancelot::UpdateTimers(float dt) {
         if (box.OverlapsWith(checkStateTrasition) == true) {
             Game::GetInstance().GetCurrentState()->quitRequested = true;
             Game::GetInstance().AddState(new Cutscene(2, false));
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
     /*if(StageState::stage == "naveLancelot" && !done){
         checkStateTrasition.x = 12556;

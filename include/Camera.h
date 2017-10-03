@@ -5,23 +5,22 @@
 
 class Camera {
 private:
-	GameObject* focus;
-
+	GameObject* cameraFocus;
 	static Camera* instance;
 
 	Camera();
 public:
-	Vec2 pos;
-	Vec2 speed;
-    Vec2 maxPos;
+	Vec2 screenPosition;
+	Vec2 screenSpeed;
+    Vec2 maxScreenPosition;
 
 	~Camera();
-	void Follow(GameObject* newFocus);
-	void Unfollow();
-	void Update(float dt);
-	void SetPos(Vec2 pos);
+	void CreateFocus(GameObject* newFocus);
+	void StopFocus();
+	void FocusUpdate(float delayTime);
+	void SetPosition(Vec2 screenPosition);
 	GameObject* GetFocus();
-	static Camera& GetInstance();
+	static Camera& CheckInstance();
 };
 
 #endif /* CAMERA_H_ */

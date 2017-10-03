@@ -31,10 +31,11 @@ Player::Player(ItensManager* itemManager, int x, int y):
     skillPoints(0),
     energy(5),  // Sets the energy of the player to 5.
     regenCD(500),  // The time of the cool down regeneration in miliseconds.
-    crouching(false),  // Default state: standing.
-    crouchingEdge(true) {
+    isCrouching(false),  // Default state: standing.
+    isStading(true) {
     name = "Player";  // Sets the Player's name.
     hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
+
 }
 
 /**
@@ -70,12 +71,16 @@ int Player::GetEnergy() {
     @return: none.
 */
 void Player::Crouch() {
-    if (crouchingEdge) {
-        crouchingEdge = false;
-        soundComponent->Crouching();  // Performs the crouching sound in case that the player is
+    
+    if (isStading) {
+        isStading = false;
+        soundComponent->SoundCrouching();  // Performs the crouching sound in case that the player is
+
                                       // standing.
+    } else {
+        // It does nothing.
     }
-    crouching = true;
+    isCrouching = true;
 }
 
 /**
@@ -84,8 +89,8 @@ void Player::Crouch() {
     @return none.
 */
 void Player::Stand() {
-    crouching = false;
-    crouchingEdge = true;
+    isCrouching = false;
+    isStading = true;
 }
 
 /**
@@ -93,8 +98,8 @@ void Player::Stand() {
     @param none.
     @return bool crouching - return true if the player is crouching.
 */
-bool Player::Crouching() {
-    return crouching;
+bool Player::IsCrouching() {
+    return isCrouching;
 }
 
 /**
@@ -107,25 +112,27 @@ void Player::EvalItem(std::string itemName) {
     if (itemName == "Healing Potion 25") {
         hitpoints += MAX_HITPOINTS*0.25;
         clamp(hitpoints, 0, MAX_HITPOINTS);
-    }
+    } else
     // Heals the hitpoints of the player by 50% of the total.
     if (itemName == "Healing Potion 50") {
         hitpoints += MAX_HITPOINTS*0.5;
         clamp(hitpoints, 0, MAX_HITPOINTS);
-    }
+    } else
     // Adds 2 energy points.
     if (itemName == "Energy Potion 25") {
         energy += 2;
         clamp(energy, 0, 5);
-    }
+    } else
     // Adds 5 energy points.
     if (itemName == "Energy Potion 50") {
         energy += 5;
         clamp(energy, 0, 5);
-    }
+    } else
     // Adds 1 point to the skills.
     if (itemName == "Skill Coin") {
         skillPoints++;
+    } else {
+        // It does nothing.
     }
 }
 
@@ -141,28 +148,40 @@ void Player::NotifyObjectCollision(GameObject* other) {
         Character* c = (Character*) other;
         if (c->Attacking()) {
             Damage(c->Power());
+        } else {
+            // It does nothing.
         }
-    }
+    } else
+        // It does nothing.
     if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
-        if (!(p->GetOwner() == "Gallahad"))
+        if (!(p->GetOwner() == "Gallahad")) {
             Damage(p->Power());
-    }
+        } else {
+            // It does nothing.
+        }
+    } else
     // Restores some energy of the player.
     if (other->Is("Energy")) {
-        if (crouching && !regenCD.IsRunning()) {
+        if (isCrouching && !regenCD.IsRunning()) {
             regenCD.Start();
             energy += 1;
             clamp(energy, 0, 5);
+        } else {
+            // It does nothing.
         }
-    }
+    } else
     // Restores some hitpoints of the player.
     if (other->Is("Life")) {
-        if (crouching && !regenCD.IsRunning()) {
+        if (isCrouching && !regenCD.IsRunning()) {
             regenCD.Start();
             hitpoints += 1;
             clamp(hitpoints, 0, 10);
+        } else {
+            // It does nothing.
         }
+    } else {
+        // It does nothing.
     }
 }
 
@@ -182,6 +201,8 @@ void Player::Update(TileMap* map, float dt) {
     physicsComponent.Update(this, map, dt);
     if (OutOfBounds(map)) {
         SetPosition(Vec2(startingX, startingY));
+    } else {
+        // It does nothing.
     }
     graphicsComponent->Update(this, dt);
 }
