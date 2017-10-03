@@ -46,7 +46,7 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 1, Vec2(0, 0), this->background, fase);
-        bek.Open("SpaceBG.png");
+        bek.OpenFile("SpaceBG.png");
         } else if (fase == "cidadeGalahad") {
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
@@ -55,7 +55,7 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
                 this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 3, Vec2(0, 0), this->background, fase);
-        bek.Open("SpaceBG.png");
+        bek.OpenFile("SpaceBG.png");
     }
 
 
@@ -70,7 +70,7 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
     CreateBars(player->name);
 
     stage = fase;
-    itemHotBarSp.Open("menus/" + player->name + "itemhotbar.png");
+    itemHotBarSp.OpenFile("menus/" + player->name + "itemhotbar.png");
 }
 
 /**
@@ -297,7 +297,7 @@ void StageState::Update() {
 
 */
 void StageState::Render() {
-    bek.Render(0, 0);
+    bek.RenderTexture(0, 0);
     currentRoom->Render();
     // Render the entire window with their respectives measures.
     for (unsigned int i = 0; i < windowArray.size(); i++) {
@@ -305,7 +305,7 @@ void StageState::Render() {
         }
     healthBar->Render(51, 44);
     energyBar->Render(51, 44);
-    itemHotBarSp.Render(20, 629);
+    itemHotBarSp.RenderTexture(20, 629);
 
     // Check if is be possible to render the itemManager of player
     if (player != nullptr && player->itemManager != nullptr) {

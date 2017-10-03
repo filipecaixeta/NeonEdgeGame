@@ -25,7 +25,7 @@ GraphicsComponent::~GraphicsComponent()
 
 void GraphicsComponent::Render(Vec2 position, float angle)
 {
-	sp->Render(position,angle);
+	sp->RenderScreenPosition(position,angle);
 }
 
 Vec2 GraphicsComponent::GetSize()

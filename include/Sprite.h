@@ -28,11 +28,11 @@ public:
 	Sprite(std::string file, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
 	Sprite(SDL_Texture *tex, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
 	~Sprite();
-	void Open(std::string file, bool enableAlpha=false);
+	void OpenFile(std::string file, bool enableAlpha=false);
 	void Update(float dt);
-	void Render(int x, int y, float angle = 0);
-	void Render(Vec2 pos, float angle = 0);
-	void SetClip(int x, int y, int w, int h);
+	void RenderTexture(int x, int y, float angle = 0);
+	void RenderScreenPosition(Vec2 pos, float angle = 0);
+	void SetClipPosition(int x, int y, int w, int h);
 	SDL_Rect GetClip();
 	void SetScaleX(float scale);
 	void SetScaleY(float scale);

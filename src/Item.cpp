@@ -105,5 +105,5 @@ void Item::Update(TileMap *map, float dt) {
 
 */
 void Item::Render() {
-    sp->Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
+    sp->RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

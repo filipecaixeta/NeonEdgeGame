@@ -40,10 +40,10 @@ void InGameSkills::LoadAssets() {
     menuOptions.push_back({"Skill5", new Sprite(path + "Skill5.png"), true, skills[5]});
     menuOptions.push_back({"Skill6", new Sprite(path + "Skill6.png"), true, skills[6]});
 
-    bg.Open(path + "SkillTree.png");
+    bg.OpenFile(path + "SkillTree.png");
     bg.SetBlending(true);
 
-    blackOpacity.Open("menus/smallBlack.png", true);
+    blackOpacity.OpenFile("menus/smallBlack.png", true);
     blackOpacity.SetScaleX(2000);
     blackOpacity.SetScaleY(2000);
     blackOpacity.SetTransparency(0.5);
@@ -99,9 +99,9 @@ void InGameSkills::GetSkill(int skillNumber) {
 
 */
 void InGameSkills::Render() {
-    blackOpacity.Render(0, 0);
+    blackOpacity.RenderTexture(0, 0);
     Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
-    bg.Render(bgXY);
+    bg.RenderScreenPosition(bgXY);
 
     Vec2 positions[7] = {Vec2(38, 156), Vec2(219, 157), Vec2(396, 150), Vec2(397, 301),
                          Vec2(396, 452), Vec2(219, 458), Vec2(38, 457)};
@@ -109,8 +109,8 @@ void InGameSkills::Render() {
     for (int i = 0; i < menuOptions.size(); i++) {
         auto &option = menuOptions[i];
         if (option.current == true) {
-            option.sprite->Render(bgXY + positions[i] + Vec2(13, 18));
+            option.sprite->RenderScreenPosition(bgXY + positions[i] + Vec2(13, 18));
         }
     }
-    selected->Render(bgXY + positions[currentOption]);
+    selected->RenderScreenPosition(bgXY + positions[currentOption]);
 }

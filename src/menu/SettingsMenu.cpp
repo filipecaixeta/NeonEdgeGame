@@ -38,8 +38,8 @@ void SettingsMenu::LoadAssets() {
 	menuOptions.push_back({"Controls", new Sprite("menus/controls-options-button.png"), true, 0});
 	menuOptions.push_back({"Sound", new Sprite("menus/audio-options-button.png"), true, 0});
 
-	bg.Open("menus/BackgroundInicial2.png"); // Open the settings menu Background.
-	bgOptions.Open("menus/Settings-Menu-Neutro-Base.png");
+	bg.OpenFile("menus/BackgroundInicial2.png"); // Open the settings menu Background.
+	bgOptions.OpenFile("menus/Settings-Menu-Neutro-Base.png");
 
 	SetOption(1);
 }
@@ -75,7 +75,7 @@ void SettingsMenu::Update() {
 */
 void SettingsMenu::Render() {
 	int positionsY[3] = {374, 441, 507};
-	bg.Render(CenterVertical(&bg));
-	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0, 249));
-	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0, positionsY[currentOption]));
+	bg.RenderScreenPosition(CenterVertical(&bg));
+	bgOptions.RenderScreenPosition(CenterVertical(&bgOptions)+Vec2(0, 249));
+	menuOptions[currentOption].sprite->RenderScreenPosition(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0, positionsY[currentOption]));
 }

@@ -64,9 +64,9 @@ void GraphicsMenu::LoadAssets() {
         UpdateWindowModeSprite(0, menuOptions2[2].sprite);
     }
 
-    bg.Open("menus/BackgroundInicial2.png");  // Loads the second menu background image.
-    bgOptions.Open("menus/Screen-Menu-Neutro-Base.png");  // Loads the menu screen options image.
-    selectedArrow.Open("menus/selected-arrows.png");  // Loads arrows to selected menu option.
+    bg.OpenFile("menus/BackgroundInicial2.png");  // Loads the second menu background image.
+    bgOptions.OpenFile("menus/Screen-Menu-Neutro-Base.png");  // Loads the menu screen options image.
+    selectedArrow.OpenFile("menus/selected-arrows.png");  // Loads arrows to selected menu option.
     SetOption(1);
 }
 
@@ -212,16 +212,16 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
 */
 void GraphicsMenu::Render() {
     int positionsY[3] = {260, 409, 557};
-    bg.Render(CenterVertical(&bg));
-    bgOptions.Render(CenterVertical(&bgOptions) + Vec2(0, 135));
-    menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite) +
+    bg.RenderScreenPosition(CenterVertical(&bg));
+    bgOptions.RenderScreenPosition(CenterVertical(&bgOptions) + Vec2(0, 135));
+    menuOptions[currentOption].sprite->RenderScreenPosition(CenterVertical(menuOptions[currentOption].sprite) +
                                               Vec2(0, positionsY[currentOption]));
-    selectedArrow.Render(CenterVertical(&selectedArrow) + Vec2(0, positionsY[currentOption] + 72));
+    selectedArrow.RenderScreenPosition(CenterVertical(&selectedArrow) + Vec2(0, positionsY[currentOption] + 72));
 
-    menuOptions2[0].sprite->Render(CenterVertical(menuOptions2[0].sprite) +
+    menuOptions2[0].sprite->RenderScreenPosition(CenterVertical(menuOptions2[0].sprite) +
                                    Vec2(0, positionsY[0] + 72));
-    menuOptions2[1].sprite->Render(CenterVertical(menuOptions2[1].sprite) +
+    menuOptions2[1].sprite->RenderScreenPosition(CenterVertical(menuOptions2[1].sprite) +
                                    Vec2(0, positionsY[1] + 72));
-    menuOptions2[2].sprite->Render(CenterVertical(menuOptions2[2].sprite) +
+    menuOptions2[2].sprite->RenderScreenPosition(CenterVertical(menuOptions2[2].sprite) +
                                    Vec2(0, positionsY[2] + 72));
 }

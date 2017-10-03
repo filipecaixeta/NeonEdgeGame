@@ -130,7 +130,7 @@ void ItensManager::Render() {
     int positionX[3] = {50, 50+92, 50+92*2};
     for (int i = 0; i < HOT_BAR_SIZE; i++) {
         if (itens.count(hotItens[i])) {
-            itens[hotItens[i]].sp->Render(Vec2(positionX[i], 641));
+            itens[hotItens[i]].sp->RenderScreenPosition(Vec2(positionX[i], 641));
         }
     }
 }

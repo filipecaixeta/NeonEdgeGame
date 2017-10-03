@@ -43,7 +43,7 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
     Sprite::frameCount = frameCount;
     Sprite::frameTime = frameTime;
     Sprite::loops = loops;
-    Open(file, enableAlpha);
+    OpenFile(file, enableAlpha);
 }
 
 /**
@@ -63,7 +63,7 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
     Sprite::frameTime = frameTime;
     Sprite::loops = loops;
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     if (enableAlpha) {
         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     }
@@ -89,34 +89,36 @@ Sprite::~Sprite() {
     @return: void.
 
  */
-void Sprite::Open(std::string file, bool enableAlpha) {
+void Sprite::OpenFile(std::string file, bool enableAlpha) {
     texture = Resources::GetImage(file, enableAlpha);
-    if (!IsOpen()) { // Check if image loading sucessful
+    if (IsOpen()) { // Check if image loading sucessful
+        SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+        SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+        if (enableAlpha) {
+            SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
+        }
+    }
+    else {
         printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
-    SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
-    if (enableAlpha) {
-        SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
     }
 }
 
 /*
     Objective: update sprite frames.
-    @param: float dt.
+    @param: float delayTime.
     @return: void.
 
  */
-void Sprite::Update(float dt) {
-    timeElapsed += dt;
+void Sprite::Update(float delayTime) {
+    timeElapsed += delayTime;
     if (timeElapsed > frameTime && frameTime > 0) {
         if (currentFrame < frameCount) {
             currentFrame++;
         } else if (!loops) {
             currentFrame = 1;
         }
-        SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+        SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
         timeElapsed = 0;
     }
 }
@@ -129,7 +131,7 @@ void Sprite::Update(float dt) {
   @return: void.
 
  */
-void Sprite::Render(int x, int y, float angle) {
+void Sprite::RenderTexture(int x, int y, float angle) {
     dstRect.w = clipRect.w*scaleX;
     dstRect.h = clipRect.h*scaleY;
     dstRect.x = x - ((dstRect.w-clipRect.w)/2);
@@ -147,8 +149,8 @@ void Sprite::Render(int x, int y, float angle) {
     @return: void.
 
  */
-void Sprite::Render(Vec2 pos, float angle) {
-    Render(pos.x, pos.y, angle);
+void Sprite::RenderScreenPosition(Vec2 pos, float angle) {
+    RenderTexture(pos.x, pos.y, angle);
 }
 
 /*
@@ -160,7 +162,7 @@ void Sprite::Render(Vec2 pos, float angle) {
     @return: void.
 
  */
-void Sprite::SetClip(int x, int y, int w, int h) {
+void Sprite::SetClipPosition(int x, int y, int w, int h) {
     clipRect.x = x;
     clipRect.y = y;
     clipRect.w = w;
@@ -217,7 +219,7 @@ void Sprite::SetTransparency(float a) {
  */
 void Sprite::SetFrame(int frame) {
     currentFrame = frame;
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
 /*
@@ -275,7 +277,7 @@ void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     destroyTexture = destroyTexture_;
     texture = tex;
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
 /*

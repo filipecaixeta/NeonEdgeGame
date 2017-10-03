@@ -44,11 +44,11 @@ void MenuState::Update()
 void MenuState::Render()
 {
 	int offset = 70;
-	bg.Render(CenterVertical(&bg));
+	bg.RenderScreenPosition(CenterVertical(&bg));
 	int pos=offset;
 	for(auto option: menuOptions)
 	{
-		option.sprite->Render(CenterVertical(option.sprite)+Vec2(0,pos));
+		option.sprite->RenderScreenPosition(CenterVertical(option.sprite)+Vec2(0,pos));
 		pos += offset;
 	}
 }

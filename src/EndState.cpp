@@ -69,7 +69,7 @@ void EndState::Update() {
 
 */
 void EndState::Render() {
-    bg.Render(0, 0);
+    bg.RenderTexture(0, 0);
 }
 
 /**

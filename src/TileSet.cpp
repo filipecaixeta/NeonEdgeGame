@@ -50,8 +50,8 @@ TileSet::~TileSet() {
 void TileSet::Render(int index, int x, int y) {
     // Valid if index is between 0 and end of matrix
     if(index > -1 && index < columns*rows) {
-        tileSet.SetClip(index%columns*(tileWidth+adjustX), index/columns*(tileHeight+adjustY), tileWidth+adjustX, tileHeight+adjustY);
-        tileSet.Render(x-adjustX, y-adjustY);
+        tileSet.SetClipPosition(index%columns*(tileWidth+adjustX), index/columns*(tileHeight+adjustY), tileWidth+adjustX, tileHeight+adjustY);
+        tileSet.RenderTexture(x-adjustX, y-adjustY);
     }
 }
 

@@ -222,11 +222,11 @@ void Cutscene::Update() {
 
 void Cutscene::Render() {
     for (int i = 0; i < objs.size(); i++) {
-        objs.at(i).sp->Render(objs.at(i).box.x, objs.at(i).box.y);
+        objs.at(i).sp->RenderTexture(objs.at(i).box.x, objs.at(i).box.y);
     }
 
     if (!dialog.empty()) {
-        dialog.at(0)->Render(150, 400);
+        dialog.at(0)->RenderTexture(150, 400);
     }
 
     if (!textBox.empty()) {

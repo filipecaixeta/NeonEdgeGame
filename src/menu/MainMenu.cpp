@@ -54,9 +54,9 @@ void MainMenu::LoadAssets() {
 	menuOptions.push_back({"Settings", new Sprite("menus/settings-button.png"), true, 0});
 	menuOptions.push_back({"Exit", new Sprite("menus/exit-button.png"), true, 0});
 
-	bg.Open("menus/BG_Back.png"); // Open the main menu Background.
+	bg.OpenFile("menus/BG_Back.png"); // Open the main menu Background.
 
-	bgOptions.Open("menus/Menu-Neutro-Base.png");
+	bgOptions.OpenFile("menus/Menu-Neutro-Base.png");
 
     // Put the sounds of main menu to play.
 	music.Open("menuTheme.ogg");
@@ -104,7 +104,7 @@ void MainMenu::Update() {
 */
 void MainMenu::Render() {
 	int positionsY[4] = {431,498,564,631}; // Set with precision the position that will be have rendereing the main menu.
-	bg.Render(CenterVertical(&bg));
-	bgOptions.Render(CenterVertical(&bgOptions)+Vec2(0,431));
-	menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
+	bg.RenderScreenPosition(CenterVertical(&bg));
+	bgOptions.RenderScreenPosition(CenterVertical(&bgOptions)+Vec2(0,431));
+	menuOptions[currentOption].sprite->RenderScreenPosition(CenterVertical(menuOptions[currentOption].sprite)+Vec2(0,positionsY[currentOption]));
 }
