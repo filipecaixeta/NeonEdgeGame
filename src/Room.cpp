@@ -48,27 +48,27 @@
     @return: Return a instance of Room.
 
 */
-Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std::string mapName):
+Room::Room(TileSet* tileSet, int index, Vec2 roomPosition, TileSet* background, std::string mapName):
     sceneObjects("resources/map/objs/"+
                  mapName+
                  "sceneObjects.txt") {
     Room::index = index; // Beginning of the room.
-    std::stringstream ss; // This sequence of characters can be accessed directly as a string.
-    Room::position = position; // Position in which the object will be inserted in the room.
-    ss << index;
+    std::stringstream roomId; // This sequence of characters can be accessed directly as a string.
+    Room::position = roomPosition; // Position in which the object will be inserted in the room.
+    roomId << index;
     // load map 
     map = new TileMap("resources/map/room0"+
-                       ss.str()+
+                       roomId.str()+
                        ".txt", tileSet, {0, 0});
     std::cerr << map->GetSize() << std::endl;
     // set background
     backgroundMap = new TileMap("resources/map/bg.txt", background, {0, map->GetSize().y}, true);
     objectArray = std::vector<GameObject*>();
     LoadObjects("resources/map/objs/room0"+
-                ss.str()+
+                roomId.str()+
                 ".txt");
     CreateObjects();
-    std::cout << ss.str() << "\t";
+    std::cout << roomId.str() << "\t";
 }
  
  /**
@@ -155,7 +155,7 @@ void Room::RemovePlayer() {
 
 */
  
-GameObject* Room::GetFirst() {
+GameObject* Room::GetFirstObject() {
     return objectArray[0];
 }
  
@@ -166,7 +166,7 @@ GameObject* Room::GetFirst() {
 
 */
  
-Vec2 Room::GetPos() {
+Vec2 Room::GetRoomPosition() {
     return position;
 }
  
@@ -205,20 +205,19 @@ void Room::ObjectCollision() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         for(unsigned j = i+1; j < objectArray.size(); j++) {
             // Check if collision in x axis or y axis.
-            if(objectArray[i]->Is("Animation") ||
-               objectArray[j]->Is("Animation")) {
-
-            }
-            else if (objectArray[i]->box.OverlapsWith(objectArray[j]->box)) {
-                objectArray[i]->NotifyObjectCollision(objectArray[j]);
-                objectArray[j]->NotifyObjectCollision(objectArray[i]);
-                // Check colision between player and object.
-                if (objectArray[i]->Is("Item") && objectArray[j]->IsPlayer()) {
-                    dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-                }
-                    
-                else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
-                    dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
+            if(!objectArray[i]->Is("Animation") ||
+               !objectArray[j]->Is("Animation")) {
+                if (objectArray[i]->box.OverlapsWith(objectArray[j]->box)) {
+                    objectArray[i]->NotifyObjectCollision(objectArray[j]);
+                    objectArray[j]->NotifyObjectCollision(objectArray[i]);
+                    // Check colision between player and object.
+                    if (objectArray[i]->Is("Item") && objectArray[j]->IsPlayer()) {
+                        dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
+                    }
+                        
+                    else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
+                        dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
+                    }
                 }
             }
         }
@@ -471,26 +470,26 @@ void Room::LoadObjects(std::string file) {
         std::cerr<< "f.open: unable to open file: " << file.c_str();
         return;
     }
-    for(std::string line; std::getline(f, line); ) {
+    for(std::string line; std::getline(f, line);) {
         char delimiter;
-        int n;
+        int id;
         ObjectData data;
-        std::stringstream ss(line);
-        ss >> data.id;
-        ss >> delimiter;
-        ss >> data.x;
-        ss >> delimiter;
-        ss >> data.y;
-        ss >> delimiter;
-        ss >> n;
-        ss >> delimiter;
-        if (n > 20) {
+        std::stringstream dataLine(line);
+        dataLine >> data.id;
+        dataLine >> delimiter;
+        dataLine >> data.x;
+        dataLine >> delimiter;
+        dataLine >> data.y;
+        dataLine >> delimiter;
+        dataLine >> id;
+        dataLine >> delimiter;
+        if (id > 20) {
             ObjectData newData;
-            newData.id = n;
-            ss >> newData.x;
-            ss >> delimiter;
-            ss >> newData.y;
-            ss >> delimiter;
+            newData.id = id;
+            dataLine >> newData.x;
+            dataLine >> delimiter;
+            dataLine >> newData.y;
+            dataLine >> delimiter;
             objectData.push_back(newData);
         }
         objectData.push_back(data);

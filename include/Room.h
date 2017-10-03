@@ -28,9 +28,9 @@ public:
 	void AddObjectAsFirst(GameObject* ptr);
 	void RemoveObject(GameObject* ptr);
 	void RemovePlayer();
-	GameObject* GetFirst();
+	GameObject* GetFirstObject();
 	TileMap* GetMap();
-	Vec2 GetPos();
+	Vec2 GetRoomPosition();
 	void ObjectUpdate(float dt);
 	void ObjectCollision();
 	void ObjectCleanup();
