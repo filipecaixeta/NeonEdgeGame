@@ -24,9 +24,9 @@ Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(150
     name = "Turret";
     graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret"); // Instances the graphics, adding the sprites.
     box.SetWH(graphicsComponent->GetSize());
-    attackCD.SetLimit(300); // Defines the time between each attack, in nanoseconds.
+    coolDownAttack.SetLimit(300); // Defines the time between each attack, in nanoseconds.
     idle.Start();
-    hitpoints = 2;
+    characterHealthPoints = 2;
 }
 
 /**
@@ -45,7 +45,7 @@ Turret::~Turret() {
 
 */
 void Turret::Attack() {
-    attackCD.Start();
+    coolDownAttack.Start();
     StageState::AddObject(new Projectile(this, Vec2(0.4, 0), 400, 1, false));
 }
 

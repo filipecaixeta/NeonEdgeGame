@@ -48,7 +48,7 @@ bool Projectile::IsDead() {
 	return (!lifetime.IsRunning());
 }
 
-int Projectile::Power() {
+int Projectile::CharacterPower() {
 	return power;
 }
 

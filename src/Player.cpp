@@ -34,7 +34,7 @@ Player::Player(ItensManager* itemManager, int x, int y):
     crouching(false),  // Default state: standing.
     crouchingEdge(true) {
     name = "Player";  // Sets the Player's name.
-    hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
+    characterHealthPoints = MAX_CHARACTERHEALTHPOINTS;  // Sets the hitpoints of the player to 10.
 }
 
 /**
@@ -105,13 +105,13 @@ bool Player::Crouching() {
 void Player::EvalItem(std::string itemName) {
     // Heals the hitpoints of the player by 25% of the total.
     if (itemName == "Healing Potion 25") {
-        hitpoints += MAX_HITPOINTS*0.25;
-        clamp(hitpoints, 0, MAX_HITPOINTS);
+        characterHealthPoints += MAX_CHARACTERHEALTHPOINTS * 0.25;
+        clamp(characterHealthPoints, 0, MAX_CHARACTERHEALTHPOINTS);
     }
     // Heals the hitpoints of the player by 50% of the total.
     if (itemName == "Healing Potion 50") {
-        hitpoints += MAX_HITPOINTS*0.5;
-        clamp(hitpoints, 0, MAX_HITPOINTS);
+        characterHealthPoints += MAX_CHARACTERHEALTHPOINTS * 0.5;
+        clamp(characterHealthPoints, 0, MAX_CHARACTERHEALTHPOINTS);
     }
     // Adds 2 energy points.
     if (itemName == "Energy Potion 25") {
@@ -140,13 +140,13 @@ void Player::NotifyObjectCollision(GameObject* other) {
     if (other->IsCharacter() && !other->IsPlayer()) {
         Character* c = (Character*) other;
         if (c->Attacking()) {
-            Damage(c->Power());
+            Damage(c->CharacterPower());
         }
     }
     if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
         if (!(p->GetOwner() == "Gallahad"))
-            Damage(p->Power());
+            Damage(p->CharacterPower());
     }
     // Restores some energy of the player.
     if (other->Is("Energy")) {
@@ -160,8 +160,8 @@ void Player::NotifyObjectCollision(GameObject* other) {
     if (other->Is("Life")) {
         if (crouching && !regenCD.IsRunning()) {
             regenCD.Start();
-            hitpoints += 1;
-            clamp(hitpoints, 0, 10);
+            characterHealthPoints += 1;
+            clamp(characterHealthPoints, 0, 10);
         }
     }
 }
