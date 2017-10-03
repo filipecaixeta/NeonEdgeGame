@@ -86,20 +86,28 @@ void InGameItens::Update() {
     // Verifies quit request.
     if (InputManager::GetInstance().KeyPress((int)'q')) {
         quitRequested = true;
+    } else {
+        // It does nothing.
     }
 
     if (isOnHotBar) {
         if (InputManager::GetInstance().KeyPress(SDLK_LEFT)) {
             SetHotBarOption(-1);
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_RIGHT)) {
             SetHotBarOption(1);
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
             InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
             isOnHotBar = !isOnHotBar;
+        } else {
+            // It does nothing.
         }
 
         hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
@@ -109,6 +117,8 @@ void InGameItens::Update() {
         for (int i = 0; i < hotBarOptions.size(); i++) {
             if (i == currentHotBarOption) {
                 continue;
+            } else {
+                // It does nothing.
             }
 
             if (hotBarOptions[currentHotBarOption].key == hotBarOptions[i].key) {
@@ -116,32 +126,48 @@ void InGameItens::Update() {
                 hotBarOptions[i].selectable = false;
                 hotBarOptions[i].key = "";
                 itensManager->hotItens[i] = "";
+            } else {
+                // It does nothing.
             }
         }
     } else {
         if (InputManager::GetInstance().KeyPress(SDLK_UP)) {
             if (currentOption - rowSize <= menuOptions.size()) {
                 SetOption(-rowSize);
+            } else {
+                // It does nothing.
             }
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_DOWN)) {
             if (currentOption + rowSize < menuOptions.size()) {
                 SetOption(rowSize);
+            } else {
+                // It does nothing.
             }
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_LEFT)) {
             SetOption(-1);
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_RIGHT)) {
             SetOption(1);
+        } else {
+            // It does nothing.
         }
 
         if (InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
                 InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
             isOnHotBar = !isOnHotBar;
+        } else {
+            // It does nothing.
         }
     }
 }
@@ -156,6 +182,8 @@ void InGameItens::SetOption(int i) {
     MenuState::SetOption(i);
     if (itens.size()!= 0) {
         SetItemText(itens[currentOption]);
+    } else {
+        // It does nothing.
     }
 }
 
@@ -168,11 +196,15 @@ void InGameItens::SetOption(int i) {
 void InGameItens::SetHotBarOption(int i) {
     if (!hotBarOptions.size()) {
         return;
+    } else {
+        // It does nothing.
     }
 
     currentHotBarOption = currentHotBarOption + i;
     if (currentHotBarOption < 0) {
         currentHotBarOption = hotBarOptions.size() + i;
+    } else {
+        // It does nothing.
     }
     currentHotBarOption = currentHotBarOption % hotBarOptions.size();
 }
@@ -194,10 +226,14 @@ void InGameItens::Render() {
         if (i % rowSize == 0) {
             pos.y += 96;
             pos.x = 27;
+        } else {
+            // It does nothing.
         }
 
         if (!isOnHotBar && i == currentOption) {
             selected->Render(bgXY + pos + Vec2(2, 2));
+        } else {
+            // It does nothing.
         }
 
         option.sprite->Render(bgXY + pos + offset);
