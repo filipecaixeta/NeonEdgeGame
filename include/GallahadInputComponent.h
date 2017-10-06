@@ -3,13 +3,12 @@
 
 #include "InputComponent.h"
 
-class GallahadInputComponent: public InputComponent
-{
+class GallahadInputComponent: public InputComponent {
 public:
-	GallahadInputComponent();
-	void Update(Player* obj_, float dt_);
-	void Hide();
-	void Toggle();
+    GallahadInputComponent();
+    void Update(Player* player, float deltaTime);
+    void Hide();
+    void Toggle();
 };
 
 #endif // GALLAHADINPUTCOMPONENT_H

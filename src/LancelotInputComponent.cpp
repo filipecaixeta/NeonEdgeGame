@@ -1,4 +1,10 @@
-// Copyright 2017 Neon Edge Game.
+/**
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: LancelotInputComponent.cpp
+ * Header File Name: LancelotInputComponent.h
+ * Class Name: LancelotInputComponent
+ * Objective: it manages Lancelot input components.
+ */
 
 #include "LancelotInputComponent.h"
 #include "InputManager.h"
@@ -6,11 +12,24 @@
 
 #define clamp(N, L, U) N = std::max(L, std::min(N, U))
 
+/**
+ * Objective: it constructs Lancelot graphics component object.
+ *
+ * @param none.
+ * @return none.
+ */
 LancelotInputComponent::LancelotInputComponent() {
 }
 
-void LancelotInputComponent::Update(Player* obj_, float dt_) {
-    InputComponent::Update(obj_, dt_);
+/**
+ * Objective: it updates Lancelot sprite status by your action.
+ *
+ * @param GameObject *player - object of Lancelot.
+ * @param float deltaTime - value to update elapsed time of the sprite.
+ * @return none.
+ */
+void LancelotInputComponent::Update(Player *player, float deltaTime) {
+    InputComponent::Update(player, deltaTime);
     InputManager &input = InputManager::GetInstance();
 
     if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
@@ -21,10 +40,10 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
         StayStill();
     }
 
-    if (obj->IsCrouching()) {
-        clamp(obj->physicsComponent.velocity.x, -0.2f, 0.2f);
+    if (player->IsCrouching()) {
+        clamp(player->physicsComponent.velocity.x, - 0.2f, 0.2f);
     } else {
-        clamp(obj->physicsComponent.velocity.x, -0.4f, 0.4f);
+        clamp(player->physicsComponent.velocity.x, - 0.4f, 0.4f);
     }
 
     if (input.IsKeyDown(CROUCH_KEY, true)) {
@@ -35,25 +54,27 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
 
     if (input.KeyPress(ATTACK_KEY, true)) {
         if (input.IsKeyDown(MOVE_LEFT_KEY, true) || input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
-            if (obj_->skills[6]) {
+            if (player->skills[6]) {
                 Combo("Axe");
             } else {
                 Combo("Chop");
             }
         } else if (input.IsKeyDown(SDLK_w)) {
-            if (obj_->skills[5]) {
+            if (player->skills[5]) {
                 Combo("Sword");
             } else {
                 Combo("Uppercut");
             }
         } else {
-            if (obj_->skills[4]) {
+            if (player->skills[4]) {
                 Combo("Spear");
             } else {
                 Combo("Straight");
             }
         }
         Attack();
+    } else {
+        // It does nothing.
     }
 
     if (input.IsKeyDown(SPECIAL_KEY, true)) {
@@ -64,34 +85,58 @@ void LancelotInputComponent::Update(Player* obj_, float dt_) {
 
     if (input.KeyPress(JUMP_KEY, true)) {
         Jump();
+    } else {
+        // It does nothing.
     }
 
     if (input.MousePress(LEFT_MOUSE_BUTTON)) {
         Save(true);
+    } else {
+        // It does nothing.
     }
 
     if (input.MousePress(RIGHT_MOUSE_BUTTON)) {
         Save(false);
+    } else {
+        // It does nothing.
     }
 
     ProcessItems();
 }
 
+/**
+ * Objective: it blocks enemy attack to character Lancelot.
+ *
+ * @param none.
+ * @return none.
+ */
 void LancelotInputComponent::Block() {
-    Lancelot *l = (Lancelot*) obj;
-    if (l->GetEnergy() > 0) {
-        l->StartBlock();
+    Lancelot *lancelot = (Lancelot*) player;
+    if (lancelot->GetEnergy() > 0) {
+        lancelot->StartBlock();
     } else {
-        l->StopBlock();
+        lancelot->StopBlock();
     }
 }
 
+/**
+ * Objective: it stops character Lancelot.
+ *
+ * @param none.
+ * @return none.
+ */
 void LancelotInputComponent::Stop() {
-    Lancelot *l = (Lancelot*) obj;
-    l->StopBlock();
+    Lancelot *lancelot = (Lancelot*) player;
+    lancelot->StopBlock();
 }
 
+/**
+ * Objective: it does combo in a fight of character Lancelot.
+ *
+ * @param string c - combo name.
+ * @return none.
+ */
 void LancelotInputComponent::Combo(std::string c) {
-    Lancelot *l = (Lancelot*) obj;
-    l->SetCombo(c);
+    Lancelot *lancelot = (Lancelot*) player;
+    lancelot->SetCombo(c);
 }

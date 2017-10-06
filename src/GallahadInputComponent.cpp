@@ -1,90 +1,127 @@
+/**
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: GallahadInputComponent.cpp
+ * Header File Name: GallahadInputComponent.h
+ * Class Name: GallahadInputComponent
+ * Objective: it manages Gallahad input components.
+ */
+
 #include "GallahadInputComponent.h"
 #include "InputManager.h"
 #include "Gallahad.h"
 #include "Camera.h"
 #include "Drone.h"
 
-#define clamp(N,L,U) N=std::max(L,std::min(N,U))
+#define clamp(N, L, U) N=std::max(L, std::min(N, U))
 
-GallahadInputComponent::GallahadInputComponent()
-{
-
+/**
+ * Objective: it constructs Gallahad graphics component object.
+ *
+ * @param none.
+ * @return none.
+ */
+GallahadInputComponent::GallahadInputComponent() {
 }
 
-void GallahadInputComponent::Update(Player* obj_, float dt_)
-{
-	InputComponent::Update(obj_,dt_);
-	InputManager& input = InputManager::GetInstance();
+/**
+ * Objective: it updates Gallahad sprite status by your action.
+ *
+ * @param GameObject *player - object of Gallahad.
+ * @param float deltaTime - value to update elapsed time of the sprite.
+ * @return none.
+ */
+void GallahadInputComponent::Update(Player *player, float deltaTime) {
+    InputComponent::Update(player, deltaTime);
+    InputManager& input = InputManager::GetInstance();
 
-	if(input.KeyPress(ACTIVE_KEY, true))
-	{
-		Toggle();
-		//Camera::GetInstance().CreateFocus(); PEGAR PONTEIRO PARA O DRONE
-	}
+    if (input.KeyPress(ACTIVE_KEY, true)) {
+        Toggle();
+        // Camera::CheckInstance().Follow();  // It takes pointer to droner.
+    } else {
+        // It does nothing.
+    }
 
-	Gallahad *g = (Gallahad*) obj_;
-	if(g->Active())
-	{
-		if(input.IsKeyDown(MOVE_LEFT_KEY, true))
-			MoveLeft();
-		else if(input.IsKeyDown(MOVE_RIGHT_KEY, true))
-			MoveRight();
-		else
-			StayStill();
-		if(obj_->IsCrouching())
-			clamp(obj->physicsComponent.velocity.x,-0.2f,0.2f);
-		else
-			clamp(obj->physicsComponent.velocity.x,-0.4f,0.4f);
+    Gallahad *gallahad = (Gallahad *) player;
+    if (gallahad->Active()) {
+        if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
+            MoveLeft();
+        } else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
+            MoveRight();
+        } else {
+            StayStill();
+        }
 
-		if(input.IsKeyDown(CROUCH_KEY, true))
-			Crouch(true);
-		else
-			Crouch(false);
+        if (player->IsCrouching()) {
+            clamp(player->physicsComponent.velocity.x, - 0.2f, 0.2f);
+        } else {
+            clamp(player->physicsComponent.velocity.x, - 0.4f, 0.4f);
+        }
 
-		if(input.IsKeyDown(ATTACK_KEY, true))
-		{
-			Gallahad* g = (Gallahad*) obj_;
-			g->StartShooting();
-			Attack();
-		}
-		else
-		{
-			Gallahad* g = (Gallahad*) obj_;
-			g->StopShooting();
-		}
+        if (input.IsKeyDown(CROUCH_KEY, true)) {
+            Crouch(true);
+        } else {
+            Crouch(false);
+        }
 
-		if(input.KeyPress(SPECIAL_KEY, true))
-			Hide();
+        if (input.IsKeyDown(ATTACK_KEY, true)) {
+            Gallahad *gallahad = (Gallahad *) player;
+            gallahad->StartShooting();
+            Attack();
+        } else {
+            Gallahad *gallahad = (Gallahad *) player;
+            gallahad->StopShooting();
+        }
 
-		if(input.KeyPress(JUMP_KEY, true))
-			Jump();
-	}
+        if (input.KeyPress(SPECIAL_KEY, true)) {
+            Hide();
+        } else {
+            // It does nothing.
+        }
 
-	ProcessItems();
+        if (input.KeyPress(JUMP_KEY, true)) {
+            Jump();
+        } else {
+            // It does nothing.
+        }
+    } else {
+        // It does nothing.
+    }
+
+    ProcessItems();
 }
 
-void GallahadInputComponent::Hide()
-{
-	Gallahad *g = (Gallahad*)obj;
-	if(g->GetEnergy() > 0 && !g->IsHiding())
-	{
-		g->StartHiding();
-	}
+/**
+ * Objective: it updates Gallahad sprite status by your action.
+ *
+ * @param GameObject *obj - object of Gallahad.
+ * @param float dt - value to update elapsed time of the sprite.
+ * @return none.
+ */
+void GallahadInputComponent::Hide() {
+    Gallahad *gallahad = (Gallahad *)player;
+    if (gallahad->GetEnergy() > 0 && !gallahad->IsHiding()) {
+        gallahad->StartHiding();
+    } else {
+        // It does nothing.
+    }
 }
 
-void GallahadInputComponent::Toggle()
-{
-	Gallahad* g = (Gallahad*) obj;
-	if(g->Active())
-	{
-		g->Activate(false);
-		g->GetDrone()->DroneActivate(true);
-		Camera::CheckInstance().CreateFocus(g->GetDrone());
-	}
-	else
-	{
-		g->Activate(true);
-		g->GetDrone()->DroneActivate(false);
-		Camera::CheckInstance().CreateFocus(g);
-	}
+/**
+ * Objective: It updates Gallahad sprite status by your action.
+ *
+ * @param GameObject *obj - object of Gallahad.
+ * @param float dt - value to update elapsed time of the sprite.
+ * @return none.
+ */
+void GallahadInputComponent::Toggle() {
+    Gallahad *gallahad = (Gallahad *) player;
+    if (gallahad->Active()) {
+        gallahad->Activate(false);
+        gallahad->GetDrone()->DroneActivate(true);
+        Camera::CheckInstance().CreateFocus(gallahad->GetDrone());
+    } else {
+        gallahad->Activate(true);
+        gallahad->GetDrone()->DroneActivate(false);
+        Camera::CheckInstance().CreateFocus(gallahad);
+    }
 }

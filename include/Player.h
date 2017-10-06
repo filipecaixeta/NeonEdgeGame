@@ -13,35 +13,34 @@
 class InputComponent;
 class ItensManager;
 
-class Player : public Character
-{
+class Player : public Character {
 public:
-	Player(ItensManager* itemManager, int x, int y);
-	virtual ~Player();
-	virtual bool IsPlayer();
-	virtual int GetEnergy();
-	virtual void Crouch();
-	virtual void Stand();
-	virtual bool IsCrouching();
-	virtual void EvalItem(std::string itemName);
-	virtual void NotifyObjectCollision(GameObject* other);
-	virtual void UpdateTimers(float dt);
-	virtual void Update(TileMap* map,float dt);
+    Player(ItensManager* itemManager, int x, int y);
+    virtual ~Player();
+    virtual bool IsPlayer();
+    virtual int GetEnergy();
+    virtual void Crouch();
+    virtual void Stand();
+    virtual bool IsCrouching();
+    virtual void EvalItem(std::string itemName);
+    virtual void NotifyObjectCollision(GameObject* other);
+    virtual void UpdateTimers(float dt);
+    virtual void Update(TileMap* map,float dt);
 
-	enum {SkillBlocking3 = 0, SkillBlocking2, SkillBlocking1, Skill, SkillWeapon_1, SkillWeapon_2,
-		SkillWeapon_3};  // The skills options of the player.
+    enum {SkillBlocking3 = 0, SkillBlocking2, SkillBlocking1, Skill, SkillWeapon_1, SkillWeapon_2,
+        SkillWeapon_3};  // The skills options of the player.
 
-	InputComponent* inputComponent;
-	ItensManager* itemManager;
+    InputComponent* inputComponent;
+    ItensManager* itemManager;
 
-	bool skills[7];
-	int skillPoints;
+    bool skills[7];
+    int skillPoints;
 
 protected:
-	int energy;
-	Timer regenCD;
-	bool isCrouching;
-	bool isStading;
+    int energy;
+    Timer regenCD;
+    bool isCrouching;
+    bool isStading;
 };
 
 #endif /* PLAYER_H_ */

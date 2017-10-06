@@ -99,10 +99,10 @@ void Character::NotifyObjectCollision(GameObject* other) {
         if (other->Is("Door")) {
             Interactive *i = (Interactive *) other;
             if (!IsPlayer() || !i->Active()) {
-                SolidCollision(other);
+                SolidColision(other);
             }
         } else {
-            SolidCollision(other);
+            SolidColision(other);
         }
     }
     if (!IsPlayer()) {
