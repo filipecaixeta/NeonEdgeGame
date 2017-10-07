@@ -9,11 +9,11 @@ enum EnemyState{WAITING,ATTACKING,REARMING};
 class CeilingEnemy : public Character
 {
 public:
-    CeilingEnemy(int x,int y);
+    CeilingEnemy(int x_axis_position,int y_axis_position);
     bool Attacking();
     void NotifyTileCollision(int tile, Face face);
-    void Update(TileMap* world, float dt);
-    void UpdateAI(float dt);
+    void Update(TileMap* world, float deltaTime);
+    void UpdateAI(float deltaTime);
 
 private:
     EnemyState state;
