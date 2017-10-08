@@ -3,17 +3,16 @@
 
 #include "Interactive.h"
 
-class HandScanner : public Interactive
-{
+class HandScanner : public Interactive {
 private:
-	Interactive* door;
-	
+    Interactive *door;
+
 public:
-	HandScanner(int x, int y, Interactive* d);
-	~HandScanner();
-	void Trigger();
-	void NotifyObjectCollision(GameObject* other);
-	void Update(TileMap* map, float dt);
+    HandScanner(int x, int y, Interactive *door);
+    ~HandScanner();
+    void Trigger();
+    void NotifyObjectCollision(GameObject *gameObject);
+    void Update(TileMap *map, float deltaTime);
 };
 
-#endif 
+#endif
