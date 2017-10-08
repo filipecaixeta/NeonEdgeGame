@@ -8,6 +8,11 @@
 #include "TileMap.h"
 #include "Timer.h"
 
+#define INT_MIN_SIZE -3.4e+38f
+#define INT_MAX_SIZE 3.4e+38f
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+
 class GameObject {
 public:
     enum Face : short int {UPPER, BOTTOM, LEFT, RIGHT, SPECIAL};

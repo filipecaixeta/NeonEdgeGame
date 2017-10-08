@@ -3,22 +3,21 @@
 
 #include "Character.h"
 
-class Turret : public Character
-{
+class Turret : public Character {
 public:
-	Turret(int x, int y);
-	~Turret();
-	void Attack();
-	void NotifyTileCollision(int tile, Face face);
-	void UpdateTimers(float dt);
-	void UpdateAI(float dt);
-	void Update(TileMap* world, float dt);
-	bool Is(std::string type);
+    Turret(int x, int y);
+    ~Turret();
+    void Attack();
+    void NotifyTileCollision(int tile, Face face);
+    void UpdateTimers(float deltaTime);
+    void UpdateAI(float deltaTime);
+    void Update(TileMap* world, float deltaTime);
+    bool Is(std::string characterType);
 
 private:
-	Rect radius;
-	Timer looking;
-	Timer idle;
+    Rect radius;
+    Timer looking;
+    Timer idle;
 };
 
 #endif // TURRET_H
