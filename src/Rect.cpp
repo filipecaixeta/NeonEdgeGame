@@ -7,7 +7,8 @@
  */
 
  #include "Rect.h"
- #define FLOAT_SIZE 3.4e+38f
+ #define FLOAT_SIZE_MAX 3.4e+38f
+ #define FLOAT_SIZE_MIN -3.4e+38f
  #define CENTER_AJUST 2  
  #define VALUE_INITIAL_FLOAT 0.0f
  /**
@@ -31,7 +32,7 @@
   */
   bool CheckFloatRect(float testFloat) {
      bool veryValue = false;
-     if ((testFloat >= - FLOAT_SIZE) && (testFloat <= FLOAT_SIZE)) {
+     if ((testFloat >= FLOAT_SIZE_MIN) && (testFloat <= FLOAT_SIZE_MAX)) {
          veryValue = true;
      } else {
          // It does nothing.

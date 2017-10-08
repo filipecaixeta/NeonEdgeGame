@@ -11,7 +11,8 @@
 #include "Camera.h"
 #include "Game.h"
 #include "InputManager.h"
-#define FLOAT_SIZE 3.4e+38f
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
 #define MAX_SCREEN 999999.0f
 #define INITIAL_POSITION_FOCUS 0.0f
 #define FOCUS_CENTER 2
@@ -53,7 +54,7 @@ Camera::~Camera() {
  */
 bool CheckFloat(float testFloat) {
     bool veryValue = false;
-    if ((testFloat >= - FLOAT_SIZE) && (testFloat <= FLOAT_SIZE)) {
+    if ((testFloat >= FLOAT_SIZE_MIN ) && (testFloat <= FLOAT_SIZE_MAX)) {
         veryValue = true;
     } else {
         // It does nothing.
