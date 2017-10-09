@@ -4,6 +4,11 @@
 #include "Vec2.h"
 #include <iostream>
 
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+#define CENTER_AJUST 2  
+#define VALUE_INITIAL_FLOAT 0.0f
+
 class Rect {
 public:
 	float x;
