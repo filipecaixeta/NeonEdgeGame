@@ -3,6 +3,12 @@
 
 #include "GameObject.h"
 
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+#define MAX_SCREEN 999999.0f
+#define INITIAL_POSITION_FOCUS 0.0f
+#define FOCUS_CENTER 2
+
 class Camera {
 private:
 	GameObject* cameraFocus;
