@@ -9,26 +9,25 @@
 
 class Player;
 
-class Item: public GameObject
-{
+class Item: public GameObject {
 public:
-	Item(int id_, int x, int y);
-	void Eval(Player *player);
-	void SetActive(bool b);
-	bool GetActive();
+    Item(int id, int x, int y);
+    void Eval(Player *player);
+    void SetActive(bool boolStatus);
+    bool GetActive();
 
-	bool Is(std::string type);
-	bool IsDead();
+    bool Is(std::string stringItem);
+    bool IsDead();
 
-	void NotifyObjectCollision(GameObject* other);
+    void NotifyObjectCollision(GameObject *gameObject);
 
-	void Update(TileMap* map, float dt);
-	void Render();
+    void Update(TileMap *map, float deltaTime);
+    void Render();
 
-	Sprite* sp;
-	bool dead;
-	std::string name;
-	int id;
+    Sprite *sprite;
+    bool dead;
+    std::string stringName;
+    int id;
 
 };
 #endif // ITEM_H

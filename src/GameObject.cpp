@@ -16,11 +16,11 @@ GameObject::~GameObject() {
 /**
  * Objective: it compares given string with name.
  *
- * @param string type.
- * @return bool 'type == name' - status of given string.
+ * @param string stringName.
+ * @return bool 'stringName == name' - status of given string.
  */
-bool GameObject::Is(std::string type) {
-    return (type == name);
+bool GameObject::Is(std::string stringName) {
+    return (stringName == name);
 }
 
 /**
@@ -70,24 +70,29 @@ Vec2 GameObject::GetPosition() {
  * @return none.
  */
 void GameObject::SetPosition(Vec2 position) {
-    box.x = position.x;
-    box.y = position.y;
+    if ((position.x >= INT_MIN_SIZE && position.x <= INT_MAX_SIZE) &&
+            (position.y >= INT_MIN_SIZE && position.y <= INT_MAX_SIZE)) {
+        box.x = position.x;
+        box.y = position.y;
+    } else {
+        // It does nothing.
+    }
 }
 
 /**
- * Objective: it sends tile and face.
+ * Objective: it does nothing.
  *
- * @param int tile
- * @param Face face
+ * @param int tile.
+ * @param Face face.
  * @return none.
  */
 void GameObject::NotifyTileCollision(int tile, Face face) {
 }
 
 /**
- * Objective: it sends game object.
+ * Objective: it does nothing.
  *
- * @param GameObject *gameObject
+ * @param GameObject *gameObject.
  * @return none.
  */
 void GameObject::NotifyObjectCollision(GameObject *gameObject) {
@@ -96,11 +101,11 @@ void GameObject::NotifyObjectCollision(GameObject *gameObject) {
 /**
  * Objective: it manages solid colitions.
  *
- * @param GameObject *gameObject
+ * @param GameObject *gameObject.
  * @return none.
  */
 void GameObject::SolidColision(GameObject *gameObject) {
-    if (IsCharacter()) {
+    if (gameObject && IsCharacter()) {
         Character *character = (Character *) this;
         int y = box.y - character->physicsComponent.velocity.y * Game::GetInstance().GetDeltaTime();
         if (footing != GROUNDED && y + box.h < gameObject->box.y) {
@@ -153,7 +158,8 @@ void GameObject::SolidColision(GameObject *gameObject) {
  * @param bool &mirror
  * @return bool false.
  */
-bool GameObject::GetColisionData(SDL_Surface **surface, SDL_Rect &clipRect, Vec2 &position, bool &mirror) {
+bool GameObject::GetColisionData(SDL_Surface **surface, SDL_Rect &clipRect, Vec2 &position,
+                                 bool &mirror) {
     return false;
 }
 
@@ -168,7 +174,7 @@ void GameObject::DieAnimation() {
 }
 
 /**
- * Objective: it renders game object.
+ * Objective: it does nothing.
  *
  * @param none.
  * @return none.
