@@ -23,16 +23,24 @@ TileSet::TileSet(int tileWidth, int tileHeight, std::string file, int adjustX, i
         tileSet = Sprite(file); // Sprite file.
         TileSet::tileWidth = tileWidth; // Width of TileSet.
         columns = tileSet.GetWidth()/tileWidth; // Number of columns in TileSet.
+    } else {
+        // It does nothing.
     }
     if (tileHeight >= INT_MIN_SIZE && tileHeight <= INT_MAX_SIZE) {
         TileSet::tileHeight = tileHeight; // Height of TileSet.
         rows = tileSet.GetHeight()/tileHeight; // Number of rows in TileSet.
+    } else {
+        // It does nothing.
     }
     if(adjustX >= INT_MIN_SIZE && adjustX <= INT_MAX_SIZE){
         TileSet::adjustX = adjustX; // Adjust X axis.
+    } else {
+        // It does nothing.
     }
     if(adjustY >= INT_MIN_SIZE && adjustY <= INT_MAX_SIZE){
         TileSet::adjustY = adjustY; // Ajdust Y axis.
+    } else {
+        // It does nothing.
     }
 }
 
@@ -63,8 +71,14 @@ void TileSet::Render(int index, int x, int y) {
                 tileSet.SetClip(index%columns*(tileWidth+adjustX), index/columns*(tileHeight+adjustY),
                  tileWidth+adjustX, tileHeight+adjustY);
                 tileSet.Render(x-adjustX, y-adjustY);
+            } else {
+                // It does nothing.
             }
+        } else {
+            // It does nothing.
         }
+    } else{
+        // It does nothing.
     }
 }
 
