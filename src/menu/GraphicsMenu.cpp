@@ -185,18 +185,22 @@ void GraphicsMenu::Update() {
  *
  */
 void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
-    // Sets screen size.
-    if (option == FIRST_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1024x768  4:3");
-        sprite->SetTexture(text, true);
-    } else if (option == SECOND_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1360x768 16:9");
-        sprite->SetTexture(text, true);
-    } else if (option == THIRD_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1792x768 21:9");
-        sprite->SetTexture(text, true);
-    } else {
-		// Do nothing
+	if((option<0 || option>3) && sprite != NULL){
+		// Sets screen size.
+		if (option == FIRST_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1024x768  4:3");
+			sprite->SetTexture(text, true);
+		} else if (option == SECOND_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1360x768 16:9");
+			sprite->SetTexture(text, true);
+		} else if (option == THIRD_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1792x768 21:9");
+			sprite->SetTexture(text, true);
+		} else {
+			// Do nothing
+		}
+	}
+	else{
 	}
 }
 
@@ -208,18 +212,19 @@ void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
   * @return none.
   */
 void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
-    // Sets windows mode.
-    if (option == FIRST_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Windowed");
-        sprite->SetTexture(text, true);
-    } else if (option == SECOND_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Full Screen");
-        sprite->SetTexture(text, true);
-    } else {
-		// Do nothing
+	if((option<0 || option>3) && sprite != NULL){
+		// Sets windows mode.
+		if (option == FIRST_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Windowed");
+			sprite->SetTexture(text, true);
+		} else if (option == SECOND_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Full Screen");
+			sprite->SetTexture(text, true);
+		} else {
+			// Do nothing
+		}
 	}
 }
-
 /**
   *  Objective: updates fps of game.
   *  
@@ -228,21 +233,22 @@ void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
   *  @return none.
   */
 void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
-    // Sets fps.
-    if (option == FIRST_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "30fps");
-        sprite->SetTexture(text, true);
-    } else if (option == SECOND_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "60fps");
-        sprite->SetTexture(text, true);
-    } else if (option == THIRD_OPTION) {
-        SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "480fps");
-        sprite->SetTexture(text, true);
-    } else {
-		// Do nothing
+	// Sets fps.
+	if((option<0 || option>3) && sprite != NULL){
+		if (option == FIRST_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "30fps");
+			sprite->SetTexture(text, true);
+		} else if (option == SECOND_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "60fps");
+			sprite->SetTexture(text, true);
+		} else if (option == THIRD_OPTION) {
+			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "480fps");
+			sprite->SetTexture(text, true);
+		} else {
+			// Do nothing
+		}
 	}
 }
-
 /**
  *   Objective: renders menu screen position.
  * 
