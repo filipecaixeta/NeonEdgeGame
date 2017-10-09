@@ -23,24 +23,27 @@
     @return instance of the class Lancelot.
 */
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
-    Player(itemManager, x, y),  // Extends the object Player.
-    isBlocking(1000) {
-	
-	int const DIE_TIME = 250;
-    dieTimer = Timer(DIE_TIME);
-    name = "Lancelot";
-    inputComponent = new LancelotInputComponent();
-    graphicsComponent = new LancelotGraphicsComponent("Lancelot");
-    soundComponent = new SoundComponent(name);
-    box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
-    attackCD.SetLimit(0);  // Default limit cool down attack.
-    timeval t1;
-    gettimeofday(&t1, NULL);
-    srand(t1.tv_usec * t1.tv_sec);
-}
+	Player(itemManager, x, y),  // Extends the object Player.
+	isBlocking(1000) {
+	if(itemManager !=NULL){
+		int const DIE_TIME = 250;
+		dieTimer = Timer(DIE_TIME);
+		name = "Lancelot";
+		inputComponent = new LancelotInputComponent();
+		graphicsComponent = new LancelotGraphicsComponent("Lancelot");
+		soundComponent = new SoundComponent(name);
+		box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
+		attackCD.SetLimit(0);  // Default limit cool down attack.
+		timeval t1;
+		gettimeofday(&t1, NULL);
+		srand(t1.tv_usec * t1.tv_sec);
 
+	} else {
+		// Do nothing
+	}
+}
 /**
-    Objective: destructor of the class Lancelot.
+	Objective: destructor of the class Lancelot.
     @param none.
     @return none.
 */
@@ -56,50 +59,54 @@ Lancelot::~Lancelot() {
     @return none.
 */
 void Lancelot::Damage(int damage) {
-	int const ENERGY_LOST = 1;
-	int const PROBABILITY_61 = 61;
-	int const PROBABILITY_76 = 76;
-	int const PROBABILITY_91 = 91;
+	if(damage < 0){
+		int const ENERGY_LOST = 1;
+		int const PROBABILITY_61 = 61;
+		int const PROBABILITY_76 = 76;
+		int const PROBABILITY_91 = 91;
 	
-    if (!invincibilityTimer.IsRunning()) {
-        if (isBlocking) {
-            int n = rand()%100 + 1;  // Random number of 1 to 100.
-            if (skills[0]) {  // SkillBlocking3
-                if (n < PROBABILITY_61) {
-                    energy -= ENERGY_LOST;
-                } else {
-                    // It does nothing.
-                }
-            } else if (skills[1]) {  // SkillBlocking2
-                if (n < PROBABILITY_76) {
-                    energy -= ENERGY_LOST;
-                } else {
-                    // It does nothing.
-                }
-            } else if (skills[2]) {  // SkillBlocking1
-                if (n < PROBABILITY_91){
-                    energy -= ENERGY_LOST;
-                } else {
-                    // It does nothing.
-                }
-            } else {
-                energy -= ENERGY_LOST;
-            }
-            clamp(energy, 0, 5);
-        } else {
-            soundComponent->SoundDamage();
-            hitpoints -= (damage);
-        }
-        invincibilityTimer.Start();
-    } else {
-        // It does nothing.
-    }
+		if (!invincibilityTimer.IsRunning()) {
+			if (isBlocking) {
+				int n = rand()%100 + 1;  // Random number of 1 to 100.
+				if (skills[0]) {  // SkillBlocking3
+					if (n < PROBABILITY_61) {
+						energy -= ENERGY_LOST;
+					} else {
+						// It does nothing.
+					}
+				} else if (skills[1]) {  // SkillBlocking2
+					if (n < PROBABILITY_76) {
+						energy -= ENERGY_LOST;
+					} else {
+						// It does nothing.
+					}
+				} else if (skills[2]) {  // SkillBlocking1
+					if (n < PROBABILITY_91){
+						energy -= ENERGY_LOST;
+					} else {
+						// It does nothing.
+					}
+				} else {
+					energy -= ENERGY_LOST;
+				}
+				clamp(energy, 0, 5);
+			} else {
+				soundComponent->SoundDamage();
+				hitpoints -= (damage);
+			}
+			invincibilityTimer.Start();
+		} else {
+			// It does nothing.
+		}
+	} else {
+		//do nothing
+	}
 }
 
 /**
-    Objective: manage the attacking action of the character based on the variable (combo).
-    @param none.
-    @return none.
+	Objective: manage the attacking action of the character based on the variable (combo).
+	@param none.
+	@return none.
 */
 void Lancelot::Attack() {
 	int const LIMIT_100 = 100;
@@ -167,7 +174,11 @@ void Lancelot::StopBlock() {
     @return: none.
 */
 void Lancelot::SetCombo(std::string setCombo) {
-    combo = setCombo;
+	if(setCombo !=""){
+		combo = setCombo;
+	} else{
+		// Do nothing.
+	}
 }
 
 /**
