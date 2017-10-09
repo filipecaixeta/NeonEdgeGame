@@ -5,8 +5,20 @@
 #include "Timer.h"
 #include "TileMap.h"
 #include "ArthurGraphicsComponent.h"
+#define ARTHUR_DAMAGE_POWER 9
+#define INITIAL_CUTSCENE_INDEX 7
+#define PIXELS_XY_AXES_REMOVED 800
+#define PIXELS_WH_SIZE_ADDED 1000
+#define LONG_DISTANCE_FROM_ARTHUR 400
+#define SHORT_DISTANCE_FROM_ARTHUR 100
+#define LONG_DISTANCE_FROM_PLAYER 400
+#define SHORT_DISTANCE_FROM_PLAYER 100
+#define DELAY_TIME 0.006
+#define CLAMP_L_U 0.8f
+#define MAX_TIME 60
 
-enum ArthurState{IDLE,SLASHING,DASHINGLEFT,DASHINGRIGHT,PUNCHING};
+
+enum ArthurState {IDLE, SLASHING, DASHINGLEFT, DASHINGRIGHT, PUNCHING};
 
 class Arthur : public Character {
 public:
