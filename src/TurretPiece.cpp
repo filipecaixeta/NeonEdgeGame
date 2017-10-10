@@ -44,7 +44,11 @@ TurretPiece::TurretPiece(Character* center, int x, int y, int type):
                 box.SetXY(Vec2(center->box.GetCenter().x + refX - (size.x / 2), center->box.GetCenter().y + refY - (size.y / 2)));
                 box.SetWH(size);
                 rotation = 0;
+            } else {
+                // It does nothing.
             }
+        } else {
+            // It does nothing.
         }
 }
 
@@ -69,6 +73,8 @@ void TurretPiece::Shoot() {
         float Vx = cos(rotation * M_PI / 180) * 0.6;
         float Vy = sin(rotation * M_PI / 180) * 0.6;
         StageState::AddObject(new Projectile(this, Vec2(Vx, -Vy), 1200, 1, true));
+    } else {
+        // It does nothing.
     }
 }
 
@@ -81,6 +87,8 @@ void TurretPiece::Shoot() {
 void TurretPiece::Rotate(float angle) {
     if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE) {
         rotation = angle;
+    } else {
+        // It does nothing.
     }
 }
 
@@ -94,7 +102,8 @@ float TurretPiece::Rotation() {
     return rotation;
 }
 
-/** Objective: Returns the type of the TurretPiece.  A type of the TurretPiece
+/**
+ * Objective: Returns the type of the TurretPiece.  A type of the TurretPiece
  *                is its position on Turret, and varies of 0 to 4.
  *
  * @param none.
@@ -150,6 +159,7 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
     /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
      is a collision with the player in state of attack.*/
     if (type == 0) {
+<<<<<<< HEAD
         TowerDamageOnPlayer(other);
 
         /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
@@ -161,11 +171,38 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
         }
     } else {
         // It does nothing
+=======
+        if (other->IsPlayer()) {
+            Player* c = (Player*) other;
+            if (c->Attacking()) {
+                center->Damage(c->Power());
+            } else {
+                // It does nothing.
+            }
+        } else {
+            // It does nothing.
+        }
+        /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
+        is a collision with the Projectile.*/
+        if (other->Is("Projectile")) {
+            Projectile* p = (Projectile*) other;
+            if (p->GetOwner() == "Gallahad") {
+                center->Damage(p->Power());
+            } else {
+                // It does nothing.
+            }
+        } else {
+            // It does nothing.
+        }
+    } else {
+        // It does nothing.
+>>>>>>>  Aplicação 4 da técnica comportamente default em TurretPiece.cpp
     }
 }
 
 /**
- * Objective: Function responsible to update TurretPiece GameObject, but overloaded with the object 'world'.
+ * Objective: Function responsible to update TurretPiece GameObject, but overloaded with
+ *              the object 'world'.
  *
  * @param TileMap* world.
  * @param float dt - The amount of time the TurretPiece updates its graphics.
