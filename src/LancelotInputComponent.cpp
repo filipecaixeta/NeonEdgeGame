@@ -31,7 +31,9 @@ LancelotInputComponent::LancelotInputComponent() {
 void LancelotInputComponent::Update(Player *player, float deltaTime) {
     InputComponent::Update(player, deltaTime);
     InputManager &input = InputManager::GetInstance();
-
+	float const VELOCITY_RANGED_LOW = 0.2f; 
+	float const VELOCITY_RANGED_HIGH = 0.4f; 
+	
     if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
         MoveLeft();
     } else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
@@ -41,9 +43,9 @@ void LancelotInputComponent::Update(Player *player, float deltaTime) {
     }
 
     if (player->IsCrouching()) {
-        clamp(player->physicsComponent.velocity.x, - 0.2f, 0.2f);
+        clamp(player->physicsComponent.velocity.x, -1*(VELOCITY_RANGED_LOW), VELOCITY_RANGED_LOW);
     } else {
-        clamp(player->physicsComponent.velocity.x, - 0.4f, 0.4f);
+        clamp(player->physicsComponent.velocity.x, -1*(VELOCITY_RANGED_HIGH), VELOCITY_RANGED_HIGH);
     }
 
     if (input.IsKeyDown(CROUCH_KEY, true)) {
@@ -111,8 +113,9 @@ void LancelotInputComponent::Update(Player *player, float deltaTime) {
  * @return none.
  */
 void LancelotInputComponent::Block() {
+	int const NO_ENERGY = 0;
     Lancelot *lancelot = (Lancelot*) player;
-    if (lancelot->GetEnergy() > 0) {
+    if (lancelot->GetEnergy() > NO_ENERGY) {
         lancelot->StartBlock();
     } else {
         lancelot->StopBlock();

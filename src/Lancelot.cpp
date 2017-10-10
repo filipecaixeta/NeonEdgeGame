@@ -25,7 +25,9 @@
 Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     Player(itemManager, x, y),  // Extends the object Player.
     isBlocking(1000) {
-    dieTimer = Timer(250);
+	
+	int const DIE_TIME = 250;
+    dieTimer = Timer(DIE_TIME);
     name = "Lancelot";
     inputComponent = new LancelotInputComponent();
     graphicsComponent = new LancelotGraphicsComponent("Lancelot");
@@ -43,8 +45,9 @@ Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
     @return none.
 */
 Lancelot::~Lancelot() {
+	int const CUT_SCENE_NUMBER = 7;
     Game::GetInstance().GetCurrentState()->quitRequested = true;
-    Game::GetInstance().AddState(new Cutscene(7, false));
+    Game::GetInstance().AddState(new Cutscene(CUT_SCENE_NUMBER, false));
 }
 
 /**
@@ -53,29 +56,34 @@ Lancelot::~Lancelot() {
     @return none.
 */
 void Lancelot::Damage(int damage) {
+	int const ENERGY_LOST = 1;
+	int const PROBABILITY_61 = 61;
+	int const PROBABILITY_76 = 76;
+	int const PROBABILITY_91 = 91;
+	
     if (!invincibilityTimer.IsRunning()) {
         if (isBlocking) {
             int n = rand()%100 + 1;  // Random number of 1 to 100.
             if (skills[0]) {  // SkillBlocking3
-                if (n < 61) {
-                    energy -= 1;
+                if (n < PROBABILITY_61) {
+                    energy -= ENERGY_LOST;
                 } else {
                     // It does nothing.
                 }
             } else if (skills[1]) {  // SkillBlocking2
-                if (n < 76) {
-                    energy -= 1;
+                if (n < PROBABILITY_76) {
+                    energy -= ENERGY_LOST;
                 } else {
                     // It does nothing.
                 }
             } else if (skills[2]) {  // SkillBlocking1
-                if (n < 91){
-                    energy -= 1;
+                if (n < PROBABILITY_91){
+                    energy -= ENERGY_LOST;
                 } else {
                     // It does nothing.
                 }
             } else {
-                energy -= 1;
+                energy -= ENERGY_LOST;
             }
             clamp(energy, 0, 5);
         } else {
@@ -94,32 +102,38 @@ void Lancelot::Damage(int damage) {
     @return none.
 */
 void Lancelot::Attack() {
-    attacking.SetLimit(0);
+	int const LIMIT_100 = 100;
+	int const LIMIT_240 = 240;
+	int const LIMIT_320 = 320;
+	int const LIMIT_400 = 400;
+	int const LIMIT_800 = 800;
+	
+	attacking.SetLimit(0);
     attackCD.SetLimit(0);
     soundComponent->SoundAttack();
     if (combo == "Straight") {
-        attacking.SetLimit(240);
-        attackCD.SetLimit(100);
+        attacking.SetLimit(LIMIT_240);
+        attackCD.SetLimit(LIMIT_100);
         Empower(1);
     } else if (combo == "Uppercut") {
-        attacking.SetLimit(240);
-        attackCD.SetLimit(400);
+        attacking.SetLimit(LIMIT_240);
+        attackCD.SetLimit(LIMIT_400);
         Empower(2);
     } else if (combo == "Chop") {
-        attacking.SetLimit(320);
-        attackCD.SetLimit(800);
+        attacking.SetLimit(LIMIT_320);
+        attackCD.SetLimit(LIMIT_800);
         Empower(3);
     } else if (combo == "Spear") {
-        attacking.SetLimit(240);
-        attackCD.SetLimit(100);
+        attacking.SetLimit(LIMIT_240);
+        attackCD.SetLimit(LIMIT_100);
         Empower(2);
     } else if (combo == "Sword") {
-        attacking.SetLimit(240);
-        attackCD.SetLimit(400);
+        attacking.SetLimit(LIMIT_240);
+        attackCD.SetLimit(LIMIT_400);
         Empower(3);
     } else if (combo == "Axe") {
-        attacking.SetLimit(320);
-        attackCD.SetLimit(800);
+        attacking.SetLimit(LIMIT_320);
+        attackCD.SetLimit(LIMIT_800);
         Empower(5);
     } else {
         // It does nothing.
@@ -133,8 +147,9 @@ void Lancelot::Attack() {
     @return: none.
 */
 void Lancelot::StartBlock() {
+	float const VELOCITY_RANGE = 0.2f;
     isBlocking = true;
-    clamp(physicsComponent.velocity.x, -0.2f, 0.2f);
+    clamp(physicsComponent.velocity.x, -1*(VELOCITY_RANGE), VELOCITY_RANGE);
 }
 
 /**
@@ -174,12 +189,17 @@ std::string Lancelot::GetCombo() {
 }
 
 void Lancelot::UpdateTimers(float dt) {
+	int const X_TRANSITION_POINT = 18504;
+	int const Y_TRANSITION_POINT = 2369;
+	int const W_TRANSITION_POINT = 112;
+	int const H_TRANSITION_POINT = 180;
+	
     Rect checkStateTrasition;
     if (StageState::stage == "cidadeLancelot") {
-        checkStateTrasition.x = 18504;
-        checkStateTrasition.y = 2369;
-        checkStateTrasition.w = 112;
-        checkStateTrasition.h = 180;
+        checkStateTrasition.x = X_TRANSITION_POINT;
+        checkStateTrasition.y = Y_TRANSITION_POINT;
+        checkStateTrasition.w = W_TRANSITION_POINT;
+        checkStateTrasition.h = H_TRANSITION_POINT;
 
         if (box.OverlapsWith(checkStateTrasition) == true) {
             Game::GetInstance().GetCurrentState()->quitRequested = true;
@@ -190,16 +210,6 @@ void Lancelot::UpdateTimers(float dt) {
     } else {
         // It does nothing.
     }
-    /*if(StageState::stage == "naveLancelot" && !done){
-        checkStateTrasition.x = 12556;
-        checkStateTrasition.y = 3072;
-        checkStateTrasition.w = 108;
-        checkStateTrasition.h = 180;
-        if(box.OverlapsWith(checkStateTrasition) == true){
-            Game::GetInstance().GetCurrentState()->quitRequested = true;
-            Game::GetInstance().AddState(new Cutscene(7, false));
-            done = true;
-        }
-    }*/
+
     Player::UpdateTimers(dt);
 }
