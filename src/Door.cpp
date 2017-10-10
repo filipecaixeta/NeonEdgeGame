@@ -9,12 +9,6 @@
 #include "Door.h"
 #include "Camera.h"
 #include "StageState.h"
-#define FLOAT_SIZE_MAX 3.4e+38f
-#define FLOAT_SIZE_MIN -3.4e+38f
-#define INTEGER_SIZE_MAX (2e31)-1
-#define INTEGER_SIZE_MIN -2e31
-#define MOVE_DOOR_HW 200
-#define MOVE_DOOR_POSITION_XY 100
 
 /**
  * Objective: Method responsible for testing float parameters received in functions.
