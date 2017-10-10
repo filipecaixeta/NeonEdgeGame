@@ -25,12 +25,12 @@ Arthur::Arthur(int x, int y): Character(x, y), idle(3000), dash(1000), slash(100
     box.SetWH(graphicsComponent->GetSize());
     arthurState = IDLE; // Sets the initial state as 'idle'.
     triggered = false;
-    Damage(9);
+    Damage(ARTHUR_DAMAGE_POWER);
 }
 
 Arthur::~Arthur() {
     Game::GetInstance().GetCurrentState()->quitRequested = true;
-    Game::GetInstance().AddState(new Cutscene(7, false));
+    Game::GetInstance().AddState(new Cutscene(INITIAL_CUTSCENE_INDEX, false));
 }
 
 /**
@@ -57,7 +57,8 @@ void Arthur::NotifyObjectCollision(GameObject *gameObject) {
 void Arthur::UpdateAI(float deltaTime) {
     if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
         // Defines the radius of vision of the Arthur as a rectangle.
-        radius = Rect(box.x - 800, box.y - 800, box.w + 1000, box.h + 1000);
+        radius = Rect(box.x - PIXELS_XY_AXES_REMOVED, box.y - PIXELS_XY_AXES_REMOVED,
+                      box.w + PIXELS_WH_SIZE_ADDED, box.h + PIXELS_WH_SIZE_ADDED);
         if (StageState::GetPlayer()) {
             Rect player = StageState::GetPlayer()->box;
             if (player.OverlapsWith(radius)) {
@@ -71,13 +72,13 @@ void Arthur::UpdateAI(float deltaTime) {
                         // If 'idle' state is not running, this block changes the state of Arthur
                         // according to the position of the Player.
                         if (!idle.IsRunning()) {
-                            if (box.x - player.x > 400) {
+                            if (box.x - player.x > LONG_DISTANCE_FROM_ARTHUR) {
                                 dash.Start();  // It starts the 'dash' to left if the distance
                                                // between the player and Arthur is greater than 400.
                                 arthurState = DASHINGLEFT;
-                            } else if (box.x - player.x > 100) {
+                            } else if (box.x - player.x > SHORT_DISTANCE_FROM_ARTHUR) {
                                 punch.Start();  // It starts the 'punch' state if the distance
-                                                // between the player and Arthur is greater than 100.
+                                                // between the player and Arthur is greater than 100
                                 arthurState = PUNCHING;
                             } else {
                                 slash.Start();  // It starts the 'slash' state if the distance
@@ -92,10 +93,10 @@ void Arthur::UpdateAI(float deltaTime) {
                         // If 'idle' state is not running,this block changes the state of Arthur
                         // according to the position of the Player.
                         if (!idle.IsRunning()) {
-                            if (player.x - box.x > 400) {
+                            if (player.x - box.x > LONG_DISTANCE_FROM_PLAYER) {
                                 dash.Start();
                                 arthurState = DASHINGRIGHT;
-                            } else if (player.x - box.x > 100) {
+                            } else if (player.x - box.x > SHORT_DISTANCE_FROM_PLAYER) {
                                 punch.Start();
                                 arthurState = PUNCHING;
                             } else {
@@ -115,13 +116,13 @@ void Arthur::UpdateAI(float deltaTime) {
                         arthurState = IDLE;
                     } else if (dash.IsRunning()) {
                         // Defines the velocity when is dashing to left.
-                        physicsComponent.velocity.x -= 0.006 * deltaTime;
+                        physicsComponent.velocity.x -= DELAY_TIME * deltaTime;
 
                         Attack();
                     } else {
                         // It does nothing.
                     }
-                    clamp(physicsComponent.velocity.x, -0.8f, 0.8f);
+                    clamp(physicsComponent.velocity.x, -CLAMP_L_U, CLAMP_L_U);
                 } else if (arthurState == DASHINGRIGHT) {
                     facing = RIGHT;
                     if (!dash.IsRunning()) {
@@ -129,13 +130,13 @@ void Arthur::UpdateAI(float deltaTime) {
                         arthurState = IDLE;
                     } else if (dash.IsRunning()) {
                         // It defines the velocity when is dashing to right.
-                        physicsComponent.velocity.x += 0.006 * deltaTime;
+                        physicsComponent.velocity.x += DELAY_TIME * deltaTime;
 
                         Attack();
                     } else {
                         // It does nothing.
                     }
-                    clamp(physicsComponent.velocity.x, -0.8f, 0.8f);
+                    clamp(physicsComponent.velocity.x, -CLAMP_L_U, CLAMP_L_U);
                 } else if (arthurState == SLASHING) {
                     if (player.x < box.x) {
                         facing = LEFT;
@@ -216,7 +217,7 @@ void Arthur::Attack() {
  */
 void Arthur::UpdateTimers(float deltaTime) {
     if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
-        attacking.SetLimit(60);
+        attacking.SetLimit(MAX_TIME);
         idle.Update(deltaTime);
         slash.Update(deltaTime);
         dash.Update(deltaTime);

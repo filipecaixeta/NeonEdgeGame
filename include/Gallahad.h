@@ -9,29 +9,45 @@
 #include "GallahadGraphicsComponent.h"
 #include "Drone.h"
 
-class Gallahad : public Player
-{
+#define HIDE_TIME 500
+#define DIE_TIME 800
+#define INITIAL_CUTSCENE_INDEX 7
+#define INITIAL_PROJECT_X_AXIS 0.8f
+#define INITIAL_PROJECT_Y_AXIS 0
+#define INITIAL_LIFE_TIME_PROJECT 1200
+#define INITIAL_POWER_PROJECT 1
+#define LIMIT_TIME_HIDE_0 2000
+#define LIMIT_TIME_HIDE_1 1500
+#define LIMIT_TIME_HIDE_2 1000
+#define LIMIT_TIME_HIDE_OTHERS 500
+#define ENERGY_USED 1
+#define CLAMP_L 0
+#define CLAMP_U 5
+
+
+
+class Gallahad : public Player {
 public:
-	Gallahad(ItensManager* itemManager, int x, int y, GameObject* setDrone);
-	~Gallahad();
-	void Attack();
-	void StartHiding();
-	void StartShooting();
-	void StopShooting();
-	bool IsHiding();
-	bool IsShooting();
-	void Activate(bool on);
-	bool Active();
-	Drone* GetDrone();
-	void UpdateTimers(float dt);
-	void Update(TileMap* map, float dt);
+    Gallahad(ItensManager* itemManager, int x, int y, GameObject *setDrone);
+    ~Gallahad();
+    void Attack();
+    void StartHiding();
+    void StartShooting();
+    void StopShooting();
+    bool IsHiding();
+    bool IsShooting();
+    void Activate(bool on);
+    bool Active();
+    Drone * GetDrone();
+    void UpdateTimers(float deltaTime);
+    void Update(TileMap *map, float deltaTime);
 
 private:
-	GameObject* drone;
-	Timer isHiding;
-	bool isShooting;
-	bool active;
-	bool done = false;
+    GameObject *drone;
+    Timer isHiding;
+    bool isShooting;
+    bool active;
+    bool done = false;
 };
 
 #endif /* GALLAHAD_H_ */
