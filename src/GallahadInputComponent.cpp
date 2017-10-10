@@ -12,13 +12,13 @@
 #include "Camera.h"
 #include "Drone.h"
 
-#define clamp(N, L, U) N=std::max(L, std::min(N, U))
+#define clamp(N, L, U) N = std::max(L, std::min(N, U))
 
 /**
  * Objective: it constructs Gallahad graphics component object.
  *
  * @param none.
- * @return none.
+ * @return instance of Gallahad graphics component.
  */
 GallahadInputComponent::GallahadInputComponent() {
 }
@@ -31,63 +31,69 @@ GallahadInputComponent::GallahadInputComponent() {
  * @return none.
  */
 void GallahadInputComponent::Update(Player *player, float deltaTime) {
-    InputComponent::Update(player, deltaTime);
-    InputManager& input = InputManager::GetInstance();
+    if (player && (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE)) {
+        InputComponent::Update(player, deltaTime);
+        InputManager& input = InputManager::GetInstance();
 
-    if (input.KeyPress(ACTIVE_KEY, true)) {
-        Toggle();
-        // Camera::CheckInstance().Follow();  // It takes pointer to droner.
-    } else {
-        // It does nothing.
-    }
-
-    Gallahad *gallahad = (Gallahad *) player;
-    if (gallahad->Active()) {
-        if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
-            MoveLeft();
-        } else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
-            MoveRight();
-        } else {
-            StayStill();
-        }
-
-        if (player->IsCrouching()) {
-            clamp(player->physicsComponent.velocity.x, - 0.2f, 0.2f);
-        } else {
-            clamp(player->physicsComponent.velocity.x, - 0.4f, 0.4f);
-        }
-
-        if (input.IsKeyDown(CROUCH_KEY, true)) {
-            Crouch(true);
-        } else {
-            Crouch(false);
-        }
-
-        if (input.IsKeyDown(ATTACK_KEY, true)) {
-            Gallahad *gallahad = (Gallahad *) player;
-            gallahad->StartShooting();
-            Attack();
-        } else {
-            Gallahad *gallahad = (Gallahad *) player;
-            gallahad->StopShooting();
-        }
-
-        if (input.KeyPress(SPECIAL_KEY, true)) {
-            Hide();
+        if (input.KeyPress(ACTIVE_KEY, true)) {
+            Toggle();
+            // Camera::CheckInstance().Follow();  // It takes pointer to droner.
         } else {
             // It does nothing.
         }
 
-        if (input.KeyPress(JUMP_KEY, true)) {
-            Jump();
+        Gallahad *gallahad = (Gallahad *) player;
+        if (gallahad->Active()) {
+            if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
+                MoveLeft();
+            } else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
+                MoveRight();
+            } else {
+                StayStill();
+            }
+
+            if (player->IsCrouching()) {
+                clamp(player->physicsComponent.velocity.x,
+                      -VELOCITY_RANGED_LOW, VELOCITY_RANGED_LOW);
+            } else {
+                clamp(player->physicsComponent.velocity.x,
+                      -VELOCITY_RANGED_HIGH, VELOCITY_RANGED_HIGH);
+            }
+
+            if (input.IsKeyDown(CROUCH_KEY, true)) {
+                Crouch(true);
+            } else {
+                Crouch(false);
+            }
+
+            if (input.IsKeyDown(ATTACK_KEY, true)) {
+                Gallahad *gallahad = (Gallahad *) player;
+                gallahad->StartShooting();
+                Attack();
+            } else {
+                Gallahad *gallahad = (Gallahad *) player;
+                gallahad->StopShooting();
+            }
+
+            if (input.KeyPress(SPECIAL_KEY, true)) {
+                Hide();
+            } else {
+                // It does nothing.
+            }
+
+            if (input.KeyPress(JUMP_KEY, true)) {
+                Jump();
+            } else {
+                // It does nothing.
+            }
         } else {
             // It does nothing.
         }
+
+        ProcessItems();
     } else {
         // It does nothing.
     }
-
-    ProcessItems();
 }
 
 /**
@@ -98,8 +104,8 @@ void GallahadInputComponent::Update(Player *player, float deltaTime) {
  * @return none.
  */
 void GallahadInputComponent::Hide() {
-    Gallahad *gallahad = (Gallahad *)player;
-    if (gallahad->GetEnergy() > 0 && !gallahad->IsHiding()) {
+    Gallahad *gallahad = (Gallahad *) player;
+    if (gallahad->GetEnergy() > NO_ENERGY && !gallahad->IsHiding()) {
         gallahad->StartHiding();
     } else {
         // It does nothing.
