@@ -18,9 +18,9 @@
 
 /**
  * Objective: Constructor of the Sprite.
+
  * @param none.
  * @return: Return a instance of Sprite.
-
 */
 Sprite::Sprite():
     destroyTexture(false) {
@@ -42,10 +42,14 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
     texture = nullptr;
     if (frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) {
         Sprite::frameCount = frameCount;
+    } else {
+        // It does nothing.
     }
 
     if (frameTime >= INT_MIN_SIZE && frameTime <= INT_MAX_SIZE) {
         Sprite::frameTime = frameTime;
+    } else {
+        // It does nothing.
     }
 
     Sprite::loops = loops;
@@ -68,10 +72,14 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
     texture = tex;
     if (frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) {
         Sprite::frameCount = frameCount;
+    } else {
+        // It does nothing.
     }
 
     if (frameTime >= INT_MIN_SIZE && frameTime <= INT_MAX_SIZE) {
         Sprite::frameTime = frameTime;
+    } else {
+        // It does nothing.
     }
 
     Sprite::loops = loops;
@@ -79,6 +87,8 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
     SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     if (enableAlpha) {
         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    } else {
+        // It does nothing.
     }
 }
 
@@ -87,11 +97,12 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
  *
  * @param none.
  * @return: void.
-
 */
 Sprite::~Sprite() {
     if (destroyTexture) { // destroyTexture is boolean
         SDL_DestroyTexture(texture);
+    } else {
+        // It does nothing.
     }
     texture = nullptr;
 }
@@ -109,20 +120,23 @@ void Sprite::Open(std::string file, bool enableAlpha) {
     if (!IsOpen()) { // Check if image loading sucessful
         printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
     }
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
     SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     if (enableAlpha) {
         SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: update sprite frames.
  *
  * @param: float dt.
  * @return: void.
-
  */
 void Sprite::Update(float dt) {
     if (dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE) {
@@ -135,13 +149,16 @@ void Sprite::Update(float dt) {
             }
             SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
             timeElapsed = 0;
+        } else {
+            // It does nothing.
         }
-
+    } else {
+        // It does nothing.
     }
 
 }
 
-/*
+/**
  * Objective: render sprite texture.
  *
  * @param: int x.
@@ -155,14 +172,18 @@ void Sprite::Render(int x, int y, float angle) {
         dstRect.h = clipRect.h*scaleY;
         dstRect.x = x - ((dstRect.w-clipRect.w)/2);
         dstRect.y = y - ((dstRect.h-clipRect.h)/2);
+    } else {
+        // It does nothing.
     }
     if ((texture!=nullptr) && (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE)) {
         SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture,
                             &clipRect, &dstRect, angle, nullptr, flipHorizontal);
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: render sprite screen position.
  *
  * @param: Vec2 pos.
@@ -173,10 +194,12 @@ void Sprite::Render(int x, int y, float angle) {
 void Sprite::Render(Vec2 pos, float angle) {
     if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE) {
         Render(pos.x, pos.y, angle);
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set clip position in sprite.
  *
  * @param: int x.
@@ -190,14 +213,19 @@ void Sprite::SetClip(int x, int y, int w, int h) {
     if ((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
         clipRect.x = x;
         clipRect.y = y;
+    } else {
+        // It does nothing.
     }
+
     if ((w >= INT_MIN_SIZE && w <= INT_MAX_SIZE) && (h >= INT_MIN_SIZE && h <= INT_MAX_SIZE)) {
         clipRect.w = w;
         clipRect.h = h;
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: get clip from sprite.
  *
  * @param: none.
@@ -207,7 +235,7 @@ SDL_Rect Sprite::GetClip() {
     return clipRect;
 }
 
-/*
+/**
  * Objective: set scale in sprite.
  *
  * @param: float scale.
@@ -217,10 +245,12 @@ SDL_Rect Sprite::GetClip() {
 void Sprite::SetScaleX(float scale) {
     if (scale >= FLOAT_MIN_SIZE && scale <= FLOAT_MAX_SIZE) {
         scaleX = scale;
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set scale y in sprite
  *
  * @param: float scale.
@@ -229,10 +259,12 @@ void Sprite::SetScaleX(float scale) {
 void Sprite::SetScaleY(float scale) {
     if (scale >= FLOAT_MIN_SIZE && scale <= FLOAT_MAX_SIZE) {
         scaleY = scale;
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set transparency in sprite.
  *
  * @param: float a.
@@ -240,9 +272,11 @@ void Sprite::SetScaleY(float scale) {
  */
 void Sprite::SetTransparency(float a) {
     //a = (0.0, 1.0)
-    if(a >= FLOAT_MIN_SIZE && a <= FLOAT_MAX_SIZE) {
+    if (a >= FLOAT_MIN_SIZE && a <= FLOAT_MAX_SIZE) {
         clamp(a, 0.0f, 1.0f);
         SDL_SetTextureAlphaMod(texture, (unsigned short int)(255*a));
+    } else {
+        // It does nothing.
     }
 }
 
@@ -256,10 +290,12 @@ void Sprite::SetFrame(int frame) {
     if (frame >= INT_MIN_SIZE && frame <= INT_MAX_SIZE) {
         currentFrame = frame;
         SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set frame normalized in sprite.
  *
  * @param: float f.
@@ -269,10 +305,12 @@ void Sprite::SetFrameNormalized(float f) {
     //f = (0.0, 1.0)
     if (f >= FLOAT_MIN_SIZE && f <= FLOAT_MAX_SIZE) {
         SetFrame(round(f*(frameCount-1)+1));
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set frame count in sprite.
  *
  * @param: int frameCount.
@@ -281,10 +319,12 @@ void Sprite::SetFrameNormalized(float f) {
 void Sprite::SetFrameCount(int frameCount) {
     if (frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) {
         Sprite::frameCount = frameCount;
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set frame time in sprite.
  *
  * @param: float frameTime.
@@ -293,10 +333,12 @@ void Sprite::SetFrameCount(int frameCount) {
 void Sprite::SetFrameTime(float frameTime) {
     if (frameTime >= FLOAT_MIN_SIZE && frameTime <= FLOAT_MAX_SIZE) {
         Sprite::frameTime = frameTime;
+    } else {
+        // It does nothing.
     }
 }
 
-/*
+/**
  * Objective: set bleeding texture.
  * @param: bool b.
  * @return: void.
@@ -305,7 +347,7 @@ void Sprite::SetBlending(bool b) {
     SDL_SetTextureBlendMode(texture, b ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
 }
 
-/*
+/**
  * Objective: set texture with current frame.
  *
  * @param: SDL_Texture* tex.
@@ -315,6 +357,8 @@ void Sprite::SetBlending(bool b) {
 void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     if (destroyTexture) {
         SDL_DestroyTexture(texture);
+    } else {
+        // It does nothing.
     }
     destroyTexture = destroyTexture_;
     texture = tex;
@@ -322,7 +366,7 @@ void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
-/*
+/**
  * Objective: flip sprite.
  *
  * @param: bool m.
@@ -332,7 +376,7 @@ void Sprite::Mirror(bool m) {
     flipHorizontal = m ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 }
 
-/*
+/**
  * Objective: get width redimensioned.
  *
  * @param: none.
@@ -342,8 +386,9 @@ int Sprite::GetWidth() {
     return width/frameCount*((scaleX-1)*0.5+1);
 }
 
-/*
+/**
  * Objective: get height redimensioned.
+ *
  * @param: none.
  * @return: int height.
  */
@@ -351,8 +396,9 @@ int Sprite::GetHeight() {
     return height*((scaleY-1)*0.5+1);
 }
 
-/*
+/**
  * Objective: get size, width and height.
+ *
  * @param: none.
  * @return: Vec2.
  */
@@ -360,15 +406,17 @@ Vec2 Sprite::GetSize() {
     return Vec2(GetWidth(), GetHeight());
 }
 
-/*
+/**
  * Objective: get frame count.
+ *
  * @param: none.
  * @return: int frameCount.
  */
 int Sprite::GetFrameCount() {
     return frameCount;
 }
-/*
+
+/**
  * Objective: check loop with boolean.
  *
  * @param: none.
@@ -378,7 +426,7 @@ bool Sprite::Loops() {
     return !loops;
 }
 
-/*
+/**
  * Objective: flip horizontal sprite.
  *
  * @param: none.
@@ -388,8 +436,9 @@ bool Sprite::GetMirror() {
     return flipHorizontal==SDL_FLIP_HORIZONTAL;
 }
 
-/*
+/**
  * Objective: check if texture is open.
+ *
  * @param: none.
  * @return: bool.
  */
