@@ -6,10 +6,13 @@
 #include "Vec2.h"
 #include "GameObject.h"
 #include "TileMap.h"
+#define INITIAL_VALUE 0
+#define NO_COLOR 0
+#define FULL_COLOR 255
 
 namespace ColisionFunctions
 {
-	inline void GetSurfaceData(SDL_Surface* surface,int& x,int& y,
+	void GetSurfaceData(SDL_Surface* surface,int& x,int& y,
 							   int& rowSize,Uint32** pixels,SDL_PixelFormat** format);
 
 	void ConvertSurfaceColors(SDL_Surface* surface);
