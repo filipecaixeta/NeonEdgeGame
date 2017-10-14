@@ -11,3 +11,7 @@ CMakeCache.txt
 Makefile
 savefile.txt
 \.DS_Store
+
+bin/resources/audio/sound/MenuClicarBotão\.ogg
+
+bin/resources/audio/sound/MenuSeleçãoBotãoProOutro\.ogg
