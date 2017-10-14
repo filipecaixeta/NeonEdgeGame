@@ -116,10 +116,10 @@ bool Gallahad::IsShooting() {
 }
 
 void Gallahad::Activate(bool on) {
-    if (on == "true" || on == "false") {
+    if (on) {
         active = on;
     } else {
-        // It does nothing.
+        active = false;
     }
 }
 
