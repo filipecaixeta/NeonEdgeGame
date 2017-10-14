@@ -7,7 +7,6 @@
 #include "DroneInputComponent.h"
 #include "DroneGraphicsComponent.h"
 
-
 class Drone : public Player {
 public:
 	Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY);
@@ -17,6 +16,7 @@ public:
 	bool isActive();
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
+	void FollowsCharacter(bool droneActive);
 
 private:
 	bool droneActive;
