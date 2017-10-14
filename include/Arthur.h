@@ -29,6 +29,11 @@ public:
     void UpdateAI(float deltaTime);
     void Update(TileMap *world, float deltaTime);
     void Attack();
+    void ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius, ArthurState arthurState, bool triggered, float boxX, float playerX);
+    void ArthurStateDashingLeft(Timer idle, Timer dash, float deltaTime, ArthurState arthurState);
+    void ArthurStateDashingRight(Timer idle, Timer dash, float deltaTime, ArthurState arthurState);
+    void ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurState, float boxX, float playerX);
+    void ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurState, float boxX, float playerX);
     ArthurState GetState();
 private:
     Timer idle;
