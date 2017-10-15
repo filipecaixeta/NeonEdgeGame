@@ -23,6 +23,8 @@ public:
 	void NotifyObjectCollision(GameObject* other);
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
+	void OtherColision(GameObject* other);
+	void CharacterAction( Character* c);
 
 	PhysicsComponent physicsComponent;
 };
