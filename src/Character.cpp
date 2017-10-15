@@ -75,7 +75,7 @@ bool Character::GetColisionData(SDL_Surface** surface_, SDL_Rect &clipRect_, Vec
     *surface_ = graphicsComponent->GetSurface();
     clipRect_ = graphicsComponent->GetClip();
     pos_ = box.GetXY();
-    mirror = graphicsComponent->GetMirror();
+    mirror = graphicsComponent->GetCharacterLeftDirection();
     return true;
 }
 

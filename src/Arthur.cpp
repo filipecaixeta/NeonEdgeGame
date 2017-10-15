@@ -10,7 +10,7 @@
 #include "Cutscene.h"
 #include "StageState.h"
 #include <assert.h>
- 
+
 
 /**
  * Objective: it constructs Arthur object.
@@ -22,14 +22,14 @@
 Arthur::Arthur(int x, int y): Character(x, y), idle(3000), dash(1000), slash(1000), punch(1000) {
     // Instances the graphics, adding the sprites.
     graphicsComponent = new ArthurGraphicsComponent("Arthur");
- 
+
     name = "Arthur";
     box.SetWH(graphicsComponent->GetSize());
     arthurState = IDLE; // Sets the initial state as 'idle'.
     triggered = false;
     Damage(9);
 }
- 
+
 Arthur::~Arthur() {
     Game::GetInstance().GetCurrentState()->quitRequested = true;
     Game::GetInstance().AddState(new Cutscene(INITIAL_CUTSCENE_INDEX, false));
@@ -49,10 +49,10 @@ void Arthur::NotifyObjectCollision(GameObject *gameObject) {
          // It does nothing.
     }
 }
- 
-void Arthur::ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius, 
+
+void Arthur::ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius,
             ArthurState arthurState, bool triggered, float boxX, float playerX) {
-                
+
     // according to the position of the Player.
     if (!idle.IsRunning()) {
         assert(idle.IsRunning() == false);
@@ -195,7 +195,7 @@ void Arthur::UpdateAI(float deltaTime) {
                     } else if (player.x > box.x) {
                         facing = RIGHT;
                         ComparePlayerBox(idle, slash, dash, punch, radius, arthurState,triggered, box.x, player.x);
-                    } 
+                    }
                 } else if (arthurState == DASHINGLEFT) {
                     facing = LEFT;
                     ArthurStateDashingLeft(idle, dash, deltaTime, arthurState);
@@ -221,7 +221,7 @@ void Arthur::UpdateAI(float deltaTime) {
          // It does nothing.
     }
 }
- 
+
 /**
  * Objective: it updates the timers of 'idle', 'slash', 'dash' and 'punch' states.
  *
@@ -271,7 +271,7 @@ void Arthur::Update(TileMap *world, float deltaTime) {
          // It does nothing.
     }
 }
- 
+
 /**
  * Objective: it returns the actual state of Arthur.
  *

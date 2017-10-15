@@ -1,35 +1,30 @@
+// Copyright (c) 2017 Neon Edge Game.
+
 #include "InteractiveGraphicsComponent.h"
 #include "Interactive.h"
 #include "Rect.h"
 
-InteractiveGraphicsComponent::InteractiveGraphicsComponent(std::string baseName_):
-	GraphicsComponent(baseName_)
-{
-	AddSprite(baseName,"Off",1,0);
-	AddSprite(baseName,"On",1,0);
-	sp = sprites["Off"];
-	surface = surfaces["Off"];
+InteractiveGraphicsComponent::InteractiveGraphicsComponent(std::string baseNameParam):
+       GraphicsComponent(baseNameParam) {
+    AddSprite(baseName, "Off", 1, 0);
+    AddSprite(baseName, "On", 1, 0);
+    sprite = sprites["Off"];
+    surface = surfaces["Off"];
 }
 
-InteractiveGraphicsComponent::~InteractiveGraphicsComponent()
-{
-
+InteractiveGraphicsComponent::~InteractiveGraphicsComponent() {
 }
 
-void InteractiveGraphicsComponent::Update(GameObject* obj, float dt)
-{
-	Interactive* i = (Interactive*) obj;
+void InteractiveGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    Interactive* interactive = (Interactive*) gameObject;
 
-	mirror = (obj->facing == GameObject::LEFT);
-	if(i->Active())
-	{
-		UpdateSprite(obj, "On");
-	}
-	else
-	{
-		UpdateSprite(obj, "Off");
-	}
-	
-	sp->Mirror(mirror);
-	sp->Update(dt);
+    characterLeftDirection = (gameObject->facing == GameObject::LEFT);
+    if (interactive->Active()) {
+        UpdateSprite(gameObject, "On");
+    } else {
+        UpdateSprite(gameObject, "Off");
+    }
+
+    sprite->Mirror(characterLeftDirection);
+    sprite->Update(deltaTime);
 }

@@ -1,5 +1,7 @@
-#ifndef DroneGRAPHICSCOMPONENT_H
-#define DroneGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_DroneGRAPHICSCOMPONENT_H_
+#define INCLUDE_DroneGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -9,12 +11,11 @@
 #include "Character.h"
 #include "GraphicsComponent.h"
 
-class DroneGraphicsComponent: public GraphicsComponent
-{
-public:
-	DroneGraphicsComponent(std::string baseName_);
-	~DroneGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+class DroneGraphicsComponent: public GraphicsComponent {
+ public:
+    DroneGraphicsComponent(std::string baseNameParam);
+    ~DroneGraphicsComponent();
+    void Update(GameObject* gameObject, float deltaTime);
 };
 
-#endif // DroneGRAPHICSCOMPONENT_H
+#endif  // INCLUDE_DroneGRAPHICSCOMPONENT_H_
