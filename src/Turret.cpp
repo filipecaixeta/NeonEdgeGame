@@ -7,6 +7,7 @@
  */
 
 #include "Turret.h"
+#include <assert.h>
 #include "AIMovingOnGroudGraphicsComponent.h"
 #include "StageState.h"
 #include "Gallahad.h"
@@ -61,15 +62,13 @@ void Turret::NotifyTileCollision(int tile, GameObject::Face face) {
  * @return none.
  */
 void Turret::UpdateTimers(float deltaTime) {
-    if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
-        Character::UpdateTimers(deltaTime);
-        if (!stunned.IsRunning() && looking.IsRunning()) {
-            UpdateTurretLookingTime(deltaTime);
-        } else if (idle.IsRunning()) {
-            UpdateTurretIdleTime(deltaTime);
-        } else {
-            // It does nothing.
-        }
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
+    Character::UpdateTimers(deltaTime);
+    if (!stunned.IsRunning() && looking.IsRunning()) {
+        UpdateTurretLookingTime(deltaTime);
+    } else if (idle.IsRunning()) {
+        UpdateTurretIdleTime(deltaTime);
     } else {
         // It does nothing.
     }
@@ -82,25 +81,42 @@ void Turret::UpdateTimers(float deltaTime) {
  * @return none.
  */
 void Turret::UpdateAI(float deltaTime) {
-    if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
-        // Defines the radius of vision of the Turret as a rectangle.
-        radius = Rect(box.x - 200, box.y - 200, box.w + 400, box.h + 400);
-        if (StageState::GetPlayer() && !stunned.IsRunning()) {
-            Rect player = StageState::GetPlayer()->box;
-            bool visible = true;
-            TurretSeeingCharacter(visible);
-            if (player.OverlapsWith(radius) && visible) {
-                TurretChasingCharacterToAttack(player, deltaTime);
-            } else if (looking.IsRunning() && looking.GetElapsed() == 0) {
-                TurretMovingVelocity();
-            } else {
-                TurretChangingDirection();
-            }
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
+    // Defines the radius of vision of the Turret as a rectangle.
+    radius = Rect(box.x - 200, box.y - 200, box.w + 400, box.h + 400);
+    if (StageState::GetPlayer() && !stunned.IsRunning()) {
+        Rect player = StageState::GetPlayer()->box;
+        bool visible = true;
+        assert(visible == true || visible == false);
+        TurretSeeingCharacter(visible);
+        assert(visible == true || visible == false);
+        if (player.OverlapsWith(radius) && visible) {
+            assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.h <= FLOAT_MAX_SIZE));
+            assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+            TurretChasingCharacterToAttack(player, deltaTime);
+            assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+                   (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+                    StageState::player->box.h <= FLOAT_MAX_SIZE));
+        } else if (looking.IsRunning() && looking.GetElapsed() == 0) {
+            TurretMovingVelocity();
         } else {
-            physicsComponent.velocity.x = 0;
+            TurretChangingDirection();
         }
     } else {
-        // It does nothing.
+        physicsComponent.velocity.x = 0;
     }
 }
 
@@ -112,20 +128,35 @@ void Turret::UpdateAI(float deltaTime) {
  * @return none.
  */
 void Turret::Update(TileMap *world, float deltaTime) {
-    if (world && (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE)) {
-        UpdateTimers(deltaTime);
-        UpdateAI(deltaTime);
-        physicsComponent.Update(this, world, deltaTime);
-        // If the tower is outside the boundaries of the map, its position is resetted.
-        if (OutOfBounds(world)) {
-            SetPosition(Vec2(startingX, startingY));
-        } else {
-            // It does nothing.
-        }
-        graphicsComponent->Update(this, deltaTime);
+    assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+            StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+            StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+            StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+            StageState::player->box.h <= FLOAT_MAX_SIZE));
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
+    UpdateTimers(deltaTime);
+    UpdateAI(deltaTime);
+    physicsComponent.Update(this, world, deltaTime);
+    // If the tower is outside the boundaries of the map, its position is resetted.
+    if (OutOfBounds(world)) {
+        SetPosition(Vec2(startingX, startingY));
     } else {
         // It does nothing.
     }
+    graphicsComponent->Update(this, deltaTime);
+
+    assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+            StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+            StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+            StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+            StageState::player->box.h <= FLOAT_MAX_SIZE));
 }
 
 /**
@@ -135,6 +166,8 @@ void Turret::Update(TileMap *world, float deltaTime) {
  * @return string characterType.
  */
 bool Turret::Is(std::string characterType) {
+    assert(characterType[0] != '\0');
+
     return (characterType == "Enemy");
 }
 
@@ -145,6 +178,8 @@ bool Turret::Is(std::string characterType) {
  * @return none.
  */
 void Turret::UpdateTurretLookingTime(float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     looking.Update(deltaTime);
     // If 'looking' state is not running, 'idle' state starts.
     if (!looking.IsRunning()) {
@@ -161,6 +196,8 @@ void Turret::UpdateTurretLookingTime(float deltaTime) {
  * @return none.
  */
 void Turret::UpdateTurretIdleTime(float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     idle.Update(deltaTime);
     // If 'idle' state is not running, 'looking' state starts.
     if (!idle.IsRunning()) {
@@ -177,6 +214,8 @@ void Turret::UpdateTurretIdleTime(float deltaTime) {
  * @return none.
  */
 void Turret::TurretSeeingCharacter(bool visible) {
+    assert(visible == true || visible == false);
+
     Gallahad *gallahad = (Gallahad *) StageState::GetPlayer();
     // If the player is hiding, the visibility is false and the Turret does not attack.
     if (StageState::GetPlayer()->Is("Gallahad") && gallahad->IsHiding()) {
@@ -194,6 +233,16 @@ void Turret::TurretSeeingCharacter(bool visible) {
  * @return none.
  */
 void Turret::TurretChasingCharacterToAttack(Rect player, float deltaTime) {
+    assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+            StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+            StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+            StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+            StageState::player->box.h <= FLOAT_MAX_SIZE));
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     // Turret does not follows the player instantly.
     if (player.x < box.x) {
         // Sets the speed at x axis of the Turret less than
@@ -224,6 +273,15 @@ void Turret::TurretChasingCharacterToAttack(Rect player, float deltaTime) {
     } else {
         // It does nothing.
     }
+
+    assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+            StageState::player->box.x <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.y >= FLOAT_MIN_SIZE &&
+            StageState::player->box.y <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.w >= FLOAT_MIN_SIZE &&
+            StageState::player->box.w <= FLOAT_MAX_SIZE) &&
+           (StageState::player->box.h >= FLOAT_MIN_SIZE &&
+            StageState::player->box.h <= FLOAT_MAX_SIZE));
 }
 
 /**
