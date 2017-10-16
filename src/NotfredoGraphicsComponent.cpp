@@ -1,37 +1,31 @@
+// Copyright (c) 2017 Neon Edge Game.
+
 #include "NotfredoGraphicsComponent.h"
 #include "Notfredo.h"
 
-NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseName_):
-	GraphicsComponent(baseName_)
-{
-	AddSprite(baseName,"Idle",10,80);
-	AddSprite(baseName,"Running",8,80);
-	AddSprite(baseName,"Attacking",6,60);
-	sp = sprites["Idle"];
-	surface = surfaces["Idle"];
+NotfredoGraphicsComponent::NotfredoGraphicsComponent(std::string baseNameParam):
+        GraphicsComponent(baseNameParam) {
+    AddSprite(baseName, "Idle", 10, 80);
+    AddSprite(baseName, "Running", 8, 80);
+    AddSprite(baseName, "Attacking", 6, 60);
+    sprite = sprites["Idle"];
+    surface = surfaces["Idle"];
 }
 
-NotfredoGraphicsComponent::~NotfredoGraphicsComponent()
-{
+NotfredoGraphicsComponent::~NotfredoGraphicsComponent() {
 }
 
-void NotfredoGraphicsComponent::Update(GameObject* obj, float dt)
-{
-	Character* c = (Character*) obj;
-	mirror = (obj->facing == GameObject::LEFT);
-	if(c->Attacking())
-	{
-		UpdateSprite(obj, "Attacking");
-	}
-	else if(c->physicsComponent.velocity.x == 0)
-	{
-		UpdateSprite(obj, "Idle");
-	}
-	else
-	{
-		UpdateSprite(obj, "Running");
-	}
+void NotfredoGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    Character *character = (Character*) gameObject;
+    characterLeftDirection = (gameObject->facing == GameObject::LEFT);
+    if (character->Attacking()) {
+        UpdateSprite(gameObject, "Attacking");
+    } else if (character->physicsComponent.velocity.x == 0) {
+        UpdateSprite(gameObject, "Idle");
+    } else {
+        UpdateSprite(gameObject, "Running");
+    }
 
-	sp->Mirror(mirror);
-	sp->Update(dt);
+    sprite->Mirror(characterLeftDirection);
+    sprite->Update(deltaTime);
 }

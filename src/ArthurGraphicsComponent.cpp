@@ -1,37 +1,51 @@
-#include "ArthurGraphicsComponent.h"
+// Copyright (c) 2017 Neon Edge Game.
 
+#include "ArthurGraphicsComponent.h"
 #include "Arthur.h"
 
 ArthurGraphicsComponent::ArthurGraphicsComponent(std::string baseName_):
-	GraphicsComponent(baseName_)
-{
-	AddSprite(baseName, "Idle", 8, 80);
-	AddSprite(baseName, "Dash", 6, 80);
-	AddSprite(baseName, "Punch", 8, 80);
-	AddSprite(baseName, "Slash", 8, 80);
+        GraphicsComponent(baseName_) {
+    AddSprite(baseName, "Idle", 8, 80);
+    AddSprite(baseName, "Dash", 6, 80);
+    AddSprite(baseName, "Punch", 8, 80);
+    AddSprite(baseName, "Slash", 8, 80);
 
-	sp = sprites["Idle"];
-	surface = surfaces["Idle"];
+    sprite = sprites["Idle"];
+    surface = surfaces["Idle"];
 }
 
-ArthurGraphicsComponent::~ArthurGraphicsComponent(){
-
+ArthurGraphicsComponent::~ArthurGraphicsComponent() {
 }
 
-void ArthurGraphicsComponent::Update(GameObject* obj, float dt){
-	mirror = (obj->facing == GameObject::LEFT);
+void ArthurGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    characterLeftDirection = (gameObject->facing == GameObject::LEFT);
 
-	Arthur* a = (Arthur*) obj;
+    Arthur *arthur = (Arthur *) gameObject;
 
-	if(a->GetState() == IDLE)
-		UpdateSprite(obj, "Idle");
-	if(a->GetState() == DASHINGRIGHT || a->GetState() == DASHINGLEFT)
-		UpdateSprite(obj, "Dash");
-	if(a->GetState() == SLASHING)
-		UpdateSprite(obj, "Slash");
-	if(a->GetState() == PUNCHING)
-		UpdateSprite(obj, "Punch");
+    if (arthur->GetState() == IDLE) {
+        UpdateSprite(gameObject, "Idle");
+    } else {
+        // It does nothing.
+    }
 
-	sp->Mirror(mirror);
-	sp->Update(dt);
+    if (arthur->GetState() == DASHINGRIGHT || arthur->GetState() == DASHINGLEFT) {
+        UpdateSprite(gameObject, "Dash");
+    } else {
+        // It does nothing.
+    }
+
+    if (arthur->GetState() == SLASHING) {
+        UpdateSprite(gameObject, "Slash");
+    } else {
+        // It does nothing.
+    }
+
+    if (arthur->GetState() == PUNCHING) {
+        UpdateSprite(gameObject, "Punch");
+    } else {
+        // It does nothing.
+    }
+
+    sprite->Mirror(characterLeftDirection);
+    sprite->Update(deltaTime);
 }

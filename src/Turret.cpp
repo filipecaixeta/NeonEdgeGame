@@ -25,7 +25,7 @@ Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(150
     graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
 
     box.SetWH(graphicsComponent->GetSize());
-    attackCD.SetLimit(300); // Defines the time between each attack, in nanoseconds.
+    attackCD.SetLimit(300);  // Defines the time between each attack, in nanoseconds.
     idle.Start();
     hitpoints = 2;
 }
@@ -45,7 +45,7 @@ void Turret::Attack() {
 }
 
 /**
- * Objective: it notifies tile collision for inheritance.
+ * Objective: it notifies tile collision from inheritance.
  *
  * @param int tile.
  * @param Face face - Short int indicating the facing of the GameObject.
@@ -64,21 +64,9 @@ void Turret::UpdateTimers(float deltaTime) {
     if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
         Character::UpdateTimers(deltaTime);
         if (!stunned.IsRunning() && looking.IsRunning()) {
-            looking.Update(deltaTime);
-            // If 'looking' state is not running, 'idle' state starts.
-            if (!looking.IsRunning()) {
-                idle.Start();
-            } else {
-                // It does nothing.
-            }
+            UpdateTurretLookingTime(deltaTime);
         } else if (idle.IsRunning()) {
-            idle.Update(deltaTime);
-            // If 'idle' state is not running, 'looking' state starts.
-            if (!idle.IsRunning()) {
-                looking.Start();
-            } else {
-                // It does nothing.
-            }
+            UpdateTurretIdleTime(deltaTime);
         } else {
             // It does nothing.
         }
@@ -100,64 +88,13 @@ void Turret::UpdateAI(float deltaTime) {
         if (StageState::GetPlayer() && !stunned.IsRunning()) {
             Rect player = StageState::GetPlayer()->box;
             bool visible = true;
-            Gallahad* gallahad = (Gallahad*) StageState::GetPlayer();
-            // If the player is the galahad and if it is invisible,
-            // the visibility is false and the Turret does not attack.
-            if (StageState::GetPlayer()->Is("Gallahad") && gallahad->IsHiding()) {
-                visible = false;
-            } else {
-                // It does nothing.
-            }
-
-            // It does not allows the Turret follow the player instantly.
+            TurretSeeingCharacter(visible);
             if (player.OverlapsWith(radius) && visible) {
-                if (player.x < box.x) {
-                    // Sets the speed at x axis of the Turret less than
-                    // the velocity at x axis of the player.
-                    physicsComponent.velocity.x -= 0.003 * deltaTime;
-                    if (box.x - physicsComponent.velocity.x * deltaTime < player.x) {
-                        box.x = player.x;
-                        physicsComponent.velocity.x = 0;
-                    } else {
-                        // It does nothing.
-                    }
-                    facing = LEFT;
-                } else {
-                    physicsComponent.velocity.x += 0.003 * deltaTime;
-                    if (box.x + physicsComponent.velocity.x * deltaTime > player.x) {
-                        box.x = player.x;
-                        physicsComponent.velocity.x = 0;
-                    } else {
-                        // It does nothing.
-                    }
-                    facing = RIGHT;
-                }
-                clamp(physicsComponent.velocity.x, -0.3f, 0.3f);
-
-                if (!Cooling()) {
-                    Attack();
-                } else {
-                    // It does nothing.
-                }
+                TurretChasingCharacterToAttack(player, deltaTime);
             } else if (looking.IsRunning() && looking.GetElapsed() == 0) {
-                if (facing == LEFT) {
-                    // Sets the speed at x of the Turret when in 'looking' state and facing left.
-                    physicsComponent.velocity.x = -0.2;
-                } else {
-                    // Sets the speed at x of the Turret when in 'looking' state and facing right.
-                    physicsComponent.velocity.x = 0.2;
-                }
+                TurretMovingVelocity();
             } else {
-                if (idle.IsRunning() && idle.GetElapsed() == 0) {
-                    physicsComponent.velocity.x = 0;
-                    if (facing == LEFT) {
-                        facing = RIGHT;
-                    } else {
-                        facing = LEFT;
-                    }
-                } else {
-                    // It does nothing.
-                }
+                TurretChangingDirection();
             }
         } else {
             physicsComponent.velocity.x = 0;
@@ -199,4 +136,127 @@ void Turret::Update(TileMap *world, float deltaTime) {
  */
 bool Turret::Is(std::string characterType) {
     return (characterType == "Enemy");
+}
+
+/**
+ * Objective: it updates Turret looking time.
+ *
+ * @param float deltaTime - amount of time to updates looking time.
+ * @return none.
+ */
+void Turret::UpdateTurretLookingTime(float deltaTime) {
+    looking.Update(deltaTime);
+    // If 'looking' state is not running, 'idle' state starts.
+    if (!looking.IsRunning()) {
+        idle.Start();
+    } else {
+        // It does nothing.
+    }
+}
+
+/**
+ * Objective: it updates Turret idle time.
+ *
+ * @param float deltaTime - amount of time to updates idle time.
+ * @return none.
+ */
+void Turret::UpdateTurretIdleTime(float deltaTime) {
+    idle.Update(deltaTime);
+    // If 'idle' state is not running, 'looking' state starts.
+    if (!idle.IsRunning()) {
+        looking.Start();
+    } else {
+        // It does nothing.
+    }
+}
+
+/**
+ * Objective: it updates Turret vision over Gallahad.
+ *
+ * @param bool visible - Turret vision status over Gallahad.
+ * @return none.
+ */
+void Turret::TurretSeeingCharacter(bool visible) {
+    Gallahad *gallahad = (Gallahad *) StageState::GetPlayer();
+    // If the player is hiding, the visibility is false and the Turret does not attack.
+    if (StageState::GetPlayer()->Is("Gallahad") && gallahad->IsHiding()) {
+        visible = false;
+    } else {
+        // It does nothing.
+    }
+}
+
+/**
+ * Objective: it updates Turret persecution over Gallahad.
+ *
+ * @param Rect player - Gallahad object.
+ * @param float deltaTime - deley time to Turret.
+ * @return none.
+ */
+void Turret::TurretChasingCharacterToAttack(Rect player, float deltaTime) {
+    // Turret does not follows the player instantly.
+    if (player.x < box.x) {
+        // Sets the speed at x axis of the Turret less than
+        // the velocity at x axis of the player.
+        physicsComponent.velocity.x -= 0.003 * deltaTime;
+        if (box.x - physicsComponent.velocity.x * deltaTime < player.x) {
+            box.x = player.x;
+            physicsComponent.velocity.x = 0;
+        } else {
+            // It does nothing.
+        }
+        facing = LEFT;
+    } else {
+        physicsComponent.velocity.x += 0.003 * deltaTime;
+        if (box.x + physicsComponent.velocity.x * deltaTime > player.x) {
+            box.x = player.x;
+            physicsComponent.velocity.x = 0;
+        } else {
+            // It does nothing.
+        }
+        facing = RIGHT;
+    }
+
+    clamp(physicsComponent.velocity.x, -0.3f, 0.3f);
+
+    if (!Cooling()) {
+        Attack();
+    } else {
+        // It does nothing.
+    }
+}
+
+/**
+ * Objective: it updates Turret velocity.
+ *
+ * @param none.
+ * @return none.
+ */
+void Turret::TurretMovingVelocity() {
+    if (facing == LEFT) {
+        // Sets the speed at x of the Turret when in 'looking' state and facing left.
+        physicsComponent.velocity.x = -0.2;
+    } else {
+        // Sets the speed at x of the Turret when in 'looking' state and facing right.
+        physicsComponent.velocity.x = 0.2;
+    }
+}
+
+/**
+ * Objective: it updates Turret direction.
+ *
+ * @param none.
+ * @return none.
+ */
+void Turret::TurretChangingDirection() {
+    if (idle.IsRunning() && idle.GetElapsed() == 0) {
+        physicsComponent.velocity.x = 0;
+        if (facing == LEFT) {
+            facing = RIGHT;
+        } else {
+            facing = LEFT;
+        }
+    } else {
+        // It does nothing.
+    }
 }

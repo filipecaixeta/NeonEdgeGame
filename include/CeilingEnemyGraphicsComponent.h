@@ -1,17 +1,17 @@
-#ifndef CEILINGENEMYGRAPHICSCOMPONENT_H
-#define CEILINGENEMYGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_CEILINGENEMYGRAPHICSCOMPONENT_H_
+#define INCLUDE_CEILINGENEMYGRAPHICSCOMPONENT_H_
 
 #include "GraphicsComponent.h"
 #include "Character.h"
 
 
-class CeilingEnemyGraphicsComponent: public GraphicsComponent
-{
-public:
-    CeilingEnemyGraphicsComponent(std::string baseName_);
+class CeilingEnemyGraphicsComponent: public GraphicsComponent {
+ public:
+    CeilingEnemyGraphicsComponent(std::string baseNameParam);
     ~CeilingEnemyGraphicsComponent();
-    void Update(GameObject* obj, float dt);
-
+    void Update(GameObject* gameObject, float deltaTime);
 };
 
-#endif // CEILINGENEMYGRAPHICSCOMPONENT_H
+#endif  // INCLUDE_CEILINGENEMYGRAPHICSCOMPONENT_H_
