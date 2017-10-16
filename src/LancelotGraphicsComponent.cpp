@@ -7,6 +7,7 @@
  */
 
 #include "LancelotGraphicsComponent.h"
+#include <assert.h>
 #include "Lancelot.h"
 
 /**
@@ -17,6 +18,7 @@
  */
 LancelotGraphicsComponent::LancelotGraphicsComponent(std::string baseNameParam):
         GraphicsComponent(baseNameParam) {
+    assert(baseNameParam[0] != '\0');
     /*
     Params:
     AddSprite(string baseName,
@@ -53,6 +55,9 @@ LancelotGraphicsComponent::~LancelotGraphicsComponent() {
  * @return none.
  */
 void LancelotGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    assert(gameObject != NULL);
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     Lancelot *lancelot = (Lancelot *) gameObject;  // Instantiation of character Lancelot.
 
     // Verification of character action to update sprite.
@@ -60,14 +65,20 @@ void LancelotGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
 
     // Verification of character action to update sprite.
     if (lancelot->Attacking()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToAttacking(gameObject);  // Character sprite action update
                                                       // to attacking.
+        assert(gameObject != NULL);
     } else if (lancelot->IsBlocking()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToBlocking(gameObject);  // Character sprite action update
                                                       // to blocking.
+        assert(gameObject != NULL);
     } else if (lancelot->IsCrouching()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToCrouching(gameObject);  // Character sprite action update
                                                        // to crouching.
+        assert(gameObject != NULL);
     } else if (gameObject->footing == GameObject::AIRBORNE) {
         // Else if character feet status is airborne, character sprite action is updated to jumping.
         UpdateSprite(gameObject, "Jumping");  // Character sprite action update
@@ -89,10 +100,14 @@ void LancelotGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
                                               // to running.
     }
 
+    assert(gameObject != NULL);
     UpdateCharacterSpriteToDying(gameObject);
+    assert(gameObject != NULL);
 
     sprite->Mirror(characterLeftDirection);  // It swaps direction of character spriterite.
     sprite->Update(deltaTime);  // It updates elapsed time of the sprite with value passed.
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -102,6 +117,8 @@ void LancelotGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
  * @return none.
  */
 void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     Lancelot *lancelot = (Lancelot *) gameObject;  // Instantiation of character Lancelot.
     // It verifies how the character is attacking.
     UpdateSprite(gameObject, "Attacking" + lancelot->GetCombo());
@@ -113,6 +130,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gam
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -122,6 +141,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gam
  * @return none.
  */
 void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     UpdateSprite(gameObject, "Blocking");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
@@ -131,6 +152,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *game
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -140,6 +163,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *game
  * @return none.
  */
 void LancelotGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     UpdateSprite(gameObject, "Crouching");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
@@ -149,6 +174,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gam
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -158,6 +185,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gam
  * @return none.
  */
 void LancelotGraphicsComponent::UpdateCharacterSpriteToDying(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     // It verifies if the character is dying.
     if (gameObject->dieTimer.IsRunning()) {
         // If character is dying, character sprite action is updated to dying.
@@ -165,4 +194,6 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToDying(GameObject *gameObj
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
