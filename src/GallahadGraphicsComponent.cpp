@@ -7,6 +7,7 @@
  */
 
 #include "GallahadGraphicsComponent.h"
+#include <assert.h>
 #include "Gallahad.h"
 #include "Rect.h"
 
@@ -18,6 +19,7 @@
  */
 GallahadGraphicsComponent::GallahadGraphicsComponent(std::string baseNameParam):
         GraphicsComponent(baseNameParam) {
+    assert(baseNameParam[0] != '\0');
     /*
     Params:
     AddSprite(string baseName,
@@ -50,6 +52,9 @@ GallahadGraphicsComponent::~GallahadGraphicsComponent() {
  * @return none.
  */
 void GallahadGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    assert(gameObject != NULL);
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     Gallahad *gallahad = (Gallahad *) gameObject;  // Instantiation of character Gallahad.
 
     // Verification of character direction to left.
@@ -57,13 +62,19 @@ void GallahadGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
 
     // Verification of character action to update sprite.
     if (gallahad->IsShooting()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToShooting(gameObject);  // Character sprite action update
                                                       // to shooting.
+        assert(gameObject != NULL);
     } else if (gallahad->IsCrouching()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToCrouching(gameObject);  // Character sprite action update
                                                        // to crouching.
+        assert(gameObject != NULL);
     } else if (!gallahad->Active()) {
+        assert(gameObject != NULL);
         UpdateCharacterSpriteToActive(gameObject);  // Character sprite action update to active.
+        assert(gameObject != NULL);
     } else if (gameObject->footing == GameObject::AIRBORNE) {
         UpdateSprite(gameObject, "Jumping");  // Character sprite action update to jumping.
     } else if (gallahad->physicsComponent.velocity.x == GALLAHAD_VELOCITY_ZERO) {
@@ -72,12 +83,20 @@ void GallahadGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
         UpdateSprite(gameObject, "Running");  // Character sprite action update to running.
     }
 
+    assert(gameObject != NULL);
+    assert(sprite != NULL);
     UpdateCharacterSpriteToHiding(gameObject, sprite);
+    assert(gameObject != NULL);
+    assert(sprite != NULL);
 
+    assert(gameObject != NULL);
     UpdateCharacterSpriteToDying(gameObject);
+    assert(gameObject != NULL);
 
     sprite->Mirror(characterLeftDirection);  // Direction update of character sprite.
     sprite->Update(deltaTime);  // Elapsed time update of the sprite.
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -88,6 +107,8 @@ void GallahadGraphicsComponent::Update(GameObject *gameObject, float deltaTime) 
  * @return none.
  */
 void GallahadGraphicsComponent::UpdateCharacterSpriteToShooting(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     Gallahad *gallahad = (Gallahad *) gameObject;  // Instantiation of character Gallahad.
 
     // It verifies how the character is shooting.
@@ -110,6 +131,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToShooting(GameObject *game
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -119,6 +142,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToShooting(GameObject *game
  * @return none.
  */
 void GallahadGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     UpdateSprite(gameObject, "Crouching");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
@@ -128,6 +153,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gam
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -137,6 +164,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gam
  * @return none.
  */
 void GallahadGraphicsComponent::UpdateCharacterSpriteToActive(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     UpdateSprite(gameObject, "Active");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
@@ -146,6 +175,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToActive(GameObject *gameOb
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -156,6 +187,9 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToActive(GameObject *gameOb
  */
 void GallahadGraphicsComponent::UpdateCharacterSpriteToHiding(GameObject *gameObject,
                                                               Sprite *sprite) {
+    assert(gameObject != NULL);
+    assert(sprite != NULL);
+
     Gallahad *gallahad = (Gallahad *) gameObject;
     // It verifies if the character is using transparency power.
     if (gallahad->IsHiding()) {
@@ -165,6 +199,9 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToHiding(GameObject *gameOb
         // Else, keeps transparency at 100 percent.
         sprite->SetTransparency(GALLAHAD_HIDE_POWER_DISABLED);
     }
+
+    assert(gameObject != NULL);
+    assert(sprite != NULL);
 }
 
 /**
@@ -174,6 +211,8 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToHiding(GameObject *gameOb
  * @return none.
  */
 void GallahadGraphicsComponent::UpdateCharacterSpriteToDying(GameObject *gameObject) {
+    assert(gameObject != NULL);
+
     // It verifies if the character is dying.
     if (gameObject->dieTimer.IsRunning()) {
         // If character is dying, character sprite action is updated to dying.
@@ -181,4 +220,6 @@ void GallahadGraphicsComponent::UpdateCharacterSpriteToDying(GameObject *gameObj
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
