@@ -9,6 +9,7 @@
 #include "Door.h"
 #include "Camera.h"
 #include "StageState.h"
+#include <assert.h>
 
 /**
  * Objective: Method responsible for testing float parameters received in functions.
@@ -73,16 +74,19 @@ void Door::Trigger() {
  */
 void Door::Update(TileMap* worldMap, float delayTime) {
     doorOpen = false; // Closes the door
-    
+
     if ((worldMap) && (CheckFloatDoor(delayTime))) {
+        assert(worldMap != NULL);
+        assert(delayTime >= FLOAT_MIN_SIZE && delayTime <= FLOAT_MAX_SIZE);
         // Checks if the port is enabled.
         if (Active()) {
-            Rect doorMovementRadius = Rect(box.x - MOVE_DOOR_POSITION_XY, box.y - MOVE_DOOR_POSITION_XY, 
+            Rect doorMovementRadius = Rect(box.x - MOVE_DOOR_POSITION_XY, box.y - MOVE_DOOR_POSITION_XY,
                                       box.w + MOVE_DOOR_HW, box.h + MOVE_DOOR_HW); // Sets door opening movement.
             GameObject* player = StageState::GetPlayer();
 
             // Checks if the door activation button are pressed.
             if (doorMovementRadius.OverlapsWith(player->box)) {
+                assert(player != NULL);
                 doorOpen = true; // Opens the door
             } else {
                 // It does nothing.
@@ -91,9 +95,10 @@ void Door::Update(TileMap* worldMap, float delayTime) {
             // It does nothing.
         }
         graphicsComponent->Update(this, delayTime); // Updates game screen.
+        assert(worldMap != NULL);
     } else {
         // It does nothing.
-    }  
+    }
 }
 
 /**

@@ -1,5 +1,7 @@
 #ifndef ITEM_H
 #define ITEM_H
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
 
 #include <string>
 
