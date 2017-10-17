@@ -8,6 +8,7 @@
 
 #include "Life.h"
 #include "Camera.h"
+#include <assert.h>
 
 /**
     Objective: constructor of the class Life.
@@ -25,6 +26,7 @@ Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, 
                                             float lifeTime, bool dies) {
     name = "Life";  // Sets the Life's name.
     lifeSprite = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
+    assert(lifeSprite != nullptr);
     Vec2 size = lifeSprite.GetSize();  // Gets the size of the object Life.
     box = Rect(x, y, size.x, size.y);  // The position in the screen that the object can be
                                        // collided.
@@ -62,6 +64,8 @@ bool Life::IsDead() {
     @return none.
 */
 void Life::NotifyObjectCollision(GameObject* other) {
+    assert(other != nullptr);
+
     if (other->Is("Gallahad") || other->Is("Lancelot")) {
         // Destroy the object if the player collides with it.
         if (dies) {
@@ -75,10 +79,15 @@ void Life::NotifyObjectCollision(GameObject* other) {
 }
 
 void Life::UpdateTimers(float dt) {
+    assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
+
     endTimer.Update(dt);
 }
 
 void Life::Update(TileMap* world, float dt) {
+    assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
+    assert(world != nullptr);
+
     UpdateTimers(dt);
     if (!loops && !endTimer.IsRunning()) {
         isDead = true;
