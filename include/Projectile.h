@@ -8,6 +8,11 @@
 #include "PhysicsComponent.h"
 #include "ProjectileGraphicsComponent.h"
 
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+#define INTEGER_SIZE_MAX (2e31)-1
+#define INTEGER_SIZE_MIN -2e31
+
 
 class Projectile : public GameObject {
  private:
