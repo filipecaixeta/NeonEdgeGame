@@ -39,9 +39,9 @@ Projectile::Projectile(GameObject* gameObject, Vec2 speed, int lifetime, int pow
     } else {
         assert(gameObject != NULL);
         box.x = gameObject->box.x + gameObject->box.w;
-        box.y = gameObject->box.y + (gameObject->box.h / 2 - size.y / 2);
     }
 
+    box.y = gameObject->box.y + (gameObject->box.h / 2 - size.y / 2);
     box.w = size.x;
     box.h = size.y;
     assert(gameObject != NULL);
@@ -69,12 +69,12 @@ std::string Projectile::GetOwner() {
 }
 
 bool Projectile::GetColisionData(SDL_Surface** surface_, SDL_Rect &clipRect_, Vec2 &pos_,
-                                 bool &mirror) {
+                                 bool &characterLeftDirection) {
     *surface_ = graphicsComponent->GetSurface();
     assert (*surface_ != NULL);
     clipRect_ = graphicsComponent->GetClip();
     pos_ = box.GetXY();
-    mirror = graphicsComponent->GetCharacterLeftDirection();
+    characterLeftDirection = graphicsComponent->GetCharacterLeftDirection();
     return true;
 }
 
