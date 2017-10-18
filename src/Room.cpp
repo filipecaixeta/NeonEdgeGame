@@ -116,17 +116,18 @@ void Room::AddObjectAsFirst(GameObject* ptr) {
 */
  
 void Room::RemoveObject(GameObject* ptr) {
-    for(unsigned i = 0; i < objectArray.size(); i++)
-    {
+    for(unsigned i = 0; i < objectArray.size(); i++) {
         // Search the list object.
-        if (ptr == objectArray[i])
-        {
-            if (!objectArray[i]->Is("Item"))
-            {
+        if (ptr == objectArray[i]) {
+            if (!objectArray[i]->Is("Item")) {
                 delete objectArray[i];
+            } else {
+                // It does nothing
             }
             objectArray.erase(objectArray.begin()+i);
             break;
+        } else {
+            // It does nothing
         }
     }
 }
@@ -144,6 +145,8 @@ void Room::RemovePlayer() {
         if (objectArray[i] == StageState::GetPlayer()) {
             objectArray.erase(objectArray.begin()+i);
             break;
+       } else {
+           // It does nothing
        }
    }    
 }
@@ -205,25 +208,24 @@ void Room::ObjectCollision() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         for(unsigned j = i+1; j < objectArray.size(); j++) {
             // Check if collision in x axis or y axis.
-            if(objectArray[i]->Is("Animation") ||
-               objectArray[j]->Is("Animation")) {
+            if(objectArray[i]->Is("Animation") || objectArray[j]->Is("Animation")) {
 
-            }
-            else if (objectArray[i]->box.OverlapsWith(objectArray[j]->box)) {
+            } else if (objectArray[i]->box.OverlapsWith(objectArray[j]->box)) {
                 objectArray[i]->NotifyObjectCollision(objectArray[j]);
                 objectArray[j]->NotifyObjectCollision(objectArray[i]);
                 // Check colision between player and object.
                 if (objectArray[i]->Is("Item") && objectArray[j]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-                }
-                    
-                else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
+                } else {
+                    // It does nothing
+                }       
+            } else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
-                }
             }
         }
     }
 }
+
 
 /*
    Objective: Clean objects in room
@@ -238,14 +240,20 @@ void Room::ObjectCleanup() {
             // Unfocus the object.
             if (objectArray[i] == Camera::CheckInstance().GetFocus()) {
                 Camera::CheckInstance().StopFocus();
+            } else {
+                // It does nothing
             }
             // Kill player if he leave the screem
             if (objectArray[i] == StageState::GetPlayer()) {
                 StageState::KillPlayer();
+            } else {
+                // It does nothing
             }
             sceneObjects.AddObjectAfter(objectArray[i]->name, objectArray[i]->box.GetXY()+Vec2(0, objectArray[i]->box.h));
             delete objectArray[i];
             objectArray.erase(objectArray.begin()+i);
+        } else {
+            // It does nothing
         }
     }
 }
@@ -326,8 +334,8 @@ void Room::CreateObjects() {
         // Add items for TurretBoss
         else if (objectData.at(i).id == 3) {
             // TurretBoss
-            TurretBoss* t;
-            TurretPiece* p;
+            TurretBoss* t = nullptr;
+            TurretPiece* p = nullptr;
             AddObject(new TurretBoss(objectData.at(i).x +
                                      position.x * map->GetWidth() * map->GetTileWidth(), 
                                      objectData.at(i).y +
@@ -453,6 +461,8 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id > 100) {
             // Item
             AddObject(new Item(objectData[i].id, objectData[i].x, objectData[i].y));
+        } else {
+            // It does nothing
         }
     }
 }
@@ -470,10 +480,13 @@ void Room::LoadObjects(std::string file) {
     if (!f.is_open()) {
         std::cerr<< "f.open: unable to open file: " << file.c_str();
         return;
+    } else {
+        // It does nothing
     }
     for(std::string line; std::getline(f, line); ) {
-        char delimiter;
-        int n;
+        char delimiter =' ';
+        int n = 0;
+
         ObjectData data;
         std::stringstream ss(line);
         ss >> data.id;
@@ -492,6 +505,8 @@ void Room::LoadObjects(std::string file) {
             ss >> newData.y;
             ss >> delimiter;
             objectData.push_back(newData);
+        } else {
+            // It does nothing
         }
         objectData.push_back(data);
     }
