@@ -65,7 +65,7 @@ TileSet::~TileSet() {
 */
 void TileSet::Render(int index, int x, int y) {
     if (index >= INT_MIN_SIZE && index <= INT_MAX_SIZE) {
-        if ((x >= INT_MIN_SIZE && x <= INT_MIN_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
+        if ((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
             // Valid if index is between 0 and end of matrix
             if(index > -1 && index < columns*rows) {
                 tileSet.SetClip(index%columns*(tileWidth+adjustX), index/columns*(tileHeight+adjustY),

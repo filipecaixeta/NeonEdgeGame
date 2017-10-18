@@ -159,44 +159,17 @@ void TurretPiece::NotifyObjectCollision(GameObject* other) {
     /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
      is a collision with the player in state of attack.*/
     if (type == 0) {
-<<<<<<< HEAD
         TowerDamageOnPlayer(other);
-
+        
         /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
         is a collision with the Projectile.*/
         if (other->Is("Projectile")) {
             HeadTowerDamage(other);
         } else {
-            // It does nothing
-        }
-    } else {
-        // It does nothing
-=======
-        if (other->IsPlayer()) {
-            Player* c = (Player*) other;
-            if (c->Attacking()) {
-                center->Damage(c->Power());
-            } else {
-                // It does nothing.
-            }
-        } else {
-            // It does nothing.
-        }
-        /* Defines the damage received by the type 0 TurretPiece (head of the tower) when there
-        is a collision with the Projectile.*/
-        if (other->Is("Projectile")) {
-            Projectile* p = (Projectile*) other;
-            if (p->GetOwner() == "Gallahad") {
-                center->Damage(p->Power());
-            } else {
-                // It does nothing.
-            }
-        } else {
             // It does nothing.
         }
     } else {
         // It does nothing.
->>>>>>>  Aplicação 4 da técnica comportamente default em TurretPiece.cpp
     }
 }
 
