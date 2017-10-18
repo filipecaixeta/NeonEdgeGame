@@ -11,6 +11,8 @@
 #include "StageState.h"
 #include "Player.h"
 
+#include <assert.h>
+
 /**
  * Objective: it constructs Hand scanner object.
  *
@@ -20,8 +22,11 @@
  * @return instance of Hand scanner.
  */
 HandScanner::HandScanner(int x, int y, Interactive *door): Interactive(x, y, "HandScanner") {
+    assert(door != NULL);
     name = "HandScanner";
     this->door = door;
+
+    assert(door != NULL);
 }
 
 HandScanner::~HandScanner() {
@@ -48,11 +53,14 @@ void HandScanner::Trigger() {
  * @return none.
  */
 void HandScanner::NotifyObjectCollision(GameObject* gameObject) {
+    assert(gameObject != NULL);
     if (gameObject && gameObject->Is("Drone")) {
         Player *player = (Player *) gameObject;
         if (player->Attacking()) {
+            assert(player != NULL);
             Player *play = (Player *) StageState::GetPlayer();
             if (play->skills[4]) {
+                assert(play != NULL);
                 On();
             } else {
                 // It does nothing.
@@ -63,6 +71,8 @@ void HandScanner::NotifyObjectCollision(GameObject* gameObject) {
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != NULL);
 }
 
 /**
@@ -73,6 +83,7 @@ void HandScanner::NotifyObjectCollision(GameObject* gameObject) {
  * @return none.
  */
 void HandScanner::Update(TileMap* map, float deltaTime) {
+    assert(map != NULL);
     Interactive::Update(map, deltaTime);
     Trigger();
 }

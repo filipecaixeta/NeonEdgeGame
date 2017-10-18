@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Camera.h"
 #include "StageState.h"
+#include <assert.h>
 
 /**
  * Objective: it constructs Item object.
@@ -19,7 +20,10 @@
  * @return instance of Item.
  */
 Item::Item(int id, int x, int y): sprite(new Sprite("items.png", 6)), dead(false), id(id - 100) {
+    assert(id >= INT_MIN_SIZE && id <= INT_MAX_SIZE);
     sprite->SetFrame(id);
+    assert(x >= INT_MIN_SIZE && x <= INT_MAX_SIZE);
+    assert(y >= INT_MIN_SIZE && y <= INT_MAX_SIZE);
     box.SetXY(Vec2(x, y));
     box.SetWH(sprite->GetSize());
     stringName = "Item";
@@ -33,8 +37,10 @@ Item::Item(int id, int x, int y): sprite(new Sprite("items.png", 6)), dead(false
  */
 void Item::Eval(Player *player) {
     if (player && player != nullptr && player->itemManager != nullptr) {
+        assert(player != NULL);
         player->itemManager->AddItem(id);
         player->soundComponent->SoundItem();
+        assert(player != NULL);
     } else {
         // It does nothing.
     }
@@ -87,7 +93,9 @@ bool Item::IsDead() {
  */
 void Item::NotifyObjectCollision(GameObject *gameObject) {
     if (gameObject) {
+        assert(gameObject != NULL);
         if (gameObject->IsPlayer()) {
+            assert(gameObject != NULL);
             dead = true;
         } else {
             // It does nothing.

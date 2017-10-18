@@ -70,8 +70,8 @@ Vec2 GameObject::GetPosition() {
  * @return none.
  */
 void GameObject::SetPosition(Vec2 position) {
-    if ((position.x >= INT_MIN_SIZE && position.x <= INT_MAX_SIZE) &&
-            (position.y >= INT_MIN_SIZE && position.y <= INT_MAX_SIZE)) {
+    if ((position.x >= FLOAT_MIN_SIZE && position.x <= FLOAT_MAX_SIZE) &&
+            (position.y >= FLOAT_MIN_SIZE && position.y <= FLOAT_MAX_SIZE)) {
         box.x = position.x;
         box.y = position.y;
     } else {

@@ -47,7 +47,7 @@ bool CeilingEnemy::Attacking() {
  * @return none.
  */
 void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
-    if ((tile >= INT_MIN_SIZE && tile <= INT_MAX_SIZE) && face && (tile >= 0)) {
+    if (tile >= 0) {
         // Changing state according with the collision of the face.
         if (face == BOTTOM && state == ATTACKING) {
             state = REARMING;
@@ -68,7 +68,7 @@ void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
  * @return none.
  */
 void CeilingEnemy::UpdateAI(float deltaTime) {
-    if ((deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) && StageState::GetPlayer()) {
+    if (StageState::GetPlayer()) {
         //Block to check visibility of the player.
         if (!stunned.IsRunning()) {
             bool visible = true;

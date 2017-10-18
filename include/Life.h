@@ -1,5 +1,7 @@
 #ifndef LIFE_H_
 #define LIFE_H_
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 #include "GameObject.h"
 #include "Sprite.h"
