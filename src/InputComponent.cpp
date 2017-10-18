@@ -5,6 +5,7 @@
  *   Class Name: InputComponent
  *   Objective: it manages the inputs components.
  */
+#include <assert.h>
 
 #include "InputComponent.h"
 #include "InputManager.h"
@@ -29,7 +30,8 @@ InputComponent::~InputComponent() {
  * @return none.
  */
 void InputComponent::Update(Player *player, float deltaTime) {
-    this->player = player;
+	assert(this->player != NULL);
+	this->player = player;
     this->deltaTime = deltaTime;
 }
 
@@ -40,6 +42,7 @@ void InputComponent::Update(Player *player, float deltaTime) {
  * @return none.
  */
 void InputComponent::MoveLeft() {
+	assert(player != NULL);
     // It sets less 0.002 to your current position in x.
     player->physicsComponent.velocity.x -= 0.002 * deltaTime;
     // It Turns the face object to left.
@@ -53,6 +56,7 @@ void InputComponent::MoveLeft() {
  * @return none.
  */
 void InputComponent::MoveRight() {
+	assert(player != NULL);
     player->physicsComponent.velocity.x += 0.002 * deltaTime; //Sets plus 0.002 to your current position in x.
     player->facing = GameObject::RIGHT;  // Turn the face object to right.
 }
@@ -64,6 +68,7 @@ void InputComponent::MoveRight() {
  * @return none.
  */
 void InputComponent::MoveUp() {
+	assert(player != NULL);
     player->physicsComponent.velocity.y -= 0.002 * deltaTime;  // Sets less 0.002 to your current position in y.
 }
 
@@ -74,6 +79,7 @@ void InputComponent::MoveUp() {
  * @return none.
  */
 void InputComponent::MoveDown() {
+	assert(player != NULL);
     player->physicsComponent.velocity.y += 0.002 * deltaTime;  // Sets plus 0.002 to your current position in y.
 }
 
@@ -84,6 +90,7 @@ void InputComponent::MoveDown() {
  * @return none.
  */
 void InputComponent::StayStill() {
+	assert(player != NULL);
     player->physicsComponent.velocity.x = 0; // set 0 to your current position in 0.
 }
 
@@ -94,7 +101,8 @@ void InputComponent::StayStill() {
  * @return none.
  */
 void InputComponent::Crouch(bool crouchStatus) {
-    // It verifies if the character will be croush or stand up.
+	assert(player != NULL);
+	// It verifies if the character will be croush or stand up.
     if (crouchStatus == true) {
         // If yes, it makes the object character be croush.
         player->Crouch();
@@ -111,7 +119,8 @@ void InputComponent::Crouch(bool crouchStatus) {
  * @return none.
  */
 void InputComponent::Attack() {
-    // It validate the attack skill, if the character object isn't attacking and isn't cooling, he attacks.
+	assert(player != NULL);
+	// It validate the attack skill, if the character object isn't attacking and isn't cooling, he attacks.
     if (!player->Attacking() && !player->Cooling()) {
         player->Attack();
     } else {
@@ -126,6 +135,7 @@ void InputComponent::Attack() {
  * @return none.
  */
 void InputComponent::Jump() {
+	assert(player != NULL);
     // Ground Jump
     if (player->footing == GameObject::GROUNDED) {
         player->soundComponent->SoundJump();  // display the jump sound.
@@ -163,6 +173,7 @@ void InputComponent::Active() {
  * @return none.
  */
 void InputComponent::Save(bool saveStatus) {
+	assert(player != NULL);
     player->saveComponent.Save(saveStatus);
     player->saveComponent.Update(player, "savefile.txt");
 }
@@ -195,6 +206,7 @@ void InputComponent::ProcessItems() {
     }
 
     if (hotItemPos != -1) {
+		assert(player != NULL);
         player->EvalItem(player->itemManager->hotItens[hotItemPos]);
         player->itemManager->ConsumeItem(hotItemPos);
     } else {
