@@ -1,5 +1,9 @@
 #ifndef STATE_H_
 #define STATE_H_
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
 
 #include "Music.h"
 #include "TileMap.h"

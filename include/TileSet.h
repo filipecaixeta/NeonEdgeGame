@@ -1,6 +1,7 @@
 #ifndef TILESET_H_
 #define TILESET_H_
-
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
 #include "Sprite.h"
 
 class TileSet {
