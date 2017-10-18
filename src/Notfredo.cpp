@@ -7,6 +7,7 @@
 
 */
 
+#include "assert.h"
 #include "Notfredo.h"
 #include "Camera.h"
 #include "StageState.h"
@@ -40,16 +41,20 @@ struct Node{
 */
 Notfredo::Notfredo(int x, int y, Type type): Character(x, y), radius(), looking(1500), idle(1500) { // The parameter of the 'looking' and 'idle functions is the time that...
     if (type == GROUND) {                                                                           // ...the Notfredo is in the state 'idle' and 'looking', in nanoseconds.
+		assert(type==GROUND);
         graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
     }
     if (type == FLYING) {
+		assert(type==FLYING);
         graphicsComponent = new NotfredoGraphicsComponent("EnemyGallahad");
     }
 	  name = "Notfredo";
+	  assert(name=="Notfredo");
 	  box.SetWH(graphicsComponent->GetSize());
     attacking.SetLimit(360); // Defines the time between each attack, in nanoseconds.
 	  idle.Start(); // Starts the Notfredo status as 'idle'.
     this->type = type;
+	assert(type!=NULL);
     Damage(5);
     }
 
@@ -81,6 +86,7 @@ void Notfredo::Attack() {
 */
 void Notfredo::NotifyTileCollision(int tile, GameObject::Face face) {
 	if (tile >= SOLID_TILE && (face == LEFT || face == RIGHT)) {
+		assert(tile >= SOLID_TILE && (face == LEFT || face == RIGHT));
 		if (physicsComponent.velocity.y >= 0.6) {
 			physicsComponent.velocity.y = -0.5;
 		}
@@ -113,6 +119,7 @@ void Notfredo::UpdateTimers(float dt) {
 
 void Notfredo::UpdateAI(float dt) {
     if (type == GROUND) {
+		assert(type==GROUND);
         // Defines the radius of vision of the Notfredo as a rectangle.
         radius = Rect(box.x-200, box.y-200, box.w+400, box.h+400);
         if (StageState::GetPlayer()) {
@@ -120,8 +127,8 @@ void Notfredo::UpdateAI(float dt) {
             bool visible = true;
             // If the character is 'Gallahad' and he uses the ability to hide, the visibility is 'false', not to be seen.
             if (StageState::GetPlayer()->Is("Gallahad")) {
-                Gallahad* p = (Gallahad*) StageState::GetPlayer();
-                if (p->IsHiding()) {
+                Gallahad* gallahad = (Gallahad*) StageState::GetPlayer();
+				if (gallahad->IsHiding()) {
                     visible = false;
                 }
             }
@@ -134,6 +141,7 @@ void Notfredo::UpdateAI(float dt) {
                         physicsComponent.velocity.x = 0;
                     }
                     facing = LEFT;
+					assert(facing==LEFT);
                 }
                 else {
                     physicsComponent.velocity.x += 0.003 * dt;
@@ -142,6 +150,7 @@ void Notfredo::UpdateAI(float dt) {
                         physicsComponent.velocity.x = 0;
                     }
                     facing = RIGHT;
+					assert(facing==RIGHT);
                 }
                 clamp(physicsComponent.velocity.x, -0.3f, 0.3f);
                 // Sets the attack action of the Notfredo if he not be Attacking or Cooling.
@@ -164,9 +173,11 @@ void Notfredo::UpdateAI(float dt) {
                     physicsComponent.velocity.x = 0; // Stops the Notfredo to turn sideways.
                     if (facing == LEFT) {
                         facing = RIGHT;
+						assert(facing==RIGHT);
                     }
                     else {
                         facing = LEFT;
+						assert(facing==LEFT);
                     }
                 }
             }
