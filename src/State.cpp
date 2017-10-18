@@ -13,19 +13,15 @@ State::State():
     bg(),
     music(),
     quitRequested(false) {
-
 }
 
 State::~State() {
-
 }
 
 void State::Render() {
-
 }
 
 void State::Update() {
-
 }
 
 /*
@@ -47,7 +43,7 @@ Vec2 State::CenterVertical(Sprite *sp) {
 Vec2 State::CenterVertical(int size) {
     if (size >= INT_MIN_SIZE && size <= INT_MAX_SIZE) {
         SDL_Point windowSize = Game::GetInstance().GetScreenSize();
-        return Vec2((windowSize.x-size)/2,0);
+        return Vec2((windowSize.x-size)/2, 0);
     } else {
         // It does nothing.
     }
@@ -60,7 +56,7 @@ Vec2 State::CenterVertical(int size) {
  * @return: Vec2.
  */
 Vec2 State::CenterVertical(Vec2 size) {
-    float vec_size_x;
+    float vec_size_x = 0.0f;
     vec_size_x = size.x;
     if (vec_size_x >= FLOAT_MIN_SIZE && vec_size_x <= FLOAT_MAX_SIZE){
         return CenterVertical(vec_size_x);
@@ -102,7 +98,7 @@ Vec2 State::CenterHorizontal(int size) {
  * @return: Vec2.
  */
 Vec2 State::CenterHorizontal(Vec2 size) {
-    float vec_size_y;
+    float vec_size_y = 0.0f;
     vec_size_y = size.y;
     if (vec_size_y >= FLOAT_MIN_SIZE && vec_size_y <= FLOAT_MAX_SIZE){
         return CenterVertical(vec_size_y);
