@@ -7,6 +7,8 @@
 
 */
 
+#include <assert.h>
+
 #include "menu/GraphicsMenu.h"
 #include "Text.h"
 #include "InputManager.h"
@@ -26,11 +28,11 @@ void GraphicsMenu::LoadAssets() {
 	int const SCREEN_WIDTH_1024 = 1024;
 	int const SCREEN_WIDTH_1360 = 1360;
 	int const SCREEN_WIDTH_1792 = 1792;
-
+	
     menuOptions.push_back({"Resolution", new Sprite("menus/resolution-button.png"), true, 0});
     menuOptions2.push_back({"Resolution", new Sprite(), true, 0});
     SDL_Point screenSize = Game::GetInstance().GetScreenSize();  // Screen size.
-    // Verifies screen size to sets.
+	// Verifies screen size to sets.
     if (screenSize.x == SCREEN_WIDTH_1024) {
         menuOptions2[0].current = FIRST_OPTION;
         UpdateScreenSizeSprite(0, menuOptions2[0].sprite);
@@ -66,6 +68,7 @@ void GraphicsMenu::LoadAssets() {
     bool fullScreem = Game::GetInstance().isFullScreen();  // Fullscreen.
     // Verifies windows mode to sets.
     if (!fullScreem) {
+		assert(fullScreem == NULL);
         menuOptions2[2].current = FIRST_OPTION;
         UpdateWindowModeSprite(0, menuOptions2[2].sprite);
     } else {
@@ -257,6 +260,10 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
  *
  */
 void GraphicsMenu::Render() {
+	assert(menuOptions2[FIRST_OPTION].sprite != NULL);
+	assert(menuOptions2[SECOND_OPTION].sprite != NULL);
+	assert(menuOptions2[THIRD_OPTION].sprite != NULL);
+
 	int const POSITION_260_Y_AXIS = 260;
 	int const POSITION_409_Y_AXIS = 409;
 	int const POSITION_557_Y_AXIS = 557;
