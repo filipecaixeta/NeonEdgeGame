@@ -10,6 +10,7 @@
 #include <math.h>
 #include <cstdlib>
 #include <sys/time.h>
+#include <assert.h>
 
 #include "TurretBoss.h"
 #include "StageState.h"
@@ -24,6 +25,7 @@
  */
 TurretBoss::TurretBoss(int x, int y): Character(x, y), idle(1000), aim(3000), shoot(300) {
     name = "TurretBoss";
+	assert(name == "TurretBoss");
     box.x = x;
     box.y = y;
     box.w = 0;
@@ -39,6 +41,7 @@ TurretBoss::TurretBoss(int x, int y): Character(x, y), idle(1000), aim(3000), sh
     timeval t1;
     gettimeofday(&t1, NULL);
     srand(t1.tv_usec * t1.tv_sec);
+
 }
 
 TurretBoss::~TurretBoss() {
@@ -61,6 +64,7 @@ TurretBoss::~TurretBoss() {
  */
 void TurretBoss::AddPiece(TurretPiece *piece) {
     if (piece) {
+		assert(piece != NULL);
         pieces.emplace_back(piece);
     } else {
         // It does nothing.
@@ -74,7 +78,8 @@ void TurretBoss::AddPiece(TurretPiece *piece) {
  * @return none.
  */
 void TurretBoss::AddTurret(TurretPiece *turret) {
-    if (turret) {
+	if (turret) {
+		assert(turret != NULL);
         turrets.emplace_back(turret); // Adds a turret piece on the final of vector turret.
     } else {
         // It does nothing.
@@ -104,6 +109,7 @@ void TurretBoss::UpdateAI(float deltaTime) {
             Rect player = StageState::GetPlayer()->box;
             if (player.OverlapsWith(radius)) {
                 triggered = true;
+				assert(triggered == true);
             } else {
                 // It does nothing.
             }
@@ -179,6 +185,7 @@ void TurretBoss::UpdateAI(float deltaTime) {
                     if (!shoot.IsRunning()) {
                         idle.Start();
                         state = tIDLE;
+						assert(state == tIDLE);
                     } else {
                         // It does nothing.
                     }
