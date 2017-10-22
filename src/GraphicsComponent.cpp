@@ -45,10 +45,9 @@ bool GraphicsComponent::GetCharacterLeftDirection() {
 
 void GraphicsComponent::UpdateSprite(GameObject *gameObject, std::string spriteParam) {
     if (sprite != sprites[spriteParam]) {
-        int w = sprite->GetWidth();
-        int h = sprite->GetHeight();
         sprite = sprites[spriteParam];
         surface = surfaces[spriteParam];
+        int w = sprite->GetWidth();        
         if (gameObject->footing == GameObject::LEFT_WALLED) {
             gameObject->box.x += 0;
         } else if (gameObject->footing == GameObject::RIGHT_WALLED) {
@@ -57,6 +56,7 @@ void GraphicsComponent::UpdateSprite(GameObject *gameObject, std::string spriteP
             gameObject->box.x += (w - sprite->GetWidth()) / 2;
         }
 
+        int h = sprite->GetHeight();        
         gameObject->box.y += h - sprite->GetHeight();
         gameObject->box.SetWH(GetSize());
         if (!sprite->Loops()) {
