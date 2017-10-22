@@ -61,8 +61,6 @@ void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
 
 		ColisionFunctions::GetSurfaceData(surface, x, y, rowSize, &pixels, &format);
 
-		Uint32 colorW = SDL_MapRGBA(format, FULL_COLOR, NO_COLOR, NO_COLOR, FULL_COLOR);
-		Uint32 colorB = SDL_MapRGBA(format, NO_COLOR, NO_COLOR, NO_COLOR, NO_COLOR);
 
 		for (int j = 0; j < y; j++) {
 			for (int i = 0; i < x; i++) {
@@ -72,11 +70,14 @@ void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
 				Uint8 alpha;
 				int pixelPosition = j * rowSize + i;
 				int const VISIBILITY = 100; // constant the set a alpha to be visible.
+				
 				SDL_GetRGBA(pixels[pixelPosition], format, &red, &green, &blue, &alpha);
 
 				if (alpha > VISIBILITY) {
+					Uint32 colorW = SDL_MapRGBA(format, FULL_COLOR, NO_COLOR, NO_COLOR, FULL_COLOR);
 					pixels[pixelPosition] = colorW;
 				} else {
+					Uint32 colorB = SDL_MapRGBA(format, NO_COLOR, NO_COLOR, NO_COLOR, NO_COLOR);
 					pixels[pixelPosition] = colorB;
 				}
 			}
@@ -100,7 +101,6 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 											bool mirror1, SDL_Surface *surface2, SDL_Rect clipRect2,
 											Vec2 pos2, bool mirror2) {
 	if(surface1 != NULL & surface2 != NULL){
-		int colision = INITIAL_VALUE;
 		int xSize1 = INITIAL_VALUE;
 		int ySize1 = INITIAL_VALUE;
 		int rowSize1 = INITIAL_VALUE;
@@ -115,27 +115,11 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 		SDL_PixelFormat *format2;
 		ColisionFunctions::GetSurfaceData(surface2, xSize2, ySize2, rowSize2, &pixels2, &format2);
 
-		int WA = clipRect1.w;
-		int X0A = std::round(pos1.x);
-		int X1A = X0A + WA;
-		int HA = clipRect1.h;
-		int Y0A = std::round(pos1.y);
-		int Y1A = Y0A + HA;
-		int WB = clipRect2.w;
-		int X0B = std::round(pos2.x);
-		int X1B = X0B + WB;
-		int HB = clipRect2.h;
-		int Y0B = std::round(pos2.y);
-		int Y1B = Y0B + HB;
-		int i1Min = 0;
-		int i2Min = 0;
-		int i1Max = 0;
-		int i2Max = 0;
-		int j1Min = 0;
-		int j2Min = 0;
-		int j1Max = 0;
-		int j2Max = 0;
 
+		int X0A = std::round(pos1.x);		
+		int i2Min = 0;		
+		int i1Min = 0;		
+		int X0B = std::round(pos2.x);		
 		if (X0A < X0B) {
 			i1Min = X0B - X0A + clipRect1.x;
 			i2Min = clipRect2.x;
@@ -144,6 +128,12 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 			i2Min = X0A - X0B + clipRect2.x;
 		}
 
+		int WB = clipRect2.w;		
+		int WA = clipRect1.w;		
+		int X1A = X0A + WA;		
+		int i2Max = 0;		
+		int i1Max = 0;		
+		int X1B = X0B + WB;		
 		if (X1A < X1B) {
 			i1Max = WA - 1 + clipRect1.x;
 			i2Max = X1A - X0B - 1 + clipRect2.x;
@@ -152,6 +142,10 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 			i2Max = WB - 1 + clipRect2.x;
 		}
 
+		int j2Min = 0;		
+		int j1Min = 0;		
+		int Y0B = std::round(pos2.y);
+		int Y0A = std::round(pos1.y);
 		if (Y0A < Y0B) {
 			j1Min = (Y0B - Y0A + clipRect1.y) * rowSize1;
 			j2Min = clipRect2.y * rowSize2;
@@ -160,6 +154,12 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 			j2Min = (Y0A - Y0B + clipRect2.y) * rowSize2;
 		}
 
+		int HB = clipRect2.h;
+		int HA = clipRect1.h;		
+		int j2Max = 0;		
+		int j1Max = 0;		
+		int Y1B = Y0B + HB;		
+		int Y1A = Y0A + HA;		
 		if (Y1A < Y1B) {
 			j1Max = (HA - 1 + clipRect1.y) * rowSize1;
 			j2Max = (Y1A - Y0B - 1 + clipRect2.y) * rowSize2;
@@ -182,7 +182,7 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
 
 		int w1Size = i1Max + i1Min;
 		int w2Size = i2Max + i2Min;
-
+		int colision = INITIAL_VALUE;				
 		for (int j1 = j1Min, j2 = j2Min; j1 <= j1Max ; j1 += rowSize1, j2 += rowSize2) {
 			for (int i1 = i1Min, i2 = i2Min; i1 <= i1Max; i1++, i2++) {
 				Uint8 r1;
@@ -237,33 +237,32 @@ int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clip
  */
 int ColisionFunctions::PixelPerfectColision(GameObject *object1, GameObject *object2) {
 	if(object1 != NULL && object2 != NULL){
-    SDL_Surface *surface1;
-    SDL_Rect clipRect1;
-    Vec2 pos1;
-    bool mirror1 = false;
+        SDL_Surface *surface1;
+    	SDL_Rect clipRect1;
+    	Vec2 pos1;
+    	bool mirror1 = false;
 
-    if (object1->GetColisionData(&surface1, clipRect1, pos1, mirror1) == false) {
-        return 0;
-    } else {
-		// Do nothing
-	}
+		if (object1->GetColisionData(&surface1, clipRect1, pos1, mirror1) == false) {
+			return 0;
+		} else {
+			// Do nothing
+		}
 
-    SDL_Surface *surface2;
-    SDL_Rect clipRect2;
-    Vec2 pos2;
-    bool mirror2 = false;
+		SDL_Surface *surface2;
+		SDL_Rect clipRect2;
+		Vec2 pos2;
+		bool mirror2 = false;
 
-    if (object2->GetColisionData(&surface2, clipRect2, pos2, mirror2) == false) {
-        return 0;
-    } else {
-		// Do nothing
-	}
-
-    return ColisionFunctions::PixelPerfectColision(surface1, clipRect1, pos1, mirror1, surface2,
-                                                   clipRect2, pos2, mirror2);
-	} else{
-		//do nothing
-	}
+		if (object2->GetColisionData(&surface2, clipRect2, pos2, mirror2) == false) {
+			return 0;
+		} else {
+			// Do nothing
+		}
+		return ColisionFunctions::PixelPerfectColision(surface1, clipRect1, pos1, mirror1, surface2,
+													clipRect2, pos2, mirror2);
+		} else {
+			//do nothing
+		}
 	}
 
 /**
