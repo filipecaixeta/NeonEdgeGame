@@ -39,15 +39,14 @@
 #include "BoxSpawner.h"
  
 /**
-    Objective: Constructor of the Room.
-    @param TileSet* tileset - load tile to room.
-    @param int index - .
-    @param Vec2 position - .
-    @param TileSet* background - background of room.
-    @param string mapName.
-    @return: Return a instance of Room.
-
-*/
+ * Objective: Constructor of the Room.
+ * @param TileSet* tileset - load tile to room.
+ * @param int index - .
+ * @param Vec2 position - .
+ * @param TileSet* background - background of room.
+ * @param string mapName.
+ * @return: Return a instance of Room.
+ */
 Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std::string mapName):
     sceneObjects("resources/map/objs/"+
                  mapName+
@@ -71,12 +70,11 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std:
     std::cout << ss.str() << "\t";
 }
  
- /**
-    Objective: Destroct the class Room, delocalizing some memory used in the class and shutdown dependent libraries.
-    @param None.
-	@return: Return free memory to the system.
-	
-*/
+/**
+ * Objective: Destroct the class Room, delocalizing some memory used in the class and shutdown dependent libraries.
+ * @param None.
+ * @return: Return free memory to the system.	
+ */
 Room::~Room() {
     delete map;
     // Clear all objects in room
@@ -87,33 +85,30 @@ Room::~Room() {
 }
 
 /*
-    Objective: adds the object to the end of the room list.
-    @param: GameObject* ptr - pointer to GameObject wich will be inserted.
-    @return: None.
-
-*/
+ * Objective: adds the object to the end of the room list.
+ * @param: GameObject* ptr - pointer to GameObject wich will be inserted.
+ * @return: None.
+ */
  
 void Room::AddObject(GameObject* ptr) {
     objectArray.emplace_back(ptr);
 }
  
 /*
-    Objective: Add object at the beginning room list.
-    @param: GameObject* ptr - pointer to GameObject wich will be inserted.
-    @return: none.
-
-*/
+ * Objective: Add object at the beginning room list.
+ * @param: GameObject* ptr - pointer to GameObject wich will be inserted.
+ * @return: none.
+ */
  
 void Room::AddObjectAsFirst(GameObject* ptr) {
     objectArray.emplace(objectArray.begin(), ptr);
 }
  
 /*
-    Objective: remove object at room.
-    @param: GameObject* ptr - pointer to GameObject wich will be removed.
-    @return: None.
-
-*/
+ * Objective: remove object at room.
+ * @param: GameObject* ptr - pointer to GameObject wich will be removed.
+ * @return: None.
+ */
  
 void Room::RemoveObject(GameObject* ptr) {
     for(unsigned i = 0; i < objectArray.size(); i++) {
@@ -133,11 +128,10 @@ void Room::RemoveObject(GameObject* ptr) {
 }
  
 /*
-   Objective: Remove player from ObjectArray at room.
-   @param: None.
-   @return: None.
-
-*/
+ * Objective: Remove player from ObjectArray at room.
+ * @param: None.
+ * @return: None.
+ */
  
 void Room::RemovePlayer() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
@@ -152,44 +146,40 @@ void Room::RemovePlayer() {
 }
  
 /*
-   Objective: get first object at room.
-   @param: none.
-   @return: none.
-
-*/
+ * Objective: get first object at room.
+ * @param: none.
+ * @return: none.
+ */
  
 GameObject* Room::GetFirst() {
     return objectArray[0];
 }
  
 /*
-   Objective: get position from room.
-   @param: none.
-   @return: none.
-
-*/
+ * Objective: get position from room.
+ * @param: none.
+ * @return: none.
+ */
  
 Vec2 Room::GetPos() {
     return position;
 }
  
 /*
-   Objective: get map from room.
-   @param: none.
-   @return: none.
-
-*/
+ * Objective: get map from room.
+ * @param: none.
+ * @return: none.
+ */
  
 TileMap* Room::GetMap() {
     return map;
 }
  
 /*
-   Objective: update room object.
-   @param: none.
-   @return: none.
-
-*/
+ * Objective: update room object.
+ * @param: none.
+ * @return: none.
+ */
  
 void Room::ObjectUpdate(float dt) {
     for(unsigned i = 0; i < objectArray.size(); i++) {
@@ -198,11 +188,10 @@ void Room::ObjectUpdate(float dt) {
 }
      
 /*
-   Objective: Checks object collision in room
-   @param: none.
-   @return: none.
-
-*/
+ * Objective: Checks object collision in room
+ * @param: none.
+ * @return: none.
+ */
  
 void Room::ObjectCollision() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
@@ -228,10 +217,9 @@ void Room::ObjectCollision() {
 
 
 /*
-   Objective: Clean objects in room
-   param: none.
-   return: none.
-
+ * Objective: Clean objects in room
+ * @param: none.
+ * @return: none.
  */
  
 void Room::ObjectCleanup() {
@@ -259,10 +247,10 @@ void Room::ObjectCleanup() {
 }
      
 /*
-   Function Objective: update states in room cleaning objects and colisions.
-   @param: none.
-   @return: none.
-*/
+ * Function Objective: update states in room cleaning objects and colisions.
+ * @param: none.
+ * @return: none.
+ */
  
 void Room::Update(float dt) {
     ObjectUpdate(dt);
@@ -272,10 +260,10 @@ void Room::Update(float dt) {
 }
  
 /*
-   Function Objective: render room screen position.
-   param: none.
-   return: none.
-*/
+ * Function Objective: render room screen position.
+ * @param: none.
+ * @return: none.
+ */
  
 void Room::Render() {
     backgroundMap->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
@@ -289,10 +277,10 @@ void Room::Render() {
 }
  
 /*
-   Function Objective: create items and objects in room.
-   param: none.
-   return: none.
-*/
+ * Function Objective: create items and objects in room.
+ * @param: none.
+ * @return: none.
+ */
  
 void Room::CreateObjects() {
     for(unsigned int i = 0; i < objectData.size(); i++) {
@@ -333,50 +321,62 @@ void Room::CreateObjects() {
         }
         // Add items for TurretBoss
         else if (objectData.at(i).id == 3) {
-            // TurretBoss
-            TurretBoss* t = nullptr;
-            TurretPiece* p = nullptr;
             AddObject(new TurretBoss(objectData.at(i).x +
                                      position.x * map->GetWidth() * map->GetTileWidth(), 
                                      objectData.at(i).y +
                                      position.y * map->GetHeight() * map->GetTileHeight()));
+            TurretBoss* t = nullptr;            
             t = (TurretBoss*) objectArray.at(objectArray.size()-1);
             AddObject(new TurretPiece(t, -60, -53, 4));
+           
+            TurretPiece* p = nullptr;            
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
+           
             AddObject(new TurretPiece(t, -60, -163, 4));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
+           
             AddObject(new TurretPiece(t, -60, -273, 4));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
+           
             AddObject(new TurretPiece(t, 0, -55, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+           
             AddObject(new TurretPiece(t, 0, -165, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, 0, -275, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, 0, 0, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, 0, -110, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, 0, -220, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, -5, -358, 0));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
+            
             AddObject(new TurretPiece(t, 25, -51, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
+            
             AddObject(new TurretPiece(t, 25, -161, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
+            
             AddObject(new TurretPiece(t, 25, -271, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
@@ -484,17 +484,18 @@ void Room::LoadObjects(std::string file) {
         // It does nothing
     }
     for(std::string line; std::getline(f, line); ) {
-        char delimiter =' ';
-        int n = 0;
-
         ObjectData data;
         std::stringstream ss(line);
         ss >> data.id;
+
+        char delimiter =' ';
         ss >> delimiter;
         ss >> data.x;
         ss >> delimiter;
         ss >> data.y;
         ss >> delimiter;
+
+        int n = 0;        
         ss >> n;
         ss >> delimiter;
         if (n > 20) {
