@@ -16,7 +16,7 @@
     @param int y - coordinate of the player.
     @return Player - instance of the class Player.
 */
-Player::Player(ItensManager* itemManager, int x, int y):
+Player::Player(ItemsManager *itemManager, int x, int y):
     Character(x,y),  // Player's positions in the screen.
     inputComponent(nullptr),
     itemManager(itemManager),
@@ -71,7 +71,7 @@ int Player::GetEnergy() {
     @return: none.
 */
 void Player::Crouch() {
-    
+
     if (isStading) {
         isStading = false;
         soundComponent->SoundCrouching();  // Performs the crouching sound in case that the player is

@@ -24,7 +24,7 @@
     @return - none.
 
 */
-Drone::Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY): Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
+Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY): Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
     name = ""; // Sets the drone name
     inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in relation to the character.
     physicsComponent.SetKinetic(true); // Disables gravity for the drone.
@@ -75,7 +75,7 @@ void Drone::DroneActivate(bool turnOnDrone) {
 
 */
 bool Drone::isActive() {
-    return droneActive; 
+    return droneActive;
 }
 
 /**
@@ -97,8 +97,8 @@ void Drone::UpdateTimers(float delayTime) {
 */
 void Drone::FollowsCharacter(bool droneActive) {
     // Test expected value
-    assert(droneActive == false); 
-    
+    assert(droneActive == false);
+
     //Face of the character
     facing = StageState::GetPlayer()->facing;
 

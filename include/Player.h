@@ -1,5 +1,7 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_PLAYER_H_
+#define INCLUDE_PLAYER_H_
 
 #define MAX_HITPOINTS 10
 
@@ -7,15 +9,15 @@
 #include "Timer.h"
 #include "TileMap.h"
 #include "InputComponent.h"
-#include "ItensManager.h"
+#include "ItemsManager.h"
 #include "SoundComponent.h"
 
 class InputComponent;
-class ItensManager;
+class ItemsManager;
 
 class Player : public Character {
-public:
-    Player(ItensManager* itemManager, int x, int y);
+ public:
+    Player(ItemsManager *itemManager, int x, int y);
     virtual ~Player();
     virtual bool IsPlayer();
     virtual int GetEnergy();
@@ -27,20 +29,20 @@ public:
     virtual void UpdateTimers(float dt);
     virtual void Update(TileMap* map,float dt);
 
-    enum {SkillBlocking3 = 0, SkillBlocking2, SkillBlocking1, Skill, SkillWeapon_1, SkillWeapon_2,
-        SkillWeapon_3};  // The skills options of the player.
+    enum{ SkillBlocking3 = 0, SkillBlocking2, SkillBlocking1, Skill, SkillWeapon_1, SkillWeapon_2,
+          SkillWeapon_3};  // The skills options of the player.
 
-    InputComponent* inputComponent;
-    ItensManager* itemManager;
+    InputComponent *inputComponent;
+    ItemsManager *itemManager;
 
     bool skills[7];
     int skillPoints;
 
-protected:
+ protected:
     int energy;
     Timer regenCD;
     bool isCrouching;
     bool isStading;
 };
 
-#endif /* PLAYER_H_ */
+#endif  // INCLUDE_PLAYER_H_
