@@ -120,8 +120,6 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gam
     assert(gameObject != NULL);
 
     Lancelot *lancelot = (Lancelot *) gameObject;  // Instantiation of character Lancelot.
-    // It verifies how the character is attacking.
-    UpdateSprite(gameObject, "Attacking" + lancelot->GetCombo());
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
             gameObject->footing == GameObject::RIGHT_WALLED) {
@@ -130,6 +128,8 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gam
     } else {
         // It does nothing.
     }
+    // It verifies how the character is attacking.
+    UpdateSprite(gameObject, "Attacking" + lancelot->GetCombo());
 
     assert(gameObject != NULL);
 }
@@ -143,7 +143,6 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToAttacking(GameObject *gam
 void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *gameObject) {
     assert(gameObject != NULL);
 
-    UpdateSprite(gameObject, "Blocking");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
             gameObject->footing == GameObject::RIGHT_WALLED) {
@@ -152,7 +151,7 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *game
     } else {
         // It does nothing.
     }
-
+    UpdateSprite(gameObject, "Blocking");
     assert(gameObject != NULL);
 }
 
@@ -165,7 +164,6 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToBlocking(GameObject *game
 void LancelotGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gameObject) {
     assert(gameObject != NULL);
 
-    UpdateSprite(gameObject, "Crouching");
     // It verifies is character feet are in wall.
     if (gameObject->footing == GameObject::LEFT_WALLED ||
             gameObject->footing == GameObject::RIGHT_WALLED) {
@@ -174,7 +172,7 @@ void LancelotGraphicsComponent::UpdateCharacterSpriteToCrouching(GameObject *gam
     } else {
         // It does nothing.
     }
-
+    UpdateSprite(gameObject, "Crouching");
     assert(gameObject != NULL);
 }
 

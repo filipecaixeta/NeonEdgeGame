@@ -102,13 +102,13 @@ void Energy::UpdateTimers(float deltaTime) {
 */
 void Energy::Update(TileMap *world, float deltaTime) {
     assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_MAX_SIZE);
-    UpdateTimers(deltaTime);  // It updates end timer of character with value passed.
     // It verifies character state life.
     if (!loops && !endTimer.IsRunning()) {
         dead = true;
     } else {
 		// Do nothing
-	}
+    }
+    UpdateTimers(deltaTime);  // It updates end timer of character with value passed.
     sprite.Update(deltaTime);  // It updates elapsed time of the sprite with value passed, deltaTime.
 }
 
@@ -119,6 +119,7 @@ void Energy::Update(TileMap *world, float deltaTime) {
  * @return none.
 */
 void Energy::Render() {
-    sprite.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
+    sprite.Render(box.x - Camera::CheckInstance().screenPosition.x, 
+    box.y - Camera::CheckInstance().screenPosition.y);
 }
 
