@@ -24,8 +24,8 @@
  * @param bool dies - character life state.
  * @return none.
 */
-Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite, float frameCount, float frameTime, bool loops,
-               float lifetime, bool dies) {
+Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite, float frameCount, 
+               float frameTime, bool loops, float lifetime, bool dies) {
     name = "Energy";
     assert(frameCount >= FLOAT_SIZE_MIN && frameCount <= FLOAT_MAX_SIZE);
     assert(frameTime >= FLOAT_SIZE_MIN && frameTime <= FLOAT_MAX_SIZE);
@@ -121,3 +121,4 @@ void Energy::Update(TileMap *world, float deltaTime) {
 void Energy::Render() {
     sprite.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }
+

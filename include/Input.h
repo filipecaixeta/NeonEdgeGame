@@ -15,9 +15,9 @@ public:
     enum type: short int{BUTTON, TEXT, TEXTAREA, SLIDER, SELECTBOX};
     Input(type typeParam);
     void SetPosition(Vec2 position);
-    void SetValue(float value);
-    void SetOption(int option);
-    void SetText(std::string text);
+    void SetValue(float value = 0.0);
+    void SetOption(int option = 0);
+    void SetText(std::string text = "");
     float GetValue();
     int GetOption();
     Vec2 GetPosition();
