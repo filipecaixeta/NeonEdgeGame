@@ -8,10 +8,16 @@
 #include "Interactive.h"
 #include "Projectile.h"
 
-Character::Character(int x, int y): GameObject(), physicsComponent(), graphicsComponent(nullptr),
-                                    soundComponent(nullptr), saveComponent(), hitpoints(10),
-                                    power(1), invincibilityTimer(500), attacking(200),
-                                    attackCD(500), stunned(0) {
+Character::Character(int x, int y) {
+
+	graphicsComponent = nullptr;
+	soundComponent = nullptr;
+	hitpoints = 10;
+	power = 1;
+	invincibilityTimer = 500;
+	attacking = 200;
+	attackCD = 500;
+	stunned = 0;
     box.SetXY(Vec2(x, y));
     facing = RIGHT;
     startingX = x;
