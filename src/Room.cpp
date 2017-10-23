@@ -205,11 +205,11 @@ void Room::ObjectCollision() {
                 // Check colision between player and object.
                 if (objectArray[i]->Is("Item") && objectArray[j]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
-                } else {
-                    // It does nothing
-                }
-            } else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
+                } else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
+                } else {
+                    // It does nothing.
+                }
             }
         }
     }
