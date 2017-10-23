@@ -26,10 +26,10 @@ public:
     virtual bool GetColisionData(SDL_Surface **surface_, SDL_Rect& clipRect_, Vec2& pos_,
                                  bool& mirror);
     virtual void NotifyTileCollision(int tile, Face face);
-    virtual void NotifyObjectCollision(GameObject *other);
-    virtual void UpdateTimers(float dt);
-    virtual bool OutOfBounds(TileMap *map);
-    virtual void Update(TileMap *map, float dt);
+    virtual void NotifyObjectCollision(GameObject *other = NULL);
+    virtual void UpdateTimers(float dt = 0);
+    virtual bool OutOfBounds(TileMap *map = NULL);
+    virtual void Update(TileMap *map = NULL, float dt = 0);
     virtual void Render();
 
     PhysicsComponent physicsComponent;
@@ -38,13 +38,15 @@ public:
     SaveComponent saveComponent;
 
 protected:
-    int hitpoints;
-    int power;
-    Timer invincibilityTimer;
-    Timer attacking;
-    Timer attackCD;
-    Timer stunned;
-    int startingX, startingY;
+	int const INITIAL_VALUE = 0;
+    int hitpoints = INITIAL_VALUE;
+    int power = INITIAL_VALUE;
+    Timer invincibilityTimer = INITIAL_VALUE;
+    Timer attacking = INITIAL_VALUE;
+    Timer attackCD = INITIAL_VALUE;
+    Timer stunned = INITIAL_VALUE;
+    int startingX = INITIAL_VALUE;
+	int startingY = INITIAL_VALUE;
 };
 
 #endif // CHARACTER_H

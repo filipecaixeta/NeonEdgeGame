@@ -92,12 +92,13 @@ void Camera::FocusUpdate(float screenDelay) {
 
     // Checks whether the value of the received parameter is valid.
     bool veryValue = CheckFloat(screenDelay);
-
+	int const INITIAL_VALUE = 0;
+	
     if (veryValue) {
         // Checks and regulates camera focus.
         if (cameraFocus) {
-            int screenWidth = 0; // Starts the camera width value.
-            int screenHeigth = 0; // Starts the camera height value.
+            int screenWidth = INITIAL_VALUE; // Starts the camera width value.
+            int screenHeigth = INITIAL_VALUE; // Starts the camera height value.
             SDL_Point screenSize = Game::GetInstance().GetScreenSize(); // Returns device screen size.
             screenWidth = screenSize.x; // Sets the width of the game screen.
             screenHeigth = screenSize.y; // Sets the Heigth of the game screen.
