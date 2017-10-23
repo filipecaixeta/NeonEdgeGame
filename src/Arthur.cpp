@@ -21,13 +21,12 @@ float const INITIAL_VALUE = 0;
  */
 Arthur::Arthur(int x, int y): Character(x, y), idle(3000), dash(1000), slash(1000), punch(1000) {
     // Instances the graphics, adding the sprites.
-    graphicsComponent = new ArthurGraphicsComponent("Arthur");
-
     name = "Arthur";
-    box.SetWH(graphicsComponent->GetSize());
     arthurState = IDLE; // Sets the initial state as 'idle'.
     triggered = false;
     Damage(9);
+    graphicsComponent = new ArthurGraphicsComponent(name);
+    box.SetWH(graphicsComponent->GetSize());
 }
 
 Arthur::~Arthur() {
@@ -117,7 +116,6 @@ void Arthur::ArthurStateDashingRight(Timer idle, Timer dash, float deltaTime, Ar
 
 void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurState, float boxX, float playerX) {
     if (playerX < boxX) {
-        facing = LEFT;
         if (!slash.IsRunning()) {
             assert(slash.IsRunning() == false);
             // It starts the 'idle' state when is not slashing to left.
@@ -129,8 +127,8 @@ void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurStat
         } else {
             // It does nothing.
         }
+        facing = LEFT;
     } else if (playerX > boxX) {
-        facing = RIGHT;
         if (!slash.IsRunning()) {
             assert(slash.IsRunning() == false);
             // It starts the 'idle' state when is not slashing to right.
@@ -142,6 +140,7 @@ void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurStat
         } else {
             // It does nothing.
         }
+        facing = RIGHT;
     } else {
         // It does nothing.
     }
@@ -149,7 +148,6 @@ void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurStat
 
 void Arthur::ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurState, float boxX, float playerX) {
     if (playerX < boxX) {
-        facing = LEFT;
         if (!punch.IsRunning()) {
             assert(punch.IsRunning() == false);
             idle.Start();  // Starts the 'idle' state when is not punching to left.
@@ -157,8 +155,9 @@ void Arthur::ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurStat
         } else {
             // It does nothing.
         }
+        facing = LEFT;
     } else if (playerX > boxX) {
-        facing = RIGHT;
+
         if (!punch.IsRunning()) {
             assert(punch.IsRunning() == false);
             idle.Start();  // Starts the 'idle' state when is not punching to right.
@@ -166,6 +165,7 @@ void Arthur::ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurStat
         } else {
             // It does nothing.
         }
+        facing = RIGHT;
     } else {
         // It does nothing.
     }
