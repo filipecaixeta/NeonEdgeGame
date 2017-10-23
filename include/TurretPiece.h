@@ -11,18 +11,18 @@
 class TurretPiece: public Character
 {
 public:
-	TurretPiece(Character* center, int x, int y, int type);
+	TurretPiece(Character* center, int x = 0, int y = 0, int type = 0);
 	~TurretPiece();
 	void Shoot();
-	void Rotate(float angle);
+	void Rotate(float angle = 0.0);
 	float Rotation();
 	int Type();
 	void Kill();
-	void NotifyObjectCollision(GameObject* other);
-	void Update(TileMap* world, float dt);
+	void NotifyObjectCollision(GameObject* other = NULL);
+	void Update(TileMap* world, float deltaTime = 0.0);
 	void Render();
-	void TowerDamageOnPlayer(GameObject* other);
-	void HeadTowerDamage(GameObject* other);
+	void TowerDamageOnPlayer(GameObject* other = NULL);
+	void HeadTowerDamage(GameObject* other = NULL);
 
 private:
 	Character* center;
