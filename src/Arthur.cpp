@@ -11,7 +11,7 @@
 #include "StageState.h"
 #include <assert.h>
 
-
+float const INITIAL_VALUE = 0;
 /**
  * Objective: it constructs Arthur object.
  *
@@ -187,7 +187,7 @@ void Arthur::UpdateAI(float deltaTime) {
                 triggered = true;
                 if (arthurState == IDLE) {
                     // It sets the velocity in zero when the state is 'idle'.
-                    physicsComponent.velocity.x = 0;
+                    physicsComponent.velocity.x = INITIAL_VALUE;
                     if (player.x < box.x) {
                         // When the state is idle and velocity is zero, turns sideways.
                         facing = LEFT;
