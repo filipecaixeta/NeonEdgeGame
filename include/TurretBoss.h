@@ -22,16 +22,17 @@ public:
     void Render();
 
 private:
+	int const INITIAL_VALUE = 0;
     std::vector<TurretPiece *> pieces;
     std::vector<TurretPiece *> turrets;
-    int turret1;
-    int turret2;
+    int turret1 = INITIAL_VALUE;
+    int turret2 = INITIAL_VALUE;
     Rect radius;
-    bool triggered;
+    bool triggered = false;
     TurretBossState state;
-    Timer idle;
-    Timer aim;
-    Timer shoot;
+    Timer idle = INITIAL_VALUE;
+    Timer aim = INITIAL_VALUE;
+    Timer shoot = INITIAL_VALUE;
 };
 
 #endif
