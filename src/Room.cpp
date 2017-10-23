@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
- 
+
 #include "Room.h"
 #include "Camera.h"
 #include "StageState.h"
@@ -29,7 +29,7 @@
 #include "Turret.h"
 #include "TurretBoss.h"
 #include "Arthur.h"
- 
+
 #include "Interactive.h"
 #include "Door.h"
 #include "PressurePlate.h"
@@ -37,7 +37,7 @@
 #include "HandScanner.h"
 #include "Box.h"
 #include "BoxSpawner.h"
- 
+
 /**
  * Objective: Constructor of the Room.
  * @param TileSet* tileset - load tile to room.
@@ -55,7 +55,7 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std:
     std::stringstream ss; // This sequence of characters can be accessed directly as a string.
     Room::position = position; // Position in which the object will be inserted in the room.
     ss << index;
-    // load map 
+    // load map
     map = new TileMap("resources/map/room0"+
                        ss.str()+
                        ".txt", tileSet, {0, 0});
@@ -93,7 +93,7 @@ Room::~Room() {
 void Room::AddObject(GameObject* ptr) {
     objectArray.emplace_back(ptr);
 }
- 
+
 /*
  * Objective: Add object at the beginning room list.
  * @param: GameObject* ptr - pointer to GameObject wich will be inserted.
@@ -103,7 +103,7 @@ void Room::AddObject(GameObject* ptr) {
 void Room::AddObjectAsFirst(GameObject* ptr) {
     objectArray.emplace(objectArray.begin(), ptr);
 }
- 
+
 /*
  * Objective: remove object at room.
  * @param: GameObject* ptr - pointer to GameObject wich will be removed.
@@ -126,7 +126,7 @@ void Room::RemoveObject(GameObject* ptr) {
         }
     }
 }
- 
+
 /*
  * Objective: Remove player from ObjectArray at room.
  * @param: None.
@@ -142,9 +142,9 @@ void Room::RemovePlayer() {
        } else {
            // It does nothing
        }
-   }    
+   }
 }
- 
+
 /*
  * Objective: get first object at room.
  * @param: none.
@@ -154,7 +154,7 @@ void Room::RemovePlayer() {
 GameObject* Room::GetFirst() {
     return objectArray[0];
 }
- 
+
 /*
  * Objective: get position from room.
  * @param: none.
@@ -164,7 +164,7 @@ GameObject* Room::GetFirst() {
 Vec2 Room::GetPos() {
     return position;
 }
- 
+
 /*
  * Objective: get map from room.
  * @param: none.
@@ -174,7 +174,7 @@ Vec2 Room::GetPos() {
 TileMap* Room::GetMap() {
     return map;
 }
- 
+
 /*
  * Objective: update room object.
  * @param: none.
@@ -186,7 +186,7 @@ void Room::ObjectUpdate(float dt) {
         objectArray[i]->Update(map, dt);
     }
 }
-     
+
 /*
  * Objective: Checks object collision in room
  * @param: none.
@@ -207,7 +207,7 @@ void Room::ObjectCollision() {
                     dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
                 } else {
                     // It does nothing
-                }       
+                }
             } else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
             }
@@ -221,7 +221,7 @@ void Room::ObjectCollision() {
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::ObjectCleanup() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         if (objectArray[i]->IsDead()) { // Check if Object is dead.
@@ -245,7 +245,7 @@ void Room::ObjectCleanup() {
         }
     }
 }
-     
+
 /*
  * Function Objective: update states in room cleaning objects and colisions.
  * @param: none.
@@ -258,7 +258,7 @@ void Room::Update(float dt) {
     ObjectCollision();
     ObjectCleanup();
 }
- 
+
 /*
  * Function Objective: render room screen position.
  * @param: none.
@@ -275,7 +275,7 @@ void Room::Render() {
     }
     //map->RenderLayer(0, Camera::GetInstance().pos.x, Camera::GetInstance().pos.y);
 }
- 
+
 /*
  * Function Objective: create items and objects in room.
  * @param: none.
@@ -287,9 +287,9 @@ void Room::CreateObjects() {
         // Add items for Lancelot
         if (objectData.at(i).id == 0) {
             // Lancelot
-            ItensManager* itensManager = new ItensManager();
-            AddObjectAsFirst(new Lancelot(itensManager, objectData.at(i).x +
-                             position.x * map->GetWidth() * map->GetTileWidth(), 
+            ItemsManager* itemsManager = new ItemsManager();
+            AddObjectAsFirst(new Lancelot(itemsManager, objectData.at(i).x +
+                             position.x * map->GetWidth() * map->GetTileWidth(),
                              objectData.at(i).y +
                              position.y * map->GetHeight() * map->GetTileHeight()));
             Player* p = (Player*) objectArray[0];
@@ -298,15 +298,15 @@ void Room::CreateObjects() {
         // Add items for Gallahad
         else if (objectData.at(i).id == 1) {
             // Gallahad
-            ItensManager* itensManager = new ItensManager();
-            AddObject(new Drone(itensManager, objectData.at(i).x +
-                                position.x * map->GetWidth() * map->GetTileWidth(), 
+            ItemsManager* itemsManager = new ItemsManager();
+            AddObject(new Drone(itemsManager, objectData.at(i).x +
+                                position.x * map->GetWidth() * map->GetTileWidth(),
                                 objectData.at(i).y +
                                 position.y * map->GetHeight() * map->GetTileHeight()));
-            AddObjectAsFirst(new Gallahad(itensManager, objectData.at(i).x +
-                                          position.x * map->GetWidth() * map->GetTileWidth(), 
+            AddObjectAsFirst(new Gallahad(itemsManager, objectData.at(i).x +
+                                          position.x * map->GetWidth() * map->GetTileWidth(),
                                              objectData.at(i).y +
-                                             position.y * map->GetHeight() * map->GetTileHeight(), 
+                                             position.y * map->GetHeight() * map->GetTileHeight(),
                                              objectArray.at(objectArray.size()-1)));
             Player* p = (Player*) objectArray[0];
             StageState::SetPlayer(p);
@@ -315,14 +315,14 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 2) {
             // Arthur
             AddObject(new Arthur(objectData.at(i).x +
-                                 position.x * map->GetWidth() * map->GetTileWidth(), 
+                                 position.x * map->GetWidth() * map->GetTileWidth(),
                                  objectData.at(i).y +
                                  position.y * map->GetHeight() * map->GetTileHeight()));
         }
         // Add items for TurretBoss
         else if (objectData.at(i).id == 3) {
             AddObject(new TurretBoss(objectData.at(i).x +
-                                     position.x * map->GetWidth() * map->GetTileWidth(), 
+                                     position.x * map->GetWidth() * map->GetTileWidth(),
                                      objectData.at(i).y +
                                      position.y * map->GetHeight() * map->GetTileHeight()));
             TurretBoss* t = nullptr;            
@@ -385,16 +385,16 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 12) {
             // Notfredo
             AddObject(new Notfredo(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
-                      position.y * map->GetHeight() * map->GetTileHeight(), 
+                      position.y * map->GetHeight() * map->GetTileHeight(),
                       GROUND));
         }
         // Add items for CeilingEnemy
         else if (objectData.at(i).id == 14) {
             // CeilingEnemy
             AddObject(new CeilingEnemy(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
                       position.y * map->GetHeight() * map->GetTileHeight()));
         }
@@ -402,7 +402,7 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 16) {
             // Turret
             AddObject(new Turret(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
                       position.y * map->GetHeight() * map->GetTileHeight()));
         }
@@ -410,7 +410,7 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 21) {
             // Door
             AddObject(new Door(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
                       position.y * map->GetHeight() * map->GetTileHeight()));
         }
@@ -419,7 +419,7 @@ void Room::CreateObjects() {
             // PressurePlate
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new PressurePlate(objectData.at(i).x +
-                             position.x * map->GetWidth() * map->GetTileWidth(), 
+                             position.x * map->GetWidth() * map->GetTileWidth(),
                              objectData.at(i).y +
                              position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
@@ -428,7 +428,7 @@ void Room::CreateObjects() {
             // HandScanner
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new HandScanner(objectData.at(i).x +
-                             position.x * map->GetWidth() * map->GetTileWidth(), 
+                             position.x * map->GetWidth() * map->GetTileWidth(),
                              objectData.at(i).y +
                              position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
@@ -436,7 +436,7 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 24) {
             // Box
             AddObject(new Box(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
                       position.y * map->GetHeight() * map->GetTileHeight()));
         }
@@ -444,7 +444,7 @@ void Room::CreateObjects() {
         else if (objectData.at(i).id == 25) {
             // BoxSpawner
             AddObject(new BoxSpawner(objectData.at(i).x +
-                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                      position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
                       position.y * map->GetHeight() * map->GetTileHeight()));
         }
@@ -453,7 +453,7 @@ void Room::CreateObjects() {
             // PressurePlateOneTime
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new PressurePlateOneTime(objectData.at(i).x +
-                                                      position.x * map->GetWidth() * map->GetTileWidth(), 
+                                                      position.x * map->GetWidth() * map->GetTileWidth(),
                                                       objectData.at(i).y +
                                                       position.y * map->GetHeight() * map->GetTileHeight(), in));
         }
@@ -472,7 +472,7 @@ void Room::CreateObjects() {
    @param: String file - this file lists the objects that will be inserted in this room.
    @return: none.
 */
- 
+
 void Room::LoadObjects(std::string file) {
     std::ifstream f;
     f.open(file.c_str(), std::ios::in);
@@ -512,4 +512,4 @@ void Room::LoadObjects(std::string file) {
         objectData.push_back(data);
     }
 }
- 
+

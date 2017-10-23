@@ -207,7 +207,7 @@ void InputComponent::ProcessItems() {
 
     if (hotItemPos != -1) {
 		assert(player != NULL);
-        player->EvalItem(player->itemManager->hotItens[hotItemPos]);
+        player->EvalItem(player->itemManager->hotItems[hotItemPos]);
         player->itemManager->ConsumeItem(hotItemPos);
     } else {
         // It does nothing.

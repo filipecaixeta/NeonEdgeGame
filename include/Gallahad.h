@@ -28,7 +28,7 @@
 
 class Gallahad : public Player {
 public:
-    Gallahad(ItensManager* itemManager, int x, int y, GameObject *setDrone);
+    Gallahad(ItemsManager* itemManager, int x, int y, GameObject *setDrone);
     ~Gallahad();
     void Attack();
     void StartHiding();

@@ -11,7 +11,7 @@
 class Lancelot : public Player
 {
 public:
-	Lancelot(ItensManager* itemManager,int x, int y);
+	Lancelot(ItemsManager *itemManager,int x, int y);
 	~Lancelot();
 	void Damage(int damage);
 	void Attack();

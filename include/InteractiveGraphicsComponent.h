@@ -14,7 +14,7 @@ class InteractiveGraphicsComponent: public GraphicsComponent {
  public:
     InteractiveGraphicsComponent(std::string baseNameParam);
     ~InteractiveGraphicsComponent();
-    void Update(GameObject* gameObject, float deltaTime);
+    void Update(GameObject *gameObject, float deltaTime);
 };
 
 #endif  // INCLUDE_INTERACTIVEGRAPHICSCOMPONENT_H_

@@ -12,9 +12,9 @@
 #include "menu/MenuState.h"
 #include "MapAlgorithm.h"
 #include "Player.h"
-#include "ItensManager.h"
+#include "ItemsManager.h"
 
-class ItensManager;
+class ItemsManager;
 
 class StageState : public State
 {

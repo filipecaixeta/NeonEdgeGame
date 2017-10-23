@@ -22,7 +22,7 @@
     @param none.
     @return instance of the class Lancelot.
 */
-Lancelot::Lancelot(ItensManager* itemManager, int x, int y):
+Lancelot::Lancelot(ItemsManager *itemManager, int x, int y):
 	Player(itemManager, x, y),  // Extends the object Player.
 	isBlocking(1000) {
 	if(itemManager !=NULL){
@@ -64,7 +64,7 @@ void Lancelot::Damage(int damage) {
 		int const PROBABILITY_61 = 61;
 		int const PROBABILITY_76 = 76;
 		int const PROBABILITY_91 = 91;
-	
+
 		if (!invincibilityTimer.IsRunning()) {
 			if (isBlocking) {
 				int n = rand()%100 + 1;  // Random number of 1 to 100.
@@ -114,7 +114,7 @@ void Lancelot::Attack() {
 	int const LIMIT_320 = 320;
 	int const LIMIT_400 = 400;
 	int const LIMIT_800 = 800;
-	
+
 	attacking.SetLimit(0);
     attackCD.SetLimit(0);
     soundComponent->SoundAttack();
@@ -204,7 +204,7 @@ void Lancelot::UpdateTimers(float dt) {
 	int const Y_TRANSITION_POINT = 2369;
 	int const W_TRANSITION_POINT = 112;
 	int const H_TRANSITION_POINT = 180;
-	
+
     Rect checkStateTrasition;
     if (StageState::stage == "cidadeLancelot") {
         checkStateTrasition.x = X_TRANSITION_POINT;

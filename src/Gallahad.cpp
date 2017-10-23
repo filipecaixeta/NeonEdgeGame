@@ -22,7 +22,7 @@
  * @param none.
  * @return instance of Gallahad.
  */
-Gallahad::Gallahad(ItensManager *itemManager, int x, int y, GameObject *setDrone):
+Gallahad::Gallahad(ItemsManager *itemManager, int x, int y, GameObject *setDrone):
         Player(itemManager, x, y), isHiding(HIDE_TIME), isShooting(false) {
     name = "Gallahad";
     inputComponent = new GallahadInputComponent();

@@ -9,7 +9,7 @@
 
 class Drone : public Player {
 public:
-	Drone(ItensManager* itemManager, int dronePositionX, int dronePositionY);
+	Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY);
 	~Drone();
 	void Attack();
 	void DroneActivate(bool on);

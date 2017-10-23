@@ -12,7 +12,7 @@
 #include "InputManager.h"
 #include "Text.h"
 
-InGameItens::InGameItens(ItensManager* itensManager_): itensManager(itensManager_), rowSize(3),
+InGameItens::InGameItens(ItemsManager* itemsManager_): itemsManager(itemsManager_), rowSize(3),
                                                        itemTitle(new Sprite()),
                                                        itemText(new Sprite()), isOnHotBar(false) {
     rowSize = HOT_BAR_SIZE;
@@ -25,23 +25,23 @@ InGameItens::~InGameItens() {
 }
 
 /**
-    Objective: loads menu itens.
+    Objective: loads menu items.
     @param none.
     @return none.
 
 */
 void InGameItens::LoadAssets() {
-    itens = itensManager->GetActiveItems();
-    // itensManager->hotItens[1] = "Arco";
-    for (auto &i : itens) {
-        menuOptions.push_back({i.name, i.sp, true, 0});
+    items = itemsManager->GetActiveItems();
+    // itemsManager->hotItems[1] = "Arco";
+    for (auto &i : items) {
+        menuOptions.push_back({i.name, i.sprite, true, 0});
     }
 
     for (int i = 0; i < HOT_BAR_SIZE; i++) {
-        std::string itemName = itensManager->hotItens[i];
+        std::string itemName = itemsManager->hotItems[i];
         if (itemName.length() > 0) {
-            auto item = itensManager->GetItem(itemName);
-            hotBarOptions.push_back({itemName, item.sp, true, 0});
+            auto item = itemsManager->GetItem(itemName);
+            hotBarOptions.push_back({itemName, item.sprite, true, 0});
         } else {
             hotBarOptions.push_back({"", new Sprite(), false, 0});
         }
@@ -52,8 +52,8 @@ void InGameItens::LoadAssets() {
     bg.Open(path + "MenuItens.png");
     bg.SetBlending(true);
     SetOption(1);
-    if (itens.size() != 0) {
-        SetItemText(itens[0]);
+    if (items.size() != 0) {
+        SetItemText(items[0]);
     }
 
     blackOpacity.Open("menus/smallBlack.png", true);
@@ -68,7 +68,7 @@ void InGameItens::LoadAssets() {
     @return none.
 
 */
-void InGameItens::SetItemText(ItensManager::itemType item) {
+void InGameItens::SetItemText(ItemsManager::itemType item) {
     SDL_Texture *text;
     text = Text::GetText(fontName, fontSize * 1.2, fontColor, item.name, 400);
     itemTitle->SetTexture(text, true);
@@ -77,7 +77,7 @@ void InGameItens::SetItemText(ItensManager::itemType item) {
 }
 
 /**
-    Objective: updates menu itens.
+    Objective: updates menu items.
     @param none.
     @return none.
 
@@ -112,7 +112,7 @@ void InGameItens::Update() {
 
         hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
         hotBarOptions[currentHotBarOption].sprite = menuOptions[currentOption].sprite;
-        itensManager->hotItens[currentHotBarOption] = menuOptions[currentOption].key;
+        itemsManager->hotItems[currentHotBarOption] = menuOptions[currentOption].key;
 
         for (int i = 0; i < hotBarOptions.size(); i++) {
             if (i == currentHotBarOption) {
@@ -125,7 +125,7 @@ void InGameItens::Update() {
                 hotBarOptions[i].sprite = new Sprite();
                 hotBarOptions[i].selectable = false;
                 hotBarOptions[i].key = "";
-                itensManager->hotItens[i] = "";
+                itemsManager->hotItems[i] = "";
             } else {
                 // It does nothing.
             }
@@ -180,8 +180,8 @@ void InGameItens::Update() {
 */
 void InGameItens::SetOption(int i) {
     MenuState::SetOption(i);
-    if (itens.size()!= 0) {
-        SetItemText(itens[currentOption]);
+    if (items.size()!= 0) {
+        SetItemText(items[currentOption]);
     } else {
         // It does nothing.
     }
@@ -210,7 +210,7 @@ void InGameItens::SetHotBarOption(int i) {
 }
 
 /**
-    Objective: render menu itens position.
+    Objective: render menu items position.
     @param none.
     @return none.
 
