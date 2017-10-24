@@ -8,8 +8,6 @@
 
 Cutscene::Cutscene(int index, bool textOnly) {
     this->index = index;
-    CutsceneObject aux;
-    std::string vazia = std::string();
     fontName = "Sabo-Filled.ttf";
     this->textOnly = textOnly;
 
@@ -154,6 +152,8 @@ Cutscene::Cutscene(int index, bool textOnly) {
             textBox.emplace_back(new DialogWindow(-5000, -5000, "", " ", "retrato_lancelot.png"));
         break;
     }
+    CutsceneObject aux;
+    std::string vazia = std::string();
 }
 
 Cutscene::~Cutscene() {
