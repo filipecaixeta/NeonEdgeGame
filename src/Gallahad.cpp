@@ -27,11 +27,10 @@ Gallahad::Gallahad(ItemsManager *itemManager, int x, int y, GameObject *setDrone
         Player(itemManager, x, y), isHiding(HIDE_TIME), isShooting(false) {
     name = "Gallahad";
     inputComponent = new GallahadInputComponent();
-    graphicsComponent = new GallahadGraphicsComponent("Gallahad");
-    soundComponent = new SoundComponent(name);
-
     assert(inputComponent != nullptr);
+    graphicsComponent = new GallahadGraphicsComponent(name);
     assert(graphicsComponent != nullptr);
+    soundComponent = new SoundComponent(name);
     assert(soundComponent != nullptr);
 
     box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
