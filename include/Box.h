@@ -9,8 +9,8 @@
 class Box : public Interactive
 {
 private:
-	int hitPoints;
-	Timer invincibilityTimer;
+	int hitPoints = 0;
+	Timer invincibilityTimer = NULL;
 
 public:
 
@@ -24,9 +24,9 @@ public:
 	void UpdateTimers(float dt);
 	void Update(TileMap* map, float dt);
 	void OtherColision(GameObject* other);
-	void CharacterAction( Character* c);
+	void CharacterAction(Character* c);
 
-	PhysicsComponent physicsComponent;
+	PhysicsComponent physicsComponent = NULL;
 };
 
 #endif

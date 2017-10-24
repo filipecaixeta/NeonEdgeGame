@@ -27,14 +27,10 @@
 */
 Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
                                             float lifeTime, bool dies) {
-    name = "Life";  // Sets the Life's name.
     assert(frameCount >= FLOAT_MIN_SIZE && frameCount <= FLOAT_MIN_SIZE);
     assert(frameTime >= FLOAT_MIN_SIZE && frameTime <= FLOAT_MIN_SIZE);
     lifeSprite = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
     assert(lifeSprite != nullptr);
-    Vec2 size = lifeSprite.GetSize();  // Gets the size of the object Life.
-    box = Rect(x, y, size.x, size.y);  // The position in the screen that the object can be
-                                       // collided.
     assert(lifeTime >= FLOAT_MIN_SIZE && lifeTime <= FLOAT_MIN_SIZE);
     endTimer = Timer(lifeTime);
     if (loops) {
@@ -42,8 +38,12 @@ Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, 
     } else {
         // It does nothing.
     }
+    Vec2 size = lifeSprite.GetSize();  // Gets the size of the object Life.
+    box = Rect(x, y, size.x, size.y);  // The position in the screen that the object can be
+                                       // collided.
     Life::loops = loops;
     Life::dies = dies;  // Manages the action of being collided by the player.
+    name = "Life";  // Sets the Life's name.
 }
 
 /**
@@ -84,7 +84,6 @@ void Life::NotifyObjectCollision(GameObject* other) {
     } else {
         // It does nothing.
     }
-    assert(other != NULL);
 }
 
 void Life::UpdateTimers(float dt) {
@@ -107,6 +106,5 @@ void Life::Update(TileMap* world, float dt) {
 }
 
 void Life::Render() {
-
     lifeSprite.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

@@ -88,7 +88,7 @@ void Box::OtherColision(GameObject* other){
         // It does nothing.
     }
 }
-void Box::CharacterAction( Character* c) {
+void Box::CharacterAction(Character* c) {
     if (c->Attacking()) {
         Trigger();
     } else {
