@@ -15,6 +15,7 @@
 #include "Projectile.h"
 #include "Cutscene.h"
 #include "SoundComponent.h"
+#include <assert.h>
 
 /**
  * Objective: it constructs Gallahad object.
@@ -28,6 +29,11 @@ Gallahad::Gallahad(ItemsManager *itemManager, int x, int y, GameObject *setDrone
     inputComponent = new GallahadInputComponent();
     graphicsComponent = new GallahadGraphicsComponent("Gallahad");
     soundComponent = new SoundComponent(name);
+
+    assert(inputComponent != nullptr);
+    assert(graphicsComponent != nullptr);
+    assert(soundComponent != nullptr);
+
     box.SetWH(graphicsComponent->GetSize());  // Gets the sprite sizes of the character.
     drone = setDrone;
     active = true;
@@ -141,6 +147,8 @@ Drone * Gallahad::GetDrone() {
  * @return none.
  */
 void Gallahad::UpdateTimers(float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
         /*
         Rect checkStateTrasition;
@@ -172,6 +180,8 @@ void Gallahad::UpdateTimers(float deltaTime) {
  * @return none.
  */
 void Gallahad::Update(TileMap *map, float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     if (map && (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE)) {
         UpdateTimers(deltaTime);
         inputComponent->Update(this, deltaTime);

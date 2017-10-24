@@ -10,6 +10,7 @@
 #include "StageState.h"
 #include "GraphicsComponent.h"
 #include "Gallahad.h"
+#include <assert.h>
 
 /**
  * Objective: it constructs Celing Enemy object.
@@ -27,6 +28,8 @@ CeilingEnemy::CeilingEnemy(int x_axis_position, int y_axis_position): Character(
     physicsComponent.SetKinetic(true);
     state = WAITING;
     physicsComponent.velocity.y = INITIAL_SPIDERMAN_VELOCITY;
+
+    assert(graphicsComponent != nullptr);
 }
 
 /**
@@ -47,15 +50,39 @@ bool CeilingEnemy::Attacking() {
  * @return none.
  */
 void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
-    if (tile >= 0) {
-        // Changing state according with the collision of the face.
-        if (face == BOTTOM && state == ATTACKING) {
-            state = REARMING;
-        } else if (face == UPPER && state == REARMING) {
-            state = WAITING;
-        } else {
-            // It does nothing.
-        }
+    assert(title >= 0);
+
+    // Changing state according with the collision of the face.
+    if (face == BOTTOM && state == ATTACKING) {
+        state = REARMING;
+    } else if (face == UPPER && state == REARMING) {
+        state = WAITING;
+    } else {
+        // It does nothing.
+    }
+}
+
+/**
+ * Objective: Attack the player if the enemy can see him.
+ *
+ * @param float deltaTime.
+ * @return none.
+ */
+void CeilingEnemy::AttackVisiblePlayer(float deltaTime){
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
+    if (state == WAITING &&
+            ((StageState::GetPlayer()->box.GetCenter().x) >
+            (this->box.x - PIXELS_X_FROM_SPIDERMAN)) &&
+            ((StageState::GetPlayer()->box.GetCenter().x) <
+            (this->box.x + box.w + PIXELS_X_FROM_SPIDERMAN))) {
+        state = ATTACKING;
+    } else if (state == ATTACKING) {
+        physicsComponent.velocity.y += ATTACKING_DELAY_TIME * deltaTime;
+        clamp(physicsComponent.velocity.y, -ATTACKING_CLAMP_L_U, ATTACKING_CLAMP_L_U);
+    } else if (state == REARMING) {
+        physicsComponent.velocity.y -= REARMING_DELAY_TIME * deltaTime;
+        clamp(physicsComponent.velocity.y, -REARMING_CLAMP_L_U, REARMING_CLAMP_L_U);
     } else {
         // It does nothing.
     }
@@ -68,6 +95,8 @@ void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
  * @return none.
  */
 void CeilingEnemy::UpdateAI(float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+
     if (StageState::GetPlayer()) {
         //Block to check visibility of the player.
         if (!stunned.IsRunning()) {
@@ -84,21 +113,7 @@ void CeilingEnemy::UpdateAI(float deltaTime) {
             }
             // If Player is visible enemy attack ang go after player.
             if (visible) {
-                if (state == WAITING &&
-                        ((StageState::GetPlayer()->box.GetCenter().x) >
-                        (this->box.x - PIXELS_X_FROM_SPIDERMAN)) &&
-                        ((StageState::GetPlayer()->box.GetCenter().x) <
-                        (this->box.x + box.w + PIXELS_X_FROM_SPIDERMAN))) {
-                    state = ATTACKING;
-                } else if (state == ATTACKING) {
-                    physicsComponent.velocity.y += ATTACKING_DELAY_TIME * deltaTime;
-                    clamp(physicsComponent.velocity.y, -ATTACKING_CLAMP_L_U, ATTACKING_CLAMP_L_U);
-                } else if (state == REARMING) {
-                    physicsComponent.velocity.y -= REARMING_DELAY_TIME * deltaTime;
-                    clamp(physicsComponent.velocity.y, -REARMING_CLAMP_L_U, REARMING_CLAMP_L_U);
-                } else {
-                    // It does nothing.
-                }
+                AttackVisiblePlayer(deltaTime);
             } else {
                 // It does nothing.
             }
@@ -118,18 +133,17 @@ void CeilingEnemy::UpdateAI(float deltaTime) {
  * @return: void.
  */
 void CeilingEnemy::Update(TileMap *world, float deltaTime) {
-    if (world && (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE)) {
-        UpdateTimers(deltaTime);
-        UpdateAI(deltaTime);
-        physicsComponent.Update(this, world, deltaTime);
-        if (OutOfBounds(world)) {
-            SetPosition(Vec2(startingX, startingY));
-        } else {
-            // It does nothing.
-        }
+    assert(world != nullptr);
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
-        graphicsComponent->Update(this, deltaTime);
+    UpdateTimers(deltaTime);
+    UpdateAI(deltaTime);
+    physicsComponent.Update(this, world, deltaTime);
+    if (OutOfBounds(world)) {
+        SetPosition(Vec2(startingX, startingY));
     } else {
         // It does nothing.
     }
+
+    graphicsComponent->Update(this, deltaTime);
 }

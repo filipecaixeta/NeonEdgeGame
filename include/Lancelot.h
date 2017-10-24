@@ -7,12 +7,15 @@
 #include "LancelotInputComponent.h"
 #include "LancelotGraphicsComponent.h"
 
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 class Lancelot : public Player
 {
 public:
 	Lancelot(ItemsManager *itemManager,int x, int y);
 	~Lancelot();
+	void BlockingAttack();
 	void Damage(int damage);
 	void Attack();
 	void StartBlock();

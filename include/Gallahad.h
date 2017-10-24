@@ -23,7 +23,8 @@
 #define ENERGY_USED 1
 #define CLAMP_L 0
 #define CLAMP_U 5
-
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 
 class Gallahad : public Player {

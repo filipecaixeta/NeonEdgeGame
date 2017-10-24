@@ -11,6 +11,8 @@
 #define REARMING_DELAY_TIME 0.012f
 #define ATTACKING_CLAMP_L_U 0.4f
 #define REARMING_CLAMP_L_U 0.2f
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 enum EnemyState{WAITING,ATTACKING,REARMING};
 
@@ -19,8 +21,9 @@ public:
     CeilingEnemy(int x_axis_position, int y_axis_position);
     bool Attacking();
     void NotifyTileCollision(int tile, Face face);
-    void Update(TileMap *world, float deltaTime);
+    void AttackVisiblePlayer(float deltaTime);
     void UpdateAI(float deltaTime);
+    void Update(TileMap *world, float deltaTime);
 
 private:
     EnemyState state;

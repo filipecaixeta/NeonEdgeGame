@@ -4,6 +4,8 @@
 #define INCLUDE_PLAYER_H_
 
 #define MAX_HITPOINTS 10
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 #include "Character.h"
 #include "Timer.h"
