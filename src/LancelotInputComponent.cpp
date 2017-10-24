@@ -10,6 +10,8 @@
 #include "InputManager.h"
 #include "Lancelot.h"
 
+#include <assert.h>
+
 #define clamp(N, L, U) N = std::max(L, std::min(N, U))
 
 /**
@@ -29,13 +31,13 @@ LancelotInputComponent::LancelotInputComponent() {
  * @return none.
  */
 void LancelotInputComponent::Update(Player *player, float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 	int const HOUR_IN_MILISECONDS = 3600000;
 	if(player != NULL & deltaTime < HOUR_IN_MILISECONDS){
 		InputComponent::Update(player, deltaTime);
+        assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 		InputManager &input = InputManager::GetInstance();
-		float const VELOCITY_RANGED_LOW = 0.2f; 
-		float const VELOCITY_RANGED_HIGH = 0.4f; 
-	
+
 		if (input.IsKeyDown(MOVE_LEFT_KEY, true)) {
 			MoveLeft();
 		} else if (input.IsKeyDown(MOVE_RIGHT_KEY, true)) {
@@ -44,6 +46,8 @@ void LancelotInputComponent::Update(Player *player, float deltaTime) {
 			StayStill();
 		}
 
+        float const VELOCITY_RANGED_LOW = 0.2f;
+        float const VELOCITY_RANGED_HIGH = 0.4f;
 		if (player->IsCrouching()) {
 			clamp(player->physicsComponent.velocity.x, -1*(VELOCITY_RANGED_LOW), VELOCITY_RANGED_LOW);
 		} else {
@@ -107,8 +111,9 @@ void LancelotInputComponent::Update(Player *player, float deltaTime) {
 
 		ProcessItems();
 	} else {
-		//Do nothing
+		//It does nothing.
 	}
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 }
 
 /**
@@ -118,8 +123,8 @@ void LancelotInputComponent::Update(Player *player, float deltaTime) {
  * @return none.
  */
 void LancelotInputComponent::Block() {
-	int const NO_ENERGY = 0;
 	Lancelot *lancelot = (Lancelot*) player;
+    int const NO_ENERGY = 0;
 	if (lancelot->GetEnergy() > NO_ENERGY) {
 		lancelot->StartBlock();
 	} else {
@@ -145,10 +150,12 @@ void LancelotInputComponent::Stop() {
  * @return none.
  */
 void LancelotInputComponent::Combo(std::string combo) {
+
 	if(combo != ""){
     Lancelot *lancelot = (Lancelot*) player;
     lancelot->SetCombo(combo);
+    assert(combo != "");
 	} else {
-		//Do Nothing
+		//It does nothing.
 	}
 }
