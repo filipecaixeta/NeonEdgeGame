@@ -17,7 +17,7 @@ class Turret : public Character {
     bool Is(std::string characterType);
     void UpdateTurretLookingTime(float deltaTime);
     void UpdateTurretIdleTime(float deltaTime);
-    void TurretSeeingCharacter(bool visible);
+    void TurretSeeingCharacter(bool *visible);
     void TurretChasingCharacterToAttack(Rect player, float deltaTime);
     void TurretMovingVelocity();
     void TurretChangingDirection();

@@ -89,7 +89,7 @@ void Turret::UpdateAI(float deltaTime) {
         Rect player = StageState::GetPlayer()->box;
         bool visible = true;
         assert(visible == true || visible == false);
-        TurretSeeingCharacter(visible);
+        TurretSeeingCharacter(&visible);
         assert(visible == true || visible == false);
         if (player.OverlapsWith(radius) && visible) {
             assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
@@ -213,13 +213,13 @@ void Turret::UpdateTurretIdleTime(float deltaTime) {
  * @param bool visible - Turret vision status over Gallahad.
  * @return none.
  */
-void Turret::TurretSeeingCharacter(bool visible) {
-    assert(visible == true || visible == false);
+void Turret::TurretSeeingCharacter(bool *visible) {
+    assert(*visible == true || *visible == false);
 
     Gallahad *gallahad = (Gallahad *) StageState::GetPlayer();
     // If the player is hiding, the visibility is false and the Turret does not attack.
     if (StageState::GetPlayer()->Is("Gallahad") && gallahad->IsHiding()) {
-        visible = false;
+        *visible = false;
     } else {
         // It does nothing.
     }
