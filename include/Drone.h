@@ -19,7 +19,7 @@ public:
 	void FollowsCharacter(bool droneActive);
 
 private:
-	bool droneActive;
+	bool droneActive = false;
 };
 
 #endif /* DRONE_H_ */
