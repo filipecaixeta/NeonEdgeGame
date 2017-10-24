@@ -11,4 +11,4 @@ public:
 	void Render();
 };
 
-#endif // SETTINGSMENU_H
+#endif // INCLUDE_SETTINGSMENU_H_
