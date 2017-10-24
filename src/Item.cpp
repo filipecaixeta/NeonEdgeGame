@@ -19,7 +19,8 @@
  * @param int y - Initial position of the Item in y axis.
  * @return instance of Item.
  */
-Item::Item(int id, int x, int y): sprite(new Sprite("items.png", 6)), dead(false), id(id - 100) {
+Item::Item(int idParam, int x, int y): sprite(new Sprite("items.png", 6)), dead(false),
+                                       id(idParam - 100) {
     assert(id >= INT_MIN_SIZE && id <= INT_MAX_SIZE);
     sprite->SetFrame(id);
     assert(x >= INT_MIN_SIZE && x <= INT_MAX_SIZE);
@@ -36,14 +37,16 @@ Item::Item(int id, int x, int y): sprite(new Sprite("items.png", 6)), dead(false
  * @return none.
  */
 void Item::Eval(Player *player) {
-    if (player && player != nullptr && player->itemManager != nullptr) {
-        assert(player != NULL);
+    assert(player != nullptr);
+
+    if (player->itemManager != nullptr) {
         player->itemManager->AddItem(id);
         player->soundComponent->SoundItem();
-        assert(player != NULL);
     } else {
         // It does nothing.
     }
+
+    assert(player != nullptr);
 }
 
 /**
@@ -72,6 +75,8 @@ bool Item::GetActive() {
  * @return bool 'stringItem == "Item"'.
  */
 bool Item::Is(std::string stringItem) {
+    assert(stringItem[0] != '\0');
+
     return (stringItem == "Item");
 }
 
@@ -92,17 +97,15 @@ bool Item::IsDead() {
  * @return none.
  */
 void Item::NotifyObjectCollision(GameObject *gameObject) {
-    if (gameObject) {
-        assert(gameObject != NULL);
-        if (gameObject->IsPlayer()) {
-            assert(gameObject != NULL);
-            dead = true;
-        } else {
-            // It does nothing.
-        }
+    assert(gameObject != nullptr);
+
+    if (gameObject->IsPlayer()) {
+        dead = true;
     } else {
         // It does nothing.
     }
+
+    assert(gameObject != nullptr);
 }
 
 /**
