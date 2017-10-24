@@ -20,7 +20,7 @@
      w = VALUE_INITIAL_FLOAT;
      h = VALUE_INITIAL_FLOAT;
  }
- 
+
  /**
   * Objective: Method responsible for testing float parameters received in functions.
   *
@@ -36,13 +36,13 @@
      }
      return veryValue;
  }
- 
+
  /**
   * Objective: overload of the constructor of Rect class.
   *
   * @param float x -position x axis ofthe rect instance)
   * @param float y - position y axis of the rect instance
-  * @param float w- width of the rect 
+  * @param float w- width of the rect
   * @param float h - height of the rect
   * @return: Instance of Rect.
   */
@@ -56,7 +56,7 @@
          // It does nothing.
      }
  }
- 
+
  /**
   * Objective: Destructor of the class Rect.
   *
@@ -64,9 +64,9 @@
   * @return: Void
   */
  Rect::~Rect() {
- 
+
  }
- 
+
  /**
   * Objective: Return the vector acting in the position of the rect.
   *
@@ -76,7 +76,7 @@
  Vec2 Rect::GetXY() {
      return Vec2(x, y);
  }
- 
+
  /**
   * Objective:: Set the position vector that act in the rect.
   *
@@ -90,9 +90,9 @@
      } else {
          // It does nothing.
      }
-    
+
  }
- 
+
  /**
   * Objective: Return the vector acting in the height and width of the rect.
   *
@@ -102,7 +102,7 @@
  Vec2 Rect::GetWH() {
      return Vec2(w, h);
  }
- 
+
  /**
   * Objective:  Set the heigth and width vector that act in the rect.
   *
@@ -117,7 +117,7 @@
          // It does nothing.
      }
  }
- 
+
  /**
   * Objective: Return the center point of the rect.
   *
@@ -128,7 +128,7 @@
      Vec2 center = Vec2(x + w / CENTER_AJUST, y + h / CENTER_AJUST);
      return center; //Calculate the center and return.
  }
- 
+
  /**
   * Objective: Return the left botton of the rect.
   *
@@ -139,7 +139,7 @@
      Vec2 bottomLeft = Vec2(x, y + h);
      return bottomLeft;
  }
- 
+
  /**
   * Objective:: Check if  a point is inside the rect.
   *
@@ -150,8 +150,8 @@
      bool isInside = false;
      if (CheckFloatRect(dot.x) && CheckFloatRect(dot.y)) {
          bool checkPositionX = (dot.x > x);
-         bool checkPositionY (dot.y > y);
-         bool checkWeigth (dot.x < x + w);
+         bool checkPositionY = (dot.y > y);
+         bool checkWeigth = (dot.x < x + w);
          bool checkHeight = (dot.y < y + h);
          isInside = (checkPositionX && checkWeigth && checkPositionY && checkPositionY);
      } else {
@@ -159,7 +159,7 @@
      }
      return isInside;
  }
- 
+
  /**
   * Objective: Overlap a rect.
   *
@@ -181,7 +181,7 @@
      }
      return Rect(minX, minY, maxX - minX, maxY - minY);
  }
- 
+
  /**
   * Objective: Check with rect is overlaped.
   *
@@ -203,7 +203,7 @@
      }
      return testBoolean;
  }
- 
+
  /**
   * Objective: Sum a point with the position of the rect.
   *
@@ -214,8 +214,8 @@
      float sumX = VALUE_INITIAL_FLOAT;
      float sumY = VALUE_INITIAL_FLOAT;
      float sumW = VALUE_INITIAL_FLOAT;
-     float sumH = VALUE_INITIAL_FLOAT; 
- 
+     float sumH = VALUE_INITIAL_FLOAT;
+
      if (CheckFloatRect(v1.x) && CheckFloatRect(v1.y)) {
          sumX = x + v1.x;
          sumY = y + v1.y;
@@ -226,7 +226,7 @@
      }
      return Rect(sumX, sumY, sumW, sumH);
  }
- 
+
  /**
   * Objective: Subtract position of the rect with a dot.
   *
@@ -237,8 +237,8 @@
      float subX = VALUE_INITIAL_FLOAT;
      float subY = VALUE_INITIAL_FLOAT;
      float subW = VALUE_INITIAL_FLOAT;
-     float subH = VALUE_INITIAL_FLOAT; 
- 
+     float subH = VALUE_INITIAL_FLOAT;
+
      if (CheckFloatRect(v1.x) && CheckFloatRect(v1.y)) {
          subX = x - v1.x;
          subY = y - v1.y;
@@ -249,5 +249,3 @@
      }
      return Rect(subX, subY, subW, subH);
  }
- 
- 
