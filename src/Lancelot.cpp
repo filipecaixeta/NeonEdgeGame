@@ -19,9 +19,10 @@
 #include <assert.h>
 
 /**
-    Objective: constructor of the class Lancelot.
-    @param none.
-    @return instance of the class Lancelot.
+ * Objective: constructor of the class Lancelot.
+ *
+ * @param none.
+ * @return instance of the class Lancelot.
 */
 Lancelot::Lancelot(ItemsManager *itemManager, int x, int y):
 	Player(itemManager, x, y),  // Extends the object Player.
@@ -52,8 +53,8 @@ Lancelot::Lancelot(ItemsManager *itemManager, int x, int y):
  * @return none.
  */
 Lancelot::~Lancelot() {
-	int const CUT_SCENE_NUMBER = 7;
     Game::GetInstance().GetCurrentState()->quitRequested = true;
+	int const CUT_SCENE_NUMBER = 7;
     Game::GetInstance().AddState(new Cutscene(CUT_SCENE_NUMBER, false));
 }
 
@@ -123,15 +124,17 @@ void Lancelot::Damage(int damage) {
  * @return none.
  */
 void Lancelot::Attack() {
-	int const LIMIT_100 = 100;
+	
+    attacking.SetLimit(0);
+    attackCD.SetLimit(0);
+    soundComponent->SoundAttack();
+    
+    int const LIMIT_100 = 100;
 	int const LIMIT_240 = 240;
 	int const LIMIT_320 = 320;
 	int const LIMIT_400 = 400;
 	int const LIMIT_800 = 800;
 
-	attacking.SetLimit(0);
-    attackCD.SetLimit(0);
-    soundComponent->SoundAttack();
     if (combo == "Straight") {
         attacking.SetLimit(LIMIT_240);
         attackCD.SetLimit(LIMIT_100);
@@ -169,8 +172,8 @@ void Lancelot::Attack() {
  * @return: none.
  */
 void Lancelot::StartBlock() {
-	float const VELOCITY_RANGE = 0.2f;
     isBlocking = true;
+	float const VELOCITY_RANGE = 0.2f;
     clamp(physicsComponent.velocity.x, -1*(VELOCITY_RANGE), VELOCITY_RANGE);
 }
 
@@ -217,13 +220,14 @@ std::string Lancelot::GetCombo() {
 
 void Lancelot::UpdateTimers(float dt) {
 	assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
-
-	int const X_TRANSITION_POINT = 18504;
+    
+    Rect checkStateTrasition;
+    
+    int const X_TRANSITION_POINT = 18504;
 	int const Y_TRANSITION_POINT = 2369;
 	int const W_TRANSITION_POINT = 112;
 	int const H_TRANSITION_POINT = 180;
 
-    Rect checkStateTrasition;
     if (StageState::stage == "cidadeLancelot") {
         checkStateTrasition.x = X_TRANSITION_POINT;
         checkStateTrasition.y = Y_TRANSITION_POINT;
