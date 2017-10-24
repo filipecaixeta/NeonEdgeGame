@@ -19,11 +19,11 @@ class LancelotGraphicsComponent: public GraphicsComponent {
  public:
     LancelotGraphicsComponent(std::string baseNameParam);
     ~LancelotGraphicsComponent();
-    void Update(GameObject* gameObject, float deltaTime);
-    void UpdateCharacterSpriteToAttacking(GameObject *gameObject);
-    void UpdateCharacterSpriteToBlocking(GameObject *gameObject);
-    void UpdateCharacterSpriteToCrouching(GameObject *gameObject);
-    void UpdateCharacterSpriteToDying(GameObject *gameObject);
+    void Update(GameObject* gameObject = NULL, float deltaTime = 0.0);
+    void UpdateCharacterSpriteToAttacking(GameObject *gameObject = NULL);
+    void UpdateCharacterSpriteToBlocking(GameObject *gameObject = NULL);
+    void UpdateCharacterSpriteToCrouching(GameObject *gameObject = NULL);
+    void UpdateCharacterSpriteToDying(GameObject *gameObject = NULL);
 };
 
 #endif  // INCLUDE_LANCELOTGRAPHICSCOMPONENT_H_

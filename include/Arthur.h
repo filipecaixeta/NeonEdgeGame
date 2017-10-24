@@ -22,18 +22,21 @@ enum ArthurState {IDLE, SLASHING, DASHINGLEFT, DASHINGRIGHT, PUNCHING};
 
 class Arthur : public Character {
 public:
-    Arthur(int x, int y);
+    Arthur(int x = 0, int y = 0);
     ~Arthur();
-    void UpdateTimers(float deltaTime);
-    void NotifyObjectCollision(GameObject *gameObject);
-    void UpdateAI(float deltaTime);
-    void Update(TileMap *world, float deltaTime);
+    void UpdateTimers(float deltaTime = 0);
+    void NotifyObjectCollision(GameObject *gameObject = NULL);
+    void UpdateAI(float deltaTime = 0);
+    void Update(TileMap *world = NULL, float deltaTime = 0);
     void Attack();
-    void ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius, ArthurState arthurState, bool triggered, float boxX, float playerX);
+    void ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius, 
+                          ArthurState arthurState, bool triggered = false, float boxX = 0.0, float playerX = 0.0);
     void ArthurStateDashingLeft(Timer idle, Timer dash, float deltaTime, ArthurState arthurState);
     void ArthurStateDashingRight(Timer idle, Timer dash, float deltaTime, ArthurState arthurState);
-    void ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurState, float boxX, float playerX);
-    void ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurState, float boxX, float playerX);
+    void ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurState, float boxX = 0.0, 
+                             float playerX = 0.0);
+    void ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurState, float boxX = 0.0, 
+                             float playerX = 0.0);
     ArthurState GetState();
 private:
     Timer idle;
@@ -42,7 +45,7 @@ private:
     Timer punch;
     Rect radius;
     ArthurState arthurState;
-    bool triggered;
+    bool triggered = false;
 };
 
 #endif /*ARTHUR_H*/

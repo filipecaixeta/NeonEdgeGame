@@ -15,8 +15,8 @@ class Energy : public GameObject
 private:
 	Sprite sprite;
 	Timer endTimer;
-	bool loops;
-	bool dies;
+	bool loops = false;
+	bool dies = false;
 	bool dead = false;
 
 public:
@@ -24,9 +24,9 @@ public:
 		   bool loops = true, float lifetime = 0, bool dies = false);
 	~Energy();
 	bool IsDead();
-	void NotifyObjectCollision(GameObject* collapsed_object);
+	void NotifyObjectCollision(GameObject* collapsed_object = NULL);
 	void UpdateTimers(float deltaTime);
-	void Update(TileMap* world, float deltaTime);
+	void Update(TileMap* world, float deltaTime = 0.0);
 	void Render();
 };
 
