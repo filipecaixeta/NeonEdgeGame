@@ -24,18 +24,23 @@
     @return - none.
 
 */
-Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY): Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
+Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
+    Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
     name = ""; // Sets the drone name
-    inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in relation to the character.
+    inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in
+                                                // relation to the character.
+    assert(inputComponent != nullptr);
+
     physicsComponent.SetKinetic(true); // Disables gravity for the drone.
-    graphicsComponent = new DroneGraphicsComponent("Drone"); // Loads drone images (drone moving, firing and etc).
+    graphicsComponent = new DroneGraphicsComponent("Drone"); // Loads drone images
+                                                             //(drone moving, firing and etc).
+    assert(graphicsComponent != nullptr);
+
     soundComponent = new SoundComponent(name); // Loads drone sound effects.
+    assert(soundComponent != nullptr);
+
     box.SetWH(graphicsComponent->GetSize());
     Empower(0);
-
-    assert(inputComponent != nullptr);
-    assert(graphicsComponent != nullptr);
-    assert( soundComponent != nullptr);
 }
 
 /**

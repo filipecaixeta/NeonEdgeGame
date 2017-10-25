@@ -44,10 +44,10 @@ public:
     void Update(TileMap *map, float deltaTime);
 
 private:
-    GameObject *drone;
+    GameObject *drone = NULL;
     Timer isHiding;
-    bool isShooting;
-    bool active;
+    bool isShooting = false;
+    bool active = false;
     bool done = false;
 };
 

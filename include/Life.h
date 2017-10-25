@@ -13,10 +13,10 @@
 class Life : public GameObject
 {
 private:
-	Sprite lifeSprite;
-	Timer endTimer;
-	bool loops;
-	bool dies;
+	Sprite lifeSprite = NULL;
+	Timer endTimer = NULL;
+	bool loops = true;
+	bool dies = false;
 	bool isDead = false;
 
 public:
