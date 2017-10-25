@@ -30,7 +30,6 @@ Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, 
     assert(frameCount >= FLOAT_MIN_SIZE && frameCount <= FLOAT_MIN_SIZE);
     assert(frameTime >= FLOAT_MIN_SIZE && frameTime <= FLOAT_MIN_SIZE);
     lifeSprite = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
-    assert(lifeSprite != nullptr);
     assert(lifeTime >= FLOAT_MIN_SIZE && lifeTime <= FLOAT_MIN_SIZE);
     endTimer = Timer(lifeTime);
     if (loops) {

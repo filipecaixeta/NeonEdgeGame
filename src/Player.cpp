@@ -17,7 +17,7 @@
     @param int y - coordinate of the player.
     @return Player - instance of the class Player.
 */
-Player::Player(ItensManager* itemManager, int x, int y): Character(x,y){
+Player::Player(ItemsManager* itemManager, int x, int y): Character(x,y){
     inputComponent = nullptr;
     this->itemManager = itemManager ;
 
@@ -34,8 +34,6 @@ Player::Player(ItensManager* itemManager, int x, int y): Character(x,y){
 	regenCD = 500;  // The time of the cool down regeneration in miliseconds.
 	isCrouching = false;  // Default state: standing.
 	isStading = true;
-
-	
     name = "Player";  // Sets the Player's name.
     hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
 

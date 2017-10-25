@@ -50,13 +50,15 @@ bool CeilingEnemy::Attacking() {
  * @return none.
  */
 void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
-    assert(title >= 0);
-
-    // Changing state according with the collision of the face.
-    if (face == BOTTOM && state == ATTACKING) {
-        state = REARMING;
-    } else if (face == UPPER && state == REARMING) {
-        state = WAITING;
+    if (tile >= 0) {
+        // Changing state according with the collision of the face.
+        if (face == BOTTOM && state == ATTACKING) {
+            state = REARMING;
+        } else if (face == UPPER && state == REARMING) {
+            state = WAITING;
+        } else {
+            // It does nothing.
+        }
     } else {
         // It does nothing.
     }
