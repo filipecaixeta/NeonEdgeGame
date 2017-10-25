@@ -2,6 +2,11 @@
 #define GRAPHICSMENU_H
 #include "MenuState.h"
 
+#define POSITION_260_Y_AXIS 260
+#define POSITION_409_Y_AXIS 409
+#define POSITION_557_Y_AXIS 557
+#define POSITION_72_Y_AXIS 72
+
 class GraphicsMenu : public MenuState
 {
 public:
@@ -27,4 +32,4 @@ private:
 
 };
 
-#endif // GRAPHICSMENU_H
+#endif // INCLUDE_GRAPHICSMENU_H_

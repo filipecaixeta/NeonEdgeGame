@@ -26,11 +26,9 @@ InGameSkills::~InGameSkills() {
 
 */
 void InGameSkills::LoadAssets() {
-    std::string path = "menus/" + StageState::player->name;
-
-    selected = new Sprite(path + "SkillTreeSelected.png");
-
     auto &skills = StageState::player->skills;
+    std::string path = "menus/" + StageState::player->name;
+    selected = new Sprite(path + "SkillTreeSelected.png");
 
     menuOptions.push_back({"Skill0", new Sprite(path + "Skill0.png"), true, skills[0]});
     menuOptions.push_back({"Skill1", new Sprite(path + "Skill1.png"), true, skills[1]});
@@ -44,8 +42,8 @@ void InGameSkills::LoadAssets() {
     bg.SetBlending(true);
 
     blackOpacity.Open("menus/smallBlack.png", true);
-    blackOpacity.SetScaleX(2000);
-    blackOpacity.SetScaleY(2000);
+    blackOpacity.SetScaleX(SCALE);
+    blackOpacity.SetScaleY(SCALE);
     blackOpacity.SetTransparency(0.5);
 
     SetOption(4);

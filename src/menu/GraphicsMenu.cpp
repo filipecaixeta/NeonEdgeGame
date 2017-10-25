@@ -1,11 +1,10 @@
 /**
-    Copyright 2017 Neon Edge Game
-    File Name: GraphicsMenu.cpp
-    Header File Name: GraphicsMenu.h
-    Class Name: GraphicsMenu
-    Objective: manages the menu graphics.
-
-*/
+ * Copyright 2017 Neon Edge Game
+ * File Name: GraphicsMenu.cpp
+ * Header File Name: GraphicsMenu.h
+ * Class Name: GraphicsMenu
+ * Objective: Manages the menu graphics.
+ */
 
 #include <assert.h>
 
@@ -18,21 +17,22 @@ GraphicsMenu::GraphicsMenu(): MenuState() {
 }
 
 /**
-  *  Objective: sets graphic game.
-  *
-  * @param none.
-  * @return none.
-  *
-  */
+ * Objective: Sets graphic game.
+ *
+ * @param none.
+ * @return none.
+ */
 void GraphicsMenu::LoadAssets() {
-	int const SCREEN_WIDTH_1024 = 1024;
-	int const SCREEN_WIDTH_1360 = 1360;
-	int const SCREEN_WIDTH_1792 = 1792;
-	
+
     menuOptions.push_back({"Resolution", new Sprite("menus/resolution-button.png"), true, 0});
     menuOptions2.push_back({"Resolution", new Sprite(), true, 0});
-    SDL_Point screenSize = Game::GetInstance().GetScreenSize();  // Screen size.
-	// Verifies screen size to sets.
+
+		int const SCREEN_WIDTH_1024 = 1024;
+		int const SCREEN_WIDTH_1360 = 1360;
+		int const SCREEN_WIDTH_1792 = 1792;
+
+		SDL_Point screenSize = Game::GetInstance().GetScreenSize();  // Screen size.
+    // Verifies screen size to sets.
     if (screenSize.x == SCREEN_WIDTH_1024) {
         menuOptions2[0].current = FIRST_OPTION;
         UpdateScreenSizeSprite(0, menuOptions2[0].sprite);
@@ -68,7 +68,7 @@ void GraphicsMenu::LoadAssets() {
     bool fullScreem = Game::GetInstance().isFullScreen();  // Fullscreen.
     // Verifies windows mode to sets.
     if (!fullScreem) {
-		assert(fullScreem == NULL);
+        assert(fullScreem == NULL);
         menuOptions2[2].current = FIRST_OPTION;
         UpdateWindowModeSprite(0, menuOptions2[2].sprite);
     } else {
@@ -83,16 +83,15 @@ void GraphicsMenu::LoadAssets() {
 }
 
 /**
- *  Objective: sets game screen configurations.
- *  
- *	@param none.
- *  @return none.
+ * Objective: Sets game screen configurations.
  *
+ * @param none.
+ * @return none.
  */
 void GraphicsMenu::Update() {
     MenuState::Update();
-	int const RIGHT_BUTTON = 1; 
-	int const LEFT_BUTTON = -1; 
+    int const RIGHT_BUTTON = 1;
+    int const LEFT_BUTTON = -1;
     // Verifies pressed key.
     int rl = INITIAL_VALUE;
     if (InputManager::GetInstance().KeyPress(SDLK_RIGHT)) {
@@ -180,15 +179,14 @@ void GraphicsMenu::Update() {
 }
 
 /**
- *  Objective: sets game screen size.
- * 
- *  @param int options - selected game screen size option.
- *  @param Sprite sprite.
- *  @return none.
+ * Objective: sets game screen size.
  *
+ * @param int options - selected game screen size option.
+ * @param Sprite sprite.
+ * @return none.
  */
 void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
-	if((option<0 || option>3) && sprite != NULL){
+	if((option < 0 || option > 3) && sprite != NULL){
 		// Sets screen size.
 		if (option == FIRST_OPTION) {
 			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1024x768  4:3");
@@ -200,22 +198,23 @@ void GraphicsMenu::UpdateScreenSizeSprite(int option, Sprite *sprite) {
 			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "1792x768 21:9");
 			sprite->SetTexture(text, true);
 		} else {
-			// Do nothing
+			// Do nothing.
 		}
 	}
-	else{
+	else {
+		//D Do nothing.
 	}
 }
 
 /**
-  * Objective: updates windows mode of game.
-  *  
-  *	@param int option - selected game window mode option.
-  * @param Sprint sprint.
-  * @return none.
-  */
+ * Objective: Updates windows mode of game.
+ *
+ * @param int option - selected game window mode option.
+ * @param Sprint sprint.
+ * @return none.
+ */
 void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
-	if((option<0 || option>3) && sprite != NULL){
+	if((option < 0 || option > 3) && sprite != NULL){
 		// Sets windows mode.
 		if (option == FIRST_OPTION) {
 			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "Windowed");
@@ -228,16 +227,17 @@ void GraphicsMenu::UpdateWindowModeSprite(int option, Sprite *sprite) {
 		}
 	}
 }
+
 /**
-  *  Objective: updates fps of game.
-  *  
-  *	 @param int option - selected game fps option.
-  *  @param Sprint sprint.
-  *  @return none.
-  */
+ * Objective: updates fps of game.
+ *
+ * @param int option - selected game fps option.
+ * @param Sprint sprint.
+ * @return none.
+ */
 void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
 	// Sets fps.
-	if((option<0 || option>3) && sprite != NULL){
+	if((option < 0 || option > 3) && sprite != NULL){
 		if (option == FIRST_OPTION) {
 			SDL_Texture *text = Text::GetText(fontName, fontSize / 2, fontColor, "30fps");
 			sprite->SetTexture(text, true);
@@ -254,21 +254,18 @@ void GraphicsMenu::UpdateFPSSprite(int option, Sprite *sprite) {
 }
 /**
  *   Objective: renders menu screen position.
- * 
+ *
  *   @param none.
  *   @return none.
  *
  */
 void GraphicsMenu::Render() {
-	assert(menuOptions2[FIRST_OPTION].sprite != NULL);
-	assert(menuOptions2[SECOND_OPTION].sprite != NULL);
-	assert(menuOptions2[THIRD_OPTION].sprite != NULL);
+    assert(menuOptions2[FIRST_OPTION].sprite != NULL);
+    assert(menuOptions2[SECOND_OPTION].sprite != NULL);
+    assert(menuOptions2[THIRD_OPTION].sprite != NULL);
 
-	int const POSITION_260_Y_AXIS = 260;
-	int const POSITION_409_Y_AXIS = 409;
-	int const POSITION_557_Y_AXIS = 557;
-	int const POSITION_72_Y_AXIS = 72;
     int positionsY[3] = {POSITION_260_Y_AXIS, POSITION_409_Y_AXIS, POSITION_557_Y_AXIS};
+
     bg.Render(CenterVertical(&bg));
     bgOptions.Render(CenterVertical(&bgOptions) + Vec2(0, 135));
     menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite) +
