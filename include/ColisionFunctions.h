@@ -6,9 +6,9 @@
 #include "Vec2.h"
 #include "GameObject.h"
 #include "TileMap.h"
-#define INITIAL_VALUE 0
 #define NO_COLOR 0
 #define FULL_COLOR 255
+
 
 namespace ColisionFunctions
 {

@@ -11,7 +11,7 @@
 
 class Camera {
 private:
-	GameObject* cameraFocus;
+	GameObject* cameraFocus = NULL;
 	static Camera* instance;
 
 	Camera();
@@ -21,9 +21,9 @@ public:
     Vec2 maxScreenPosition;
 
 	~Camera();
-	void CreateFocus(GameObject* newFocus);
+	void CreateFocus(GameObject* newFocus = NULL);
 	void StopFocus();
-	void FocusUpdate(float delayTime);
+	void FocusUpdate(float delayTime = 0);
 	void SetPosition(Vec2 screenPosition);
 	GameObject* GetFocus();
 	static Camera& CheckInstance();

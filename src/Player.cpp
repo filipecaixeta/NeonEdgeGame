@@ -11,30 +11,31 @@
 #include <assert.h>
 
 /**
- * Objective: constructor of the class Player.
- *
- * @param ItensManager* itemManager
- * @param int x - coordinate of the player.
- * @param int y - coordinate of the player.
- * @return Player - instance of the class Player.
- */
-Player::Player(ItensManager* itemManager, int x, int y):
-    Character(x,y),  // Player's positions in the screen.
-    inputComponent(nullptr),
-    itemManager(itemManager),
-    skills( {
-            false,
-                false,
-                true,true,
-                true,
-                false,
-                false
-    } ),  // Sets the default enabled skills.
-    skillPoints(0),
-    energy(5),  // Sets the energy of the player to 5.
-    regenCD(500),  // The time of the cool down regeneration in miliseconds.
-    isCrouching(false),  // Default state: standing.
-    isStading(true) {
+    Objective: constructor of the class Player.
+    @param ItensManager* itemManager
+    @param int x - coordinate of the player.
+    @param int y - coordinate of the player.
+    @return Player - instance of the class Player.
+*/
+Player::Player(ItensManager* itemManager, int x, int y): Character(x,y){
+    inputComponent = nullptr;
+    this->itemManager = itemManager ;
+
+	// Sets the default enabled skills.
+    skills[0] = false;
+    skills[1] = false;
+    skills[2] = true;
+    skills[3] = true;
+    skills[4] = true;
+    skills[5] = false;
+    skills[6] = false;
+	skillPoints = 0;
+	energy = 5;  // Sets the energy of the player to 5.
+	regenCD = 500;  // The time of the cool down regeneration in miliseconds.
+	isCrouching = false;  // Default state: standing.
+	isStading = true;
+
+	
     name = "Player";  // Sets the Player's name.
     hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
 

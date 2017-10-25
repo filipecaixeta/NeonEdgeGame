@@ -37,8 +37,8 @@ Sprite::Sprite():
  * @param bool loops.
  * @return: Return a instance of Sprite.
 */
-Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha, bool loops):
-    destroyTexture(false) {
+Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlpha, bool loops){
+	destroyTexture = false; 
     texture = nullptr;
     if (frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) {
         Sprite::frameCount = frameCount;
@@ -67,8 +67,8 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
  * @return: Return a instance of Sprite.
 
 */
-Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha, bool loops):
-    destroyTexture(true) {
+Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlpha, bool loops){
+	destroyTexture = false; 
     texture = tex;
     if (frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) {
         Sprite::frameCount = frameCount;

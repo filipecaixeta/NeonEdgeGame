@@ -23,7 +23,10 @@
  * @param int y - initial position of the TurretBoss in y axis.
  * @return instance of TurretBoss.
  */
-TurretBoss::TurretBoss(int x, int y): Character(x, y), idle(1000), aim(3000), shoot(300) {
+TurretBoss::TurretBoss(int x, int y): Character(x, y){
+	idle = 100;
+	aim = 3000;
+	shoot = 300; 
     name = "TurretBoss";
 	assert(name == "TurretBoss");
     box.x = x;

@@ -30,6 +30,7 @@
   */
 void ColisionFunctions::GetSurfaceData(SDL_Surface *surface, int &x, int &y, int &rowSize,
                                               Uint32 **pixels, SDL_PixelFormat **format) {
+	int const INITIAL_VALUE = 0;
 	if(surface != NULL & x !=NULL & y!= NULL & rowSize != NULL & pixels != NULL & format != NULL){
 		SDL_LockSurface(surface);
 		x = surface->w;
@@ -52,6 +53,7 @@ void ColisionFunctions::GetSurfaceData(SDL_Surface *surface, int &x, int &y, int
  * @return SDL_Surface surface - change the surface pixels color.  
  */
 void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
+	int const INITIAL_VALUE = 0;
 	if(surface!=NULL){
 		int x = INITIAL_VALUE;
 		int y = INITIAL_VALUE;
@@ -100,6 +102,8 @@ void ColisionFunctions::ConvertSurfaceColors(SDL_Surface *surface) {
 int ColisionFunctions::PixelPerfectColision(SDL_Surface *surface1, SDL_Rect clipRect1, Vec2 pos1,
 											bool mirror1, SDL_Surface *surface2, SDL_Rect clipRect2,
 											Vec2 pos2, bool mirror2) {
+	
+	int const INITIAL_VALUE = 0;
 	if(surface1 != NULL & surface2 != NULL){
 		int xSize1 = INITIAL_VALUE;
 		int ySize1 = INITIAL_VALUE;
