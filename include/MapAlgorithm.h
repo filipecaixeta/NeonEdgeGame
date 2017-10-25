@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <SDL.h>
 
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
+
 class MapAlgorithm{
 public:
 	MapAlgorithm(int numberOfRooms = 1);
