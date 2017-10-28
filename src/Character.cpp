@@ -38,9 +38,7 @@ bool Character::IsDead() {
                 soundComponent->SoundDie();
                 Log::instance.info("Death sound of the initiated character!");  
             } else {
-                Log::instance.error("Death sound of the character did not play, 
-                                     check the IsDead method of Character and 
-                                     SoundDie's SoundComponent method");      
+                Log::instance.error("Death sound of the character did not play, check the IsDead method of Character and SoundDie's SoundComponent method");      
                 // It does nothing
             }
         } else {
