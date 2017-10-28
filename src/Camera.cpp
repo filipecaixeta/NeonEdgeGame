@@ -8,9 +8,11 @@
 
 #include <iostream>
 #include <math.h>
+#include <assert.h>
 #include "Camera.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "Logger.h"
 
 
 #ifndef clamp
@@ -29,7 +31,8 @@ Camera::Camera():
     maxScreenPosition(MAX_SCREEN, MAX_SCREEN){
     cameraFocus = nullptr; // Starts pointer pointing to nullptr to improve debugging.
     screenPosition = Vec2(); // Sets camera start position.
-    screenSpeed = Vec2(1, 1); // Sets camera speed.
+    screenSpeed = Vec2(1, 1); // Sets camera speed.  
+    Log::instance.info("Camera builder started!");  
 }
 
 /**
@@ -51,10 +54,13 @@ Camera::~Camera() {
 bool CheckFloat(float testFloat) {
     bool veryValue = false;
     if ((testFloat >= FLOAT_SIZE_MIN ) && (testFloat <= FLOAT_SIZE_MAX)) {
+        Log::instance.info("Valid value! Method CheckFloat Camera");  
         veryValue = true;
     } else {
+        Log::instance.error("Tested value higher or lower than allowed!");  
         // It does nothing.
     }
+    assert(veryValue == false || veryValue == true);
     return veryValue;
 }
 
@@ -67,7 +73,9 @@ bool CheckFloat(float testFloat) {
 void Camera::CreateFocus(GameObject* newFocus) {
     if (newFocus) {
         cameraFocus = newFocus; // Sets the new focus of the camera.
+        Log::instance.info("New Focus Created!");  
     } else {
+        Log::instance.warning("New camera focus has not been set correctly, check Camera CreteFocus!");        
         // It does nothing.
     }
 }
@@ -92,7 +100,7 @@ void Camera::FocusUpdate(float screenDelay) {
 
     // Checks whether the value of the received parameter is valid.
     bool veryValue = CheckFloat(screenDelay);
-	int const INITIAL_VALUE = 0;
+	int const INITIAL_VALUE = 0;    
 	
     if (veryValue) {
         // Checks and regulates camera focus.
@@ -164,6 +172,7 @@ void Camera::FocusUpdate(float screenDelay) {
             }
         }
     } else {
+        Log::instance.error("Incorrect camera movement, check FocusUpdate in Camera!");        
         // It does nothing.        
     }
 }
@@ -175,6 +184,7 @@ void Camera::FocusUpdate(float screenDelay) {
  * @return cameraFocus - Information regarding the camera's current focus.
  */
 GameObject* Camera::GetFocus() {
+    assert(cameraFocus != nullptr);
     return cameraFocus; 
 }
 
@@ -189,9 +199,11 @@ Camera& Camera::CheckInstance() {
     // Check if the camera instance is valid.
     if (instance == nullptr) {
         instance = new Camera();
+        Log::instance.info("New camera instance created!");               
     } else {
-        // It does nothing.
+        // It does nothing.             
     }
+    assert(instance != nullptr);
     return *instance;
 }
 
@@ -205,7 +217,9 @@ void Camera::SetPosition(Vec2 screenPosition) {
     
     if (CheckFloat(screenPosition.x) && (CheckFloat(screenPosition.y))) {
         this->screenPosition = screenPosition; // Sets position the camera.
+        Log::instance.info("New camera position created!");                       
     } else {
+        Log::instance.warning("New camera position has not been set! Check Camera SetPosition!");
         // It does nothing.        
     }
 }
