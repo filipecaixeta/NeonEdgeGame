@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "StageState.h"
 #include <assert.h>
+#include "Logger.h"
 
 /**
  * Objective: Method responsible for testing float parameters received in functions.
@@ -21,9 +22,12 @@ bool CheckFloatDoor(float testFloat) {
     bool veryValue = false;
     if ((testFloat >= FLOAT_SIZE_MIN ) && (testFloat <= FLOAT_SIZE_MAX)) {
         veryValue = true;
+        Log::instance.info("Valid value! Method CheckFloatDoor Door");          
     } else {
+        Log::instance.error("Tested value higher or lower than allowed!");          
         // It does nothing.
     }
+    assert(veryValue == false || veryValue == true);    
     return veryValue;
 }
 
@@ -38,6 +42,7 @@ Door::Door(int doorPositionX, int doorPositionY):
   Interactive(doorPositionX, doorPositionY,"Door") {
     name = "Door"; // Defines name of the door.
     doorOpen = false;  // Initializes of the door closed.
+    Log::instance.info("Door builder started!");      
 }
 
 /**
@@ -87,16 +92,19 @@ void Door::Update(TileMap* worldMap, float delayTime) {
             // Checks if the door activation button are pressed.
             if (doorMovementRadius.OverlapsWith(player->box)) {
                 assert(player != NULL);
-                doorOpen = true; // Opens the door
+                doorOpen = true; // Opens the door 
+                Log::instance.info("Door enabled and open!");                                  
             } else {
                 // It does nothing.
             }
         } else {
+            Log::instance.info("Port disabled!");                                             
             // It does nothing.
         }
         graphicsComponent->Update(this, delayTime); // Updates game screen.
         assert(worldMap != NULL);
     } else {
+        Log::instance.error("Check the time parameter!");                                         
         // It does nothing.
     }
 }
@@ -112,7 +120,8 @@ void Door::Render() {
     // Checks whether the door is closed or inactive.
     if (!doorOpen || !Active()) {
         graphicsComponent->Render(GetPosition() - Camera::CheckInstance().screenPosition); // Renders port on screen.
-    } else {
+        Log::instance.info("Door closed rendered!");                                                 
+    } else {                                                   
         // It does nothing.
     }
 }
