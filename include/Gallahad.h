@@ -1,5 +1,7 @@
-#ifndef GALLAHAD_H_
-#define GALLAHAD_H_
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_GALLAHAD_H_
+#define INCLUDE_GALLAHAD_H_
 
 #include "Drone.h"
 #include "Player.h"
@@ -28,7 +30,7 @@
 
 
 class Gallahad : public Player {
-public:
+ public:
     Gallahad(ItemsManager* itemManager, int x, int y, GameObject *setDrone);
     ~Gallahad();
     void Attack();
@@ -43,12 +45,12 @@ public:
     void UpdateTimers(float deltaTime);
     void Update(TileMap *map, float deltaTime);
 
-private:
-    GameObject *drone = NULL;
+ private:
+    GameObject *drone = nullptr;
     Timer isHiding;
     bool isShooting = false;
     bool active = false;
     bool done = false;
 };
 
-#endif /* GALLAHAD_H_ */
+#endif // INCLUDE_GALLAHAD_
