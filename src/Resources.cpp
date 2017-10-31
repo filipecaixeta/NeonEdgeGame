@@ -6,10 +6,11 @@ Class Name: Resources
 Objective: Class responsable to manager the games resources.
 
 */
-#include "Resources.h"
-#include "Game.h"
 #include <cstdio>
 #include <cstdlib>
+#include "Resources.h"
+#include "Game.h"
+#include "Logger.h"
 
 // Inicializate unordered_maps.
 std::unordered_map<std::string, SDL_Texture*> Resources::imageTable = std::unordered_map<std::string, SDL_Texture*>();
@@ -34,6 +35,7 @@ std::string Resources::BASENAME_FONT = "resources/font/";
 */
 
 SDL_Texture* Resources::GetImage(std::string file, bool forceDuplicate = false) {
+	Log::instance.info("Get image " + file);
 	std::string fileKey = file;
 
 	// if ForceDuplicate is true, the code check the numbers of instances and add one asterisk to the file.
@@ -53,8 +55,8 @@ SDL_Texture* Resources::GetImage(std::string file, bool forceDuplicate = false) 
 	}
 	// Get a error if the SDL_Texture in the unorded_map is nullptr. 
 	if(imageTable.at(fileKey) == nullptr) {
-		printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
-		//		exit(EXIT_FAILURE);
+		std::string error = SDL_GetError();
+		Log::instance.error("Error: " + error);
 	}
 	return imageTable.at(fileKey);
 }
@@ -67,6 +69,7 @@ SDL_Texture* Resources::GetImage(std::string file, bool forceDuplicate = false) 
 */
 
 void Resources::ClearImages() {
+	Log::instance.info("Cleaning images");
 	// Pass to all elements of the unorded_map and destroy then.
 	for(auto& i : imageTable) {
 		SDL_DestroyTexture(i.second);
@@ -81,6 +84,7 @@ void Resources::ClearImages() {
 
 */
 SDL_Surface *Resources::GetSurface(std::string file) {
+	Log::instance.info("Get surface" + file);
 	// Construct a insert the file element requested.
 	if(!surfaceTable.count(file)) {
 		surfaceTable.emplace(file, IMG_Load((Resources::BASENAME_IMAGE + file).c_str()));
@@ -88,7 +92,8 @@ SDL_Surface *Resources::GetSurface(std::string file) {
 
 	// Put a error if fail to load the file.
 	if(surfaceTable.at(file) == nullptr) {
-		printf("IMG_Load failed: %s\n", SDL_GetError());
+		std::string error = SDL_GetError();
+		Log::instance.error("IMG_Load failed:" + error);
 		exit(EXIT_FAILURE);
 	}
 	return surfaceTable.at(file);
@@ -101,6 +106,7 @@ SDL_Surface *Resources::GetSurface(std::string file) {
 
 */
 void Resources::ClearSurface() {
+	Log::instance.info("Cleaning images");
 	// Pass to all elements of the unorded_map and destroy then.
 	for(auto& i : surfaceTable) {
 		SDL_FreeSurface(i.second);
@@ -115,13 +121,15 @@ void Resources::ClearSurface() {
 
 */
 Mix_Music* Resources::GetMusic(std::string file) {
+	Log::instance.info("Get music" + file);
 	// Construct a insert the music element requested.
 	if(!musicTable.count(file)) {
 		musicTable.emplace(file, Mix_LoadMUS((Resources::BASENAME_MUSIC + file).c_str()));
 	}
 	// Prints a error if fails to open file.
 	if(musicTable.at(file) == nullptr) {
-		printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
+		std::string error = SDL_GetError();
+		Log::instance.error("Mix_LoadMUS failed: " + error);
 		exit(EXIT_FAILURE);
 	}
 	return musicTable.at(file);
@@ -134,6 +142,7 @@ Mix_Music* Resources::GetMusic(std::string file) {
 
 */
 void Resources::ClearMusics() {
+	Log::instance.info("Clear all musics");
 	// Pass to all elements of the unorded_map and destroy then.
 	for(auto& i : musicTable) {
 		Mix_FreeMusic(i.second);
@@ -148,13 +157,15 @@ void Resources::ClearMusics() {
 
 */
 Mix_Chunk* Resources::GetSound(std::string file) {
+	Log::instance.info("Get sound" + file);
 	// Construct a insert the sound element requested.
 	if(!soundTable.count(file)) {
 		soundTable.emplace(file, Mix_LoadWAV((Resources::BASENAME_SOUND + file).c_str()));
 	}
 	// Prints a error if fails to open file.
 	if(soundTable.at(file) == nullptr) {
-		printf("Mix_LoadWAV failed: %s\n", SDL_GetError());
+		std::string error = SDL_GetError();
+		Log::instance.error("Mix_LoadWAV failed: " + error);
 		exit(EXIT_FAILURE);
 	}
 	return soundTable.at(file);
@@ -167,6 +178,7 @@ Mix_Chunk* Resources::GetSound(std::string file) {
 
 */
 void Resources::ClearSounds() {
+	Log::instance.info("Clear all sounds");
 	// Pass to all elements of the unorded_map and destroy then.
 	for(auto& i : soundTable) {
 		Mix_FreeChunk(i.second);
@@ -182,6 +194,7 @@ void Resources::ClearSounds() {
 
 */
 TTF_Font* Resources::GetFont(std::string file, int fontSize) {
+	Log::instance.info("Get font: " + file);
 	char vetor[5]; //vector of char to store fontSize.
 	sprintf(vetor, "%d", fontSize);
 	std::string key = file + vetor; // Set the key value for the unorded_map
@@ -192,7 +205,8 @@ TTF_Font* Resources::GetFont(std::string file, int fontSize) {
 	}
 	// Prints a error if fails to open file.
 	if(fontTable.at(key) == nullptr) {
-		printf("TTF_OpenFont failed: %s\n", SDL_GetError());
+		std::string error = SDL_GetError();
+		Log::instance.error("TTF_OpenFont failed: " + error);
 		exit(EXIT_FAILURE);
 	}
 	return fontTable.at(key);
@@ -205,6 +219,7 @@ TTF_Font* Resources::GetFont(std::string file, int fontSize) {
 
 */
 void Resources::ClearFonts() {
+	Log::instance.info("Clear all fonts");
 	// Pass to all elements of the unorded_map and destroy then.
 	for(auto& i : fontTable) {
 		TTF_CloseFont(i.second);
