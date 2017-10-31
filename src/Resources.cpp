@@ -8,6 +8,7 @@ Objective: Class responsable to manager the games resources.
 */
 #include <cstdio>
 #include <cstdlib>
+#include <assert.h>
 #include "Resources.h"
 #include "Game.h"
 #include "Logger.h"
@@ -58,6 +59,8 @@ SDL_Texture* Resources::GetImage(std::string file, bool forceDuplicate = false) 
 		std::string error = SDL_GetError();
 		Log::instance.error("Error: " + error);
 	}
+
+	assert(imageTable.at(file) != nullptr);
 	return imageTable.at(fileKey);
 }
 
@@ -96,6 +99,8 @@ SDL_Surface *Resources::GetSurface(std::string file) {
 		Log::instance.error("IMG_Load failed:" + error);
 		exit(EXIT_FAILURE);
 	}
+
+	assert(surfaceTable.at(file) != nullptr);
 	return surfaceTable.at(file);
 }
 
@@ -132,6 +137,9 @@ Mix_Music* Resources::GetMusic(std::string file) {
 		Log::instance.error("Mix_LoadMUS failed: " + error);
 		exit(EXIT_FAILURE);
 	}
+
+	
+	assert(musicTable.at(file) != nullptr);
 	return musicTable.at(file);
 }
 
@@ -168,6 +176,9 @@ Mix_Chunk* Resources::GetSound(std::string file) {
 		Log::instance.error("Mix_LoadWAV failed: " + error);
 		exit(EXIT_FAILURE);
 	}
+
+	
+	assert(soundTable.at(file) != nullptr);
 	return soundTable.at(file);
 }
 
@@ -209,6 +220,9 @@ TTF_Font* Resources::GetFont(std::string file, int fontSize) {
 		Log::instance.error("TTF_OpenFont failed: " + error);
 		exit(EXIT_FAILURE);
 	}
+
+	
+	assert(fontTable.at(file) != nullptr);
 	return fontTable.at(key);
 }
 
