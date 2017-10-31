@@ -10,6 +10,7 @@
 #include "MainMenuState.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "Logger.h"
 
 #include <assert.h>
 
@@ -22,9 +23,15 @@
 */
 MainMenuState::MainMenuState() {
 	bg2.Open("title2.png");
+	Log::instance.info("[Main Menu State] opened the title2.png in backgroud2");
+
 	bg.Open("title1.png");
+	Log::instance.info("[Main Menu State] opened the title1.png in backgroud");
+
 	bgTimer = Timer(500);
 	bgTimer.Start();
+	Log::instance.info("[Main Menu State] The background Timer was started");
+
 	bgBool = true;
 }
 
@@ -48,6 +55,7 @@ MainMenuState::~MainMenuState() {
 */
 void MainMenuState::LoadAssets() {
 	LoadFase1();
+	Log::instance.info("[Main Menu State] The Fase1 was loaded");
 }
 
 void MainMenuState::LoadFase1() {
@@ -106,6 +114,7 @@ void MainMenuState::Render() {
   // Invoke the backgrounds render
 	if (bgBool) {
 	    bg.Render(0, 0); // Set the position that the background will be rendering.
+			Log::instance.info("[Main Menu State] The position of the background was setted");
 	} else {
 	    // It does nothing.
 	}
