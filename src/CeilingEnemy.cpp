@@ -10,6 +10,7 @@
 #include "StageState.h"
 #include "GraphicsComponent.h"
 #include "Gallahad.h"
+#include "Logger.h"
 #include <assert.h>
 
 /**
@@ -30,6 +31,8 @@ CeilingEnemy::CeilingEnemy(int x_axis_position, int y_axis_position): Character(
     physicsComponent.velocity.y = INITIAL_SPIDERMAN_VELOCITY;
 
     assert(graphicsComponent != nullptr);
+
+    Log::instance.info("CeilingEnemy builder started!");
 }
 
 /**
@@ -86,7 +89,7 @@ void CeilingEnemy::AttackVisiblePlayer(float deltaTime){
         physicsComponent.velocity.y -= REARMING_DELAY_TIME * deltaTime;
         clamp(physicsComponent.velocity.y, -REARMING_CLAMP_L_U, REARMING_CLAMP_L_U);
     } else {
-        // It does nothing.
+        Log::instance.warning("No valid state of CeilingEnemy");
     }
 }
 
@@ -143,6 +146,7 @@ void CeilingEnemy::Update(TileMap *world, float deltaTime) {
     physicsComponent.Update(this, world, deltaTime);
     if (OutOfBounds(world)) {
         SetPosition(Vec2(startingX, startingY));
+        Log::instance.warning("Outdated limits!");
     } else {
         // It does nothing.
     }
