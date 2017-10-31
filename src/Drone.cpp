@@ -13,6 +13,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "Logger.h"
 #include <assert.h>
 
 /**
@@ -41,6 +42,8 @@ Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
 
     box.SetWH(graphicsComponent->GetSize());
     Empower(0);
+
+    Log::instance.info("Drone builder started!");
 }
 
 /**
@@ -60,7 +63,6 @@ Drone::~Drone() {
 */
 void Drone::Attack() {
     attacking.Start();
-
 }
 
 /**
@@ -70,6 +72,7 @@ void Drone::Attack() {
 
 */
 void Drone::DroneActivate(bool turnOnDrone) {
+    assert(turnOnDrone == true || turnOnDrone == false);
     droneActive = turnOnDrone;
 }
 
@@ -80,6 +83,7 @@ void Drone::DroneActivate(bool turnOnDrone) {
 
 */
 bool Drone::isActive() {
+    assert(droneActive == true || droneActive == false);
     return droneActive;
 }
 
@@ -90,6 +94,7 @@ bool Drone::isActive() {
 
 */
 void Drone::UpdateTimers(float delayTime) {
+    assert(delayTime != nullptr);
     Player::UpdateTimers(delayTime);
 }
 
@@ -109,11 +114,14 @@ void Drone::FollowsCharacter(bool droneActive) {
 
     // Checks which direction (left or right) the character has turned.
     if (StageState::GetPlayer()->facing == LEFT) {
-        box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Causes the drone to follow the character as he turns to the left.
+        box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Causes
+                                        //the drone to follow the character as he turns to the left.
     } else {
-        box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he turns to the hight.
+        box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he
+                                                // turns to the hight.
     }
-    box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character by positioning him above him.
+    box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character
+                                                // by positioning above him.
 }
 
 
@@ -141,10 +149,12 @@ void Drone::Update(TileMap* map, float delayTime) {
         // Checks if the drone is outside the screen boundaries.
         if (OutOfBounds(map)) {
             SetPosition(Vec2(269, 544)); // Resets the drone's position.
+            Log::instance.warning("Outdated limits!");
         } else {
              // It does nothing.
         }
-        graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to your movement.
+        graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to
+                                                    // your movement.
     } else {
          // It does nothing.
     }
