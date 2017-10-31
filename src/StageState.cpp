@@ -20,6 +20,7 @@
 #include "SaveComponent.h"
 #include "menu/InGamePause.h"
 #include "ColisionFunctions.h"
+#include "Logger.h"
 
 
 
@@ -46,19 +47,23 @@ StageState::StageState(std::string fase, std::string background): State(), tileS
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
         currentRoom = new Room(tileSet, 0, Vec2(0, 0), this->background, fase);
+        Log::instance.info("[Stage State] The objects of cidadeLancelot was created successfully");
     } else if (fase == "naveGalahad") {
         this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 1, Vec2(0, 0), this->background, fase);
+        Log::instance.info("[Stage State] The objects of naveGalahad was created successfully");
         bek.Open("SpaceBG.png");
     } else if (fase == "cidadeGalahad") {
         this->background = new TileSet(7389, 1711, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Cidade.png", 8, 8);
         currentRoom = new Room(tileSet, 2, Vec2(0, 0), this->background, fase);
+        Log::instance.info("[Stage State] The objects of cidadeGalahad was created successfully");
     } else if (fase == "naveLancelot") {
         this->background = new TileSet(1, 1, background, 0, 0);
         tileSet = new TileSet(64, 64, "Tile_Map_Nave.png", 8, 8);
         currentRoom = new Room(tileSet, 3, Vec2(0, 0), this->background, fase);
+        Log::instance.info("[Stage State] The objects of naveLancelot was created successfully");
         bek.Open("SpaceBG.png");
     } else {
         // It does nothing
@@ -92,6 +97,7 @@ StageState::~StageState() {
     delete currentRoom;
     music.Stop();
     windowArray.clear();
+
 }
 
 /**
@@ -183,8 +189,13 @@ void StageState::RemoveObject(GameObject* ptr) {
 
 */
 void StageState::CreateBars(std::string playerName) {
-    healthBar = new LoadingBar("lifebar_" + playerName + ".png", 11); // Initializing and make the configuration of the healthBar file picture.
-    energyBar = new LoadingBar("energybar_" + playerName + ".png", 174, 28, 6);  // Initializing and make the configuration of the energyBar file picture.
+    // Initializing and make the configuration of the healthBar file picture.
+    healthBar = new LoadingBar("lifebar_" + playerName + ".png", 11);
+    Log::instance.info("[Stage State] The object healthBar was created successfully");
+
+    // Initializing and make the configuration of the energyBar file picture.
+    energyBar = new LoadingBar("energybar_" + playerName + ".png", 174, 28, 6);
+    Log::instance.info("[Stage State] The object energyBar was created successfully");
 }
 
 /**
@@ -209,6 +220,7 @@ void StageState::Pause() {
     // Call the Pause components to run the Pause stage.
     paused = true;
     inGameMenu = new InGamePause(this);
+    Log::instance.info("[Stage State] The object inGameMenu was created successfully");
     inGameMenu->LoadAssets();
 }
 
@@ -225,6 +237,7 @@ void StageState::Resume() {
     if (inGameMenu != nullptr) {
         delete inGameMenu;
         inGameMenu = nullptr;
+        Log::instance.info("[Stage State] The resume game was apply");
     } else {
         // It does nothing
     }
@@ -241,6 +254,7 @@ void StageState::LoadAssets() {
     // The code responsible to call sounds in their respective situations.
     music.Open(player->name + "BGB.ogg");
     music.Play(-1);
+    Log::instance.info("[Stage State] The music played successfully");
 }
 
 /**
@@ -254,8 +268,10 @@ void StageState::HandleInput() {
     if (InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
         if (paused) {
             Resume();
+            Log::instance.info("[Stage State] The Resume Game was invoked successfully");
         } else {
             Pause();
+            Log::instance.info("[Stage State] The Pause Game was invoked successfully");
         }
     } else {
         // It does nothing
@@ -305,18 +321,23 @@ void StageState::Update() {
     // Check whether the stage of pause is different from null.
     if (!paused) {
         HandleInput();
+        Log::instance.info("[Stage State] HandleInput was invoked successfully");
+
         UpdateGame();
+        Log::instance.info("[Stage State] UpdateGame was invoked successfully");
     } else {
         if (inGameMenu != nullptr) {
             inGameMenu->Update();
             // Check wheter the stage of the menu is finish to the player resume the game.
             if (inGameMenu->QuitRequested() == true) {
                 Resume();
+                Log::instance.info("[Stage State] The Resume Game was invoked successfully");
             } else {
                 // It does nothing
             }
         } else {
             std::cerr << "ERRO: Menu in-game nao existe" << std::endl;
+            Log::instance.error("[Stage State] ERRO: Menu in-game not exist");
         }
     }
 }
