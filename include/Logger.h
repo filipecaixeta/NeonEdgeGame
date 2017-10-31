@@ -31,6 +31,9 @@ public:
 
 private:
 
+	bool inFile = true;
+	bool console = true;
+	
     Log();
     ~Log();
 

@@ -1,103 +1,128 @@
 #include "Logger.h"
 
-Log Log::instance;
+	Log Log::instance;
 
-Log::Log() {
+	Log::Log() {
 
-    openFile();
+		openFile();
 
-}
+	}
 
-Log::~Log() {
+	Log::~Log() {
 
-    closeFile();
+		closeFile();
 
-}
+	}
 
-// Open the log file with <date>_fileName.log or <date>.log
+	// Open the log file with <date>_fileName.log or <date>.log
 
-void Log::openFile() {
+	void Log::openFile() {
+		if(inFile){
 
-    fileName = "log.txt";
-    std::cout << "__________________________________________________\n" <<
-        "\n[ Starting GAME ]\n" <<
-        "--> Arquivo de Log: " << fileName << std::endl << std::endl;
+			fileName = "log.txt";
+			std::cout << "__________________________________________________\n" <<
+				"\n[ Starting GAME ]\n" <<
+				"--> Arquivo de Log: " << fileName << std::endl << std::endl;
 
-    logFile.open(fileName);
+			logFile.open(fileName);
 
-    std::string border =
-    "==============================================================\n";
-    std::string logMessage = "Begin Logging\n";
+			std::string border =
+				"==============================================================\n";
+			std::string logMessage = "Begin Logging\n";
 
-    logFile << border << logMessage << border;
-    logFile.flush();
-}
+			logFile << border << logMessage << border;
+			logFile.flush();
+		}
+	}
 
-// Close the currently open log file
+	// Close the currently open log file
 
-void Log::closeFile() {
+	void Log::closeFile() {
 
-    if( logFile.is_open() ) {
-        std::cout << "[ Encerrando GAME ]\n" <<
-        "<-- Para eventuais mensagens de sistema,\nconferir arquivo: " <<
-        fileName << std::endl <<
-        "__________________________________________________\n" << std::endl;
+		if(inFile){
+			if( logFile.is_open() ) {
+				std::cout << "[ Encerrando GAME ]\n" <<
+					"<-- Para eventuais mensagens de sistema,\nconferir arquivo: " <<
+					fileName << std::endl <<
+					"__________________________________________________\n" << std::endl;
 
-        std::string border =
-        "==============================================================\n";
-        std::string logMessage = "End Logging\n";
+				std::string border =
+					"==============================================================\n";
+				std::string logMessage = "End Logging\n";
 
-        logFile << border << logMessage << border;
-        logFile.flush();
-        logFile.close();
-    }
+				logFile << border << logMessage << border;
+				logFile.flush();
+				logFile.close();
+			}
+		}
+	}
 
-}
+	// Debug message
 
-// Debug message
+	void Log::debug(std::string msg) {
 
-void Log::debug(std::string msg) {
+		if(inFile){
+			if( DEBUG ) {
+				logFile << "[DEBUG] ";
+				logFile << msg << std::endl;
+				logFile.flush();
+			}
 
-    if( DEBUG ) {
-        logFile << "[DEBUG] ";
-        logFile << msg << std::endl;
-        logFile.flush();
-    }
+		}
+		if(console){
+			std::cout << "[DEBUG]" + msg << std::endl; 
+		}
+	}
 
-}
+	// Warning message
 
-// Warning message
+	void Log::warning(std::string msg) {
 
-void Log::warning(std::string msg) {
+		if(inFile){
+			logFile << "[WARN] ";
+			logFile << msg << std::endl;
+			logFile.flush();
 
-    logFile << "[WARN] ";
-    logFile << msg << std::endl;
-    logFile.flush();
+		}
+		if(console){
+			std::cout << "[WARN]" + msg << std::endl; 
+		}
+	}
 
-}
+	// Error message
 
-// Error message
+	void Log::error(std::string msg) {
 
-void Log::error(std::string msg) {
+		if(inFile){
+			logFile << "[ERROR] ";
+			logFile << msg << std::endl;
+			logFile.flush();
+		}
+		if(console){
+			std::cout << "[ERROR]" + msg << std::endl; 
+		}
+	}
 
-    logFile << "[ERROR] ";
-    logFile << msg << std::endl;
-    logFile.flush();
+	void Log::info(std::string msg) {
 
-}
+		if(inFile){
+			logFile << "[INFO] ";
+			logFile << msg << std::endl;
+			logFile.flush();
+		}
+		if(console){
+			std::cout << "[INFO]" + msg << std::endl; 
+		}
+	}
 
-void Log::info(std::string msg) {
+	void Log::jumpLine(std::string msg) {
 
-    logFile << "[INFO] ";
-    logFile << msg << std::endl;
-    logFile.flush();
-
-}
-
-void Log::jumpLine(std::string msg) {
-
-  logFile << "\n[->]";
-  logFile << msg << std::endl;
-  logFile.flush();
-
-}
+		if(inFile){
+			logFile << "\n[->]";
+			logFile << msg << std::endl;
+			logFile.flush();
+		}
+		if(console){
+			std::cout << "[ jumpLine ]" + msg << std::endl; 
+		}
+	}

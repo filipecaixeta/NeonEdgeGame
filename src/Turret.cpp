@@ -12,6 +12,7 @@
 #include "StageState.h"
 #include "Gallahad.h"
 #include "Projectile.h"
+#include "Logger.h"
 
 /**
  * Objective: it constructs Turret object.
@@ -21,7 +22,8 @@
  * @return instance of Turret.
  */
 Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(1500) {
-    name = "Turret";
+	Log::instance.info("Starting Turret");
+	name = "Turret";
     // It instances the graphics adding the sprite.
     graphicsComponent = new AIMovingOnGroudGraphicsComponent("Turret");
 
@@ -32,6 +34,7 @@ Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(150
 }
 
 Turret::~Turret() {
+	Log::instance.info("Destroy Turret");
 }
 
 /**
@@ -41,6 +44,7 @@ Turret::~Turret() {
  * @return none.
  */
 void Turret::Attack() {
+	Log::instance.info("Turret attack");
     attackCD.Start();
     StageState::AddObject(new Projectile(this, Vec2(0.4, 0), 400, 1, false));
 }
@@ -53,6 +57,7 @@ void Turret::Attack() {
  * @return none.
  */
 void Turret::NotifyTileCollision(int tile, GameObject::Face face) {
+	Log::instance.info("Turret collision");
 }
 
 /**
@@ -62,6 +67,7 @@ void Turret::NotifyTileCollision(int tile, GameObject::Face face) {
  * @return none.
  */
 void Turret::UpdateTimers(float deltaTime) {
+	Log::instance.info("Update turret time");
     assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
     Character::UpdateTimers(deltaTime);
@@ -81,6 +87,7 @@ void Turret::UpdateTimers(float deltaTime) {
  * @return none.
  */
 void Turret::UpdateAI(float deltaTime) {
+	Log::instance.info("Update turret AI");
     assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
     // Defines the radius of vision of the Turret as a rectangle.
@@ -116,6 +123,7 @@ void Turret::UpdateAI(float deltaTime) {
             TurretChangingDirection();
         }
     } else {
+		Log::instance.info("stop turret");
         physicsComponent.velocity.x = 0;
     }
 }
@@ -128,7 +136,8 @@ void Turret::UpdateAI(float deltaTime) {
  * @return none.
  */
 void Turret::Update(TileMap *world, float deltaTime) {
-    assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
+	Log::instance.info("Update turret GameObject");
+	assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
             StageState::player->box.x <= FLOAT_MAX_SIZE) &&
            (StageState::player->box.y >= FLOAT_MIN_SIZE &&
             StageState::player->box.y <= FLOAT_MAX_SIZE) &&
@@ -145,7 +154,7 @@ void Turret::Update(TileMap *world, float deltaTime) {
     if (OutOfBounds(world)) {
         SetPosition(Vec2(startingX, startingY));
     } else {
-        // It does nothing.
+		Log::instance.warning("Turret is out of the map");
     }
     graphicsComponent->Update(this, deltaTime);
 
@@ -178,6 +187,7 @@ bool Turret::Is(std::string characterType) {
  * @return none.
  */
 void Turret::UpdateTurretLookingTime(float deltaTime) {
+	Log::instance.info("Update turret looking time");
     assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
     looking.Update(deltaTime);
@@ -196,14 +206,15 @@ void Turret::UpdateTurretLookingTime(float deltaTime) {
  * @return none.
  */
 void Turret::UpdateTurretIdleTime(float deltaTime) {
-    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+	Log::instance.info("Update turret idle time");
+	assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
     idle.Update(deltaTime);
     // If 'idle' state is not running, 'looking' state starts.
     if (!idle.IsRunning()) {
         looking.Start();
     } else {
-        // It does nothing.
+		// It does nothing.
     }
 }
 
@@ -214,6 +225,7 @@ void Turret::UpdateTurretIdleTime(float deltaTime) {
  * @return none.
  */
 void Turret::TurretSeeingCharacter(bool *visible) {
+	Log::instance.info("Turret see target");
     assert(*visible == true || *visible == false);
 
     Gallahad *gallahad = (Gallahad *) StageState::GetPlayer();
@@ -233,6 +245,7 @@ void Turret::TurretSeeingCharacter(bool *visible) {
  * @return none.
  */
 void Turret::TurretChasingCharacterToAttack(Rect player, float deltaTime) {
+	Log::instance.info("Turret changing to attack character.");
     assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
             StageState::player->box.x <= FLOAT_MAX_SIZE) &&
            (StageState::player->box.y >= FLOAT_MIN_SIZE &&
@@ -291,6 +304,7 @@ void Turret::TurretChasingCharacterToAttack(Rect player, float deltaTime) {
  * @return none.
  */
 void Turret::TurretMovingVelocity() {
+	Log::instance.debug("Turret velocity" + std::to_string(physicsComponent.velocity.x));
     if (facing == LEFT) {
         // Sets the speed at x of the Turret when in 'looking' state and facing left.
         physicsComponent.velocity.x = -0.2;
