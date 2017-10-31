@@ -7,6 +7,7 @@
  */
 
 #include "TileSet.h"
+#include "Logger.h"
 
 /**
  * Objective: Constructor of the TileSet.
@@ -19,28 +20,33 @@
  * @return: a instance of TileSet.
  */
 TileSet::TileSet(int tileWidth, int tileHeight, std::string file, int adjustX, int adjustY) {
-    if (tileWidth >= INT_MIN_SIZE && tileWidth <= INT_MAX_SIZE ) {
+	//Log::instance.info("Initing TileSet");
+	if (tileWidth >= INT_MIN_SIZE && tileWidth <= INT_MAX_SIZE ) {
+		Log::instance.info("Seting tile columns");
         tileSet = Sprite(file); // Sprite file.
         TileSet::tileWidth = tileWidth; // Width of TileSet.
         columns = tileSet.GetWidth()/tileWidth; // Number of columns in TileSet.
     } else {
-        // It does nothing.
+		Log::instance.warning("Warning the tileWidth is not in the allowed range.");
     }
     if (tileHeight >= INT_MIN_SIZE && tileHeight <= INT_MAX_SIZE) {
+		Log::instance.info("Seting tile rows");
         TileSet::tileHeight = tileHeight; // Height of TileSet.
         rows = tileSet.GetHeight()/tileHeight; // Number of rows in TileSet.
     } else {
-        // It does nothing.
+		Log::instance.warning("Warning the tileHeight is not in the allowed range.");
     }
     if(adjustX >= INT_MIN_SIZE && adjustX <= INT_MAX_SIZE){
+		Log::instance.info("Seting tile adjustX");
         TileSet::adjustX = adjustX; // Adjust X axis.
     } else {
-        // It does nothing.
+		Log::instance.warning("Warning the adjustX is not in the allowed range.");
     }
     if(adjustY >= INT_MIN_SIZE && adjustY <= INT_MAX_SIZE){
+		Log::instance.info("Seting tile adjustY");
         TileSet::adjustY = adjustY; // Ajdust Y axis.
     } else {
-        // It does nothing.
+		Log::instance.warning("Warning the adjustY is not in the allowed range.");
     }
 }
 
@@ -52,7 +58,7 @@ TileSet::TileSet(int tileWidth, int tileHeight, std::string file, int adjustX, i
  * @return: none.
  */
 TileSet::~TileSet() {
-
+	Log::instance.info("Destroy TileSet");
 }
 
 /**
@@ -64,7 +70,7 @@ TileSet::~TileSet() {
  * @return: none.
 */
 void TileSet::Render(int index, int x, int y) {
-    if (index >= INT_MIN_SIZE && index <= INT_MAX_SIZE) {
+	if (index >= INT_MIN_SIZE && index <= INT_MAX_SIZE) {
         if ((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
             // Valid if index is between 0 and end of matrix
             if(index > -1 && index < columns*rows) {
@@ -72,13 +78,12 @@ void TileSet::Render(int index, int x, int y) {
                  tileWidth+adjustX, tileHeight+adjustY);
                 tileSet.Render(x-adjustX, y-adjustY);
             } else {
-                // It does nothing.
             }
         } else {
-            // It does nothing.
+			Log::instance.warning("tileSet x value out of range");
         }
     } else{
-        // It does nothing.
+		Log::instance.warning("tileSet index out of range");
     }
 }
 
