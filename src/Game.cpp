@@ -152,6 +152,7 @@ Game::~Game() {
  * @return Game* instance - A pointer to the game instance.
  */
 Game & Game::GetInstance() {
+	assert (instance != nullptr);
     return *instance;
 }
 
@@ -162,7 +163,8 @@ Game & Game::GetInstance() {
  * @return SDL_Renderer* renderer.
  */
 SDL_Renderer * Game::GetRenderer() {
-    return renderer;
+	assert (renderer != nullptr);
+	return renderer;
 }
 
 /**
@@ -248,28 +250,32 @@ void Game::CalculateDeltaTime() {
  * @return SDL_point 'size'(return the actual dimension of the screen).
  */
 SDL_Point Game::GetFullScreenSize() {
-    SDL_Rect rectangle;
+	SDL_Point resolution;
+	SDL_Rect rectangle;
     rectangle.x = 0.0f;
     rectangle.y = 0.0f;
     rectangle.w = 0.0f;
     rectangle.h = 0.0f;
 
     if (SDL_GetDisplayBounds(0, &rectangle) != 0) {
-        return resolution_4x3;
+        resolution = resolution_4x3;
     } else {
         // It does nothing.
     }
 
     if (((float)rectangle.w / (float)rectangle.h) >= 2.3) {
         // 21x9
-        return resolution_21x9;
+        resolution = resolution_21x9;
     } else if (((float)rectangle.w / (float)rectangle.h) >= 1.6) {
         // 16x9 16x10
-        return resolution_16x9;
+        resolution = resolution_16x9;
     } else {
         // 4x3 5x4 3x2
-        return resolution_4x3;
+        resolution = resolution_4x3;
     }
+
+	assert(&resolution != nullptr);
+	return resolution;
 }
 
 /**
@@ -279,7 +285,8 @@ SDL_Point Game::GetFullScreenSize() {
  * @return SDL_point screenSize.
  */
 SDL_Point Game::GetScreenSize() {
-    return screenSize;
+	assert(&screenSize != nullptr);
+	return screenSize;
 }
 
 /**
@@ -308,7 +315,8 @@ void Game::setFullScreen(bool isFullScreen) {
  * @param none.
  * @return bool FullScreen
  */
-bool Game::isFullScreen() {
+bool Game::isFullScreen(){
+	assert(!fullScreen || fullScreen);
     return fullScreen;
 }
 
@@ -334,7 +342,8 @@ void Game::SetScreenSize(SDL_Point size) {
  * @return int deltaTime - time in micro seconds.
  */
 int Game::GetDeltaTime() {
-    return deltaTime;
+	assert(deltaTime > 0);
+	return deltaTime;
 }
 
 /**
@@ -344,12 +353,15 @@ int Game::GetDeltaTime() {
  * @return Uint32 time (0 if the time is more then the desirable, and just the time if not.)
  */
 Uint32 Game::timeLeft() {
-    Uint32 now = SDL_GetTicks();
-    if (nextTime_ <= now) {
-        return 0;
-    } else {
-        return nextTime_ - now;
+	Uint32 timeLeft = 0;
+	Uint32 now = SDL_GetTicks();
+
+	if (nextTime_ > now) {
+        timeLeft = nextTime_ - now;
     }
+
+	assert(timeLeft > 0);
+	return timeLeft;
 }
 
 /**
