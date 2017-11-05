@@ -10,7 +10,7 @@
 #include <assert.h>
 #include "Interactive.h"
 #include "Rect.h"
-
+#include "Logger.h"
 
 /**
  * Objective: it constructs the Interactive Graphics Component object.
@@ -20,8 +20,14 @@
  */
 InteractiveGraphicsComponent::InteractiveGraphicsComponent(std::string baseNameParam):
        GraphicsComponent(baseNameParam) {
+    assert(baseName[0] != '\0');
+
     AddSprite(baseName, "Off", 1, 0);
+    Log::instance.info("Interactive Graphics Component] added 'Off' to sprite.");
+
     AddSprite(baseName, "On", 1, 0);
+    Log::instance.info("Interactive Graphics Component] added 'On' to sprite.");
+
     sprite = sprites["Off"];
     surface = surfaces["Off"];
 }
@@ -41,15 +47,25 @@ void InteractiveGraphicsComponent::Update(GameObject *gameObject, float deltaTim
     assert(FLOAT_MIN_SIZE <= deltaTime && deltaTime <= FLOAT_MAX_SIZE);
 
     Interactive *interactive = (Interactive *) gameObject;
+    assert(interactive != nullptr);
+    Log::instance.info("[Interactive Graphics Component] Interactive successfully instantiated.");
+
     if (interactive->Active()) {
+        assert(gameObject != nullptr);
         UpdateSprite(gameObject, "On");
     } else {
+        assert(gameObject != nullptr);
         UpdateSprite(gameObject, "Off");
     }
 
     characterLeftDirection = (gameObject->facing == GameObject::LEFT);
-    sprite->Mirror(characterLeftDirection);
+    Log::instance.info("[Interactive Graphics Component] Character direction changed to left.");
+
+    sprite->Mirror(characterLeftDirection); // Direction update of character sprite.
+    Log::instance.info("[Interactive Graphics Component] Character sprite setted to left.");
+
     sprite->Update(deltaTime);
+    Log::instance.info("[Interactive Graphics Component] Interactive sprite updates.");
 
     assert(gameObject != nullptr);
 }
