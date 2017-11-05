@@ -13,6 +13,65 @@
 #include "Projectile.h"
 #include "Logger.h"
 #include <assert.h>
+
+/**
+ * Objective: Method responsible for testing float parameters received in functions.
+ *
+ * @param float testFloat - Value to be tested.
+ * @return - False whether the value is valid or true if the value is valid.
+ */
+ bool CheckFloatBox(float testFloat) {
+    bool veryValue = false;
+    if ((testFloat >= FLOAT_SIZE_MIN ) && (testFloat <= FLOAT_SIZE_MAX)) {
+        Log::instance.info("Valid value! Method CheckFloat Animation");  
+        veryValue = true;
+    } else {
+        Log::instance.error("Tested value higher or lower than allowed!");  
+        // It does nothing.
+    }
+    assert(veryValue == false || veryValue == true);
+    return veryValue;
+}
+
+/**
+ * Objective: Method responsible for testing boolean parameters received in functions.
+ *
+ * @param bool testBool - Boolean to be tested.
+ * @return - False whether the boolean is valid or true if the boolean is valid.
+ */
+bool CheckBooleanBox(bool testBool) {
+    bool veryBool = false;
+    if (testBool || !testBool) {
+        Log::instance.info("Valid bool! Method CheckBoolean Animation");  
+        veryBool = true;
+    } else {
+        Log::instance.error("Tested bool higher or lower than allowed!");  
+        // It does nothing.
+    }
+    assert(veryBool == false || veryBool == true);
+    return veryBool;
+}
+
+
+/**
+ * Objective: Method responsible for testing int parameters received in functions.
+ *
+ * @param int testInt - int to be tested.
+ * @return - False whether the int is valid or true if the int is valid.
+ */
+ bool CheckIntBox(int testInt) {
+    bool veryInt = false;
+    if (testInt >= INT_SIZE_MIN && testInt <= INT_SIZE_MAX) {
+        Log::instance.info("Valid bool! Method CheckBoolean Animation");  
+        veryInt = true;
+    } else {
+        Log::instance.error("Tested bool higher or lower than allowed!");  
+        // It does nothing.
+    }
+    assert(veryInt == false || veryInt == true);
+    return veryInt;
+}
+
 /**
  * Objective: constructor of the class Box.
  *
@@ -20,8 +79,7 @@
  * @param int y - coordinate of the Box.
  * @return instance of the class Box.
  */
-Box::Box(int x, int y):
-    Interactive(x, y, "Box") {
+Box::Box(int x, int y): Interactive(x, y, "Box") {
         name = "Box";  // Sets the Box's name.
         hitPoints = 5;
         invincibilityTimer = Timer(500);
@@ -118,15 +176,19 @@ void Box::NotifyObjectCollision(GameObject* other) {
         assert(other != nullptr);
         // If the player is moving right and in the ground.
         if ((c->physicsComponent.velocity.x > 0) && (other->footing == GROUNDED) &&
-           (other->box.y + other->box.h > box.y) && (other->facing == RIGHT)) {
+           (other->box.y + other->box.h > box.y) && (other->facing == RIGHT) && 
+           (CheckFloatBox(other->box.y + other->box.h)) && 
+           (CheckFloatBox((c->physicsComponent.velocity.x > 0)))) {
                 box.x += 5;  // Move the position to right in 5 meters.
                 physicsComponent.TileFix(this,
                 StageState::GetCurrentRoom()->GetMap(), RIGHT);
         } else if ((c->physicsComponent.velocity.x < 0) && (other->footing == GROUNDED) &&
-                  (other->box.y + other->box.h > box.y) && (other->facing == LEFT)) {
-                box.x -= 5;  // Move the position to left in 5 meters.
-                physicsComponent.TileFix(this,
-                StageState::GetCurrentRoom()->GetMap(), LEFT);
+                  (other->box.y + other->box.h > box.y) && (other->facing == LEFT) &&
+                  (CheckIntBox(other->box.y + other->box.h)) && 
+                  (CheckIntBox(c->physicsComponent.velocity.x))) {
+                        box.x -= 5;  // Move the position to left in 5 meters.
+                        physicsComponent.TileFix(this,
+                        StageState::GetCurrentRoom()->GetMap(), LEFT);
         } else {
             // It does nothing.
         }
@@ -144,11 +206,19 @@ void Box::NotifyObjectCollision(GameObject* other) {
  * @return none.
  */
 void Box::UpdateTimers(float dt) {
-    invincibilityTimer.Update(dt);
+    if (CheckFloatBox(dt)) {
+        invincibilityTimer.Update(dt);
+    } else {
+        Log::instance.error("Float is not valid!");          
+    }
 }
 
 void Box::Update(TileMap* map, float dt) {
-    UpdateTimers(dt);
-    physicsComponent.Update(this, map, dt);
-    Interactive::Update(map, dt);
+    if (CheckFloatBox(dt)) {
+        UpdateTimers(dt);
+        physicsComponent.Update(this, map, dt);
+        Interactive::Update(map, dt);
+    } else {
+        Log::instance.error("Float is not valid!");          
+    }
 }
