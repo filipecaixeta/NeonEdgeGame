@@ -8,6 +8,8 @@
 #include "Music.h"
 #include "TileMap.h"
 
+
+
 class State {
 public:
 	Sprite bg;
@@ -28,6 +30,10 @@ public:
 	Vec2 CenterHorizontal(Sprite* sp);
 	Vec2 CenterHorizontal(int size);
 	Vec2 CenterHorizontal(Vec2 size);
+
+ private:
+
+	
 };
 
 #endif /* STATE_H_ */

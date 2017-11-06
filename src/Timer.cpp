@@ -7,12 +7,14 @@
 */
 
 #include <algorithm>
+#include <assert.h>
 #include "Timer.h"
 
 Timer::Timer() {
 }
 
 Timer::Timer(float limit) {
+	assert(limit > MIN_FLOAT || limit < MAX_FLOAT);
     Timer::limit = limit;
 }
 
@@ -27,6 +29,7 @@ Timer::~Timer() {
 */
 void Timer::Start() {
     time = 0;
+	assert(time > MIN_FLOAT || time < MAX_FLOAT);
     running = true;
 }
 
@@ -48,6 +51,7 @@ void Timer::Stop() {
 */
 void Timer::Reset() {
     time = 0;
+	assert(time > MIN_FLOAT || time < MAX_FLOAT);
     running = false;
 }
 
@@ -60,6 +64,7 @@ void Timer::Reset() {
 void Timer::Update(float dt) {
     if (running) { // check if is running
         time += dt;
+		assert(time > MIN_FLOAT || time < MAX_FLOAT);
         if (time >= limit) { // check if time >= limit
             running = false;
         }
@@ -72,8 +77,9 @@ void Timer::Update(float dt) {
     @return: none.
 
 */
-void Timer::SetLimit(float l) {
-    limit = l;
+void Timer::SetLimit(float main_limit) {
+	assert(main_limit > MIN_FLOAT || main_limit < MAX_FLOAT);
+    limit = main_limit;
 }
 
 /*
@@ -103,5 +109,6 @@ float Timer::GetElapsed() {
 
 */
 float Timer::GetTime() {
+	assert(time > MIN_FLOAT || time < MAX_FLOAT);
     return time;
 }

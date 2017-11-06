@@ -27,7 +27,10 @@
 */
 Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
     Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
-    name = ""; // Sets the drone name
+	
+	assert (dronePositionX < MIN_INT || dronePositionX < MAX_INT);
+	assert (dronePositionY < MIN_INT || dronePositionY < MAX_INT);
+	name = ""; // Sets the drone name
     inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in
                                                 // relation to the character.
     assert(inputComponent != nullptr);
@@ -94,8 +97,8 @@ bool Drone::isActive() {
 
 */
 void Drone::UpdateTimers(float delayTime) {
-    assert(delayTime >= FLOAT_SIZE_MIN && delayTime <= FLOAT_SIZE_MAX);
-    Player::UpdateTimers(delayTime);
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
+	Player::UpdateTimers(delayTime);
 }
 
 
@@ -120,8 +123,11 @@ void Drone::FollowsCharacter(bool droneActive) {
         box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he
                                                 // turns to the hight.
     }
-    box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character
-                                                // by positioning above him.
+    box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character by positioning him above him.
+
+	
+	assert (box.x < MIN_FLOAT || box.x < MAX_FLOAT);
+	assert (box.y < MIN_FLOAT || box.y < MAX_FLOAT);
 }
 
 
@@ -134,6 +140,7 @@ void Drone::FollowsCharacter(bool droneActive) {
 
 */
 void Drone::Update(TileMap* map, float delayTime) {
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
     UpdateTimers(delayTime); // Defines time parameters for modifying drone behavior.
 
     // Checks if the player is other than null.
