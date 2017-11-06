@@ -16,7 +16,6 @@ public:
 	void Shoot();
 	void Rotate(float angle = 0.0);
 	float Rotation();
-	int Type();
 	void Kill();
 	void NotifyObjectCollision(GameObject* other = NULL);
 	void Update(TileMap* world, float deltaTime = 0.0);
@@ -29,6 +28,7 @@ private:
 	int type;
 	int refX, refY;
 	float rotation;
+	int Type();
 };
 
 #endif
