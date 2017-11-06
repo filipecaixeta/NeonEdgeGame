@@ -14,6 +14,7 @@
 #include "Projectile.h"
 #include "Cutscene.h"
 #include "SoundComponent.h"
+#include "Logger.h"
 #include <cstdlib>
 #include <sys/time.h>
 #include <assert.h>
@@ -45,6 +46,8 @@ Lancelot::Lancelot(ItemsManager *itemManager, int x, int y):
 	assert(inputComponent != nullptr);
 	assert(graphicsComponent != nullptr);
 	assert(soundComponent != nullptr);
+
+	Log::instance.info("Lancelot builder started!");
 }
 /**
  * Objective: destructor of the class Lancelot.
@@ -59,7 +62,7 @@ Lancelot::~Lancelot() {
 }
 
 /**
- * Objective: decrease the energy based on some variables.
+ * Objective: decrease the energy based on a skill probability.
  *
  * @param none.
  * @return none.
@@ -75,19 +78,19 @@ void Lancelot::BlockingAttack(){
 		if (n < PROBABILITY_61) {
 			energy -= ENERGY_LOST;
 		} else {
-			// It does nothing.
+			Log::instance.info("Lancelot don't lost the energy with 39 percent of chance");
 		}
 	} else if (skills[1]) {  // SkillBlocking2
 		if (n < PROBABILITY_76) {
 			energy -= ENERGY_LOST;
 		} else {
-			// It does nothing.
+			Log::instance.info("Lancelot don't lost the energy with 24 percent of chance");
 		}
 	} else if (skills[2]) {  // SkillBlocking1
 		if (n < PROBABILITY_91){
 			energy -= ENERGY_LOST;
 		} else {
-			// It does nothing.
+			Log::instance.info("Lancelot don't lost the energy with 9 percent of chance");
 		}
 	} else {
 		energy -= ENERGY_LOST;
@@ -103,7 +106,6 @@ void Lancelot::BlockingAttack(){
  */
 void Lancelot::Damage(int damage) {
 
-
 	if (!invincibilityTimer.IsRunning()) {
 		if (isBlocking) {
 			BlockingAttack();
@@ -113,7 +115,7 @@ void Lancelot::Damage(int damage) {
 		}
 		invincibilityTimer.Start();
 	} else {
-		// It does nothing.
+		Log::instance.info("Character invincible, takes no damage");
 	}
 }
 
@@ -124,11 +126,11 @@ void Lancelot::Damage(int damage) {
  * @return none.
  */
 void Lancelot::Attack() {
-	
+
     attacking.SetLimit(0);
     attackCD.SetLimit(0);
     soundComponent->SoundAttack();
-    
+
     int const LIMIT_100 = 100;
 	int const LIMIT_240 = 240;
 	int const LIMIT_320 = 320;
@@ -160,7 +162,7 @@ void Lancelot::Attack() {
         attackCD.SetLimit(LIMIT_800);
         Empower(5);
     } else {
-        // It does nothing.
+        Log::instance.warning("No valid combo, check string combo of Lancelot");
     }
     attacking.Start();  // Starts attack timer.
 }
@@ -205,6 +207,7 @@ void Lancelot::SetCombo(std::string setCombo) {
  * @return bool blocking - return true if the character is blocking.
  */
 bool Lancelot::IsBlocking() {
+	assert(isBlocking == true || isBlocking == false);
     return isBlocking;
 }
 
@@ -215,14 +218,15 @@ bool Lancelot::IsBlocking() {
  * @return string combo - return which combo the character is using.
  */
 std::string Lancelot::GetCombo() {
+	assert(combo != "");
     return combo;
 }
 
 void Lancelot::UpdateTimers(float dt) {
 	assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
-    
+
     Rect checkStateTrasition;
-    
+
     int const X_TRANSITION_POINT = 18504;
 	int const Y_TRANSITION_POINT = 2369;
 	int const W_TRANSITION_POINT = 112;

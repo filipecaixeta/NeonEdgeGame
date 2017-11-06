@@ -6,6 +6,9 @@
 #include "TileMap.h"
 #include "DroneInputComponent.h"
 #include "DroneGraphicsComponent.h"
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+
 
 class Drone : public Player {
 public:
