@@ -94,7 +94,7 @@ bool Drone::isActive() {
 
 */
 void Drone::UpdateTimers(float delayTime) {
-    assert(delayTime != nullptr);
+    assert(delayTime >= FLOAT_SIZE_MIN && delayTime <= FLOAT_SIZE_MAX);
     Player::UpdateTimers(delayTime);
 }
 
