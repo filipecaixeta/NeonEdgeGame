@@ -106,16 +106,20 @@ void Lancelot::BlockingAttack(){
  */
 void Lancelot::Damage(int damage) {
 
-	if (!invincibilityTimer.IsRunning()) {
-		if (isBlocking) {
-			BlockingAttack();
+	if ((damage >= INT_SIZE_MIN) && (damage <= INT_SIZE_MAX)){
+		if (!invincibilityTimer.IsRunning()) {
+			if (isBlocking) {
+				BlockingAttack();
+			} else {
+				soundComponent->SoundDamage();
+				hitpoints -= (damage);
+			}
+			invincibilityTimer.Start();
 		} else {
-			soundComponent->SoundDamage();
-			hitpoints -= (damage);
+			Log::instance.info("Character invincible, takes no damage");
 		}
-		invincibilityTimer.Start();
 	} else {
-		Log::instance.info("Character invincible, takes no damage");
+		Log::instance.error("Tested value is higher or lower than allowed!");
 	}
 }
 
@@ -248,5 +252,9 @@ void Lancelot::UpdateTimers(float dt) {
         // It does nothing.
     }
 
-    Player::UpdateTimers(dt);
+	if (dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE){
+    	Player::UpdateTimers(dt);
+	} else {
+		Log::instance.error("Tested value is higher or lower than allowed!");
+	}
 }
