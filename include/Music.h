@@ -7,6 +7,7 @@
 class Music {
 private:
     Mix_Music* music;
+    bool IsOpen();
 
 public:
     Music();
@@ -15,7 +16,6 @@ public:
     void Open(std::string file);
     void Play(int times);
     void Stop();
-    bool IsOpen();
 };
 
-#endif /* MUSIC_H_ */
+#endif /* INCLUDE_MUSIC_H_ */

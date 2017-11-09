@@ -18,7 +18,7 @@ Music::~Music() {
 
 void Music::Open(std::string file) {
 	music = Resources::GetMusic(file);
-	if(!IsOpen()) {
+	if (!IsOpen()) {
 		printf("Mix_LoadMUS failed: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
@@ -35,4 +35,3 @@ void Music::Stop() {
 bool Music::IsOpen() {
 	return (!music) ? false : true;
 }
-
