@@ -138,12 +138,17 @@ void GameObject::SolidColision(GameObject *gameObject) {
             footing = GROUNDED;
         } else {
             if (character->physicsComponent.velocity.x < 0) {
-                if (box.x < gameObject->box.x + gameObject->box.w && box.x + box.w > gameObject->box.x + gameObject->box.w) {
+                assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+                       (box.w >= INT_MIN_SIZE && box.w <= INT_MAX_SIZE));
+                if (box.x < gameObject->box.x + gameObject->box.w && box.x + box.w > 
+                    gameObject->box.x + gameObject->box.w) {
                     box.x = gameObject->box.x + gameObject->box.w + 1;
                 } else {
                     // It does nothing.
                 }
             } else if (character->physicsComponent.velocity.x > 0) {
+                assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+                       (box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE));
                 if (box.x + box.w > gameObject->box.x && box.x < gameObject->box.x) {
                     box.x = gameObject->box.x - box.w-1;
                 } else {
@@ -155,6 +160,8 @@ void GameObject::SolidColision(GameObject *gameObject) {
         }
 
         if (y > gameObject->box.y + gameObject->box.h) {
+            assert((box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE) && 
+            (box.h >= INT_MIN_SIZE && box.h <= INT_MAX_SIZE));
             box.y = gameObject->box.y + gameObject->box.h + 1;
             character->physicsComponent.velocity.y = 0;
         } else {
