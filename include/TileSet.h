@@ -13,6 +13,8 @@ private:
 	int tileHeight;
 	int adjustX;
 	int adjustY;
+	int GetColumns();
+	int GetRows();
 
 public:
 	TileSet(int tileWidth, int tileHeight, std::string file, int adjustX = 0, int ajustY = 0);
@@ -21,8 +23,6 @@ public:
 	Sprite GetTileSet();
 	int GetTileWidth();
 	int GetTileHeight();
-	int GetColumns();
-	int GetRows();
 };
 
 #endif /* TILESET_H_ */

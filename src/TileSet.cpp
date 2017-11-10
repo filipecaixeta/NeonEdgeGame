@@ -8,6 +8,7 @@
 
 #include "TileSet.h"
 #include "Logger.h"
+#include <assert.h>
 
 /**
  * Objective: Constructor of the TileSet.
@@ -111,6 +112,7 @@ Sprite TileSet::GetTileSet() {
  */
 int TileSet::GetTileWidth() {
     if(tileWidth > 0){
+        assert(tileWidth > INT_MIN_SIZE && tileWidth < INT_MAX_SIZE);
         return tileWidth;
     } else{
         Log::instance.warning("Width of tileset is low than 0.");
@@ -126,6 +128,7 @@ int TileSet::GetTileWidth() {
  */
 int TileSet::GetTileHeight() {
     if(tileHeight > 0){
+        assert(tileHeight > INT_MIN_SIZE && tileHeight < INT_MAX_SIZE);
         return tileHeight;
     } else{
         Log::instance.warning("Height of tileset is low than 0.");
@@ -142,6 +145,7 @@ int TileSet::GetTileHeight() {
 int TileSet::GetColumns() {
 
     if(rows > 0){
+        assert(rows > INT_MIN_SIZE && rows < INT_MAX_SIZE);
         return columns;
     } else {
         Log::instance.warning("columns of tileset is low than 0.");
@@ -157,6 +161,7 @@ int TileSet::GetColumns() {
 */
 int TileSet::GetRows() {
     if(rows > 0){
+        assert(rows > INT_MIN_SIZE && rows < INT_MAX_SIZE);
         return rows;
     } else {
         Log::instance.warning("rown of tileset is low than 0.");
