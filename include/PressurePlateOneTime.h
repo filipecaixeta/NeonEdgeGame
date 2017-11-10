@@ -8,17 +8,16 @@
 
 #include "Interactive.h"
 
-class PressurePlateOneTime : public Interactive
-{
+class PressurePlateOneTime : public Interactive {
 private:
+	~PressurePlateOneTime();
 	Interactive* door;
+	void Update(TileMap* map, float dt);
+	void Trigger();
+	void NotifyObjectCollision(GameObject* other);
 
 public:
 	PressurePlateOneTime(int x, int y, Interactive* d);
-	~PressurePlateOneTime();
-	void Trigger();
-	void NotifyObjectCollision(GameObject* other);
-	void Update(TileMap* map, float dt);
 };
 
 #endif
