@@ -4,6 +4,7 @@
 #include "Rect.h"
 #include "StageState.h"
 #include "Character.h"
+#include "Logger.h"
 
 GraphicsComponent::GraphicsComponent(std::string baseNameParam): sprite(new Sprite()),
                                                                  baseName(baseNameParam) {
@@ -24,7 +25,11 @@ GraphicsComponent::~GraphicsComponent() {
 }
 
 void GraphicsComponent::Render(Vec2 position, float angle) {
-    sprite->Render(position, angle);
+    if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE){
+        sprite->Render(position, angle);
+    } else {
+        Log::instance.error("Tested value is higher or lower than allowed!");
+    }
 }
 
 Vec2 GraphicsComponent::GetSize() {
@@ -45,8 +50,8 @@ bool GraphicsComponent::GetCharacterLeftDirection() {
 
 void GraphicsComponent::UpdateSprite(GameObject *gameObject, std::string spriteParam) {
     if (sprite != sprites[spriteParam]) {
-        int w = sprite->GetWidth();                
-        int h = sprite->GetHeight();        
+        int w = sprite->GetWidth();
+        int h = sprite->GetHeight();
         sprite = sprites[spriteParam];
         surface = surfaces[spriteParam];
         if (gameObject->footing == GameObject::LEFT_WALLED) {
@@ -82,5 +87,11 @@ void GraphicsComponent::UpdateSprite(GameObject *gameObject, std::string spriteP
 void GraphicsComponent::AddSprite(std::string baseName, std::string name, int frameCount,
                                   int frameTime, bool loops) {
     surfaces.emplace(name, Resources::GetSurface(baseName + name + ".png"));
-    sprites.emplace(name, new Sprite(baseName + name + ".png", frameCount, frameTime, true, loops));
+    if ((frameCount >= INT_MIN_SIZE && frameCount <= INT_MAX_SIZE) &&
+        (frameTime >= INT_MIN_SIZE && frameTime <= INT_MAX_SIZE)) {
+        sprites.emplace(name, new Sprite(baseName + name + ".png", frameCount, frameTime, true, loops));
+    } else {
+        Log::instance.error("Tested value of frameCount or frameTime is higher or lower than allowed!");
+    }
+
 }

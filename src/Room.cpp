@@ -1,9 +1,9 @@
 /**
-    Copyright 2017 Neon Edge Game
-    @File Name: Room.cpp
-    @Header File Name: Room.h
-    @Class Name: Room
-    @Objective: manages the rooms.
+ * Copyright 2017 Neon Edge Game
+ * @File Name: Room.cpp
+ * @Header File Name: Room.h
+ * @Class Name: Room
+ * @Objective: manages the rooms.
 
 */
 
@@ -37,9 +37,11 @@
 #include "HandScanner.h"
 #include "Box.h"
 #include "BoxSpawner.h"
+#include "Logger.h"
 
 /**
  * Objective: Constructor of the Room.
+ *
  * @param TileSet* tileset - load tile to room.
  * @param int index - .
  * @param Vec2 position - .
@@ -51,29 +53,34 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std:
     sceneObjects("resources/map/objs/"+
                  mapName+
                  "sceneObjects.txt") {
-    Room::index = index; // Beginning of the room.
-    std::stringstream ss; // This sequence of characters can be accessed directly as a string.
-    Room::position = position; // Position in which the object will be inserted in the room.
-    ss << index;
-    // load map
-    map = new TileMap("resources/map/room0"+
-                       ss.str()+
-                       ".txt", tileSet, {0, 0});
-    std::cerr << map->GetSize() << std::endl;
-    // set background
-    backgroundMap = new TileMap("resources/map/bg.txt", background, {0, map->GetSize().y}, true);
-    objectArray = std::vector<GameObject*>();
-    LoadObjects("resources/map/objs/room0"+
-                ss.str()+
-                ".txt");
-    CreateObjects();
-    std::cout << ss.str() << "\t";
+    if (index >= INT_MIN_SIZE && index <= INT_MAX_SIZE) {
+        Room::index = index; // Beginning of the room.
+        std::stringstream ss; // This sequence of characters can be accessed directly as a string.
+        Room::position = position; // Position in which the object will be inserted in the room.
+        ss << index;
+        // load map
+        map = new TileMap("resources/map/room0"+
+                           ss.str()+
+                           ".txt", tileSet, {0, 0});
+        std::cerr << map->GetSize() << std::endl;
+        // set background
+        backgroundMap = new TileMap("resources/map/bg.txt", background, {0, map->GetSize().y}, true);
+        objectArray = std::vector<GameObject*>();
+        LoadObjects("resources/map/objs/room0"+
+                    ss.str()+
+                    ".txt");
+        CreateObjects();
+        std::cout << ss.str() << "\t";
+    } else {
+        Log::instance.error("Tested value of index is higher or lower than allowed!");
+    }
 }
- 
+
 /**
  * Objective: Destroct the class Room, delocalizing some memory used in the class and shutdown dependent libraries.
+ *
  * @param None.
- * @return: Return free memory to the system.	
+ * @return: Return free memory to the system.
  */
 Room::~Room() {
     delete map;
@@ -86,30 +93,33 @@ Room::~Room() {
 
 /*
  * Objective: adds the object to the end of the room list.
+ *
  * @param: GameObject* ptr - pointer to GameObject wich will be inserted.
  * @return: None.
  */
- 
+
 void Room::AddObject(GameObject* ptr) {
     objectArray.emplace_back(ptr);
 }
 
 /*
  * Objective: Add object at the beginning room list.
+ *
  * @param: GameObject* ptr - pointer to GameObject wich will be inserted.
  * @return: none.
  */
- 
+
 void Room::AddObjectAsFirst(GameObject* ptr) {
     objectArray.emplace(objectArray.begin(), ptr);
 }
 
 /*
  * Objective: remove object at room.
+ *
  * @param: GameObject* ptr - pointer to GameObject wich will be removed.
  * @return: None.
  */
- 
+
 void Room::RemoveObject(GameObject* ptr) {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         // Search the list object.
@@ -129,10 +139,11 @@ void Room::RemoveObject(GameObject* ptr) {
 
 /*
  * Objective: Remove player from ObjectArray at room.
+ *
  * @param: None.
  * @return: None.
  */
- 
+
 void Room::RemovePlayer() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         // Check if the object is a player and remove him.
@@ -147,52 +158,61 @@ void Room::RemovePlayer() {
 
 /*
  * Objective: get first object at room.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 GameObject* Room::GetFirst() {
     return objectArray[0];
 }
 
 /*
  * Objective: get position from room.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 Vec2 Room::GetPos() {
     return position;
 }
 
 /*
  * Objective: get map from room.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 TileMap* Room::GetMap() {
     return map;
 }
 
 /*
  * Objective: update room object.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::ObjectUpdate(float dt) {
-    for(unsigned i = 0; i < objectArray.size(); i++) {
-        objectArray[i]->Update(map, dt);
+    if (dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE) {
+        for (unsigned i = 0; i < objectArray.size(); i++) {
+            objectArray[i]->Update(map, dt);
+        }
+    } else {
+        Log::instance.error("Tested value of dt is higher or lower than allowed!");
     }
 }
 
 /*
  * Objective: Checks object collision in room
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::ObjectCollision() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         for(unsigned j = i+1; j < objectArray.size(); j++) {
@@ -218,6 +238,7 @@ void Room::ObjectCollision() {
 
 /*
  * Objective: Clean objects in room
+ *
  * @param: none.
  * @return: none.
  */
@@ -247,24 +268,30 @@ void Room::ObjectCleanup() {
 }
 
 /*
- * Function Objective: update states in room cleaning objects and colisions.
+ * Objective: update states in room cleaning objects and colisions.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::Update(float dt) {
-    ObjectUpdate(dt);
+    if (dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE) {
+        ObjectUpdate(dt);
+    } else {
+        Log::instance.error("Tested value of dt is higher or lower than allowed!");
+    }
     sceneObjects.Update();
     ObjectCollision();
     ObjectCleanup();
 }
 
 /*
- * Function Objective: render room screen position.
+ * Objective: render room screen position.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::Render() {
     backgroundMap->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
     sceneObjects.Render();
@@ -277,11 +304,12 @@ void Room::Render() {
 }
 
 /*
- * Function Objective: create items and objects in room.
+ * Objective: create items and objects in room.
+ *
  * @param: none.
  * @return: none.
  */
- 
+
 void Room::CreateObjects() {
     for(unsigned int i = 0; i < objectData.size(); i++) {
         // Add items for Lancelot
@@ -325,58 +353,58 @@ void Room::CreateObjects() {
                                      position.x * map->GetWidth() * map->GetTileWidth(),
                                      objectData.at(i).y +
                                      position.y * map->GetHeight() * map->GetTileHeight()));
-            TurretBoss* t = nullptr;            
+            TurretBoss* t = nullptr;
             t = (TurretBoss*) objectArray.at(objectArray.size()-1);
             AddObject(new TurretPiece(t, -60, -53, 4));
-           
-            TurretPiece* p = nullptr;            
+
+            TurretPiece* p = nullptr;
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
-           
+
             AddObject(new TurretPiece(t, -60, -163, 4));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
-           
+
             AddObject(new TurretPiece(t, -60, -273, 4));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
-           
+
             AddObject(new TurretPiece(t, 0, -55, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-           
+
             AddObject(new TurretPiece(t, 0, -165, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, 0, -275, 2));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, 0, 0, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, 0, -110, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, 0, -220, 1));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, -5, -358, 0));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddPiece(p);
-            
+
             AddObject(new TurretPiece(t, 25, -51, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
-            
+
             AddObject(new TurretPiece(t, 25, -161, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
-            
+
             AddObject(new TurretPiece(t, 25, -271, 3));
             p = (TurretPiece*) objectArray.at(objectArray.size()-1);
             t->AddTurret(p);
@@ -468,9 +496,10 @@ void Room::CreateObjects() {
 }
 
 /*
-   Function Objective: load objects from file in room
-   @param: String file - this file lists the objects that will be inserted in this room.
-   @return: none.
+ * Objective: load objects from file in room
+ *
+ * @param: String file - this file lists the objects that will be inserted in this room.
+ * @return: none.
 */
 
 void Room::LoadObjects(std::string file) {
@@ -495,7 +524,7 @@ void Room::LoadObjects(std::string file) {
         ss >> data.y;
         ss >> delimiter;
 
-        int n = 0;        
+        int n = 0;
         ss >> n;
         ss >> delimiter;
         if (n > 20) {
@@ -512,4 +541,3 @@ void Room::LoadObjects(std::string file) {
         objectData.push_back(data);
     }
 }
-

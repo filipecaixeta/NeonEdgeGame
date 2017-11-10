@@ -23,16 +23,21 @@
 CeilingEnemy::CeilingEnemy(int x_axis_position, int y_axis_position): Character(x_axis_position,
                                                                                 y_axis_position) {
     // Block tha initiate atributes of CeilingEnemy.
-    name = "SpiderMan";
-    graphicsComponent = new CeilingEnemyGraphicsComponent("DroneInimigoSprite");
-    box.SetWH(graphicsComponent->GetSize());
-    physicsComponent.SetKinetic(true);
-    state = WAITING;
-    physicsComponent.velocity.y = INITIAL_SPIDERMAN_VELOCITY;
+    if ((x_axis_position >= INT_MIN_SIZE) && (x_axis_position <= INT_MAX_SIZE) &&
+        (y_axis_position >= INT_MIN_SIZE) && (y_axis_position <= INT_MAX_SIZE)) {
+        name = "SpiderMan";
+        graphicsComponent = new CeilingEnemyGraphicsComponent("DroneInimigoSprite");
+        box.SetWH(graphicsComponent->GetSize());
+        physicsComponent.SetKinetic(true);
+        state = WAITING;
+        physicsComponent.velocity.y = INITIAL_SPIDERMAN_VELOCITY;
 
-    assert(graphicsComponent != nullptr);
+        assert(graphicsComponent != nullptr);
 
-    Log::instance.info("CeilingEnemy builder started!");
+        Log::instance.info("CeilingEnemy builder started!");
+    } else {
+        Log::instance.error("Tested value is higher or lower than allowed!");
+    }
 }
 
 /**
@@ -53,17 +58,21 @@ bool CeilingEnemy::Attacking() {
  * @return none.
  */
 void CeilingEnemy::NotifyTileCollision(int tile, Face face) {
-    if (tile >= 0) {
-        // Changing state according with the collision of the face.
-        if (face == BOTTOM && state == ATTACKING) {
-            state = REARMING;
-        } else if (face == UPPER && state == REARMING) {
-            state = WAITING;
+    if (tile >= INT_MIN_SIZE && tile <= INT_MAX_SIZE) {
+        if (tile >= 0) {
+            // Changing state according with the collision of the face.
+            if (face == BOTTOM && state == ATTACKING) {
+                state = REARMING;
+            } else if (face == UPPER && state == REARMING) {
+                state = WAITING;
+            } else {
+                // It does nothing.
+            }
         } else {
             // It does nothing.
         }
     } else {
-        // It does nothing.
+        Log::instance.error("Tested value is higher or lower than allowed!");
     }
 }
 

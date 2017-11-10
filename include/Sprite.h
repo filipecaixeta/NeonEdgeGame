@@ -28,6 +28,11 @@ private:
 	int height = 0;
 	int destroyTexture = 0;
 	SDL_RendererFlip flipHorizontal = SDL_FLIP_NONE;
+	int GetFrameCount();
+	bool GetMirror();
+	void SetFrameCount(int frameCount = 0);
+	void SetFrameTime(float frameTime = 0);
+
 
 public:
 	Sprite();
@@ -38,25 +43,22 @@ public:
 	void Update(float dt = 0);
 	void Render(int x, int y, float angle = 0);
 	void Render(Vec2 pos, float angle = 0);
-	void SetClip(int x, int y, int w, int h);
-	SDL_Rect GetClip();
-	void SetScaleX(float scale);
-	void SetScaleY(float scale);
-	void SetTransparency(float a);
-	void SetFrame(int frame = 0);
-	void SetFrameNormalized(float f);
-	void SetFrameCount(int frameCount = 0);
-	void SetFrameTime(float frameTime = 0);
-	void SetBlending(bool b = false);
-	void SetTexture(SDL_Texture *tex, bool destroyTexture_=true);
-	void Mirror(bool m = 0);
 	int GetWidth();
 	int GetHeight();
 	Vec2 GetSize();
-	int GetFrameCount();
+	void Mirror(bool m = 0);
+	void SetTransparency(float a);
+	void SetFrame(int frame = 0);
 	bool Loops();
-	bool GetMirror();
+	SDL_Rect GetClip();
+	void SetClip(int x, int y, int w, int h);
 	bool IsOpen();
+	void SetScaleX(float scale);
+	void SetScaleY(float scale);
+	void SetFrameNormalized(float f);
+	void SetBlending(bool b = false);
+	void SetTexture(SDL_Texture *tex, bool destroyTexture_=true);
+
 };
 
 #endif /* SPRITE_H_ */
