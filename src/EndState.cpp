@@ -1,51 +1,111 @@
+/**
+    Copyright (c) 2017 Neon Edge Game.
+    File Name: EndState.cpp
+    Header File Name: EndState.h
+    Class Name: EndState
+    Objective: its manages player at the end of current map.
+
+*/
+
 #include "EndState.h"
 #include "Game.h"
 #include "InputManager.h"
+#include <assert.h>
+#include "Logger.h"
 
-EndState::EndState(StateData results)
-{
-	if(results.playerVitory)
+/**
+ * Objective: it constructs Gallahad graphics component object.
+ *
+ * @param StateData results - final result of player on current map.
+ * @return none.
+ */
+EndState::EndState(StateData results) {
+    // It verifies if the player won at the end of the map
+    if (results.playerVitory) {
+        // If yes, it turns the sprite picture to win to be shown on the screen.
         bg = Sprite("win.jpg");
-	else
+        Log::instance.info("Constructor EndState, Player victory!");          
+    } else {
+        // Else, it turns the sprite picture to lose to be shown on the screen.
         bg = Sprite("lose.jpg");
+        Log::instance.info("Constructor EndState, Player defeated!");                  
+    }
 }
 
-EndState::~EndState()
-{
-
+/**
+ * Objective: it destroys gallahad graphics component object.
+ *
+ * @param none.
+ * @return none.
+ */
+EndState::~EndState() {
 }
 
-void EndState::LoadAssets()
-{
-
+/**
+ * Objective: it does nothing.
+ *
+ * @param none.
+ * @return none.
+ */
+void EndState::LoadAssets() {
 }
 
-void EndState::Update()
-{
-	if(InputManager::GetInstance().KeyPress(SDLK_RETURN))
-	{
-		quitRequested = true;
-		Game::GetInstance().RemoveState();
-		Game::GetInstance().AddState(new StageState("Lancelot"));
-	}
+/**
+ * Objective: it updates the character when there is a map exchange.
+ *
+ * @param none.
+ * @return none.
+ */
+void EndState::Update() {
+    // It verifies the pressed key.
+    if (InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
+        quitRequested = true;  // It turns the quit requested in true to quit of current map.
+        Game::GetInstance().RemoveState();  // Remove the current character.
+        Game::GetInstance().AddState(new StageState("Lancelot"));  // Create the new character
+                                                                   // to play with it.  
+    } else {
+        // It does nothing
+    }
 }
 
-void EndState::Render()
-{
-	bg.Render(0, 0);
+/**
+ * Objective: it renders position of sprite to position 0, 0 of map.
+ *
+ * @param none.
+ * @return none.
+ */
+void EndState::Render() {
+    bg.Render(0, 0);
 }
 
-bool EndState::QuitRequested()
-{
-	return quitRequested;
+/**
+ * Objective: it verifies if quit was requested to quit the current map.
+ *
+ * @param none.
+ * @return bool quitRequested - variable to store quit option.
+ */
+bool EndState::QuitRequested() {
+    assert(quitRequested == true || quitRequested == false);
+    return quitRequested;  // It returns the quit option.
 }
 
-bool EndState::Is(std::string type)
-{
-	return (type == "End");
+/**
+ * Objective: it verifies if the player ends the map.
+ *
+ * @param string type - place where player is.
+ * @return bool 'type == "End"' - showing if player is at the end of map.
+ */
+bool EndState::Is(std::string type) {
+    assert(type != " ");
+    return (type == "End");  // True when player ends map.
 }
 
-EndState* EndState::get()
-{
-	return this;
+/**
+ * Objective: it gets object of end state.
+ *
+ * @param none.
+ * @return EndState 'this' - the end state object.
+ */
+EndState * EndState::get() {
+    return this;
 }

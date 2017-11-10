@@ -3,25 +3,30 @@
 
 #include "GameObject.h"
 
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+#define MAX_SCREEN 999999.0f
+#define INITIAL_POSITION_FOCUS 0.0f
+#define FOCUS_CENTER 2
+
 class Camera {
 private:
-	GameObject* focus;
-
+	GameObject* cameraFocus = NULL;
 	static Camera* instance;
 
 	Camera();
 public:
-	Vec2 pos;
-	Vec2 speed;
-    Vec2 maxPos;
+	Vec2 screenPosition;
+	Vec2 screenSpeed;
+    Vec2 maxScreenPosition;
 
 	~Camera();
-	void Follow(GameObject* newFocus);
-	void Unfollow();
-	void Update(float dt);
-	void SetPos(Vec2 pos);
+	void CreateFocus(GameObject* newFocus = NULL);
+	void StopFocus();
+	void FocusUpdate(float delayTime = 0);
+	void SetPosition(Vec2 screenPosition);
 	GameObject* GetFocus();
-	static Camera& GetInstance();
+	static Camera& CheckInstance();
 };
 
 #endif /* CAMERA_H_ */

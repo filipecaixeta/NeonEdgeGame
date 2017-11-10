@@ -1,5 +1,7 @@
-#ifndef ITENSMANAGER_H
-#define ITENSMANAGER_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_ITEMSMANAGER_H_
+#define INCLUDE_ITEMSMANAGER_H_
 
 #include <vector>
 #include <unordered_map>
@@ -8,19 +10,17 @@
 
 #define HOT_BAR_SIZE 3
 
-class ItensManager
-{
-public:
-	struct itemType
-	{
-		Sprite *sp;
+class ItemsManager {
+ public:
+	struct itemType {
+		Sprite *sprite;
 		bool active;
 		unsigned int count;
 		std::string name;
 		std::string description;
 	};
 
-	ItensManager();
+	ItemsManager();
 	std::vector<itemType> GetActiveItems();
 	std::vector<itemType> GetItems();
 	itemType GetItem(std::string name);
@@ -28,12 +28,11 @@ public:
 	bool IsActive(std::string name);
 	bool IsHot(std::string name);
 	void SetActive(std::string name, bool active);
-	void ConsumeItem(int hotItensPos);
+	void ConsumeItem(int hotItemsPos);
 	void Render();
 	void Update();
-	std::string hotItens[HOT_BAR_SIZE];
-//private:
-	std::unordered_map<std::string,itemType> itens;
+	std::string hotItems[HOT_BAR_SIZE];
+	std::unordered_map<std::string,itemType> items;
 };
 
-#endif // ITENSMANAGER_H
+#endif  // INCLUDE_ITEMSMANAGER_H_

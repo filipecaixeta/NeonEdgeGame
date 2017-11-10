@@ -1,24 +1,22 @@
+// Copyright (c) 2017 Neon Edge Game.
+
 #include "ProjectileGraphicsComponent.h"
 #include "Projectile.h"
 #include "Rect.h"
 
-ProjectileGraphicsComponent::ProjectileGraphicsComponent(std::string baseName_):
-	GraphicsComponent(baseName_)
-{
-	AddSprite(baseName,"Projectile",4,80);
-	sp = sprites["Projectile"];
-	surface = surfaces["Projectile"];
+ProjectileGraphicsComponent::ProjectileGraphicsComponent(std::string baseNameParam):
+       GraphicsComponent(baseNameParam) {
+    AddSprite(baseName, "Projectile", 4, 80);
+    sprite = sprites["Projectile"];
+    surface = surfaces["Projectile"];
 }
 
-ProjectileGraphicsComponent::~ProjectileGraphicsComponent()
-{
-
+ProjectileGraphicsComponent::~ProjectileGraphicsComponent() {
 }
 
-void ProjectileGraphicsComponent::Update(GameObject* obj, float dt)
-{
-	mirror = (obj->facing == GameObject::LEFT);
-	
-	sp->Mirror(mirror);
-	sp->Update(dt);
+void ProjectileGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    characterLeftDirection = (gameObject->facing == GameObject::LEFT);
+
+    sprite->Mirror(characterLeftDirection);
+    sprite->Update(deltaTime);
 }

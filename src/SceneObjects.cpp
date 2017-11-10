@@ -18,7 +18,7 @@ void SceneObjects::Render()
 		for(auto& pos: obj.second.positionVec)
 		{
 			if (!objsAfter[obj.first])
-				obj.second.sp.Render(pos.x - Camera::GetInstance().pos.x, pos.y - Camera::GetInstance().pos.y - obj.second.sp.GetHeight());
+				obj.second.sp.Render(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
 		}
 }
 
@@ -28,7 +28,7 @@ void SceneObjects::RenderAfter()
 		for(auto& pos: obj.second.positionVec)
 		{
 			if (objsAfter[obj.first])
-				obj.second.sp.Render(pos.x - Camera::GetInstance().pos.x, pos.y - Camera::GetInstance().pos.y - obj.second.sp.GetHeight());
+				obj.second.sp.Render(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
 		}
 }
 

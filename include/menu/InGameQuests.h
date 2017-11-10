@@ -7,6 +7,13 @@
 #include "menu/MenuState.h"
 #include "Sprite.h"
 
+#define FONT_SIZE 24
+#define LETTER_SPACING 320
+#define FIFTY_PER_CENT 0.5
+#define EIGHTY_PER_CENT 0.8
+#define OFFSET_VALUE 50
+#define SCALE 2000
+
 class InGameQuests : public MenuState
 {
 public:
@@ -24,4 +31,4 @@ private:
 	Sprite blackOpacity;
 };
 
-#endif // INGAMEQUESTS_H
+#endif // INCLUDE_INGAMEQUESTS_H

@@ -16,15 +16,16 @@ struct CutsceneObject
 
 class Cutscene : public State{
 private:
+	int const INITIAL_VALUE = 0;
 	std::vector<CutsceneObject> objs;
 	std::vector<DialogWindow*> textBox;
 	std::vector<SDL_Texture*> textArray;
 	std::vector<Sprite*> dialog;
 	SDL_Color fontColor = {255,255,255,255};
 	int fontSize = 16;
-	std::string fontName;
-	int index;
-	bool textOnly;
+	std::string fontName = "";
+	int index = INITIAL_VALUE;
+	bool textOnly = false;
 	bool Next();
 
 public:

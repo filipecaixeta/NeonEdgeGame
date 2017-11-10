@@ -1,35 +1,29 @@
 #include "LoadingBar.h"
 
 LoadingBar::LoadingBar(std::string image, int leftBorder_, int rightBorder_):
-	discrete(false),
-	percentage(1.0f),
-	leftBorder(leftBorder_),
-	rightBorder(rightBorder_),
-	sp(image,2)
-{
-
+	sp(image,2){
+	discrete = false;
+	percentage = 1.0f;
+	leftBorder = leftBorder_;
+	rightBorder = rightBorder_;
 }
 
 LoadingBar::LoadingBar(std::string image,int stateCount_):
-	stateCount(stateCount_),
-	blockSize(0),
-	discrete(true),
-	percentage(1.0f),
-	leftBorder(0),
-	sp(image,stateCount_)
-{
-	
+	sp(image,stateCount_){
+	stateCount = stateCount_;
+	blockSize = 0;
+	discrete = true;
+	percentage = 1.0f;
+	leftBorder = 0;
 }
 
 LoadingBar::LoadingBar(std::string image, int leftBorder_, int blockSize_,int stateCount_):
-	stateCount(stateCount_),
-	blockSize(blockSize_),
-	discrete(true),
-	percentage(1.0f),
-	leftBorder(leftBorder_),
-	sp(image,2)
-{
-
+	sp(image,2){
+	stateCount = stateCount_;
+	blockSize = blockSize_;
+	discrete = true;
+	percentage = 1.0f;
+	leftBorder = leftBorder_;
 }
 
 void LoadingBar::SetPercentage(float p)

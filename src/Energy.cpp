@@ -1,54 +1,133 @@
+/**
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: Energy.cpp
+ * Header File Name: Energy.h
+ * Class Name: Energy
+ * Objective: it manages character state life.
+*/
+
 #include "Energy.h"
 #include "Camera.h"
 
-Energy::Energy(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops, float lifetime, bool dies)
-{
-	name = "Energy";
-	sp = Sprite(sprite, frameCount, frameTime);
-	Vec2 size = sp.GetSize();
-	box = Rect(x, y, size.x, size.y);
-	endTimer = Timer(lifetime);
-	if(loops)
-		endTimer.Start();
-	Energy::loops = loops;
-	Energy::dies = dies;
+#include <assert.h>
+
+/**
+ * Objective: it constructs energy object.
+
+ * @param int x_axis_position - value to base.
+ * @param int y_axis_position - value to height.
+ * @param string sprite - .
+ * @param float frameCount - value of frame count.
+ * @param float frameTime - value of frame time.
+ * @param bool loops - loops state.
+ * @param float lifetime - value of life time.
+ * @param bool dies - character life state.
+ * @return none.
+*/
+Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite, float frameCount, 
+               float frameTime, bool loops, float lifetime, bool dies) {
+    name = "Energy";
+    assert(frameCount >= FLOAT_SIZE_MIN && frameCount <= FLOAT_MAX_SIZE);
+    assert(frameTime >= FLOAT_SIZE_MIN && frameTime <= FLOAT_MAX_SIZE);
+    sprite = Sprite(str_sprite, frameCount, frameTime);
+    Vec2 size = sprite.GetSize();
+    box = Rect(x_axis_position, y_axis_position, size.x, size.y);
+    endTimer = Timer(lifetime);
+    if (loops) {
+        endTimer.Start();
+    } else {
+		// Do nothing
+    }
+    assert(dies || !dies);
+    Energy::loops = loops;
+    assert(dies || !dies);
+    Energy::dies = dies;
 }
 
-Energy::~Energy()
-{
-
+/**
+ * Objective: it destroys energy object.
+ *
+ * @param none.
+ * @return none.
+*/
+Energy::~Energy() {
 }
 
-bool Energy::IsDead()
-{
-	return dead;
+/**
+ * Objective: it verifies if character is dead.
+ *
+ * @param none.
+ * @return bool dead - character life state.
+*/
+bool Energy::IsDead() {
+    assert(dead || !dead);
+    return dead;  // It returns true if character is dead.
 }
 
-void Energy::NotifyObjectCollision(GameObject* other)
-{
-	if(other->Is("Gallahad") || other->Is("Lancelot"))
-	{
-		if(dies)
-		{
-			dead = true;
+/**
+ * Objective: it verifies is character dies with object collision.
+ *
+ * @param GameObject *other - character object.
+ * @return none.
+*/
+void Energy::NotifyObjectCollision(GameObject *other) {
+    // It verifies the name of character used.
+    assert(other != nullptr);
+    if (other->Is("Gallahad") || other->Is("Lancelot")) {
+        // It verifies if character is dead.
+        assert(dies || !dies);
+        if (dies) {
+            dead = true;
+        } else {
+			// Do nothing
 		}
+    } else {
+		// Do nothing
 	}
 }
 
-void Energy::UpdateTimers(float dt)
-{
-	endTimer.Update(dt);
+/**
+ * Objective: it updates end timer of character.
+ *
+ * @param float deltaTime - amount of time.
+ * @return none.
+*/
+void Energy::UpdateTimers(float deltaTime) {
+    assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_MAX_SIZE);
+    endTimer.Update(deltaTime);  // It updates end timer with value passed.
 }
 
-void Energy::Update(TileMap* world, float dt)
-{
-	UpdateTimers(dt);
-	if(!loops && !endTimer.IsRunning())
-		dead = true;
-	sp.Update(dt);
+/**
+ * Objective: it updates times of game.
+ *
+ * @param TileMap *world.
+ * @param float deltaTime - amount of time.
+ * @return none.
+*/
+void Energy::Update(TileMap *world, float deltaTime) {
+    assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_MAX_SIZE);
+    // It verifies character state life.
+    assert(loops || !loops);
+    if (!loops && !endTimer.IsRunning()) {
+        dead = true;
+    } else {
+		// Do nothing
+    }
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+    UpdateTimers(deltaTime);  // It updates end timer of character with value passed.
+    sprite.Update(deltaTime);  // It updates elapsed time of the sprite with value passed, deltaTime.
 }
 
-void Energy::Render()
-{
-	sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+/**
+ * Objective: it renders the camera position.
+ *
+ * @param none.
+ * @return none.
+*/
+void Energy::Render() {
+    assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+           (box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE));
+    sprite.Render(box.x - Camera::CheckInstance().screenPosition.x, 
+    box.y - Camera::CheckInstance().screenPosition.y);
 }
+

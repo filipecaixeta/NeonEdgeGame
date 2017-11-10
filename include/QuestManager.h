@@ -11,7 +11,7 @@ class QuestManager
 public:
 	QuestManager();
 	void ReadQuestsFile();
-	questType& GetQuests();
+	questType & GetQuests();
 	void SetQuestStatus(std::string questName, bool active);
 	bool GetQuestStatus(std::string questName);
 private:
@@ -19,4 +19,4 @@ private:
 	std::vector<int> questsActive;
 };
 
-#endif // QUESTMANAGER_H
+#endif // INCLUDE_QUESTMANAGER_H_
