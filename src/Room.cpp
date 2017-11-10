@@ -37,6 +37,8 @@
 #include "HandScanner.h"
 #include "Box.h"
 #include "BoxSpawner.h"
+#include "Logger.h"
+#include <assert.h>
 
 /**
  * Objective: Constructor of the Room.
@@ -51,21 +53,26 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std:
     sceneObjects("resources/map/objs/"+
                  mapName+
                  "sceneObjects.txt") {
+    Log::instance.info("Initing Room");
     Room::index = index; // Beginning of the room.
     std::stringstream ss; // This sequence of characters can be accessed directly as a string.
     Room::position = position; // Position in which the object will be inserted in the room.
     ss << index;
     // load map
+    Log::instance.info("Loading map");
     map = new TileMap("resources/map/room0"+
-                       ss.str()+
+                           ss.str()+
                        ".txt", tileSet, {0, 0});
     std::cerr << map->GetSize() << std::endl;
     // set background
+    Log::instance.info("Setting background");
     backgroundMap = new TileMap("resources/map/bg.txt", background, {0, map->GetSize().y}, true);
     objectArray = std::vector<GameObject*>();
+    // load objects
+    Log::instance.info("Loading objects");
     LoadObjects("resources/map/objs/room0"+
                 ss.str()+
-                ".txt");
+                ".txt");    
     CreateObjects();
     std::cout << ss.str() << "\t";
 }
@@ -76,6 +83,7 @@ Room::Room(TileSet* tileSet, int index, Vec2 position, TileSet* background, std:
  * @return: Return free memory to the system.	
  */
 Room::~Room() {
+    Log::instance.info("Destroy Room");
     delete map;
     // Clear all objects in room
     for(unsigned i = 0; i < objectArray.size(); i++) {
@@ -91,6 +99,7 @@ Room::~Room() {
  */
  
 void Room::AddObject(GameObject* ptr) {
+    Log::instance.info("Initing Room");
     objectArray.emplace_back(ptr);
 }
 
@@ -111,6 +120,7 @@ void Room::AddObjectAsFirst(GameObject* ptr) {
  */
  
 void Room::RemoveObject(GameObject* ptr) {
+    Log::instance.info("Removing objects");
     for(unsigned i = 0; i < objectArray.size(); i++) {
         // Search the list object.
         if (ptr == objectArray[i]) {
@@ -134,6 +144,7 @@ void Room::RemoveObject(GameObject* ptr) {
  */
  
 void Room::RemovePlayer() {
+    Log::instance.info("Player removed from room");
     for(unsigned i = 0; i < objectArray.size(); i++) {
         // Check if the object is a player and remove him.
         if (objectArray[i] == StageState::GetPlayer()) {
@@ -142,7 +153,7 @@ void Room::RemovePlayer() {
        } else {
            // It does nothing
        }
-   }
+    }
 }
 
 /*
@@ -152,6 +163,7 @@ void Room::RemovePlayer() {
  */
  
 GameObject* Room::GetFirst() {
+    assert(&objectArray != NULL);
     return objectArray[0];
 }
 
@@ -162,6 +174,7 @@ GameObject* Room::GetFirst() {
  */
  
 Vec2 Room::GetPos() {
+    assert(&position != NULL);
     return position;
 }
 
@@ -172,6 +185,7 @@ Vec2 Room::GetPos() {
  */
  
 TileMap* Room::GetMap() {
+    assert(&map != NULL);
     return map;
 }
 
@@ -182,6 +196,7 @@ TileMap* Room::GetMap() {
  */
  
 void Room::ObjectUpdate(float dt) {
+    Log::instance.info("Updating objects");
     for(unsigned i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Update(map, dt);
     }
@@ -205,9 +220,12 @@ void Room::ObjectCollision() {
                 // Check colision between player and object.
                 if (objectArray[i]->Is("Item") && objectArray[j]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[i])->Eval(dynamic_cast<Player*>(objectArray[j]));
+                    Log::instance.info("Collision with player");
                 } else if (objectArray[j]->Is("Item") && objectArray[i]->IsPlayer()) {
                     dynamic_cast<Item*>(objectArray[j])->Eval(dynamic_cast<Player*>(objectArray[i]));
+                    Log::instance.info("Collision with player");
                 } else {
+                    Log::instance.info("collision between objects");
                     // It does nothing.
                 }
             }
@@ -223,6 +241,7 @@ void Room::ObjectCollision() {
  */
 
 void Room::ObjectCleanup() {
+    Log::instance.info("Cleaning objects");
     for(unsigned i = 0; i < objectArray.size(); i++) {
         if (objectArray[i]->IsDead()) { // Check if Object is dead.
             // Unfocus the object.
@@ -241,6 +260,7 @@ void Room::ObjectCleanup() {
             delete objectArray[i];
             objectArray.erase(objectArray.begin()+i);
         } else {
+            
             // It does nothing
         }
     }
@@ -266,6 +286,7 @@ void Room::Update(float dt) {
  */
  
 void Room::Render() {
+    Log::instance.info("Render Room");
     backgroundMap->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
     sceneObjects.Render();
     map->RenderLayer(0, Camera::CheckInstance().screenPosition.x, Camera::CheckInstance().screenPosition.y);
@@ -283,10 +304,12 @@ void Room::Render() {
  */
  
 void Room::CreateObjects() {
+    Log::instance.info("Creating objects in room");
     for(unsigned int i = 0; i < objectData.size(); i++) {
         // Add items for Lancelot
         if (objectData.at(i).id == 0) {
             // Lancelot
+            Log::instance.info("Creating objects in room for Lancelot");
             ItemsManager* itemsManager = new ItemsManager();
             AddObjectAsFirst(new Lancelot(itemsManager, objectData.at(i).x +
                              position.x * map->GetWidth() * map->GetTileWidth(),
@@ -298,6 +321,7 @@ void Room::CreateObjects() {
         // Add items for Gallahad
         else if (objectData.at(i).id == 1) {
             // Gallahad
+            Log::instance.info("Creating objects in room for Gallahad");
             ItemsManager* itemsManager = new ItemsManager();
             AddObject(new Drone(itemsManager, objectData.at(i).x +
                                 position.x * map->GetWidth() * map->GetTileWidth(),
@@ -314,6 +338,7 @@ void Room::CreateObjects() {
         // Add items for Arthur
         else if (objectData.at(i).id == 2) {
             // Arthur
+            Log::instance.info("Creating objects in room for Arthur");
             AddObject(new Arthur(objectData.at(i).x +
                                  position.x * map->GetWidth() * map->GetTileWidth(),
                                  objectData.at(i).y +
@@ -321,6 +346,7 @@ void Room::CreateObjects() {
         }
         // Add items for TurretBoss
         else if (objectData.at(i).id == 3) {
+            Log::instance.info("Creating objects in room for TurretBoss");
             AddObject(new TurretBoss(objectData.at(i).x +
                                      position.x * map->GetWidth() * map->GetTileWidth(),
                                      objectData.at(i).y +
@@ -384,6 +410,7 @@ void Room::CreateObjects() {
         // Add items for Nofredo
         else if (objectData.at(i).id == 12) {
             // Notfredo
+            Log::instance.info("Creating objects in room for Nofredo");
             AddObject(new Notfredo(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -393,6 +420,7 @@ void Room::CreateObjects() {
         // Add items for CeilingEnemy
         else if (objectData.at(i).id == 14) {
             // CeilingEnemy
+            Log::instance.info("Creating objects in room for CeilingEnemy");
             AddObject(new CeilingEnemy(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -401,6 +429,7 @@ void Room::CreateObjects() {
         // Add items for Turret
         else if (objectData.at(i).id == 16) {
             // Turret
+            Log::instance.info("Creating objects in room for Turret");
             AddObject(new Turret(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -409,6 +438,7 @@ void Room::CreateObjects() {
         // Add items for Door
         else if (objectData.at(i).id == 21) {
             // Door
+            Log::instance.info("Creating objects in room for Door");
             AddObject(new Door(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -417,6 +447,7 @@ void Room::CreateObjects() {
         // Add items for PressurePlate
         else if (objectData.at(i).id == 22) {
             // PressurePlate
+            Log::instance.info("Creating objects in room for PressurePlate");
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new PressurePlate(objectData.at(i).x +
                              position.x * map->GetWidth() * map->GetTileWidth(),
@@ -426,6 +457,7 @@ void Room::CreateObjects() {
         // Add items for HandScanner
         else if (objectData.at(i).id == 23) {
             // HandScanner
+            Log::instance.info("Creating objects in room for HandScanner");
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new HandScanner(objectData.at(i).x +
                              position.x * map->GetWidth() * map->GetTileWidth(),
@@ -435,6 +467,7 @@ void Room::CreateObjects() {
         // Add items for Box
         else if (objectData.at(i).id == 24) {
             // Box
+            Log::instance.info("Creating objects in room for Box");
             AddObject(new Box(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -443,6 +476,7 @@ void Room::CreateObjects() {
         // Add items for BoxSpawner
         else if (objectData.at(i).id == 25) {
             // BoxSpawner
+            Log::instance.info("Creating objects in room for BoxSpawner");
             AddObject(new BoxSpawner(objectData.at(i).x +
                       position.x * map->GetWidth() * map->GetTileWidth(),
                       objectData.at(i).y +
@@ -451,6 +485,7 @@ void Room::CreateObjects() {
         // Add items for PreassurePlateOneTime
         else if (objectData.at(i).id == 26) {
             // PressurePlateOneTime
+            Log::instance.info("Creating objects in room for PreassurePlateOneTime");
             Interactive* in = (Interactive*) objectArray.at(objectArray.size()-1);
             AddObjectAsFirst(new PressurePlateOneTime(objectData.at(i).x +
                                                       position.x * map->GetWidth() * map->GetTileWidth(),
@@ -475,41 +510,41 @@ void Room::CreateObjects() {
 
 void Room::LoadObjects(std::string file) {
     std::ifstream f;
+    Log::instance.info("Loading Objects");
     f.open(file.c_str(), std::ios::in);
     // Check if archive is open
     if (!f.is_open()) {
-        std::cerr<< "f.open: unable to open file: " << file.c_str();
-        return;
+        Log::instance.error("f.open: unable to open file" + file);
     } else {
-        // It does nothing
-    }
-    for(std::string line; std::getline(f, line); ) {
-        ObjectData data;
-        std::stringstream ss(line);
-        ss >> data.id;
+        Log::instance.info("Loading Objects successfully");
+        for(std::string line; std::getline(f, line); ) {
+            ObjectData data;
+            std::stringstream ss(line);
+            ss >> data.id;
 
-        char delimiter =' ';
-        ss >> delimiter;
-        ss >> data.x;
-        ss >> delimiter;
-        ss >> data.y;
-        ss >> delimiter;
+            char delimiter =' ';
+            ss >> delimiter;
+            ss >> data.x;
+            ss >> delimiter;
+            ss >> data.y;
+            ss >> delimiter;
 
-        int n = 0;        
-        ss >> n;
-        ss >> delimiter;
-        if (n > 20) {
-            ObjectData newData;
-            newData.id = n;
-            ss >> newData.x;
+            int n = 0;        
+            ss >> n;
             ss >> delimiter;
-            ss >> newData.y;
-            ss >> delimiter;
-            objectData.push_back(newData);
-        } else {
-            // It does nothing
+            if (n > 20) {
+                ObjectData newData;
+                newData.id = n;
+                ss >> newData.x;
+                ss >> delimiter;
+                ss >> newData.y;
+                ss >> delimiter;
+                objectData.push_back(newData);
+            } else {
+                // It does nothing
+            }
+            objectData.push_back(data);
         }
-        objectData.push_back(data);
     }
 }
 
