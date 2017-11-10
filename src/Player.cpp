@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "Projectile.h"
+#include "Logger.h"
 #include <assert.h>
 
 /**
@@ -37,6 +38,7 @@ Player::Player(ItemsManager* itemManager, int x, int y): Character(x,y){
     name = "Player";  // Sets the Player's name.
     hitpoints = MAX_HITPOINTS;  // Sets the hitpoints of the player to 10.
 
+    Log::instance.info("Player builder started!");
 }
 
 /**
@@ -66,6 +68,7 @@ bool Player::IsPlayer() {
  * @return int energy - returns the amount of energy of the player.
  */
 int Player::GetEnergy() {
+    assert(energy >= 0 && energy <= 5);
     return energy;
 }
 
@@ -82,7 +85,7 @@ void Player::Crouch() {
         soundComponent->SoundCrouching();   // Performs the crouching sound in case that the player is
                                             // standing.
     } else {
-        // It does nothing.
+        Log::instance.info("Player is already crouching");
     }
     isCrouching = true;
 }
@@ -105,6 +108,7 @@ void Player::Stand() {
  * @return bool crouching - return true if the player is crouching.
 */
 bool Player::IsCrouching() {
+    assert(isCrouching == true || isCrouching == false);
     return isCrouching;
 }
 
@@ -141,7 +145,7 @@ void Player::EvalItem(std::string itemName) {
     if (itemName == "Skill Coin") {
         skillPoints++;
     } else {
-        // It does nothing.
+        Log::instance.error("No valid item");
     }
 }
 
@@ -154,6 +158,8 @@ void Player::EvalItem(std::string itemName) {
 void Player::NotifyObjectCollision(GameObject* other) {
     assert(other != nullptr);
 
+    Log::instance.info("Collision of objects, NotifyObjectCollision in Player");
+
     Character::NotifyObjectCollision(other);
     // The player gets damaged if the object is attacking.
     if (other->IsCharacter() && !other->IsPlayer()) {
@@ -163,9 +169,7 @@ void Player::NotifyObjectCollision(GameObject* other) {
         } else {
             // It does nothing.
         }
-    } else
-        // It does nothing.
-    if (other->Is("Projectile")) {
+    } else if (other->Is("Projectile")) {
         Projectile* p = (Projectile*) other;
         if (!(p->GetOwner() == "Gallahad")) {
             Damage(p->Power());
@@ -193,7 +197,7 @@ void Player::NotifyObjectCollision(GameObject* other) {
             // It does nothing.
         }
     } else {
-        // It does nothing.
+        Log::instance.error("Collision with Player not expected");
     }
 }
 
@@ -219,6 +223,7 @@ void Player::Update(TileMap* map, float dt) {
     physicsComponent.Update(this, map, dt);
     if (OutOfBounds(map)) {
         SetPosition(Vec2(startingX, startingY));
+        Log::instance.warning("Outdated limits!");
     } else {
         // It does nothing.
     }

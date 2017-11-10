@@ -13,6 +13,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "Logger.h"
 #include <assert.h>
 
 /**
@@ -26,7 +27,10 @@
 */
 Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
     Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
-    name = ""; // Sets the drone name
+	
+	assert (dronePositionX < MIN_INT || dronePositionX < MAX_INT);
+	assert (dronePositionY < MIN_INT || dronePositionY < MAX_INT);
+	name = ""; // Sets the drone name
     inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in
                                                 // relation to the character.
     assert(inputComponent != nullptr);
@@ -41,6 +45,8 @@ Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
 
     box.SetWH(graphicsComponent->GetSize());
     Empower(0);
+
+    Log::instance.info("Drone builder started!");
 }
 
 /**
@@ -60,7 +66,6 @@ Drone::~Drone() {
 */
 void Drone::Attack() {
     attacking.Start();
-
 }
 
 /**
@@ -70,6 +75,7 @@ void Drone::Attack() {
 
 */
 void Drone::DroneActivate(bool turnOnDrone) {
+    assert(turnOnDrone == true || turnOnDrone == false);
     droneActive = turnOnDrone;
 }
 
@@ -80,6 +86,7 @@ void Drone::DroneActivate(bool turnOnDrone) {
 
 */
 bool Drone::isActive() {
+    assert(droneActive == true || droneActive == false);
     return droneActive;
 }
 
@@ -90,7 +97,8 @@ bool Drone::isActive() {
 
 */
 void Drone::UpdateTimers(float delayTime) {
-    Player::UpdateTimers(delayTime);
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
+	Player::UpdateTimers(delayTime);
 }
 
 
@@ -109,11 +117,17 @@ void Drone::FollowsCharacter(bool droneActive) {
 
     // Checks which direction (left or right) the character has turned.
     if (StageState::GetPlayer()->facing == LEFT) {
-        box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Causes the drone to follow the character as he turns to the left.
+        box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Causes
+                                        //the drone to follow the character as he turns to the left.
     } else {
-        box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he turns to the hight.
+        box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he
+                                                // turns to the hight.
     }
     box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character by positioning him above him.
+
+	
+	assert (box.x < MIN_FLOAT || box.x < MAX_FLOAT);
+	assert (box.y < MIN_FLOAT || box.y < MAX_FLOAT);
 }
 
 
@@ -126,6 +140,7 @@ void Drone::FollowsCharacter(bool droneActive) {
 
 */
 void Drone::Update(TileMap* map, float delayTime) {
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
     UpdateTimers(delayTime); // Defines time parameters for modifying drone behavior.
 
     // Checks if the player is other than null.
@@ -141,10 +156,12 @@ void Drone::Update(TileMap* map, float delayTime) {
         // Checks if the drone is outside the screen boundaries.
         if (OutOfBounds(map)) {
             SetPosition(Vec2(269, 544)); // Resets the drone's position.
+            Log::instance.warning("Outdated limits!");
         } else {
              // It does nothing.
         }
-        graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to your movement.
+        graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to
+                                                    // your movement.
     } else {
          // It does nothing.
     }

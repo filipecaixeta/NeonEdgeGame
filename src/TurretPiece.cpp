@@ -30,7 +30,9 @@
 TurretPiece::TurretPiece(Character* center, int x, int y, int type):
     Character(0, 0) {
         if (type >= INT_MIN_SIZE && type <= INT_MAX_SIZE ) {
+			assert(type >= INT_MIN_SIZE && type <= INT_MAX_SIZE );
             if ((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
+				assert((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE));
                 name = "TurretBoss";
                 this->center = center;
                 this->type = type;
@@ -86,6 +88,7 @@ void TurretPiece::Shoot() {
 */
 void TurretPiece::Rotate(float angle) {
     if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE) {
+		assert(angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE);
         rotation = angle;
     } else {
         // It does nothing.

@@ -8,8 +8,7 @@
 
 #include "Life.h"
 #include "Camera.h"
-#include <assert.h>
-
+#include "Logger.h"
 #include <assert.h>
 
 /**
@@ -43,6 +42,8 @@ Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, 
     Life::loops = loops;
     Life::dies = dies;  // Manages the action of being collided by the player.
     name = "Life";  // Sets the Life's name.
+
+    Log::instance.info("Life builder started!");
 }
 
 /**
@@ -62,6 +63,7 @@ Life::~Life() {
  * @return bool dead - returns true if is dead.
 */
 bool Life::IsDead() {
+    assert(isDead == true || isDead == false);
     return isDead;
 }
 
@@ -72,6 +74,8 @@ bool Life::IsDead() {
 */
 void Life::NotifyObjectCollision(GameObject* other) {
     assert(other != nullptr);
+
+    Log::instance.info("Collision of objects, NotifyObjectCollision in Life");
 
     if (other->Is("Gallahad") || other->Is("Lancelot")) {
         // Destroy the object if the player collides with it.
