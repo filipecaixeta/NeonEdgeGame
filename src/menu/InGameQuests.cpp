@@ -23,15 +23,23 @@ void InGameQuests::LoadAssets() {
     }
 
     std::string path = "menus/" + StageState::player->name;
-    bg.Open(path + "MenuQuest.png");
+    bg.OpenFile(path + "MenuQuest.png");
     bg.SetBlending(true);
 
-    blackOpacity.Open("menus/smallBlack.png", true);
+    blackOpacity.OpenFile("menus/smallBlack.png", true);
     blackOpacity.SetScaleX(SCALE);
     blackOpacity.SetScaleY(SCALE);
     blackOpacity.SetTransparency(FIFTY_PER_CENT);
 
-    SetOption(1);
+	bg.OpenFile(path+"MenuQuest.png");
+	bg.SetBlending(true);
+
+	blackOpacity.OpenFile("menus/smallBlack.png",true);
+	blackOpacity.SetScaleX(2000);
+	blackOpacity.SetScaleY(2000);
+	blackOpacity.SetTransparency(0.5);
+
+	SetOption(1);
 }
 
 void InGameQuests::Update() {
@@ -47,19 +55,20 @@ void InGameQuests::SetQuestText(std::string questName) {
     questText->SetTexture(text, true);
 }
 
-void InGameQuests::Render() {
-    blackOpacity.Render(0, 0);
-    Vec2 bgXY = CenterHorizontal(&bg) + CenterVertical(&bg);
-    bg.Render(bgXY);
-    Vec2 pos(17, 50);
-		int offset = OFFSET_VALUE;
-    for(auto option: menuOptions) {
-				option.sprite->Render(bgXY + pos);
-				pos.y += offset;
-    }
-
-    questTitle->Render(bgXY + Vec2(255, 50));
-    questText->Render(bgXY + Vec2(255, 100));
+void InGameQuests::Render()
+{
+	blackOpacity.RenderTexture(0,0);
+	int offset = 50;
+	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
+	bg.RenderScreenPosition(bgXY);
+	Vec2 pos(17,50);
+	for(auto option: menuOptions)
+	{
+		option.sprite->RenderScreenPosition(bgXY+pos);
+		pos.y += offset;
+	}
+	questTitle->RenderScreenPosition(bgXY+Vec2(255,50));
+	questText->RenderScreenPosition(bgXY+Vec2(255,100));
 }
 
 void InGameQuests::SetOption(int i) {

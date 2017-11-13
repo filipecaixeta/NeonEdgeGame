@@ -28,10 +28,10 @@ void DialogWindow::Update(float dt)
 
 void DialogWindow::Render(int cameraX, int cameraY){
 	if(face != nullptr)
-		face->Render(box.x, box.y);
-	sp.Render(box.x + face->GetWidth(), box.y + 23);
+		face->RenderTexture(box.x, box.y);
+	sp.RenderTexture(box.x + face->GetWidth(), box.y + 23);
 	for(unsigned int i = 0; i < dialog.size(); i++)
-		dialog.at(i)->Render(362, 567);
+		dialog.at(i)->RenderTexture(362, 567);
     if(face!= nullptr)
-    	characterName->Render(357, 542);
+    	characterName->RenderTexture(357, 542);
 }

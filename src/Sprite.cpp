@@ -53,7 +53,7 @@ Sprite::Sprite(std::string file, int frameCount, float frameTime, bool enableAlp
     }
 
     Sprite::loops = loops;
-    Open(file, enableAlpha);
+    OpenFile(file, enableAlpha);
 }
 
 /**
@@ -84,7 +84,7 @@ Sprite::Sprite(SDL_Texture *tex, int frameCount, float frameTime, bool enableAlp
 
     Sprite::loops = loops;
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     if (enableAlpha) {
         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     } else {
@@ -115,7 +115,7 @@ Sprite::~Sprite() {
  * @return: void.
 
  */
-void Sprite::Open(std::string file, bool enableAlpha) {
+void Sprite::OpenFile(std::string file, bool enableAlpha) {
     texture = Resources::GetImage(file, enableAlpha);
     if (!IsOpen()) { // Check if image loading sucessful
         printf("IMG_LoadTexture failed: %s\n", SDL_GetError());
@@ -124,7 +124,7 @@ void Sprite::Open(std::string file, bool enableAlpha) {
         // It does nothing.
     }
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     if (enableAlpha) {
         SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
     } else {
@@ -138,16 +138,16 @@ void Sprite::Open(std::string file, bool enableAlpha) {
  * @param: float dt.
  * @return: void.
  */
-void Sprite::Update(float dt) {
-    if (dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE) {
-        timeElapsed += dt;
+void Sprite::Update(float delayTime) {
+    if (delayTime >= FLOAT_MIN_SIZE && delayTime <= FLOAT_MAX_SIZE) {
+        timeElapsed += delayTime;
         if (timeElapsed > frameTime && frameTime > 0) {
             if (currentFrame < frameCount) {
                 currentFrame++;
             } else if (!loops) {
                 currentFrame = 1;
             }
-            SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+            SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
             timeElapsed = 0;
         } else {
             // It does nothing.
@@ -166,7 +166,7 @@ void Sprite::Update(float dt) {
  * @param: float angle.
  * @return: void.
  */
-void Sprite::Render(int x, int y, float angle) {
+void Sprite::RenderTexture(int x, int y, float angle) {
     if ((x >= INT_MIN_SIZE && y <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
         dstRect.w = clipRect.w*scaleX;
         dstRect.h = clipRect.h*scaleY;
@@ -191,9 +191,9 @@ void Sprite::Render(int x, int y, float angle) {
  * @return: void.
 
  */
-void Sprite::Render(Vec2 pos, float angle) {
+void Sprite::RenderScreenPosition(Vec2 pos, float angle) {
     if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE) {
-        Render(pos.x, pos.y, angle);
+        RenderTexture(pos.x, pos.y, angle);
     } else {
         // It does nothing.
     }
@@ -209,7 +209,7 @@ void Sprite::Render(Vec2 pos, float angle) {
  * @return: void.
 
  */
-void Sprite::SetClip(int x, int y, int w, int h) {
+void Sprite::SetClipPosition(int x, int y, int w, int h) {
     if ((x >= INT_MIN_SIZE && x <= INT_MAX_SIZE) && (y >= INT_MIN_SIZE && y <= INT_MAX_SIZE)) {
         clipRect.x = x;
         clipRect.y = y;
@@ -289,7 +289,7 @@ void Sprite::SetTransparency(float a) {
 void Sprite::SetFrame(int frame) {
     if (frame >= INT_MIN_SIZE && frame <= INT_MAX_SIZE) {
         currentFrame = frame;
-        SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+        SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
     } else {
         // It does nothing.
     }
@@ -363,7 +363,7 @@ void Sprite::SetTexture(SDL_Texture* tex, bool destroyTexture_) {
     destroyTexture = destroyTexture_;
     texture = tex;
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
-    SetClip((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
+    SetClipPosition((width/frameCount)*(currentFrame-1), 0, width/frameCount, height);
 }
 
 /**

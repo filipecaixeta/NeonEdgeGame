@@ -109,5 +109,5 @@ void Life::Update(TileMap* world, float dt) {
 }
 
 void Life::Render() {
-    lifeSprite.Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
+    lifeSprite.RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

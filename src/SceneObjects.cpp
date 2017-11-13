@@ -18,7 +18,7 @@ void SceneObjects::Render()
 		for(auto& pos: obj.second.positionVec)
 		{
 			if (!objsAfter[obj.first])
-				obj.second.sp.Render(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
+				obj.second.sp.RenderTexture(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
 		}
 }
 
@@ -28,7 +28,7 @@ void SceneObjects::RenderAfter()
 		for(auto& pos: obj.second.positionVec)
 		{
 			if (objsAfter[obj.first])
-				obj.second.sp.Render(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
+				obj.second.sp.RenderTexture(pos.x - Camera::CheckInstance().screenPosition.x, pos.y - Camera::CheckInstance().screenPosition.y - obj.second.sp.GetHeight());
 		}
 }
 
@@ -58,7 +58,7 @@ void SceneObjects::AddObject(std::string name, SDL_Point pos)
 		if (FILE *file = std::fopen((Resources::BASENAME_IMAGE+name2).c_str(), "r"))
 		{
 			fclose(file);
-			obj.sp.Open(name2);
+			obj.sp.OpenFile(name2);
 			obj.positionVec.push_back(pos);
 			objs.emplace(name,obj);
 		}
@@ -95,7 +95,7 @@ void SceneObjects::LoadObjects(std::string file)
 			if (FILE *file = std::fopen((Resources::BASENAME_IMAGE+name2).c_str(), "r"))
 			{
 				fclose(file);
-				obj.sp.Open(name2);
+				obj.sp.OpenFile(name2);
 				obj.positionVec.push_back(pos);
 				objs.emplace(name,obj);
 			}

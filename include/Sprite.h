@@ -39,10 +39,10 @@ public:
 	Sprite(std::string file, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
 	Sprite(SDL_Texture *tex, int frameCount = 1, float frameTime = 0, bool enableAlpha = false, bool loops = true);
 	~Sprite();
-	void Open(std::string file, bool enableAlpha=false);
+	void OpenFile(std::string file, bool enableAlpha=false);
 	void Update(float dt = 0);
-	void Render(int x, int y, float angle = 0);
-	void Render(Vec2 pos, float angle = 0);
+	void RenderTexture(int x, int y, float angle = 0);
+	void RenderScreenPosition(Vec2 pos, float angle = 0);
 	int GetWidth();
 	int GetHeight();
 	Vec2 GetSize();
@@ -51,7 +51,7 @@ public:
 	void SetFrame(int frame = 0);
 	bool Loops();
 	SDL_Rect GetClip();
-	void SetClip(int x, int y, int w, int h);
+	void SetClipPosition(int x, int y, int w, int h);
 	bool IsOpen();
 	void SetScaleX(float scale);
 	void SetScaleY(float scale);

@@ -26,7 +26,7 @@ GraphicsComponent::~GraphicsComponent() {
 
 void GraphicsComponent::Render(Vec2 position, float angle) {
     if (angle >= FLOAT_MIN_SIZE && angle <= FLOAT_MAX_SIZE){
-        sprite->Render(position, angle);
+        sprite->RenderScreenPosition(position, angle);
     } else {
         Log::instance.error("Tested value is higher or lower than allowed!");
     }

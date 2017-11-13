@@ -30,9 +30,9 @@ public:
 	void AddObject(GameObject* ptr);
 	void AddObjectAsFirst(GameObject* ptr);
 	void RemoveObject(GameObject* ptr);
-	GameObject* GetFirst();
+	GameObject* GetFirstObject();
 	TileMap* GetMap();
-	Vec2 GetPos();
+	Vec2 GetRoomPosition();
 	void ObjectUpdate(float dt);
 	void ObjectCollision();
 	void Update(float dt);
@@ -43,7 +43,6 @@ private:
 	void LoadObjects(std::string file);
 	void ObjectCleanup();
 	void RemovePlayer();
-
 	int index;
 	Vec2 position;
 	TileMap* map;

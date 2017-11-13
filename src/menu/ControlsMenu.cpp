@@ -28,9 +28,9 @@ void ControlsMenu::LoadAssets() {
     menuOptions.push_back({"moveRight", marker, true, 0});
     menuOptions.push_back({"moveRightOption", marker, true, 0});
 
-    bg.Open("menus/BG_Back.png");  // Loads the menu background image.
+    bg.OpenFile("menus/BG_Back.png");  // Loads the menu background image.
 
-    bgOptions.Open("menus/Menu-Neutro-Base.png");  // Loads the menu options image.
+    bgOptions.OpenFile("menus/Menu-Neutro-Base.png");  // Loads the menu options image.
 
     SetOption(1);
 
@@ -169,9 +169,9 @@ void ControlsMenu::Update() {
 */
 void ControlsMenu::Render() {
     int positionsY[4] = {431, 498, 564, 631};
-    bg.Render(CenterVertical(&bg));
-    bgOptions.Render(CenterVertical(&bgOptions) + Vec2(0, 99));
-    menuOptions[currentOption].sprite->Render(CenterVertical(menuOptions[currentOption].sprite) +
+    bg.RenderScreenPosition(CenterVertical(&bg));
+    bgOptions.RenderScreenPosition(CenterVertical(&bgOptions) + Vec2(0, 99));
+    menuOptions[currentOption].sprite->RenderScreenPosition(CenterVertical(menuOptions[currentOption].sprite) +
                                               Vec2(0, positionsY[currentOption]));
     MenuState::Render();
 }

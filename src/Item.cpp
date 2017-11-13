@@ -125,6 +125,6 @@ void Item::Update(TileMap *map, float deltaTime) {
  * @return none.
  */
 void Item::Render() {
-    sprite->Render(box.x - Camera::CheckInstance().screenPosition.x,
+    sprite->RenderTexture(box.x - Camera::CheckInstance().screenPosition.x,
                    box.y - Camera::CheckInstance().screenPosition.y);
 }

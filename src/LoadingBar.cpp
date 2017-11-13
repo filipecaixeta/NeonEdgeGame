@@ -35,7 +35,7 @@ void LoadingBar::SetPercentage(float p)
 void LoadingBar::Render(int x, int y)
 {
 	sp.SetFrameNormalized(0.0);
-	sp.Render(x,y,0);
+	sp.RenderTexture(x,y,0);
 	sp.SetFrameNormalized(1.0);
 	SDL_Rect r = sp.GetClip();
 	if (discrete)
@@ -44,21 +44,21 @@ void LoadingBar::Render(int x, int y)
 		{
 			int current = stateCount*percentage;
 			r.w = leftBorder+blockSize*current;
-			sp.SetClip(r.x,r.y,r.w,r.h);
-			sp.Render(x,y,0);
+			sp.SetClipPosition(r.x,r.y,r.w,r.h);
+			sp.RenderTexture(x,y,0);
 		}
 		else
 		{
 			sp.SetFrameNormalized(percentage);
-			sp.Render(x,y,0);
+			sp.RenderTexture(x,y,0);
 		}
 	}
 	else
 	{
 		r.x += leftBorder;
 		r.w = (r.w-rightBorder-leftBorder)*percentage+leftBorder;
-		sp.SetClip(r.x,r.y,r.w,r.h);
-		sp.Render(x+leftBorder,y,0);
+		sp.SetClipPosition(r.x,r.y,r.w,r.h);
+		sp.RenderTexture(x+leftBorder,y,0);
 	}
 
 }

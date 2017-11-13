@@ -22,10 +22,10 @@
 
 */
 MainMenuState::MainMenuState() {
-	bg2.Open("title2.png");
+	bg2.OpenFile("title2.png");
 	Log::instance.info("[Main Menu State] opened the title2.png in backgroud2");
 
-	bg.Open("title1.png");
+	bg.OpenFile("title1.png");
 	Log::instance.info("[Main Menu State] opened the title1.png in backgroud");
 
 	bgTimer = Timer(500);
@@ -113,12 +113,12 @@ void MainMenuState::Render() {
 
   // Invoke the backgrounds render
 	if (bgBool) {
-	    bg.Render(0, 0); // Set the position that the background will be rendering.
+	    bg.RenderTexture(0, 0); // Set the position that the background will be rendering.
 			Log::instance.info("[Main Menu State] The position of the background was setted");
 	} else {
 	    // It does nothing.
 	}
-	bg2.Render(0, 160);
+	bg2.RenderTexture(0, 160);
 }
 
 /**

@@ -119,7 +119,7 @@ void Energy::Update(TileMap *world, float deltaTime) {
  * @return none.
 */
 void Energy::Render() {
-    sprite.Render(box.x - Camera::CheckInstance().screenPosition.x, 
+    sprite.RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, 
     box.y - Camera::CheckInstance().screenPosition.y);
 }
 

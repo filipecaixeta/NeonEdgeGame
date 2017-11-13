@@ -43,12 +43,14 @@ void MenuState::Update() {
     }
 }
 
-void MenuState::Render() {
-	bg.Render(CenterVertical(&bg));
-    int offset = 70;
+void MenuState::Render()
+{
+	int offset = 70;
+	bg.RenderScreenPosition(CenterVertical(&bg));
 	int pos=offset;
-	for (auto option: menuOptions) {
-		option.sprite->Render(CenterVertical(option.sprite)+Vec2(0,pos));
+	for(auto option: menuOptions)
+	{
+		option.sprite->RenderScreenPosition(CenterVertical(option.sprite)+Vec2(0,pos));
 		pos += offset;
         assert(pos >= INT_MIN_SIZE && pos <= INT_MAX_SIZE);
 	}

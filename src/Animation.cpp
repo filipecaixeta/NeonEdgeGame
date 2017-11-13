@@ -140,7 +140,7 @@ void Animation::Update(TileMap* world, float dt) {
 void Animation::Render() {
     if (CheckFloatAnimation(box.x - Camera::CheckInstance().screenPosition.x) 
     && (box.y - Camera::CheckInstance().screenPosition.y)) {
-        sp->Render(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
+        sp->RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
     } else{
         Log::instance.info("Float is not valid!");                  
     }

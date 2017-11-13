@@ -49,14 +49,14 @@ void InGameItens::LoadAssets() {
 
     std::string path = "menus/" + StageState::player->name;
     selected = new Sprite(path + "temSelected.png");
-    bg.Open(path + "MenuItens.png");
+    bg.OpenFile(path + "MenuItens.png");
     bg.SetBlending(true);
     SetOption(1);
     if (items.size() != 0) {
         SetItemText(items[0]);
     }
 
-    blackOpacity.Open("menus/smallBlack.png", true);
+    blackOpacity.OpenFile("menus/smallBlack.png", true);
     blackOpacity.SetScaleX(2000);
     blackOpacity.SetScaleY(2000);
     blackOpacity.SetTransparency(0.5);
@@ -216,9 +216,9 @@ void InGameItens::SetHotBarOption(int i) {
 
 */
 void InGameItens::Render() {
-    blackOpacity.Render(0, 0);
+    blackOpacity.RenderTexture(0, 0);
     Vec2 bgXY = CenterHorizontal(&bg) + CenterVertical(&bg);
-    bg.Render(bgXY);
+    bg.RenderScreenPosition(bgXY);
     Vec2 pos(27, 101-96);
     int i = 0;
     Vec2 offset(29, 23);
@@ -231,12 +231,10 @@ void InGameItens::Render() {
         }
 
         if (!isOnHotBar && i == currentOption) {
-            selected->Render(bgXY + pos + Vec2(2, 2));
-        } else {
-            // It does nothing.
+            selected->RenderScreenPosition(bgXY + pos + Vec2(2, 2));
         }
 
-        option.sprite->Render(bgXY + pos + offset);
+        option.sprite->RenderScreenPosition(bgXY + pos + offset);
         pos.x += 92;
         i++;
     }
@@ -244,14 +242,14 @@ void InGameItens::Render() {
     pos = Vec2(27, 373);
     i = 0;
     for (auto option : hotBarOptions) {
-        option.sprite->Render(bgXY + pos + offset);
+        option.sprite->RenderScreenPosition(bgXY + pos + offset);
         if (isOnHotBar && i == currentHotBarOption) {
-            selected->Render(bgXY+pos+Vec2(2, 2));
+            selected->RenderScreenPosition(bgXY+pos+Vec2(2, 2));
         }
         pos.x += 92;
         i++;
     }
 
-    itemTitle->Render(bgXY + Vec2(323, 111));
-    itemText->Render(bgXY + Vec2(323, 151));
+    itemTitle->RenderScreenPosition(bgXY + Vec2(323, 111));
+    itemText->RenderScreenPosition(bgXY + Vec2(323, 151));
 }
