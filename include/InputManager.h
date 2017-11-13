@@ -24,8 +24,8 @@
 #define HOT_KEY_1 9
 #define HOT_KEY_2 10
 #define HOT_KEY_3 11
-#define INT_MIN_SIZE -32768
-#define INT_MAX_SIZE 32767
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
 
 #include "SDL.h"
 #include <unordered_map>
