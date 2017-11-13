@@ -5,6 +5,11 @@
 #include "Sprite.h"
 #include "Vec2.h"
 
+#define INT_INITIAL_VALUE 0
+#define FLOAT_INITIAL_VALUE 0.0f
+#define ONE_PERCENT 1.0f
+#define BAR_POSITION 2
+
 class LoadingBar
 {
 	public:
