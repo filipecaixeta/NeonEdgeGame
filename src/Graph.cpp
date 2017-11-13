@@ -1,22 +1,21 @@
 /**
-    Copyright (c) 2017 Neon Edge Game.
-    File Name: Graph.cpp
-    Header File Name: Graph.h
-    Class Name: Graph
-    Objective: it does nothing.
-
-*/
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: Graph.cpp
+ * Header File Name: Graph.h
+ * Class Name: Graph
+ * Objective: it does nothing.
+ */
 
 #include "Graph.h"
 
 /**
-    Objective: it does nothing.
-    @param TileMap map - current map.
-    @param Character enemy - enemy of current map.
-    @param Character player - character of current map.
-    @return none.
-
-*/
+ * Objective: it does nothing.
+ *
+ * @param TileMap map - current map.
+ * @param Character enemy - enemy of current map.
+ * @param Character player - character of current map.
+ * @return none.
+ */
 Graph::Graph(TileMap *map, Character *enemy, Character *player) {
     /*
     for (int i = 0; i < map->GetHeight(); i++) {

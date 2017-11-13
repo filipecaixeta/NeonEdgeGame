@@ -3,11 +3,11 @@
  * File Name: Turret.cpp
  * Header File Name: Turret.h
  * Class Name: Turret
- * Objective: defines the behavior and actions of a Turret.
+ * Objective: defines the behavior and actions of Turret, the enemy of the first stage.
  */
 
-#include "Turret.h"
 #include <assert.h>
+#include "Turret.h"
 #include "AIMovingOnGroudGraphicsComponent.h"
 #include "StageState.h"
 #include "Gallahad.h"
@@ -21,7 +21,7 @@
  * @param int y - initial position of the Turret in y axis.
  * @return instance of Turret.
  */
-Turret::Turret(int x, int y): Character(x, y), radius(), looking(1500), idle(1500) {
+Turret::Turret(int x, int y): Character(x, y), visionRadius(), looking(1500), idle(1500) {
 	Log::instance.info("Starting Turret");
 	name = "Turret";
     // It instances the graphics adding the sprite.
@@ -91,14 +91,14 @@ void Turret::UpdateAI(float deltaTime) {
     assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
 
     // Defines the radius of vision of the Turret as a rectangle.
-    radius = Rect(box.x - 200, box.y - 200, box.w + 400, box.h + 400);
+    visionRadius = Rect(box.x - 200, box.y - 200, box.w + 400, box.h + 400);
     if (StageState::GetPlayer() && !stunned.IsRunning()) {
         Rect player = StageState::GetPlayer()->box;
         bool visible = true;
         assert(visible == true || visible == false);
         TurretSeeingCharacter(&visible);
         assert(visible == true || visible == false);
-        if (player.OverlapsWith(radius) && visible) {
+        if (player.OverlapsWith(visionRadius) && visible) {
             assert((StageState::player->box.x >= FLOAT_MIN_SIZE &&
                     StageState::player->box.x <= FLOAT_MAX_SIZE) &&
                    (StageState::player->box.y >= FLOAT_MIN_SIZE &&

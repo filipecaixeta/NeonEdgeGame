@@ -16,27 +16,29 @@
 
 class Projectile : public GameObject {
  private:
+    ~Projectile();
     Timer lifetime = Timer();
     int power = 1;
     std::string ownerN;
     bool pierce;
 
- public:
-    Projectile(GameObject* gameObject, Vec2 speed, int lifetime, int power, bool pierce = false);
-    ~Projectile();
-    bool IsDead();
-    int Power();
-    std::string GetOwner();
+    void Render();
+    void Update(TileMap* world, float deltaTime);
+    void UpdateTimers(float deltaTime);
+    void NotifyObjectCollision(GameObject *gameObject);
+    void NotifyTileCollision(int tile, Face face);
     bool GetColisionData(SDL_Surface **surface_, SDL_Rect &clipRect_, Vec2 &pos_,
                          bool &mirror);
-    void NotifyTileCollision(int tile, Face face);
-    void NotifyObjectCollision(GameObject *gameObject);
-    void UpdateTimers(float deltaTime);
-    void Update(TileMap* world, float deltaTime);
-    void Render();
 
     PhysicsComponent physicsComponent;
     ProjectileGraphicsComponent *graphicsComponent;
+
+ public:
+    Projectile(GameObject* gameObject, Vec2 speed, int lifetime, int power, bool pierce = false);
+    bool IsDead();
+    int Power();
+    std::string GetOwner();
+
 };
 
 #endif  // INCLUDE_PROJECTILE_H_

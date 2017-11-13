@@ -47,7 +47,7 @@ void QuestManager::SetQuestStatus(std::string questName, bool active) {
     std::sprintf(buff, "%d", (int)quests.size());
     questS << buff << std::endl;
 
-    for(unsigned int i = 0; i < quests.size(); i++) {
+    for (unsigned int i = 0; i < quests.size(); i++) {
         if (quests[i].first == questName) {
             questsActive[i] = active?1:0;
 				}
@@ -65,9 +65,9 @@ void QuestManager::SetQuestStatus(std::string questName, bool active) {
 }
 
 bool QuestManager::GetQuestStatus(std::string questName) {
-    for(unsigned int i = 0; i < quests.size(); i++) {
+    for (unsigned int i = 0; i < quests.size(); i++) {
         if (quests[i].first == questName) {
-					return questsActive[i] == 0?false:true;
+					return questsActive[i] == 0 ? false : true;
 				}
     }
     return false;

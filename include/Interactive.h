@@ -6,6 +6,11 @@
 #include "GameObject.h"
 #include "InteractiveGraphicsComponent.h"
 
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
+
 class Interactive : public GameObject {
  private:
     bool state;
@@ -18,7 +23,7 @@ class Interactive : public GameObject {
     virtual void Off();
     virtual bool Active();
     virtual void Trigger() = 0;
-    virtual bool GetColisionData(SDL_Surface **surface_, SDL_Rect &clipRect_, Vec2 &pos_, 
+    virtual bool GetColisionData(SDL_Surface **surface_, SDL_Rect &clipRect_, Vec2 &pos_,
                                  bool &mirror);
     virtual void NotifyObjectCollision(GameObject* other);
     virtual bool OutOfBounds(TileMap* map);
