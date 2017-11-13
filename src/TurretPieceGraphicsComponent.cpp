@@ -2,10 +2,12 @@
 
 #include "TurretPieceGraphicsComponent.h"
 #include "TurretPiece.h"
+#include <assert.h>
 
-TurretPieceGraphicsComponent::TurretPieceGraphicsComponent(std::string baseNameParam, int type):
+TurretPieceGraphicsComponent::TurretPieceGraphicsComponent(std::string baseNameParam, int turretType):
        GraphicsComponent(baseNameParam) {
-    switch (type) {
+    assert(turretType >= INT_SIZE_MIN && turretType <= INT_SIZE_MAX);
+    switch (turretType) {
         case 0:
             AddSprite(baseName, "Head", 13, 80);
             sprite = sprites["Head"];
@@ -38,6 +40,7 @@ TurretPieceGraphicsComponent::~TurretPieceGraphicsComponent() {
 }
 
 void TurretPieceGraphicsComponent::Update(GameObject *gameObject, float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
     characterLeftDirection = (gameObject->facing == GameObject::RIGHT);
 
     sprite->Mirror(characterLeftDirection);
