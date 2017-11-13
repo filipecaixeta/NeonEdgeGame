@@ -9,8 +9,11 @@
 #include "GameObject.h"
 #include "Character.h"
 #include "Game.h"
+#include "Logger.h"
+#include <assert.h>
 
 GameObject::~GameObject() {
+    Log::instance.info("Destroy GameObject");    
 }
 
 /**
@@ -20,6 +23,8 @@ GameObject::~GameObject() {
  * @return bool 'stringName == name' - status of given string.
  */
 bool GameObject::Is(std::string stringName) {
+    Log::instance.info("Compare GameObject name with stringName");  
+    assert(stringName != "");
     return (stringName == name);
 }
 
@@ -30,6 +35,8 @@ bool GameObject::Is(std::string stringName) {
  * @return bool isDead - game object life status.
  */
 bool GameObject::IsDead() {
+    Log::instance.info("GameObject is Dead");
+    assert(isDead || !isDead);
     return isDead;
 }
 
@@ -40,7 +47,10 @@ bool GameObject::IsDead() {
  * @return bool false.
  */
 bool GameObject::IsCharacter() {
-    return false;
+    Log::instance.info("GameObject is Character");
+    bool objectEqualCharacter = false;
+    assert(objectEqualCharacter || !objectEqualCharacter);
+    return objectEqualCharacter;
 }
 
 /**
@@ -50,7 +60,10 @@ bool GameObject::IsCharacter() {
  * @return bool false.
  */
 bool GameObject::IsPlayer() {
-    return false;
+    Log::instance.info("GameObject is Player");
+    bool objectEqualPlayer = false;
+    assert(objectEqualPlayer || !objectEqualPlayer);
+    return objectEqualPlayer;
 }
 
 /**
@@ -60,6 +73,9 @@ bool GameObject::IsPlayer() {
  * @return Vec2(box.x, box.y) - position of game object.
  */
 Vec2 GameObject::GetPosition() {
+    Log::instance.info("Get object position");
+    assert ((box.x >= FLOAT_MIN_SIZE && box.x <= FLOAT_MAX_SIZE) &&
+    (box.y >= FLOAT_MIN_SIZE && box.y <= FLOAT_MAX_SIZE));
     return Vec2(box.x, box.y);
 }
 
@@ -70,6 +86,7 @@ Vec2 GameObject::GetPosition() {
  * @return none.
  */
 void GameObject::SetPosition(Vec2 position) {
+    Log::instance.info("GameObject is Player");
     if ((position.x >= FLOAT_MIN_SIZE && position.x <= FLOAT_MAX_SIZE) &&
             (position.y >= FLOAT_MIN_SIZE && position.y <= FLOAT_MAX_SIZE)) {
         box.x = position.x;
@@ -106,6 +123,7 @@ void GameObject::NotifyObjectCollision(GameObject *gameObject) {
  */
 void GameObject::SolidColision(GameObject *gameObject) {
     if (gameObject && IsCharacter()) {
+        Log::instance.info("Collision with character");
         Character *character = (Character *) this;
         int y = box.y - character->physicsComponent.velocity.y * Game::GetInstance().GetDeltaTime();
         if (footing != GROUNDED && y + box.h < gameObject->box.y) {
@@ -120,12 +138,17 @@ void GameObject::SolidColision(GameObject *gameObject) {
             footing = GROUNDED;
         } else {
             if (character->physicsComponent.velocity.x < 0) {
-                if (box.x < gameObject->box.x + gameObject->box.w && box.x + box.w > gameObject->box.x + gameObject->box.w) {
+                assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+                       (box.w >= INT_MIN_SIZE && box.w <= INT_MAX_SIZE));
+                if (box.x < gameObject->box.x + gameObject->box.w && box.x + box.w > 
+                    gameObject->box.x + gameObject->box.w) {
                     box.x = gameObject->box.x + gameObject->box.w + 1;
                 } else {
                     // It does nothing.
                 }
             } else if (character->physicsComponent.velocity.x > 0) {
+                assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+                       (box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE));
                 if (box.x + box.w > gameObject->box.x && box.x < gameObject->box.x) {
                     box.x = gameObject->box.x - box.w-1;
                 } else {
@@ -137,6 +160,8 @@ void GameObject::SolidColision(GameObject *gameObject) {
         }
 
         if (y > gameObject->box.y + gameObject->box.h) {
+            assert((box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE) && 
+            (box.h >= INT_MIN_SIZE && box.h <= INT_MAX_SIZE));
             box.y = gameObject->box.y + gameObject->box.h + 1;
             character->physicsComponent.velocity.y = 0;
         } else {
@@ -160,7 +185,9 @@ void GameObject::SolidColision(GameObject *gameObject) {
  */
 bool GameObject::GetColisionData(SDL_Surface **surface, SDL_Rect &clipRect, Vec2 &position,
                                  bool &mirror) {
-    return false;
+    Log::instance.info("Collision Data");
+    bool colisionData = false;
+    return colisionData;
 }
 
 /**
@@ -170,6 +197,7 @@ bool GameObject::GetColisionData(SDL_Surface **surface, SDL_Rect &clipRect, Vec2
  * @return none.
  */
 void GameObject::DieAnimation() {
+    Log::instance.info("Die Animation start");
     dieTimer.Start();
 }
 

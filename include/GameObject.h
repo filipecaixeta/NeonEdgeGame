@@ -14,6 +14,9 @@
 #define FLOAT_MAX_SIZE 3.4e+38f
 
 class GameObject {
+private:
+    virtual void DieAnimation();
+    
 public:
     enum Face : short int {UPPER, BOTTOM, LEFT, RIGHT, SPECIAL};
     enum Footing : short int {GROUNDED, LEFT_WALLED, RIGHT_WALLED, AIRBORNE};
@@ -40,7 +43,6 @@ public:
                                  bool &mirror);
     virtual void Update(TileMap *map, float deltaTime) = 0;
     virtual void Render() = 0;
-    virtual void DieAnimation();
 };
 
 #endif /* GAMEOBJECT_H_ */

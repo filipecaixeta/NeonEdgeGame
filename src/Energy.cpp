@@ -8,7 +8,6 @@
 
 #include "Energy.h"
 #include "Camera.h"
-
 #include <assert.h>
 
 /**
@@ -37,8 +36,10 @@ Energy::Energy(int x_axis_position, int y_axis_position, std::string str_sprite,
         endTimer.Start();
     } else {
 		// Do nothing
-	}
+    }
+    assert(dies || !dies);
     Energy::loops = loops;
+    assert(dies || !dies);
     Energy::dies = dies;
 }
 
@@ -58,6 +59,7 @@ Energy::~Energy() {
  * @return bool dead - character life state.
 */
 bool Energy::IsDead() {
+    assert(dead || !dead);
     return dead;  // It returns true if character is dead.
 }
 
@@ -69,9 +71,10 @@ bool Energy::IsDead() {
 */
 void Energy::NotifyObjectCollision(GameObject *other) {
     // It verifies the name of character used.
+    assert(other != nullptr);
     if (other->Is("Gallahad") || other->Is("Lancelot")) {
-        assert(other != NULL);
         // It verifies if character is dead.
+        assert(dies || !dies);
         if (dies) {
             dead = true;
         } else {
@@ -103,11 +106,13 @@ void Energy::UpdateTimers(float deltaTime) {
 void Energy::Update(TileMap *world, float deltaTime) {
     assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_MAX_SIZE);
     // It verifies character state life.
+    assert(loops || !loops);
     if (!loops && !endTimer.IsRunning()) {
         dead = true;
     } else {
 		// Do nothing
     }
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
     UpdateTimers(deltaTime);  // It updates end timer of character with value passed.
     sprite.Update(deltaTime);  // It updates elapsed time of the sprite with value passed, deltaTime.
 }
@@ -119,6 +124,8 @@ void Energy::Update(TileMap *world, float deltaTime) {
  * @return none.
 */
 void Energy::Render() {
+    assert((box.x >= INT_MIN_SIZE && box.x <= INT_MAX_SIZE) && 
+           (box.y >= INT_MIN_SIZE && box.y <= INT_MAX_SIZE));
     sprite.RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, 
     box.y - Camera::CheckInstance().screenPosition.y);
 }
