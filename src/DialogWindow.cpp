@@ -1,37 +1,45 @@
 #include "DialogWindow.h"
 #include "Game.h"
 #include <iostream>
+#include <assert.h>
 
-DialogWindow::DialogWindow(int posX, int posY, std::string texto,std::string charName, std::string spriteRetrato){
-	fontName = "Sabo-Filled.ttf";
-	sp = Sprite("window.png");
-    if(!spriteRetrato.empty())
-    	face = new Sprite(spriteRetrato.c_str(), 8, 80, false, false);
-    else
-    	face = nullptr;
+DialogWindow::DialogWindow(int positionX, int positionY, std::string text,std::string charName, std::string spritePortrait) {
+    fontName = "Sabo-Filled.ttf";
+    sp = Sprite("window.png");
+    if (!spritePortrait.empty()) {
+        face = new Sprite(spritePortrait.c_str(), 8, 80, false, false);
+		} else {
+		    face = nullptr;
+		}
 
-	box.x = posX;
-	box.y = posY;
-	box.w = face->GetWidth() + sp.GetWidth();
-	box.h = face->GetHeight();
+    assert(positionX >= INT_SIZE_MIN && positionX <= INT_SIZE_MAX);
+    assert(positionY >= INT_SIZE_MIN && positionY <= INT_SIZE_MAX);
+    box.x = positionX;
+    box.y = positionY;
+    box.w = face->GetWidth() + sp.GetWidth();
+    box.h = face->GetHeight();
 
-	textArray.emplace_back(Text::GetText(fontName,fontSize,fontColor,texto, sp.GetWidth() - 30));
-	dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
-    nameTexture = Text::GetText(fontName,fontSize,fontColor,charName, sp.GetWidth());
-    characterName = new Sprite(nameTexture,1,0,true);
+    assert(fontSize >= INT_SIZE_MIN && fontSize <= INT_SIZE_MAX);
+    textArray.emplace_back(Text::GetText(fontName, fontSize, fontColor, text, sp.GetWidth() - 30));
+    dialog.emplace_back(new Sprite(textArray.at(0), 1, 0, true));
+    nameTexture = Text::GetText(fontName, fontSize, fontColor, charName, sp.GetWidth());
+    characterName = new Sprite(nameTexture, 1, 0, true);
 }
 
-void DialogWindow::Update(float dt)
-{
-    face->Update(dt);
+void DialogWindow::Update(float deltaTime) {
+    assert(deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE);
+    face->Update(deltaTime);
 }
 
 void DialogWindow::Render(int cameraX, int cameraY){
-	if(face != nullptr)
-		face->RenderTexture(box.x, box.y);
+	if (face != nullptr) {
+        face->RenderTexture(box.x, box.y);
+    }
 	sp.RenderTexture(box.x + face->GetWidth(), box.y + 23);
-	for(unsigned int i = 0; i < dialog.size(); i++)
-		dialog.at(i)->RenderTexture(362, 567);
-    if(face!= nullptr)
-    	characterName->RenderTexture(357, 542);
+	for (unsigned int i = 0; i < dialog.size(); i++) {
+        dialog.at(i)->RenderTexture(362, 567);
+    }
+    if(face!= nullptr) {
+        characterName->RenderTexture(357, 542);
+    }
 }

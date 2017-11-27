@@ -10,23 +10,22 @@
 class SaveComponent
 {
 	public:
+		SaveComponent();
+		~SaveComponent();
+		void Update(GameObject *obj, std::string fileName);
+		void Save(bool s);
 
+	private:
 		std::string name;
 		Rect box = Rect();
 		GameObject::Face facing;
 		GameObject::Footing footing;
 		GameObject::Footing lastFooting;
 
-		SaveComponent();
-		~SaveComponent();
-		void Update(GameObject *obj, std::string fileName);
-		void Save(bool s);
-		void Delete(std::string fileName);
-		static SaveComponent &GetInstance();
-
-	private:
 		bool saveToFile;
 		static SaveComponent *instance_;
+		static SaveComponent &GetInstance();
+		void Delete(std::string fileName);
 };
 
-#endif // SAVECOMPONENT_H
+#endif // INCLUDE_SAVECOMPONENT_H

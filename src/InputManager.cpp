@@ -6,6 +6,7 @@
  * Objective: it manages system input commands.
  */
 
+#include <assert.h>
 #include "InputManager.h"
 
 InputManager* InputManager::instance = nullptr;
@@ -33,6 +34,7 @@ InputManager::~InputManager() {
  */
 void InputManager::Update() {
     SDL_GetMouseState(&mouseX, &mouseY);
+    assert(updateCounter >= INT_SIZE_MIN && updateCounter <= INT_SIZE_MAX);
     if (updateCounter < 100) {
         updateCounter++;
     } else {
@@ -41,6 +43,7 @@ void InputManager::Update() {
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        assert(updateCounter >= INT_SIZE_MIN && updateCounter <= INT_SIZE_MAX);
         if (event.key.repeat != 1) {
             if (event.type == SDL_QUIT) {
                 quitRequested = true;
@@ -88,6 +91,7 @@ void InputManager::Update() {
  * @return int translatedKey - translated key value.
  */
 int InputManager::TranslateKey(int key) {
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     int translatedKey = translationTable[key];
 
     return translatedKey;
@@ -101,6 +105,7 @@ int InputManager::TranslateKey(int key) {
  * @return bool keyPressStatus.
  */
 bool InputManager::KeyPress(int key, bool translate) {
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     if (translate) {
         key = TranslateKey(key);
     } else {
@@ -109,6 +114,7 @@ bool InputManager::KeyPress(int key, bool translate) {
 
     bool keyPressStatus = false;
 
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     if (keyUpdate[key] == updateCounter) {
         keyPressStatus = keyState[key];
     } else {
@@ -126,6 +132,7 @@ bool InputManager::KeyPress(int key, bool translate) {
  * @return bool keyReleaseStatus.
  */
 bool InputManager::KeyRelease(int key, bool translate) {
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     if (translate) {
         key = TranslateKey(key);
     } else {
@@ -134,6 +141,7 @@ bool InputManager::KeyRelease(int key, bool translate) {
 
     bool keyReleaseStatus = false;
 
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     if (keyUpdate[key] == updateCounter) {
         keyReleaseStatus = !keyState[key];
     } else {
@@ -151,6 +159,7 @@ bool InputManager::KeyRelease(int key, bool translate) {
  * @return keyIsDownStatus.
  */
 bool InputManager::IsKeyDown(int key, bool translate) {
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     if (translate) {
         key = TranslateKey(key);
     } else {
@@ -166,18 +175,19 @@ bool InputManager::IsKeyDown(int key, bool translate) {
  * Objective: it checks if mouse button was pressed.
  *
  * @param bool button - pressed button value.
- * @return mousePressStatus.
+ * @return mousePressed.
  */
 bool InputManager::MousePress(int button) {
-    bool mousePressStatus = false;
+    assert(button >= INT_SIZE_MIN && button <= INT_SIZE_MAX);
+    bool mousePressed = false;
 
     if (mouseUpdate[button] == updateCounter) {
-        mousePressStatus = mouseState[button];
+        mousePressed = mouseState[button];
     } else {
-        mousePressStatus = false;
+        mousePressed = false;
     }
 
-    return mousePressStatus;
+    return mousePressed;
 }
 
 /**
@@ -187,6 +197,7 @@ bool InputManager::MousePress(int button) {
  * @return mouseReleaseStatus.
  */
 bool InputManager::MouseRelease(int button) {
+    assert(button >= INT_SIZE_MIN && button <= INT_SIZE_MAX);
     bool mouseReleaseStatus = false;
 
     if (mouseUpdate[button] == updateCounter) {
@@ -205,6 +216,7 @@ bool InputManager::MouseRelease(int button) {
  * @return mouseIsDownStatus.
  */
 bool InputManager::IsMouseDown(int button) {
+    assert(button >= INT_SIZE_MIN && button <= INT_SIZE_MAX);
     bool mouseIsDownStatus = mouseState[button];
 
     return mouseIsDownStatus;
@@ -213,12 +225,14 @@ bool InputManager::IsMouseDown(int button) {
 /**
  * Objective: it sets the translations of keys values.
  *
- * @param int src - key to be setted.
- * @param int dest - value to be setted in the key.
+ * @param int sourceKey - key to be setted.
+ * @param int keyTranslated - value to be setted in the key.
  * @return none.
  */
-void InputManager::SetTranslationKey(int src, int dest) {
-    translationTable[src] = dest;
+void InputManager::SetTranslationKey(int sourceKey, int keyTranslated) {
+    assert(sourceKey >= INT_SIZE_MIN && sourceKey <= INT_SIZE_MAX);
+    assert(keyTranslated >= INT_SIZE_MIN && keyTranslated <= INT_SIZE_MAX);
+    translationTable[sourceKey] = keyTranslated;
 }
 
 /**
@@ -248,6 +262,7 @@ int InputManager::GetMouseY() {
  * @return translationKey.
  */
 int InputManager::GetTranslationKey(int key) {
+    assert(key >= INT_SIZE_MIN && key <= INT_SIZE_MAX);
     int translationKey = translationTable[key];
 
     return translationKey;
@@ -257,13 +272,14 @@ int InputManager::GetTranslationKey(int key) {
  * Objective: it gets last key.
  *
  * @param none.
- * @return int temp - last key value.
+ * @return int temporaryVariable - last key value.
  */
 int InputManager::GetLastKey() {
-    int temp = lastKey;
+    assert(lastKey >= INT_SIZE_MIN && lastKey <= INT_SIZE_MAX);
+    int temporaryVariable = lastKey;
     lastKey = -1;
 
-    return temp;
+    return temporaryVariable;
 }
 
 /**

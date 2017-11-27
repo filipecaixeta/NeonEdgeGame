@@ -4,9 +4,15 @@
 #include "Resources.h"
 #include <string>
 
+#define FADE_OUT_MUSIC_TIMING 1000
+#define EMPTY_STRING ""
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
+
 class Music {
 private:
     Mix_Music* music;
+    bool IsOpen();
 
 public:
     Music();
@@ -15,7 +21,6 @@ public:
     void Open(std::string file);
     void Play(int times);
     void Stop();
-    bool IsOpen();
 };
 
-#endif /* MUSIC_H_ */
+#endif /* INCLUDE_MUSIC_H_ */

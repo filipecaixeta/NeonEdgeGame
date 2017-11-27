@@ -59,7 +59,7 @@ std::vector<ItemsManager::itemType> ItemsManager::GetItems() {
  * Objective: it gets items.
  *
  * @param std::string name - name of item to be getted.
- * @return ItemsManager::itemType item;
+ * @return ItemsManager::itemType item.
  */
 ItemsManager::itemType ItemsManager::GetItem(std::string name) {
     assert(name[0] != '\0');
@@ -220,7 +220,7 @@ void ItemsManager::ConsumeItem(int hotItemsPos) {
         if (items[hotItems[hotItemsPos]].count <= 0) {
             delete items[hotItems[hotItemsPos]].sprite;
             items.erase(hotItems[hotItemsPos]);
-            hotItems[hotItemsPos]="";
+            hotItems[hotItemsPos] = "";
         } else {
             // It does nothing.
         }

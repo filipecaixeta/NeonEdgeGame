@@ -6,17 +6,16 @@
 
 typedef std::vector<std::pair<std::string,std::string>> questType;
 
-class QuestManager
-{
+class QuestManager {
 public:
-	QuestManager();
+  QuestManager();
 	void ReadQuestsFile();
 	questType & GetQuests();
-	void SetQuestStatus(std::string questName, bool active);
-	bool GetQuestStatus(std::string questName);
 private:
 	questType quests;
 	std::vector<int> questsActive;
+	void SetQuestStatus(std::string questName, bool active);
+	bool GetQuestStatus(std::string questName);
 };
 
 #endif // INCLUDE_QUESTMANAGER_H_
