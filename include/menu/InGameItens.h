@@ -2,22 +2,22 @@
 #define INGAMEITENS_H
 
 #include "menu/MenuState.h"
-#include "ItensManager.h"
+#include "ItemsManager.h"
 
 class InGameItens : public MenuState
 {
 public:
-	InGameItens(ItensManager *itensManager_);
+	InGameItens(ItemsManager *itensManager_);
 	~InGameItens();
 	void LoadAssets();
 	void Update();
 	void Render();
-	void SetItemText(ItensManager::itemType item);
+	void SetItemText(ItemsManager::itemType item);
 	void SetHotBarOption(int i);
 	void SetOption(int i);
 private:
-	ItensManager *itensManager;
-	std::vector<ItensManager::itemType> itens;
+	ItemsManager *itemsManager;
+	std::vector<ItemsManager::itemType> items;
 	unsigned int rowSize;
 	Sprite *itemTitle;
 	Sprite *itemText;

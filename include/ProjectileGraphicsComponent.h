@@ -1,5 +1,7 @@
-#ifndef PROJECTILEGRAPHICSCOMPONENT_H
-#define PROJECTILEGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_PROJECTILEGRAPHICSCOMPONENT_H_
+#define INCLUDE_PROJECTILEGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -8,12 +10,11 @@
 #include "Sprite.h"
 #include "GraphicsComponent.h"
 
-class ProjectileGraphicsComponent: public GraphicsComponent
-{
-public:
-	ProjectileGraphicsComponent(std::string baseName_);
-	~ProjectileGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+class ProjectileGraphicsComponent: public GraphicsComponent {
+ public:
+    ProjectileGraphicsComponent(std::string baseNameParam);
+    ~ProjectileGraphicsComponent();
+    void Update(GameObject* gameObject, float deltaTime);
 };
 
-#endif /* PROJECTILEGRAPHICSCOMPONENT_H */
+#endif // INCLUDE_PROJECTILEGRAPHICSCOMPONENT_H_

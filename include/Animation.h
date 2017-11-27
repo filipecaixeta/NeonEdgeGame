@@ -6,21 +6,22 @@
 #include "Timer.h"
 #include "TileMap.h"
 
-class Animation : public GameObject
-{
+#define FLOAT_SIZE_MAX 3.4e+38f
+#define FLOAT_SIZE_MIN -3.4e+38f
+
+class Animation : public GameObject {
 private:
 	Sprite* sp;
 	Timer endTimer;
 	float timeLimit;
 	bool oneTimeOnly;
-
+	void Render();
+	void Update(TileMap* world, float dt);	
+	bool IsDead();	
+	
 public:
 	Animation(float x, float y, std::string sprite, float frameCount, float frameTime, bool ends);
-	~Animation();
-	bool IsDead();
-	void Update(TileMap* world, float dt);
-	void Render();
-	
+	~Animation();	
 };
 
 #endif /* ANIMATION_H_ */

@@ -1,69 +1,168 @@
+/**
+    Copyright (c) 2017 Neon Edge
+    File Name: Drone.cpp
+    Header File Name: Drone.h
+    Class Name: Drone
+    Objective: Class responsible for drone movement and actions.
+
+*/
+
 #include "Drone.h"
 #include "Camera.h"
 #include "StageState.h"
 #include "Vec2.h"
 #include "Rect.h"
 #include "Projectile.h"
+#include "Logger.h"
+#include <assert.h>
 
-Drone::Drone(ItensManager* itemManager, int x, int y):
-	Player(itemManager,x,y),
-	active(false)
-{
-	name = "Drone";
-	inputComponent = new DroneInputComponent();
-	physicsComponent.SetKinetic(true);
-	graphicsComponent = new DroneGraphicsComponent("Drone");
-	soundComponent = new SoundComponent(name);
-	box.SetWH(graphicsComponent->GetSize());
-	Empower(0);
+/**
+    Objective: Constructor method. Initializes the drone components.
+    @param int dronePositionX- Position of the drone on the x axis.
+    @param int dronePositionY - Position of the drone on the y axis.
+    @param int dronePositionX - Position of the character on the x axis.
+    @param int dronePositionY - Position of the character on the Y axis.
+    @return - none.
+
+*/
+Drone::Drone(ItemsManager* itemManager, int dronePositionX, int dronePositionY):
+    Player(itemManager, dronePositionX, dronePositionY), droneActive(false) {
+	
+	assert (dronePositionX < MIN_INT || dronePositionX < MAX_INT);
+	assert (dronePositionY < MIN_INT || dronePositionY < MAX_INT);
+	name = ""; // Sets the drone name
+    inputComponent = new DroneInputComponent(); // Creates independent movement of the drone in
+                                                // relation to the character.
+    assert(inputComponent != nullptr);
+
+    physicsComponent.SetKinetic(true); // Disables gravity for the drone.
+    graphicsComponent = new DroneGraphicsComponent("Drone"); // Loads drone images
+                                                             //(drone moving, firing and etc).
+    assert(graphicsComponent != nullptr);
+
+    soundComponent = new SoundComponent(name); // Loads drone sound effects.
+    assert(soundComponent != nullptr);
+
+    box.SetWH(graphicsComponent->GetSize());
+    Empower(0);
+
+    Log::instance.info("Drone builder started!");
 }
 
-Drone::~Drone()
-{
+/**
+    Objective: Destructive method. It deallocates memory used by the class.
+    @param - No parameter.
+    @return - none.
 
+*/
+Drone::~Drone() {
 }
 
-void Drone::Attack()
-{
-	attacking.Start();
+/**
+    Objective: Generate/start drone attack.
+    @param - No parameter.
+    @return - none.
+
+*/
+void Drone::Attack() {
+    attacking.Start();
 }
 
-void Drone::Activate(bool on)
-{
-	active = on;
+/**
+    Objective: Activate the drone (control over the drone).
+    @param - Boolean (turnOnDrone) informs drone state (enabled or disabled).
+    @return - none.
+
+*/
+void Drone::DroneActivate(bool turnOnDrone) {
+    assert(turnOnDrone == true || turnOnDrone == false);
+    droneActive = turnOnDrone;
 }
 
-bool Drone::Active()
-{
-	return active;
+/**
+    Objective: Inform drone activation status.
+    @param - No parameter.
+    @return - State of the drone.
+
+*/
+bool Drone::isActive() {
+    assert(droneActive == true || droneActive == false);
+    return droneActive;
 }
 
-void Drone::UpdateTimers(float dt)
-{
-	Player::UpdateTimers(dt);
+/**
+    Objective: Sets the duration of the drone's attack.
+    @param - Float (delayTime) duration of the attack.
+    @return - none.
+
+*/
+void Drone::UpdateTimers(float delayTime) {
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
+	Player::UpdateTimers(delayTime);
 }
 
-void Drone::Update(TileMap* map, float dt)
-{
-	UpdateTimers(dt);
-	if(StageState::GetPlayer())
-	{
-		if(active == true)
-		{
-			inputComponent->Update(this,dt);
-			physicsComponent.Update(this,map,dt);
-		}
-		else
-		{
-			facing = StageState::GetPlayer()->facing;
-			if(StageState::GetPlayer()->facing == LEFT)
-				box.x = StageState::GetPlayer()->box.x+StageState::GetPlayer()->box.w-box.w;
-			else
-				box.x = StageState::GetPlayer()->box.x;
-			box.y = StageState::GetPlayer()->box.y - 5;
-		}
-		if(OutOfBounds(map))
-			SetPosition(Vec2(269,544));
-		graphicsComponent->Update(this,dt);
-	}
+
+/**
+    Objective: Changes the drone side and causes the drone to follow the character
+    @param - bool (droneActive) drone enablement state.
+    @return - none.
+
+*/
+void Drone::FollowsCharacter(bool droneActive) {
+    // Test expected value
+    assert(droneActive == false);
+
+    //Face of the character
+    facing = StageState::GetPlayer()->facing;
+
+    // Checks which direction (left or right) the character has turned.
+    if (StageState::GetPlayer()->facing == LEFT) {
+        box.x = StageState::GetPlayer()->box.x + StageState::GetPlayer()->box.w - box.w; // Causes
+                                        //the drone to follow the character as he turns to the left.
+    } else {
+        box.x = StageState::GetPlayer()->box.x; // Causes the drone to follow the character as he
+                                                // turns to the hight.
+    }
+    box.y = StageState::GetPlayer()->box.y - 5; // Make the drone come back to follow the character by positioning him above him.
+
+	
+	assert (box.x < MIN_FLOAT || box.x < MAX_FLOAT);
+	assert (box.y < MIN_FLOAT || box.y < MAX_FLOAT);
+}
+
+
+
+/**
+    Objective: Updates position of objects and draws them on the screen.
+    @param - Pointer to character position.
+    @param - Drone on map and duration of actions.
+    @return - none.
+
+*/
+void Drone::Update(TileMap* map, float delayTime) {
+	assert (delayTime < MIN_FLOAT || delayTime < MAX_FLOAT);
+    UpdateTimers(delayTime); // Defines time parameters for modifying drone behavior.
+
+    // Checks if the player is other than null.
+    if (StageState::GetPlayer()) {
+        // Checks whether the drone is active.
+        if (droneActive) {
+            assert(droneActive == true);
+            inputComponent->Update(this, delayTime); // Updates drone position according to input.
+            physicsComponent.Update(this, map, delayTime); // Moves the drone on the screen.
+        } else {
+            FollowsCharacter(droneActive);
+        }
+        // Checks if the drone is outside the screen boundaries.
+        if (OutOfBounds(map)) {
+            SetPosition(Vec2(269, 544)); // Resets the drone's position.
+            Log::instance.warning("Outdated limits!");
+        } else {
+             // It does nothing.
+        }
+        graphicsComponent->Update(this, delayTime); // Refresh drone image on screen according to
+                                                    // your movement.
+    } else {
+         // It does nothing.
+    }
 }

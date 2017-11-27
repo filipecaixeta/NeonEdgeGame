@@ -1,23 +1,18 @@
+// Copyright (c) 2017 Neon Edge Game.
+
 #include "CeilingEnemyGraphicsComponent.h"
 
-CeilingEnemyGraphicsComponent::CeilingEnemyGraphicsComponent(std::string baseName_):
-    GraphicsComponent(baseName_)
-{
-    AddSprite(baseName,"Idle",6,80);
-    sp = sprites["Idle"];
+CeilingEnemyGraphicsComponent::CeilingEnemyGraphicsComponent(std::string baseNameParam):
+    GraphicsComponent(baseNameParam) {
+    AddSprite(baseName, "Idle", 6, 80);
+    sprite = sprites["Idle"];
     surface = surfaces["Idle"];
 }
 
-CeilingEnemyGraphicsComponent::~CeilingEnemyGraphicsComponent()
-{
-
+CeilingEnemyGraphicsComponent::~CeilingEnemyGraphicsComponent() {
 }
 
-void CeilingEnemyGraphicsComponent::Update(GameObject* obj, float dt)
-{
-    UpdateSprite(obj, "Idle");
-    sp->Update(dt);
+void CeilingEnemyGraphicsComponent::Update(GameObject* gameObject, float deltaTime) {
+    UpdateSprite(gameObject, "Idle");
+    sprite->Update(deltaTime);
 }
-
-
-

@@ -1,22 +1,27 @@
 #ifndef LIFE_H_
 #define LIFE_H_
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Timer.h"
 
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+
 class Life : public GameObject
 {
 private:
-	Sprite sp;
-	Timer endTimer;
-	bool loops;
-	bool dies;
-	bool dead = false;
+	Sprite lifeSprite = NULL;
+	Timer endTimer = NULL;
+	bool loops = true;
+	bool dies = false;
+	bool isDead = false;
 
 public:
 	Life(int x, int y, std::string sprite, float frameCount = 1, float frameTime = 0,
-		   bool loops = true, float lifetime = 0, bool dies = false);
+		   bool loops = true, float lifeTime = 0, bool dies = false);
 	~Life();
 	bool IsDead();
 	void NotifyObjectCollision(GameObject* other);
