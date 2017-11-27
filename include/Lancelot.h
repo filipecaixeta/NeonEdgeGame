@@ -7,23 +7,26 @@
 #include "LancelotInputComponent.h"
 #include "LancelotGraphicsComponent.h"
 
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
 
 class Lancelot : public Player
 {
 public:
-	Lancelot(ItensManager* itemManager,int x, int y);
+	Lancelot(ItemsManager *itemManager,int x, int y);
 	~Lancelot();
+	void BlockingAttack();
 	void Damage(int damage);
 	void Attack();
-	void Block();
-	void Stop();
-	void Combo(std::string c);
-	bool Blocking();
-	std::string WhichCombo();
+	void StartBlock();
+	void StopBlock();
+	void SetCombo(std::string setCombo);
+	bool IsBlocking();
+	std::string GetCombo();
 	void UpdateTimers(float dt);
 
 private:
-	bool blocking;
+	bool isBlocking;
 	std::string combo;
 	bool done = false;
 };

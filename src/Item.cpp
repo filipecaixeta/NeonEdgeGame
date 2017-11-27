@@ -1,59 +1,130 @@
+/**
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: Item.cpp
+ * Header File Name: Item.h
+ * Class Name: Item
+ * Objective: it manages character itens in the game.
+ */
+
 #include "Item.h"
 #include "Camera.h"
 #include "StageState.h"
+#include <assert.h>
 
-Item::Item(int id_, int x, int y):
-	sp(new Sprite("items.png",6)),
-	dead(false),
-	id(id_-100)
-{
-	sp->SetFrame(id);
-	box.SetXY(Vec2(x,y));
-	box.SetWH(sp->GetSize());
-	name = "Item";
+/**
+ * Objective: it constructs Item object.
+ *
+ * @param int id - id of item.
+ * @param int x - Initial position of the Item in x axis
+ * @param int y - Initial position of the Item in y axis.
+ * @return instance of Item.
+ */
+Item::Item(int idParam, int x, int y): sprite(new Sprite("items.png", 6)), dead(false),
+                                       id(idParam - 100) {
+    assert(id >= INT_MIN_SIZE && id <= INT_MAX_SIZE);
+    sprite->SetFrame(id);
+    assert(x >= INT_MIN_SIZE && x <= INT_MAX_SIZE);
+    assert(y >= INT_MIN_SIZE && y <= INT_MAX_SIZE);
+    box.SetXY(Vec2(x, y));
+    box.SetWH(sprite->GetSize());
+    stringName = "Item";
 }
 
-void Item::Eval(Player* player)
-{
-	if (player!=nullptr && player->itemManager!=nullptr)
-	{
-		player->itemManager->AddItem(id);
-		player->soundComponent->Item();
-	}
+/**
+ * Objective: it manages itens of character.
+ *
+ * @param Player *player - player character object.
+ * @return none.
+ */
+void Item::Eval(Player *player) {
+    assert(player != nullptr);
+
+    if (player->itemManager != nullptr) {
+        player->itemManager->AddItem(id);
+        player->soundComponent->SoundItem();
+    } else {
+        // It does nothing.
+    }
+
+    assert(player != nullptr);
 }
 
-void Item::SetActive(bool b)
-{
-
+/**
+ * Objective: it does nothing.
+ *
+ * @param bool boolStatus.
+ * @return none.
+ */
+void Item::SetActive(bool boolStatus) {
 }
 
-bool Item::GetActive()
-{
-	return !IsDead();
+/**
+ * Objective: it returns opposite object life status.
+ *
+ * @param none.
+ * @return '!IsDead()'.
+ */
+bool Item::GetActive() {
+    return !IsDead();
 }
 
-bool Item::Is(std::string type)
-{
-	return type=="Item";
+/**
+ * Objective: it verifies item.
+ *
+ * @param none.
+ * @return bool 'stringItem == "Item"'.
+ */
+bool Item::Is(std::string stringItem) {
+    assert(stringItem[0] != '\0');
+
+    return (stringItem == "Item");
 }
 
-bool Item::IsDead()
-{
-	return dead;
+/**
+ * Objective: it returns object life status.
+ *
+ * @param none.
+ * @return bool dead.
+ */
+bool Item::IsDead() {
+    return dead;
 }
 
-void Item::NotifyObjectCollision(GameObject* other)
-{
-	if (other->IsPlayer())
-		dead = true;
+/**
+ * Objective: it sets character life status to dead when happens a collision.
+ *
+ * @param GameObject *gameObject.
+ * @return none.
+ */
+void Item::NotifyObjectCollision(GameObject *gameObject) {
+    assert(gameObject != nullptr);
+
+    if (gameObject->IsPlayer()) {
+        dead = true;
+    } else {
+        // It does nothing.
+    }
+
+    assert(gameObject != nullptr);
 }
 
-void Item::Update(TileMap* map, float dt)
-{
-
+/**
+ * Objective: it does nothing.
+ *
+ * @param TileMap *map.
+ * @param float deltaTime.
+ * @return none.
+ */
+void Item::Update(TileMap *map, float deltaTime) {
 }
 
-void Item::Render()
-{
-	sp->Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+/**
+ * Objective: it renders sprite item.
+ *
+ * @param none.
+ * @return none.
+ */
+void Item::Render() {
+    sprite->RenderTexture(box.x - Camera::CheckInstance().screenPosition.x,
+                   box.y - Camera::CheckInstance().screenPosition.y);
 }

@@ -1,13 +1,10 @@
 #include "AIMovingOnGroudInputComponent.h"
 
-AIMovingOnGroudInputComponent::AIMovingOnGroudInputComponent()
-{
-
+AIMovingOnGroudInputComponent::AIMovingOnGroudInputComponent() {
 }
 
-void AIMovingOnGroudInputComponent::Update(Character* obj_, float dt_)
-{
-	obj = obj_;
-	dt = dt_;
+void AIMovingOnGroudInputComponent::Update(Character *character, float deltaTime) {
+	this->character = character;
+	this->deltaTime = deltaTime;
 	MoveLeft();
 }

@@ -1,237 +1,417 @@
-#include <iostream>
+/**
+ * Copyright 2017 Neon Edge Game
+ * File Name: Game.cpp
+ * Header File Name: Game.h
+ * Class Name: Game
+ * Objective: it manages the resorces of the engine and provide them to the game.
+ */
 
+#include <iostream>
+#include <assert.h>
+#include <cstdio>
 #include "Game.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "menu/MainMenu.h"
 #include "Resources.h"
-#include <cstdio>
 
-Game* Game::instance = nullptr;
+Game *Game::instance = nullptr;  // Initiation pointing to nullptr for improve debuging.
 
+/**
+ * Objective: it constructs the Game object.
+ *
+ * @param String title - responsable to the game window title.
+ * @return instace of Game.
+ */
 Game::Game(std::string title) {
-	if(instance) {
-		printf("Multiple Instances\n");
-		exit(EXIT_FAILURE);
-	}else{
-		instance = this;
-	}
+    assert(title[0] != '\0');
 
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
-		printf("SDL_Init failed\n");
-		exit(EXIT_FAILURE);
-	}
+    // Check the the existence of others game instances.
+    if (instance) {
+        printf("Multiple Instances\n");
+        exit(EXIT_FAILURE);
+    } else {
+        instance = this;
+    }
 
-	if(!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF)) {
-		printf("IMG_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    // Try to Initiate SDL_VIDEO SDL_AUDIO AND SDL_TIMER.
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+        printf("SDL_Init failed\n");
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
 
-	if(!Mix_Init(MIX_INIT_OGG)) {
-		printf("Mix_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    // Try to Initiate libraries of image formats.
+    if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF )) {
+        printf("IMG_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
 
-	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)) {
-		printf("Mix_OpenAudio failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    // Try to Initiate SDL_MIX.
+    if (!Mix_Init(MIX_INIT_OGG)) {
+        printf("Mix_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
 
-	if(TTF_Init()) {
-		printf("TTF_Init failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    // Try to open a chanell for the SDL_Mixing librarie.
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)) {
+        printf("Mix_OpenAudio failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
 
-	fps = 60;
-	nextTime_ = 0;
+    // Try to init ttf library.
+    if (TTF_Init()) {
+        printf("TTF_Init failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
 
-    SDL_Point screenSize = GetFullScreenSize();
+    SDL_Point screenSize = GetFullScreenSize();  // Get the screen size.
 
+    // Get flags for library opengl and alow high dpi.
     int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenSize.x, screenSize.y, flags);
-	if(!window) {
-		printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if(!renderer) {
-		printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
+    // Create window with some expecifications.
+    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, screenSize.x, screenSize.y, flags);
 
-    // Antialiasing
+    // Check if window has created.
+    if (!window) {
+        printf("SDL_CreateWindow failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
+
+    // Create render and set the type of it.
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    // Check if the render was created.
+    if (!renderer) {
+        printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
+        exit(EXIT_FAILURE);
+    } else {
+        // It does nothing.
+    }
+
+    // Configure the Antialiasing.
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 
+    // Configure some aspects of screen.
     SetScreenSize(screenSize);
     setFullScreen(false);
 
-	storedState = nullptr;
-	AddState(new MainMenu());
+    // Configure initial game state.
+    storedState = nullptr;
+    AddState(new MainMenu());
 }
 
 Game::~Game() {
-	storedState = nullptr;
-	for(unsigned i = 0; i < stateStack.size(); i++) {
-			delete stateStack.top();
-			stateStack.pop();
-	}
-	Resources::ClearImages();
-	Resources::ClearMusics();
-	Resources::ClearSounds();
-	Resources::ClearFonts();
-	Camera::GetInstance().~Camera();
-	InputManager::GetInstance().~InputManager();
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	TTF_Quit();
-	Mix_CloseAudio();
-	Mix_Quit();
-	IMG_Quit();
-	SDL_Quit();
+    storedState = nullptr;
+
+    // Clear all states in the state stack.
+    for (unsigned i = 0; i < stateStack.size(); i++) {
+        delete stateStack.top();
+        stateStack.pop();
+    }
+
+    // It cleans all resources used in the game.
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
+    Resources::ClearFonts();
+
+    // It calls destructor of Camera and InputManager
+    Camera::CheckInstance().~Camera();
+    InputManager::GetInstance().~InputManager();
+
+    // It shutdown libraries.
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    TTF_Quit();
+    Mix_CloseAudio();
+    Mix_Quit();
+    IMG_Quit();
+    SDL_Quit();
 }
 
-Game& Game::GetInstance() {
-	return *instance;
+/**
+ * Objective: It gets game instance
+ *
+ * @param none.
+ * @return Game* instance - A pointer to the game instance.
+ */
+Game & Game::GetInstance() {
+	assert (instance != nullptr);
+    return *instance;
 }
 
-SDL_Renderer* Game::GetRenderer() {
+/**
+ * Objective: Return the render instance.
+ *
+ * @param none.
+ * @return SDL_Renderer* renderer.
+ */
+SDL_Renderer * Game::GetRenderer() {
+	assert (renderer != nullptr);
 	return renderer;
 }
 
-State* Game::GetCurrentState() {
-	return storedState;
+/**
+ * Objective: Return the current game state.
+ *
+ * @param none.
+ * @return State* state - pointer to the current state.
+ */
+State * Game::GetCurrentState() {
+    return storedState;
 }
 
-void Game::UpdateState()
-{
-	storedState = stateStack.top();
-	storedState->LoadAssets();
+/**
+ * Objective: Change the current state.
+ *
+ * @param none.
+ * @return none.
+ */
+void Game::UpdateState() {
+    storedState = stateStack.top();
+    storedState->LoadAssets();
 }
 
-void Game::LoadConfigurations()
-{
-	//Load Game::screenSize
-	//Load Game::fps
-	//Load Game::fullScreenMode
-	//Load inputmanager::translationTable
+/**
+ * Objective: It does nothing.
+ *
+ * @param none.
+ * @return none.
+ */
+void Game::LoadConfigurations() {
 }
 
-void Game::SaveConfigurations()
-{
-	//Save Game::screenSize
-	//Save Game::fps
-	//Save Game::fullScreenMode
-	//Save inputmanager::translationTable
+
+/**
+ * Objective: It does nothing.
+ *
+ * @param none.
+ * @return none.
+ */
+void Game::SaveConfigurations() {
 }
 
-void Game::AddState(State* state) {
-	stateStack.emplace(state);
+/**
+ * Objective: Add a new state to the stack of states.
+ *
+ * @param State* state - pointer to the new state.
+ * @return none.
+ */
+void Game::AddState(State *state) {
+    assert(state != nullptr);
+
+    stateStack.emplace(state);
+
+    assert(state != nullptr);
 }
 
+/**
+ * Objective: Remove the top state form the stack of states.
+ *
+ * @param none.
+ * @return none.
+ */
 void Game::RemoveState() {
-	stateStack.pop();
-	delete storedState;
+    stateStack.pop();
+    delete storedState;
 }
 
+/**
+ * Objective: Calculate the diference of time passed per frame.
+ *
+ * @param none.
+ * @return none.
+ */
 void Game::CalculateDeltaTime() {
-	dt = SDL_GetTicks() - frameStart;
-    frameStart = frameStart + dt;
+    deltaTime = SDL_GetTicks() - frameStart;
+    frameStart = frameStart + deltaTime;
 }
 
-SDL_Point Game::GetFullScreenSize()
-{
-    SDL_Rect r;
-    if (SDL_GetDisplayBounds(0, &r) != 0)
-    {
-        return res4x3;
+/**
+ * Objective: Return the actual size of the window.
+ *
+ * @param none.
+ * @return SDL_point 'size'(return the actual dimension of the screen).
+ */
+SDL_Point Game::GetFullScreenSize() {
+	SDL_Point resolution;
+	SDL_Rect rectangle;
+    rectangle.x = 0.0f;
+    rectangle.y = 0.0f;
+    rectangle.w = 0.0f;
+    rectangle.h = 0.0f;
+
+    if (SDL_GetDisplayBounds(0, &rectangle) != 0) {
+        resolution = resolution_4x3;
+    } else {
+        // It does nothing.
     }
-    if (((float)r.w/(float)r.h)>=2.3)
-    {
+
+    if (((float)rectangle.w / (float)rectangle.h) >= 2.3) {
         // 21x9
-        return res21x9;
-    }
-    else if (((float)r.w/(float)r.h)>=1.6)
-    {
+        resolution = resolution_21x9;
+    } else if (((float)rectangle.w / (float)rectangle.h) >= 1.6) {
         // 16x9 16x10
-        return res16x9;
-    }
-    else
-    {
+        resolution = resolution_16x9;
+    } else {
         // 4x3 5x4 3x2
-        return res4x3;
+        resolution = resolution_4x3;
     }
+
+	assert(&resolution != nullptr);
+	return resolution;
 }
 
-SDL_Point Game::GetScreenSize()
-{
-    return screenSize;
+/**
+ * Objective: Return the size of the window.
+ *
+ * @param none.
+ * @return SDL_point screenSize.
+ */
+SDL_Point Game::GetScreenSize() {
+	assert(&screenSize != nullptr);
+	return screenSize;
 }
 
-void Game::setFullScreen(bool b)
-{
-    fullScreen = b;
-    SDL_SetWindowFullscreen(window,(fullScreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
+/**
+ * Objective: Set FullScreen for the game window.
+ *
+ * @param none.
+ * @return none.
+ */
+void Game::setFullScreen(bool isFullScreen) {
+    assert(isFullScreen == true || isFullScreen == false);
+
+    fullScreen = isFullScreen;
+    int fullScreenMode = 0;
+    if (fullScreen) {
+        fullScreenMode = SDL_WINDOW_FULLSCREEN_DESKTOP;
+    } else {
+        fullScreenMode = 0;
+    }
+
+    SDL_SetWindowFullscreen(window, fullScreenMode);
 }
 
-bool Game::isFullScreen()
-{
+/**
+ * Objective: Check if Screen is in full screen mode.
+ *
+ * @param none.
+ * @return bool FullScreen
+ */
+bool Game::isFullScreen(){
+	assert(!fullScreen || fullScreen);
     return fullScreen;
 }
 
-void Game::SetScreenSize(SDL_Point size)
-{
+/**
+ * Objective: Set the game screen size.
+ *
+ * @param SDL_Point size - the size to be scalable.
+ * @return none.
+ */
+void Game::SetScreenSize(SDL_Point size) {
+    assert(INT_MIN_SIZE <= size.x && size.x <= INT_MAX_SIZE ||
+           INT_MIN_SIZE <= size.y && size.y <= INT_MAX_SIZE);
+
     screenSize = size;
-	SDL_SetWindowSize(window,size.x,size.y);
+    SDL_SetWindowSize(window, size.x, size.y);
     SDL_RenderSetLogicalSize(renderer, size.x, size.y);
 }
 
+/**
+ * Objective: Retunrn the diference of time per frame.
+ *
+ * @param none.
+ * @return int deltaTime - time in micro seconds.
+ */
 int Game::GetDeltaTime() {
-	return dt;
+	assert(deltaTime > 0);
+	return deltaTime;
 }
 
-Uint32 Game::timeLeft()
-{
-	Uint32 now;
-	now = SDL_GetTicks();
-	if(nextTime_ <= now)
-		return 0;
-	else
-		return nextTime_ - now;
+/**
+ * Objective:Return the time left to end the frame
+ *
+ * @param none.
+ * @return Uint32 time (0 if the time is more then the desirable, and just the time if not.)
+ */
+Uint32 Game::timeLeft() {
+	Uint32 timeLeft = 0;
+	Uint32 now = SDL_GetTicks();
+
+	if (nextTime_ > now) {
+        timeLeft = nextTime_ - now;
+    }
+
+	assert(timeLeft > 0);
+	return timeLeft;
 }
 
+/**
+ * Objective: Start the game main loop and manage the games resources.
+ *
+ * @param none.
+ * @return none.
+ */
 void Game::Run() {
-	storedState = stateStack.top();
-	storedState->LoadAssets();
-	nextTime_ = SDL_GetTicks() + 1000.0/fps;
-	while(!InputManager::GetInstance().QuitRequested()) {
-		while(storedState->QuitRequested() == false &&
-			  InputManager::GetInstance().QuitRequested() == false &&
-			  storedState == stateStack.top())
-		{
-			CalculateDeltaTime();
-			if(SDL_RenderClear(renderer))
-				printf("SDL_RenderClear failed: %s\n", SDL_GetError());
-			InputManager::GetInstance().Update();
-			storedState->Update();
-			storedState->Render();
-			SDL_RenderPresent(renderer);
+    // Start main loop.
+    while (!InputManager::GetInstance().QuitRequested()) {
+    storedState = stateStack.top();  // Get the top state.
+    storedState->LoadAssets();  // Load resources of the current state.
+        // Quit the game if catch a quit request.
+        while (storedState->QuitRequested() == false &&
+               InputManager::GetInstance().QuitRequested() == false &&
+               storedState == stateStack.top()) {
+            CalculateDeltaTime();  // Calculate the times between frames
 
-			SDL_Delay(timeLeft());
-			nextTime_ += 1000/fps;
-		}
-		if (storedState != stateStack.top())
-		{
-			UpdateState();
-		}
-		else if(storedState->QuitRequested())
-		{
-			RemoveState();
-			if(stateStack.size()==0)
-				break;
-			storedState = stateStack.top();
-		}
-	}
+            // Clear the render screen.
+            if (SDL_RenderClear(renderer)) {
+                printf("SDL_RenderClear failed: %s\n", SDL_GetError());
+            } else {
+                // It does nothing.
+            }
+            InputManager::GetInstance().Update();  // Get all inputs.
+
+            // Update the scene and re-draw screen.
+            storedState->Update();
+            storedState->Render();
+            SDL_RenderPresent(renderer);
+
+            nextTime_ = SDL_GetTicks() + 1000.0 / framesPerSecond;  // set frame rate.
+
+            // Apply framesPerSecond
+            SDL_Delay(timeLeft());
+            nextTime_ += 1000 / framesPerSecond;
+        }
+
+        // Check change of the current state.
+        if (storedState != stateStack.top()) {
+            UpdateState();
+        } else if (storedState->QuitRequested()) {  // Check  for a quit request.
+            RemoveState();
+            if (stateStack.size() == 0) {
+                break;
+            } else {
+                // It does nothing.
+            }
+            storedState = stateStack.top();
+        }
+    }
 }

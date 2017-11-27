@@ -11,19 +11,19 @@
 class Resources
 {
 private:
-	static std::unordered_map<std::string, SDL_Texture*> imageTable;
-	static std::unordered_map<std::string, SDL_Surface*> surfaceTable;
-	static std::unordered_map<std::string, Mix_Music*> musicTable;
-	static std::unordered_map<std::string, Mix_Chunk*> soundTable;
-	static std::unordered_map<std::string, TTF_Font*> fontTable;
-	static std::unordered_map<std::string, SDL_Texture*> textTable;
+	static std::unordered_map<std::string, SDL_Texture*> imageTable; // Variable to store SDL_Textures in a dictionary.
+	static std::unordered_map<std::string, SDL_Surface*> surfaceTable; // Variable to store SDL_Surface in a dictionary.
+	static std::unordered_map<std::string, Mix_Music*> musicTable; // Variable to store Mix_music in a dictionary.
+	static std::unordered_map<std::string, Mix_Chunk*> soundTable; // Variable to store SDL_Textures in a dictionary.
+	static std::unordered_map<std::string, TTF_Font*> fontTable; // Variable to store SDL_Textures in a dictionary.
+	static std::unordered_map<std::string, SDL_Texture*> textTable; // Variable to store SDL_Textures in a dictionary.
 
 public:
-	static std::string BASENAME;
-	static std::string BASENAME_IMAGE;
-	static std::string BASENAME_MUSIC;
-	static std::string BASENAME_SOUND;
-	static std::string BASENAME_FONT;
+	static std::string BASENAME; // Variable to store a path to the folder of the resources.
+	static std::string BASENAME_IMAGE; // Variable to store a path to the folder of the images.
+	static std::string BASENAME_MUSIC; // Variable to store a path to  the folder that contains music files.
+	static std::string BASENAME_SOUND; // Variable to store a path to  the folders that contains all sounds of the game.
+	static std::string BASENAME_FONT; // Variable to store a path of the folder that contais the characters fonts of the game.
 
 	static SDL_Texture* GetImage(std::string file,bool forceDuplicate);
 	static void ClearImages();

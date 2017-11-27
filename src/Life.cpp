@@ -1,54 +1,113 @@
+/**
+ * Copyright (c) 2017 Neon Edge Game
+ * File Name: Life.cpp
+ * Header File Name: Life.h
+ * Class Name: Life
+ * Objective: manages the Life aspects of the characters.
+*/
+
 #include "Life.h"
 #include "Camera.h"
+#include "Logger.h"
+#include <assert.h>
 
-Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops, float lifetime, bool dies)
-{
-	name = "Life";
-	sp = Sprite(sprite, frameCount, frameTime);
-	Vec2 size = sp.GetSize();
-	box = Rect(x, y, size.x, size.y);
-	endTimer = Timer(lifetime);
-	if(loops)
-		endTimer.Start();
-	Life::loops = loops;
-	Life::dies = dies;
+/**
+ *Objective: constructor of the class Life.
+
+ * @param int x - coordinate of the the Life.
+ * @param int y - coordinate of the the Life.
+ * @param string sprite
+ * @param float frameCount
+ * @param float frameTime
+ * @param bool loops
+ * @param float lifeTime
+ * @param bool dies
+ * @return instance of the class Life.
+*/
+Life::Life(int x, int y, std::string sprite, float frameCount, float frameTime, bool loops,
+                                            float lifeTime, bool dies) {
+    assert(frameCount >= FLOAT_MIN_SIZE && frameCount <= FLOAT_MIN_SIZE);
+    assert(frameTime >= FLOAT_MIN_SIZE && frameTime <= FLOAT_MIN_SIZE);
+    lifeSprite = Sprite(sprite, frameCount, frameTime);  // Construct the sprite of the object Life.
+    assert(lifeTime >= FLOAT_MIN_SIZE && lifeTime <= FLOAT_MIN_SIZE);
+    endTimer = Timer(lifeTime);
+    if (loops) {
+        endTimer.Start();
+    } else {
+        // It does nothing.
+    }
+    Vec2 size = lifeSprite.GetSize();  // Gets the size of the object Life.
+    box = Rect(x, y, size.x, size.y);  // The position in the screen that the object can be
+                                       // collided.
+    Life::loops = loops;
+    Life::dies = dies;  // Manages the action of being collided by the player.
+    name = "Life";  // Sets the Life's name.
+
+    Log::instance.info("Life builder started!");
 }
 
-Life::~Life()
-{
+/**
+ * Objective: destructor of the class Life.
+ *
+ * @param none.
+ * @return none.
+*/
+Life::~Life() {
 
 }
 
-bool Life::IsDead()
-{
-	return dead;
+/**
+ * Objective: checks an character is dead.
+ *
+ * @param none.
+ * @return bool dead - returns true if is dead.
+*/
+bool Life::IsDead() {
+    assert(isDead == true || isDead == false);
+    return isDead;
 }
 
-void Life::NotifyObjectCollision(GameObject* other)
-{
-	if(other->Is("Gallahad") || other->Is("Lancelot"))
-	{
-		if(dies)
-		{
-			dead = true;
-		}
-	}
+/**
+ * Objective: sets the variable dead to true if the characters Gallahad or Lancelot dies.
+ * @param GameObject* other - the character (Gallahad or Lancelot).
+ * @return none.
+*/
+void Life::NotifyObjectCollision(GameObject* other) {
+    assert(other != nullptr);
+
+    Log::instance.info("Collision of objects, NotifyObjectCollision in Life");
+
+    if (other->Is("Gallahad") || other->Is("Lancelot")) {
+        // Destroy the object if the player collides with it.
+        if (dies) {
+            isDead = true;
+        } else {
+            // It does nothing.
+        }
+    } else {
+        // It does nothing.
+    }
 }
 
-void Life::UpdateTimers(float dt)
-{
-	endTimer.Update(dt);
+void Life::UpdateTimers(float dt) {
+    assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
+
+    endTimer.Update(dt);
 }
 
-void Life::Update(TileMap* world, float dt)
-{
-	UpdateTimers(dt);
-	if(!loops && !endTimer.IsRunning())
-		dead = true;
-	sp.Update(dt);
+void Life::Update(TileMap* world, float dt) {
+    assert(dt >= FLOAT_MIN_SIZE && dt <= FLOAT_MAX_SIZE);
+    assert(world != nullptr);
+
+    UpdateTimers(dt);
+    if (!loops && !endTimer.IsRunning()) {
+        isDead = true;
+    } else {
+        // It does nothing.
+    }
+    lifeSprite.Update(dt);
 }
 
-void Life::Render()
-{
-	sp.Render(box.x - Camera::GetInstance().pos.x, box.y - Camera::GetInstance().pos.y);
+void Life::Render() {
+    lifeSprite.RenderTexture(box.x - Camera::CheckInstance().screenPosition.x, box.y - Camera::CheckInstance().screenPosition.y);
 }

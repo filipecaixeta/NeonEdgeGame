@@ -1,5 +1,7 @@
-#ifndef INTERACTIVEGRAPHICSCOMPONENT_H
-#define INTERACTIVEGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_INTERACTIVEGRAPHICSCOMPONENT_H_
+#define INCLUDE_INTERACTIVEGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -8,12 +10,11 @@
 #include "Sprite.h"
 #include "GraphicsComponent.h"
 
-class InteractiveGraphicsComponent: public GraphicsComponent
-{
-public:
-	InteractiveGraphicsComponent(std::string baseName_);
-	~InteractiveGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+class InteractiveGraphicsComponent: public GraphicsComponent {
+ public:
+    InteractiveGraphicsComponent(std::string baseNameParam);
+    ~InteractiveGraphicsComponent();
+    void Update(GameObject *gameObject, float deltaTime);
 };
 
-#endif /* INTERACTIVEGRAPHICSCOMPONENT_H */
+#endif  // INCLUDE_INTERACTIVEGRAPHICSCOMPONENT_H_

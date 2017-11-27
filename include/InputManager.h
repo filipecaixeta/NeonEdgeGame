@@ -1,5 +1,8 @@
-#ifndef INPUTMANAGER_H_
-#define INPUTMANAGER_H_
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_INPUTMANAGER_H_
+#define INCLUDE_INPUTMANAGER_H_
+
 #define LEFT_ARROW_KEY SDLK_LEFT
 #define RIGHT_ARROW_KEY SDLK_RIGHT
 #define UP_ARROW_KEY SDLK_UP
@@ -21,12 +24,14 @@
 #define HOT_KEY_1 9
 #define HOT_KEY_2 10
 #define HOT_KEY_3 11
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
 
 #include "SDL.h"
 #include <unordered_map>
 
 class InputManager {
-private:
+ private:
 	int mouseX;
 	int mouseY;
 	int updateCounter;
@@ -38,17 +43,17 @@ private:
 	int translationTable[12];
 	int lastKey;
 
-	static InputManager* instance;
+	static InputManager *instance;
 
 	InputManager();
 
-public:
+ public:
 	~InputManager();
 	void Update();
 	int TranslateKey(int key);
-	bool KeyPress(int key,bool translate=0);
-	bool KeyRelease(int key,bool translate=0);
-	bool IsKeyDown(int key,bool translate=0);
+	bool KeyPress(int key, bool translate = 0);
+	bool KeyRelease(int key, bool translate = 0);
+	bool IsKeyDown(int key, bool translate = 0);
 	bool MousePress(int button);
 	bool MouseRelease(int button);
 	bool IsMouseDown(int button);
@@ -58,7 +63,7 @@ public:
 	int GetTranslationKey(int key);
 	int GetLastKey();
 	bool QuitRequested();
-	static InputManager& GetInstance();
+	static InputManager & GetInstance();
 };
 
-#endif /* INPUTMANAGER_H_ */
+#endif // INCLUDE_INPUTMANAGER_H_

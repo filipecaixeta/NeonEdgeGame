@@ -1,5 +1,7 @@
-#ifndef NOTFREDOGRAPHICSCOMPONENT_H
-#define NOTFREDOGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_NOTFREDOGRAPHICSCOMPONENT_H_
+#define INCLUDE_NOTFREDOGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -9,12 +11,11 @@
 #include "GraphicsComponent.h"
 #include "Character.h"
 
-class NotfredoGraphicsComponent: public GraphicsComponent
-{
-public:
-	NotfredoGraphicsComponent(std::string baseName_);
-	~NotfredoGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+class NotfredoGraphicsComponent: public GraphicsComponent {
+ public:
+    NotfredoGraphicsComponent(std::string baseNameParam);
+    ~NotfredoGraphicsComponent();
+    void Update(GameObject *gameObject, float deltaTime);
 };
 
-#endif // NOTFREDOGRAPHICSCOMPONENT_H
+#endif  // INCLUDE_NOTFREDOGRAPHICSCOMPONENT_H_

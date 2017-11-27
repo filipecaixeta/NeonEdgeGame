@@ -1,6 +1,9 @@
 #ifndef ROOM_H_
 #define ROOM_H_
-
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
 #define __USE_MINGW_ANSI_STDIO 0
 
 #include <vector>
@@ -27,20 +30,19 @@ public:
 	void AddObject(GameObject* ptr);
 	void AddObjectAsFirst(GameObject* ptr);
 	void RemoveObject(GameObject* ptr);
-	void RemovePlayer();
-	GameObject* GetFirst();
+	GameObject* GetFirstObject();
 	TileMap* GetMap();
-	Vec2 GetPos();
+	Vec2 GetRoomPosition();
 	void ObjectUpdate(float dt);
 	void ObjectCollision();
-	void ObjectCleanup();
 	void Update(float dt);
 	void Render();
 
 private:
 	void CreateObjects();
 	void LoadObjects(std::string file);
-	
+	void ObjectCleanup();
+	void RemovePlayer();
 	int index;
 	Vec2 position;
 	TileMap* map;

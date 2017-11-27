@@ -1,5 +1,7 @@
-#ifndef AIMOVINGONGROUDGRAPHICSCOMPONENT_H
-#define AIMOVINGONGROUDGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_AIMOVINGONGROUDGRAPHICSCOMPONENT_H_
+#define INCLUDE_AIMOVINGONGROUDGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -9,12 +11,11 @@
 #include "GraphicsComponent.h"
 #include "Character.h"
 
-class AIMovingOnGroudGraphicsComponent: public GraphicsComponent
-{
-public:
-	AIMovingOnGroudGraphicsComponent(std::string baseName_);
-	~AIMovingOnGroudGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+class AIMovingOnGroudGraphicsComponent: public GraphicsComponent {
+ public:
+    AIMovingOnGroudGraphicsComponent(std::string baseName_);
+    ~AIMovingOnGroudGraphicsComponent();
+    void Update(GameObject *gameObject, float deltaTime);
 };
 
-#endif // AIMOVINGONGROUDGRAPHICSCOMPONENT_H
+#endif  // INCLUDE_AIMOVINGONGROUDGRAPHICSCOMPONENT_H_

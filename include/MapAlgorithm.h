@@ -6,7 +6,16 @@
 #include <cstdlib>
 #include <SDL.h>
 
-class MapAlgorithm{
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
+#define INITIAL_INT_VALUE 0
+#define FIRST_ROOM 1
+#define SUM_FOR_RANDOM_INT 2
+#define MODULE_FOR_RANDOM_INT 3
+#define FIFTH_ROOM 5
+
+
+class MapAlgorithm {
 public:
 	MapAlgorithm(int numberOfRooms = 1);
 	void RandomizeRoomOrder(std::vector<int>* roomOrder);
@@ -20,4 +29,4 @@ private:
 	int numberOfRooms;
 };
 
-#endif
+#endif  // INCLUDE_MAPALGORITHM_H_

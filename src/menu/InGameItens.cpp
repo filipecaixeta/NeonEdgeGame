@@ -1,194 +1,255 @@
-#include <cstdio>
+/**
+    Copyright 2017 Neon Edge Game
+    File Name: InGameItens.cpp
+    Header File Name: InGameItens.h
+    Class Name: InGameItens
+    Objective: manages the menu itens.
 
+*/
+
+#include <cstdio>
 #include "menu/InGameItens.h"
 #include "InputManager.h"
 #include "Text.h"
 
-InGameItens::InGameItens(ItensManager* itensManager_):
-	itensManager(itensManager_),
-	rowSize(3),
-	itemTitle(new Sprite()),
-	itemText(new Sprite()),
-	isOnHotBar(false)
-{
-	rowSize=HOT_BAR_SIZE;
-	fontSize = 15;
+InGameItens::InGameItens(ItemsManager* itemsManager_): itemsManager(itemsManager_), rowSize(3),
+                                                       itemTitle(new Sprite()),
+                                                       itemText(new Sprite()), isOnHotBar(false) {
+    rowSize = HOT_BAR_SIZE;
+    fontSize = 15;
 }
 
-InGameItens::~InGameItens()
-{
-	menuOptions.clear();
-	hotBarOptions.clear();
+InGameItens::~InGameItens() {
+    menuOptions.clear();
+    hotBarOptions.clear();
 }
 
-void InGameItens::LoadAssets()
-{
-	itens = itensManager->GetActiveItems();
+/**
+    Objective: loads menu items.
+    @param none.
+    @return none.
 
-//	itensManager->hotItens[1] = "Arco";
+*/
+void InGameItens::LoadAssets() {
+    items = itemsManager->GetActiveItems();
+    // itemsManager->hotItems[1] = "Arco";
+    for (auto &i : items) {
+        menuOptions.push_back({i.name, i.sprite, true, 0});
+    }
 
-	for(auto &i: itens)
-	{
-		menuOptions.push_back({i.name,i.sp,true,0});
-	}
+    for (int i = 0; i < HOT_BAR_SIZE; i++) {
+        std::string itemName = itemsManager->hotItems[i];
+        if (itemName.length() > 0) {
+            auto item = itemsManager->GetItem(itemName);
+            hotBarOptions.push_back({itemName, item.sprite, true, 0});
+        } else {
+            hotBarOptions.push_back({"", new Sprite(), false, 0});
+        }
+    }
 
-	for(int i=0; i<HOT_BAR_SIZE; i++)
-	{
-		std::string itemName = itensManager->hotItens[i];
-		if (itemName.length()>0)
-		{
-			auto item = itensManager->GetItem(itemName);
-			hotBarOptions.push_back({itemName,item.sp,true,0});
-		}
-		else
-		{
-			hotBarOptions.push_back({"",new Sprite(),false,0});
-		}
-	}
+    std::string path = "menus/" + StageState::player->name;
+    selected = new Sprite(path + "temSelected.png");
+    bg.OpenFile(path + "MenuItens.png");
+    bg.SetBlending(true);
+    SetOption(1);
+    if (items.size() != 0) {
+        SetItemText(items[0]);
+    }
 
-	std::string path = "menus/"+StageState::player->name;
-
-	selected = new Sprite(path+"temSelected.png");
-
-	bg.Open(path+"MenuItens.png");
-	bg.SetBlending(true);
-	SetOption(1);
-	if (itens.size()!=0)
-		SetItemText(itens[0]);
-
-	blackOpacity.Open("menus/smallBlack.png",true);
-	blackOpacity.SetScaleX(2000);
-	blackOpacity.SetScaleY(2000);
-	blackOpacity.SetTransparency(0.5);
+    blackOpacity.OpenFile("menus/smallBlack.png", true);
+    blackOpacity.SetScaleX(2000);
+    blackOpacity.SetScaleY(2000);
+    blackOpacity.SetTransparency(0.5);
 }
 
-void InGameItens::SetItemText(ItensManager::itemType item)
-{
-	SDL_Texture *text;
-	text = Text::GetText(fontName,fontSize*1.2,fontColor,item.name,400);
-	itemTitle->SetTexture(text,true);
-	text = Text::GetText(fontName,fontSize,fontColor,item.description,400);
-	itemText->SetTexture(text,true);
+/**
+    Objective: sets item content.
+    @param none.
+    @return none.
+
+*/
+void InGameItens::SetItemText(ItemsManager::itemType item) {
+    SDL_Texture *text;
+    text = Text::GetText(fontName, fontSize * 1.2, fontColor, item.name, 400);
+    itemTitle->SetTexture(text, true);
+    text = Text::GetText(fontName, fontSize, fontColor, item.description, 400);
+    itemText->SetTexture(text, true);
 }
 
-void InGameItens::Update()
-{
-	if(InputManager::GetInstance().KeyPress((int)'q'))
-	{
-		quitRequested = true;
-	}
-	if (isOnHotBar)
-	{
-		if(InputManager::GetInstance().KeyPress(SDLK_LEFT))
-		{
-			SetHotBarOption(-1);
-		}
-		if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
-		{
-			SetHotBarOption(1);
-		}
-		if(	InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
-			InputManager::GetInstance().KeyPress(SDLK_RETURN) )
-		{
-			isOnHotBar = !isOnHotBar;
+/**
+    Objective: updates menu items.
+    @param none.
+    @return none.
 
-			hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
-			hotBarOptions[currentHotBarOption].sprite = menuOptions[currentOption].sprite;
-			itensManager->hotItens[currentHotBarOption] = menuOptions[currentOption].key;
+*/
+void InGameItens::Update() {
+    // Verifies quit request.
+    if (InputManager::GetInstance().KeyPress((int)'q')) {
+        quitRequested = true;
+    } else {
+        // It does nothing.
+    }
 
-			for(int i=0; i<hotBarOptions.size(); i++)
-			{
-				if (i==currentHotBarOption)
-					continue;
-				if (hotBarOptions[currentHotBarOption].key == hotBarOptions[i].key)
-				{
-					hotBarOptions[i].sprite = new Sprite();
-					hotBarOptions[i].selectable = false;
-					hotBarOptions[i].key = "";
-					itensManager->hotItens[i] = "";
-				}
-			}
-		}
-	}
-	else
-	{
-		if(InputManager::GetInstance().KeyPress(SDLK_UP))
-		{
-			if (currentOption-rowSize<=menuOptions.size())
-				SetOption(-rowSize);
-		}
-		if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
-		{
-			if (currentOption+rowSize<menuOptions.size())
-				SetOption(rowSize);
-		}
-		if(InputManager::GetInstance().KeyPress(SDLK_LEFT))
-		{
-			SetOption(-1);
-		}
-		if(InputManager::GetInstance().KeyPress(SDLK_RIGHT))
-		{
-			SetOption(1);
-		}
-		if(	InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
-			InputManager::GetInstance().KeyPress(SDLK_RETURN) )
-		{
-			isOnHotBar = !isOnHotBar;
-		}
-	}
+    if (isOnHotBar) {
+        if (InputManager::GetInstance().KeyPress(SDLK_LEFT)) {
+            SetHotBarOption(-1);
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_RIGHT)) {
+            SetHotBarOption(1);
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
+            InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
+            isOnHotBar = !isOnHotBar;
+        } else {
+            // It does nothing.
+        }
+
+        hotBarOptions[currentHotBarOption] = menuOptions[currentOption];
+        hotBarOptions[currentHotBarOption].sprite = menuOptions[currentOption].sprite;
+        itemsManager->hotItems[currentHotBarOption] = menuOptions[currentOption].key;
+
+        for (int i = 0; i < hotBarOptions.size(); i++) {
+            if (i == currentHotBarOption) {
+                continue;
+            } else {
+                // It does nothing.
+            }
+
+            if (hotBarOptions[currentHotBarOption].key == hotBarOptions[i].key) {
+                hotBarOptions[i].sprite = new Sprite();
+                hotBarOptions[i].selectable = false;
+                hotBarOptions[i].key = "";
+                itemsManager->hotItems[i] = "";
+            } else {
+                // It does nothing.
+            }
+        }
+    } else {
+        if (InputManager::GetInstance().KeyPress(SDLK_UP)) {
+            if (currentOption - rowSize <= menuOptions.size()) {
+                SetOption(-rowSize);
+            } else {
+                // It does nothing.
+            }
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_DOWN)) {
+            if (currentOption + rowSize < menuOptions.size()) {
+                SetOption(rowSize);
+            } else {
+                // It does nothing.
+            }
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_LEFT)) {
+            SetOption(-1);
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_RIGHT)) {
+            SetOption(1);
+        } else {
+            // It does nothing.
+        }
+
+        if (InputManager::GetInstance().KeyPress(SDLK_KP_ENTER) ||
+                InputManager::GetInstance().KeyPress(SDLK_RETURN)) {
+            isOnHotBar = !isOnHotBar;
+        } else {
+            // It does nothing.
+        }
+    }
 }
 
-void InGameItens::SetOption(int i)
-{
-	MenuState::SetOption(i);
-	if (itens.size()!=0)
-		SetItemText(itens[currentOption]);
+/**
+    Objective: selects item.
+    @param none.
+    @return none.
+
+*/
+void InGameItens::SetOption(int i) {
+    MenuState::SetOption(i);
+    if (items.size()!= 0) {
+        SetItemText(items[currentOption]);
+    } else {
+        // It does nothing.
+    }
 }
 
-void InGameItens::SetHotBarOption(int i)
-{
-	if (!hotBarOptions.size())
-		return;
+/**
+    Objective: sets item hot bar option.
+    @param none.
+    @return none.
 
-	currentHotBarOption = currentHotBarOption+i;
-	if (currentHotBarOption<0)
-	{
-		currentHotBarOption = hotBarOptions.size()+i;
-	}
-	currentHotBarOption = currentHotBarOption%hotBarOptions.size();
+*/
+void InGameItens::SetHotBarOption(int i) {
+    if (!hotBarOptions.size()) {
+        return;
+    } else {
+        // It does nothing.
+    }
+
+    currentHotBarOption = currentHotBarOption + i;
+    if (currentHotBarOption < 0) {
+        currentHotBarOption = hotBarOptions.size() + i;
+    } else {
+        // It does nothing.
+    }
+    currentHotBarOption = currentHotBarOption % hotBarOptions.size();
 }
 
-void InGameItens::Render()
-{
-	blackOpacity.Render(0,0);
-	Vec2 bgXY = CenterHorizontal(&bg)+CenterVertical(&bg);
-	bg.Render(bgXY);
-	Vec2 pos(27,101-96);
-	int i=0;
-	Vec2 offset(29,23);
-	for(auto option: menuOptions)
-	{
-		if (i%rowSize==0)
-		{
-			pos.y += 96;
-			pos.x = 27;
-		}
-		if (!isOnHotBar && i==currentOption)
-			selected->Render(bgXY+pos+Vec2(2,2));
-		option.sprite->Render(bgXY+pos+offset);
-		pos.x += 92;
-		i++;
-	}
-	pos = Vec2(27,373);
-	i=0;
-	for(auto option: hotBarOptions)
-	{
-		option.sprite->Render(bgXY+pos+offset);
-		if (isOnHotBar && i==currentHotBarOption)
-			selected->Render(bgXY+pos+Vec2(2,2));
-		pos.x += 92;
-		i++;
-	}
-	itemTitle->Render(bgXY+Vec2(323,111));
-	itemText->Render(bgXY+Vec2(323,151));
+/**
+    Objective: render menu items position.
+    @param none.
+    @return none.
+
+*/
+void InGameItens::Render() {
+    blackOpacity.RenderTexture(0, 0);
+    Vec2 bgXY = CenterHorizontal(&bg) + CenterVertical(&bg);
+    bg.RenderScreenPosition(bgXY);
+    Vec2 pos(27, 101-96);
+    int i = 0;
+    Vec2 offset(29, 23);
+    for (auto option : menuOptions) {
+        if (i % rowSize == 0) {
+            pos.y += 96;
+            pos.x = 27;
+        } else {
+            // It does nothing.
+        }
+
+        if (!isOnHotBar && i == currentOption) {
+            selected->RenderScreenPosition(bgXY + pos + Vec2(2, 2));
+        }
+
+        option.sprite->RenderScreenPosition(bgXY + pos + offset);
+        pos.x += 92;
+        i++;
+    }
+
+    pos = Vec2(27, 373);
+    i = 0;
+    for (auto option : hotBarOptions) {
+        option.sprite->RenderScreenPosition(bgXY + pos + offset);
+        if (isOnHotBar && i == currentHotBarOption) {
+            selected->RenderScreenPosition(bgXY+pos+Vec2(2, 2));
+        }
+        pos.x += 92;
+        i++;
+    }
+
+    itemTitle->RenderScreenPosition(bgXY + Vec2(323, 111));
+    itemText->RenderScreenPosition(bgXY + Vec2(323, 151));
 }

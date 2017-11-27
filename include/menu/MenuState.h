@@ -1,10 +1,13 @@
 #ifndef MENUSTATE_H
 #define MENUSTATE_H
-#include <Game.h>
-#include <Sprite.h>
+#include "Game.h"
+#include "Sprite.h"
 #include <string>
 #include <cstdio>
 #include <cstdlib>
+
+#define INT_MIN_SIZE -32768
+#define INT_MAX_SIZE 32767
 
 class MenuState: public State
 {
@@ -30,9 +33,9 @@ class MenuState: public State
 
 protected:
 		std::vector<Option> menuOptions;
-		int currentOption;
+		int currentOption = 0;
 		std::string fontName;
-		int fontSize;
+        int fontSize = 0;
 		SDL_Color fontColor;
 		Sprite bgOptions;
 };
