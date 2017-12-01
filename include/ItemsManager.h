@@ -24,6 +24,7 @@ class ItemsManager {
     std::vector<itemType> GetActiveItems();
   	itemType GetItem(std::string name);
     void AddItem(int id);
+    void AddDriver(int id);
     void ConsumeItem(int hotItemsPos);
     void Render();
     void Update();

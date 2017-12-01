@@ -142,6 +142,22 @@ void ItemsManager::AddItem(int id) {
     } else {
         // It does nothing.
     }
+}
+
+/**
+ * Objective: it adds item Drive in repository and define your behavior.
+ *
+ * @param int id - id of Drive item (6).
+ * @return none.
+ */
+void ItemsManager::AddDriver(int id) {
+    std::string name = "";
+    std::string desc = "";
+    if (id == 6) {
+        name = "Driver";
+        desc = "";
+    }
+
     if (name == "Driver") {
         if (StageState::stage == "naveGalahad") {
             Game::GetInstance().GetCurrentState()->quitRequested = true;
