@@ -30,7 +30,15 @@
 
 
 class Gallahad : public Player {
- public:
+private:
+    void UpdateTimers(float deltaTime);
+    GameObject *drone = nullptr;
+    Timer isHiding;
+    bool isShooting = false;
+    bool active = false;
+    bool done = false;
+
+public:
     Gallahad(ItemsManager* itemManager, int x, int y, GameObject *setDrone);
     ~Gallahad();
     void Attack();
@@ -42,15 +50,7 @@ class Gallahad : public Player {
     void Activate(bool on);
     bool Active();
     Drone * GetDrone();
-    void UpdateTimers(float deltaTime);
     void Update(TileMap *map, float deltaTime);
-
- private:
-    GameObject *drone = nullptr;
-    Timer isHiding;
-    bool isShooting = false;
-    bool active = false;
-    bool done = false;
 };
 
 #endif // INCLUDE_GALLAHAD_

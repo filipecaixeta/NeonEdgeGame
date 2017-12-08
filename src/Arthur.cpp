@@ -9,6 +9,7 @@
 #include "Arthur.h"
 #include "Cutscene.h"
 #include "StageState.h"
+#include "Logger.h"
 #include <assert.h>
 
 float const INITIAL_VALUE = 0;
@@ -52,6 +53,10 @@ void Arthur::NotifyObjectCollision(GameObject *gameObject) {
 void Arthur::ComparePlayerBox(Timer idle, Timer slash, Timer dash, Timer punch, Rect radius,
             ArthurState arthurState, bool triggered, float boxX, float playerX) {
 
+    assert(boxX >= FLOAT_SIZE_MIN && boxX <= FLOAT_SIZE_MAX);
+    assert(playerX >= FLOAT_SIZE_MIN && playerX <= FLOAT_SIZE_MAX);
+    assert(triggered == true || triggered == false);
+
     // according to the position of the Player.
     if (!idle.IsRunning()) {
         assert(idle.IsRunning() == false);
@@ -84,6 +89,9 @@ void Arthur::Attack() {
 }
 
 void Arthur::ArthurStateDashingLeft(Timer idle, Timer dash, float deltaTime, ArthurState arthurState) {
+
+    assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_SIZE_MAX);
+
     if (!dash.IsRunning()) {
         assert(dash.IsRunning() == false);
         idle.Start();  // It starts the 'idle' state when is not dashing to left.
@@ -99,6 +107,9 @@ void Arthur::ArthurStateDashingLeft(Timer idle, Timer dash, float deltaTime, Art
 }
 
 void Arthur::ArthurStateDashingRight(Timer idle, Timer dash, float deltaTime, ArthurState arthurState) {
+
+    assert(deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_SIZE_MAX);
+
     if (!dash.IsRunning()) {
         assert(dash.IsRunning() == false);
         idle.Start();  // It starts the 'idle' state when is not dashing to right.
@@ -115,6 +126,10 @@ void Arthur::ArthurStateDashingRight(Timer idle, Timer dash, float deltaTime, Ar
 }
 
 void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurState, float boxX, float playerX) {
+
+    assert(boxX >= FLOAT_SIZE_MIN && boxX <= FLOAT_SIZE_MAX);
+    assert(playerX >= FLOAT_SIZE_MIN && playerX <= FLOAT_SIZE_MAX);
+
     if (playerX < boxX) {
         if (!slash.IsRunning()) {
             assert(slash.IsRunning() == false);
@@ -147,6 +162,10 @@ void Arthur::ArthurStateSlashing(Timer idle, Timer slash, ArthurState arthurStat
 }
 
 void Arthur::ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurState, float boxX, float playerX) {
+
+    assert(boxX >= FLOAT_SIZE_MIN && boxX <= FLOAT_SIZE_MAX);
+    assert(playerX >= FLOAT_SIZE_MIN && playerX <= FLOAT_SIZE_MAX);
+
     if (playerX < boxX) {
         if (!punch.IsRunning()) {
             assert(punch.IsRunning() == false);
@@ -178,7 +197,7 @@ void Arthur::ArthurStatePunching(Timer idle, Timer punch, ArthurState arthurStat
  * @return none.
  */
 void Arthur::UpdateAI(float deltaTime) {
-    if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
+    if (deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_SIZE_MAX) {
         // Defines the radius of vision of the Arthur as a rectangle.
         radius = Rect(box.x - PIXELS_XY_AXES_REMOVED, box.y - PIXELS_XY_AXES_REMOVED, box.w + PIXELS_WH_SIZE_ADDED, box.h + PIXELS_WH_SIZE_ADDED);
         if (StageState::GetPlayer()) {
@@ -218,7 +237,7 @@ void Arthur::UpdateAI(float deltaTime) {
              // It does nothing.
         }
     } else {
-         // It does nothing.
+        Log::instance.error("Tested value is higher or lower than allowed!");
     }
 }
 
@@ -229,7 +248,7 @@ void Arthur::UpdateAI(float deltaTime) {
  * @return none.
  */
 void Arthur::UpdateTimers(float deltaTime) {
-    if (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE) {
+    if (deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_SIZE_MAX) {
          attacking.SetLimit(MAX_TIME);
          idle.Update(deltaTime);
          slash.Update(deltaTime);
@@ -244,7 +263,7 @@ void Arthur::UpdateTimers(float deltaTime) {
         }
         attackCD.Update(deltaTime);
     } else {
-         // It does nothing.
+        Log::instance.error("Tested value is higher or lower than allowed!");
     }
 }
 
@@ -256,7 +275,7 @@ void Arthur::UpdateTimers(float deltaTime) {
  * @return none.
  */
 void Arthur::Update(TileMap *world, float deltaTime) {
-    if (world && (deltaTime >= FLOAT_MIN_SIZE && deltaTime <= FLOAT_MAX_SIZE)) {
+    if (world && (deltaTime >= FLOAT_SIZE_MIN && deltaTime <= FLOAT_SIZE_MAX)) {
         UpdateTimers(deltaTime);
         UpdateAI(deltaTime);
         physicsComponent.Update(this, world, deltaTime);
@@ -268,7 +287,7 @@ void Arthur::Update(TileMap *world, float deltaTime) {
         }
         graphicsComponent->Update(this, deltaTime);
     } else {
-         // It does nothing.
+         Log::instance.error("Tested value is higher or lower than allowed!");
     }
 }
 

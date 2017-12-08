@@ -151,11 +151,13 @@ bool Gallahad::IsHiding() {
  * @return bool shooting - return true if the character is shooting.
  */
 bool Gallahad::IsShooting() {
+    assert(isShooting == true || isShooting == false);
     return isShooting;
     Log::instance.info("[Gallahad] shoot action checked.");
 }
 
 void Gallahad::Activate(bool on) {
+    assert(on == true || on == false);
     active = on;
     Log::instance.info("[Gallahad] activated.");
 }
