@@ -1,24 +1,31 @@
-#ifndef TURRET_H
-#define TURRET_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_TURRET_H_
+#define INCLUDE_TURRET_H_
 
 #include "Character.h"
 
-class Turret : public Character
-{
-public:
-	Turret(int x, int y);
-	~Turret();
-	void Attack();
-	void NotifyTileCollision(int tile, Face face);
-	void UpdateTimers(float dt);
-	void UpdateAI(float dt);
-	void Update(TileMap* world, float dt);
-	bool Is(std::string type);
+class Turret : public Character {
+ public:
+    Turret(int x, int y);
 
-private:
-	Rect radius;
-	Timer looking;
-	Timer idle;
+ private:
+    ~Turret();
+    void TurretMovingVelocity();
+    void TurretChangingDirection();
+    void TurretSeeingCharacter(bool *visible);
+    void TurretChasingCharacterToAttack(Rect player, float deltaTime);
+    void UpdateTurretLookingTime(float deltaTime);
+    void UpdateTurretIdleTime(float deltaTime);
+    void Attack();
+    void NotifyTileCollision(int tile, Face face);
+    void UpdateTimers(float deltaTime);
+    void UpdateAI(float deltaTime);
+    void Update(TileMap* world, float deltaTime);
+    bool Is(std::string characterType);
+    Rect visionRadius;
+    Timer looking;
+    Timer idle;
 };
 
-#endif // TURRET_H
+#endif  // INCLUDE_TURRET_H_

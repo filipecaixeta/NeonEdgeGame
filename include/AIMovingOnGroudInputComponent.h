@@ -3,13 +3,12 @@
 
 #include "InputComponent.h"
 
-class AIMovingOnGroudInputComponent : public InputComponent
-{
+class AIMovingOnGroudInputComponent : public InputComponent {
 public:
-	AIMovingOnGroudInputComponent();
-	void Update(Character* obj_, float dt_);
+    AIMovingOnGroudInputComponent();
+    void Update(Character *character, float deltaTime);
 protected:
-	Character* obj;
+    Character *character;
 };
 
 #endif // AIMOVINGONGROUDINPUTCOMPONENT_H

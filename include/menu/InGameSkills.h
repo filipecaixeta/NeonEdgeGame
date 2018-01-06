@@ -3,6 +3,8 @@
 
 #include "menu/MenuState.h"
 
+#define SCALE 2000
+
 class InGameSkills: public MenuState
 {
 public:
@@ -16,4 +18,4 @@ public:
 	Sprite blackOpacity;
 };
 
-#endif // INGAMESKILLS_H
+#endif // INCLUDE_INGAMESKILLS_H_

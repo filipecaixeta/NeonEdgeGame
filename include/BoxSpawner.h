@@ -4,6 +4,9 @@
 #include "GameObject.h"
 #include "Box.h"
 
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
+
 class BoxSpawner : public GameObject
 {
 private:
@@ -16,4 +19,4 @@ public:
 	void Render();
 };
 
-#endif 
+#endif

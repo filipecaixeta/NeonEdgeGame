@@ -1,72 +1,149 @@
+/**
+ * Copyright (c) 2017 Neon Edge Game.
+ * File Name: Input.cpp
+ * Header File Name: Input.h
+ * Class Name: Input
+ * Objective:
+ */
+
 #include "Input.h"
 
-Input::Input(type t):
-	type_(t)
-{
-	if (type_==type::SLIDER)
-	{
-//		lb = new LoadingBar("sliderMenu.png",5,15,10);
-	}
+/**
+ * Objective: it constructs Input object.
+ *
+ * @param type typeParam.
+ * @return instance of Input.
+ */
+Input::Input(type typeParam): typeObject(typeParam) {
+    if (typeObject == type::SLIDER) {
+        // loadingBar = new LoadingBar("sliderMenu.png", 5,1 5, 10);
+    } else {
+        // It does nothing.
+    }
 }
 
-void Input::SetPosition(Vec2 pos)
-{
-	position = pos;
+/**
+ * Objective:
+ *
+ * @param Vec2 position.
+ * @return none.
+ */
+void Input::SetPosition(Vec2 position) {
+    if ((position.x >= INT_MIN_SIZE && position.x <= INT_MAX_SIZE) &&
+            (position.y >= INT_MIN_SIZE && position.y <= INT_MAX_SIZE)) {
+        this->position = position;
+    } else {
+        // It does nothing.
+    }
 }
 
-void Input::SetValue(float value_)
-{
-	value = value_;
-	if (type_==type::SLIDER)
-	{
-		lb->SetPercentage(value);
-	}
+/**
+ * Objective: it sets input value.
+ *
+ * @param float value.
+ * @return none.
+ */
+void Input::SetValue(float value) {
+    if (value >= FLOAT_MIN_SIZE && value <= FLOAT_MAX_SIZE) {
+        this->value = value;
+        if (typeObject == type::SLIDER) {
+            loadingBar->SetPercentage(value);
+        } else {
+            // It does nothing.
+        }
+    } else {
+        // It does nothing.
+    }
 }
 
-void Input::SetOption(int option_)
-{
-	option = option_;
+/**
+ * Objective: it sets input option.
+ *
+ * @param int option.
+ * @return none.
+ */
+void Input::SetOption(int option) {
+    if (option >= FLOAT_MIN_SIZE && option <= FLOAT_MAX_SIZE) {
+        this->option = option;
+    } else {
+        // It does nothing.
+    }
 }
 
-void Input::SetText(std::string text_)
-{
-	text = text_;
+/**
+ * Objective: it sets input text.
+ *
+ * @param string text.
+ * @return none.
+ */
+void Input::SetText(std::string text) {
+    this->text = text;
 }
 
-float Input::GetValue()
-{
-	return value;
+/**
+ * Objective: it gets input value.
+ *
+ * @param none.
+ * @return float value.
+ */
+float Input::GetValue() {
+    return value;
 }
 
-int Input::GetOption()
-{
-	return option;
+/**
+ * Objective: it gets input option.
+ *
+ * @param none.
+ * @return int option.
+ */
+int Input::GetOption() {
+    return option;
 }
 
-Vec2 Input::GetPosition()
-{
-	return position;
+/**
+ * Objective: it gets input position.
+ *
+ * @param none.
+ * @return Vec2 position.
+ */
+Vec2 Input::GetPosition() {
+    return position;
 }
 
-Vec2 Input::GetSize()
-{
-	if (type_==type::SLIDER)
-	{
-		return lb->GetSize();
-	}
-	else
-		return Vec2(1.0,1.0);
+/**
+ * Objective: it gets inpput size.
+ *
+ * @param none.
+ * @return Vec2 'size'.
+ */
+Vec2 Input::GetSize() {
+    if (typeObject == type::SLIDER) {
+        return loadingBar->GetSize();
+    } else {
+        return Vec2(1.0, 1.0);
+    }
 }
 
-std::string Input::GetText()
-{
-	return text;
+/**
+ * Objective: it gets string input text.
+ *
+ * @param none.
+ * @return string text.
+ */
+std::string Input::GetText() {
+    return text;
 }
 
-void Input::Render()
-{
-	if (type_==type::SLIDER)
-	{
-		lb->Render(position.x,position.y);
-	}
+/**
+ * Objective: it renders.
+ *
+ * @param none.
+ * @return none.
+ */
+void Input::Render() {
+    if (typeObject == type::SLIDER) {
+        loadingBar->Render(position.x, position.y);
+    } else {
+        // It does nothing.
+    }
 }

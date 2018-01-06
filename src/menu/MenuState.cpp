@@ -1,5 +1,7 @@
-#include <menu/MenuState.h>
-#include <InputManager.h>
+#include "menu/MenuState.h"
+#include "InputManager.h"
+
+#include <assert.h>
 
 MenuState::MenuState():
 	menuOptions(),
@@ -11,10 +13,8 @@ MenuState::MenuState():
 
 }
 
-MenuState::~MenuState()
-{
-	for (auto &i: menuOptions)
-	{
+MenuState::~MenuState() {
+	for (auto &i: menuOptions) {
 		delete i.sprite;
 	}
 	menuOptions.clear();
@@ -25,69 +25,68 @@ void MenuState::LoadAssets()
 
 }
 
-void MenuState::Update()
-{
-	if(InputManager::GetInstance().KeyPress((int)'q'))
-	{
+void MenuState::Update() {
+	if (InputManager::GetInstance().KeyPress((int)'q')) {
 		quitRequested = true;
-	}
-	if(InputManager::GetInstance().KeyPress(SDLK_UP))
-	{
+	} else {
+        // It does nothing
+    }
+	if(InputManager::GetInstance().KeyPress(SDLK_UP)) {
 		SetOption(-1);
-	}
-	if(InputManager::GetInstance().KeyPress(SDLK_DOWN))
-	{
+	} else {
+        // It does nothing.
+    }
+	if (InputManager::GetInstance().KeyPress(SDLK_DOWN)) {
 		SetOption(1);
-	}
+	} else {
+        // It does nothing.
+    }
 }
 
-void MenuState::Render()
-{
-	int offset = 70;
+void MenuState::Render() {
 	bg.Render(CenterVertical(&bg));
+    int offset = 70;
 	int pos=offset;
-	for(auto option: menuOptions)
-	{
+	for (auto option: menuOptions) {
 		option.sprite->Render(CenterVertical(option.sprite)+Vec2(0,pos));
 		pos += offset;
+        assert(pos >= INT_MIN_SIZE && pos <= INT_MAX_SIZE);
 	}
 }
 
-bool MenuState::QuitRequested()
-{
+bool MenuState::QuitRequested() {
 	return quitRequested;
 }
 
-bool MenuState::Is(std::string type)
-{
+bool MenuState::Is(std::string type) {
 	return (type == "Menu");
 }
 
-void MenuState::SetOption(int i)
-{
+void MenuState::SetOption(int i = 0) {
 	if (!menuOptions.size())
 		return;
 
 	currentOption = currentOption+i;
-	if (currentOption<0)
-	{
+	if (currentOption<0) {
 		currentOption = menuOptions.size()+i;
-	}
+	} else {
+        // It does nothing.
+    }
+
 	currentOption = currentOption%menuOptions.size();
 
-	if (menuOptions[currentOption].selectable==false)
-	{
+	if (menuOptions[currentOption].selectable==false) {
 		SetOption(i);
 		return;
-	}
+	} else {
+        // It does nothing.
+    }
 }
 
-State *MenuState::get()
-{
+State *MenuState::get() {
 	return this;
 }
 
-bool MenuState::SelectedOptionIs(std::string opt)
-{
+bool MenuState::SelectedOptionIs(std::string opt) {
 	return menuOptions[currentOption].key==opt;
 }

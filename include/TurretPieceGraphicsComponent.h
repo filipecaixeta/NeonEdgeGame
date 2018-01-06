@@ -1,5 +1,7 @@
-#ifndef TURRETPIECEGRAPHICSCOMPONENT_H
-#define TURRETPIECEGRAPHICSCOMPONENT_H
+// Copyright (c) 2017 Neon Edge Game.
+
+#ifndef INCLUDE_TURRETPIECEGRAPHICSCOMPONENT_H_
+#define INCLUDE_TURRETPIECEGRAPHICSCOMPONENT_H_
 
 #include <string>
 
@@ -9,12 +11,16 @@
 #include "GraphicsComponent.h"
 #include "Character.h"
 
-class TurretPieceGraphicsComponent: public GraphicsComponent
-{
-public:
-	TurretPieceGraphicsComponent(std::string baseName_, int type);
-	~TurretPieceGraphicsComponent();
-	void Update(GameObject* obj, float dt);
+#define FLOAT_MIN_SIZE -3.4e+38f
+#define FLOAT_MAX_SIZE 3.4e+38f
+#define INT_SIZE_MAX 2147483647
+#define INT_SIZE_MIN -2147483648
+
+class TurretPieceGraphicsComponent: public GraphicsComponent {
+ public:
+    TurretPieceGraphicsComponent(std::string baseNameParam, int turretType);
+    ~TurretPieceGraphicsComponent();
+    void Update(GameObject* gameObject, float deltaTime);
 };
 
-#endif /*TURRETPIECEGRAPHICSCOMPONENT_H*/
+#endif  // INCLUDE_TURRETPIECEGRAPHICSCOMPONENT_H_

@@ -15,4 +15,4 @@ class MainMenu: public MenuState
 		void Render();
 };
 
-#endif // MAINMENU_H
+#endif // INCLUDE_MAINMENU_H_

@@ -1,38 +1,35 @@
+// Copyright (c) 2017 Neon Edge Game.
+
 #include "AIMovingOnGroudGraphicsComponent.h"
 
 AIMovingOnGroudGraphicsComponent::AIMovingOnGroudGraphicsComponent(std::string baseName_):
-	GraphicsComponent(baseName_)
-{
-	AddSprite(baseName,"Idle",1,80);
-	AddSprite(baseName,"Running",6,80);
-	AddSprite(baseName,"Dying",10,100);
-	sp = sprites["Idle"];
-	surface = surfaces["Idle"];
+        GraphicsComponent(baseName_) {
+    AddSprite(baseName, "Idle", 1, 80);
+    AddSprite(baseName, "Running", 6, 80);
+    AddSprite(baseName, "Dying", 10, 100);
+    sprite = sprites["Idle"];
+    surface = surfaces["Idle"];
 }
 
-AIMovingOnGroudGraphicsComponent::~AIMovingOnGroudGraphicsComponent()
-{
-
+AIMovingOnGroudGraphicsComponent::~AIMovingOnGroudGraphicsComponent() {
 }
 
-void AIMovingOnGroudGraphicsComponent::Update(GameObject* obj, float dt)
-{
-	Character* c = (Character*) obj;
-	mirror = (obj->facing == GameObject::LEFT);
-	if(c->physicsComponent.velocity.x == 0)
-	{
-		UpdateSprite(obj, "Idle");
-	}
-	else
-	{
-		UpdateSprite(obj, "Running");
-	}
+void AIMovingOnGroudGraphicsComponent::Update(GameObject *gameObject,
+                                                                   float deltaTime) {
+    Character *character = (Character *) gameObject;
+    characterLeftDirection = (gameObject->facing == GameObject::LEFT);
+    if (character->physicsComponent.velocity.x == 0) {
+        UpdateSprite(gameObject, "Idle");
+    } else {
+        UpdateSprite(gameObject, "Running");
+    }
 
-	if (obj->dieTimer.IsRunning())
-	{
-		UpdateSprite(obj, "Dying");
-	}
+    if (gameObject->dieTimer.IsRunning()) {
+        UpdateSprite(gameObject, "Dying");
+    } else {
+        // It does nothing.
+    }
 
-	sp->Mirror(mirror);
-	sp->Update(dt);
+    sprite->Mirror(characterLeftDirection);
+    sprite->Update(deltaTime);
 }
